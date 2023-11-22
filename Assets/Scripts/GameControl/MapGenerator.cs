@@ -18,6 +18,7 @@ public class MapGenerator : MonoBehaviour
     {
         GenerateMap();
     }
+
     private void Update()
     {
         if (Input.GetButtonDown("Submit"))
@@ -32,6 +33,9 @@ public class MapGenerator : MonoBehaviour
         RandomFillMap();
         for (int i = 0; i < smoothing; i++)
             SmoothMap();
+
+        MeshGenerator meshGen = GetComponent<MeshGenerator>();
+        meshGen.GenerateMesh(map, 1);
     }
 
     private void RandomFillMap()
@@ -44,9 +48,9 @@ public class MapGenerator : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
+                // terrain 0: wall, 1: grass
                 int terrain = 0;
-                if (x == 0 || x == width - 1 || y == 0 || y == height - 1
-                    || rand.Next() % 100 <= randomFillPercent) terrain = 1;
+                if (rand.Next() % 100 <= randomFillPercent) terrain = 1;
                 map[x, y] = terrain;
             }
         }
@@ -82,7 +86,7 @@ public class MapGenerator : MonoBehaviour
     }
 
     private void OnDrawGizmos()
-    {
+    {/*
         if (map != null)
         {
             for (int x = 0; x < width; x++)
@@ -94,6 +98,6 @@ public class MapGenerator : MonoBehaviour
                     Gizmos.DrawCube(pos, Vector2.one);
                 }
             }
-        }
+        }*/
     }
 }
