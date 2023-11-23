@@ -33,8 +33,22 @@ public class MapGenerator : MonoBehaviour
         RandomFillMap();
         for (int i = 0; i < smoothing; i++)
             SmoothMap();
+        /*
+        int borderSize = 2;
+        int[,] borderedMap = new int[width + borderSize * 2, height + borderSize * 2];
+
+        for (int x = 0; x < borderedMap.GetLength(0); x++)
+        {
+            for (int y = 0; y < borderedMap.GetLength(1); y++)
+            {
+                if (x < borderSize || x >= width + borderSize || y < borderSize || y >= height + borderSize)
+                    borderedMap[x, y] = 0;
+                else borderedMap[x, y] = map[x - borderSize, y - borderSize];
+            }
+        }*/
 
         MeshGenerator meshGen = GetComponent<MeshGenerator>();
+        //meshGen.GenerateMesh(borderedMap, 1);
         meshGen.GenerateMesh(map, 1);
     }
 
@@ -83,21 +97,5 @@ public class MapGenerator : MonoBehaviour
         }
 
         return wallCount;
-    }
-
-    private void OnDrawGizmos()
-    {/*
-        if (map != null)
-        {
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    Gizmos.color = (map[x, y] == 1) ? new Color(.2f, .5f, .2f) : new Color(.65f, .45f, .4f);
-                    Vector2 pos = new Vector2(x - width / 2 + .5f, y - height / 2 + .5f);
-                    Gizmos.DrawCube(pos, Vector2.one);
-                }
-            }
-        }*/
     }
 }

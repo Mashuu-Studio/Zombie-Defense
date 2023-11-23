@@ -1,13 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class MeshGenerator : MonoBehaviour
 {
     public SquareGrid grid;
     private List<Vector3> vertices;
     private List<int> triangles;
+    private Dictionary<int, List<Triangle>> triangleDictionary = new Dictionary<int, List<Triangle>>();
+    private List<List<int>> outlines = new List<List<int>>();
+    private HashSet<int> checkedVertices = new HashSet<int>();
+
+    [SerializeField] private PolygonCollider2D mapCollider;
+
     public void GenerateMesh(int[,] map, float squareSize)
     {
+        triangleDictionary.Clear();
+        outlines.Clear();
+        checkedVertices.Clear();
+
         grid = new SquareGrid(map, squareSize);
         vertices = new List<Vector3>();
         triangles = new List<int>();
@@ -26,7 +37,23 @@ public class MeshGenerator : MonoBehaviour
         mesh.RecalculateNormals();
 
         GetComponent<MeshFilter>().mesh = mesh;
-        GetComponent<MeshCollider>().sharedMesh = mesh;
+        CreateWallCollider();
+    }
+
+    private void CreateWallCollider()
+    {
+        CalculateMeshOutlines();
+        mapCollider.pathCount = outlines.Count;
+
+        for (int pathIndex = 0; pathIndex < outlines.Count; pathIndex++)
+        {
+            List<int> outline = outlines[pathIndex];
+            Vector2[] points = new Vector2[outline.Count];
+            for (int i = 0; i < outline.Count; i++)
+                points[i] = vertices[outline[i]];
+
+            mapCollider.SetPath(pathIndex, points);
+        }
     }
 
     private void TriangulateSquare(Square square)
@@ -59,7 +86,7 @@ public class MeshGenerator : MonoBehaviour
             {
                 // 양 옆 노드는 같은 index와 index + 1 을 해준 값임.
                 // 이 때 마지막의 경우에는 0으로 돌아가야하므로 %4를 해 줌.
-                int nextSide = (i + 1) % 4; 
+                int nextSide = (i + 1) % 4;
                 center[i] = !center[i];
                 center[nextSide] = !center[nextSide];
             }
@@ -81,66 +108,13 @@ public class MeshGenerator : MonoBehaviour
         if (center[0]) nodes.Add(square.left);
 
         MeshFromPoints(nodes.ToArray());
-
-        
-        /*
-        switch (square.configuration)
+        if (square.configuration == 15)
         {
-            case 0: break;
-
-            // 1 points
-            case 1:
-                MeshFromPoints(square.bottom, square.bottomLeft, square.left);
-                break;
-            case 2:
-                MeshFromPoints(square.bottom, square.bottomRight, square.right);
-                break;
-            case 4:
-                MeshFromPoints(square.top, square.topRight, square.right);
-                break;
-            case 8:
-                MeshFromPoints(square.top, square.topLeft, square.left);
-                break;
-
-            // 2 points
-            case 3:
-                MeshFromPoints(square.left, square.bottomLeft, square.right, square.bottomRight);
-                break;
-            case 6:
-                MeshFromPoints(square.top, square.topRight, square.bottom, square.bottomRight);
-                break;
-            case 9:
-                MeshFromPoints(square.top, square.topLeft, square.bottom, square.bottomLeft);
-                break;
-            case 12:
-                MeshFromPoints(square.left, square.topLeft, square.right, square.topRight);
-                break;
-            case 5:
-                MeshFromPoints(square.left, square.bottomLeft, square.bottom, square.topRight, square.top, square.right);
-                break;
-            case 10:
-                MeshFromPoints(square.topLeft, square.left, square.bottom, square.bottomRight, square.right, square.top);
-                break;
-
-            // 3 points
-            case 7:
-                MeshFromPoints(square.bottomLeft, square.bottomRight, square.topRight, square.left, square.top);
-                break;
-            case 11:
-                MeshFromPoints(square.bottomLeft, square.bottomRight, square.topLeft, square.right, square.top);
-                break;
-            case 13:
-                MeshFromPoints(square.bottomLeft, square.topRight, square.topLeft, square.right, square.bottom);
-                break;
-            case 14:
-                MeshFromPoints(square.topLeft, square.bottomRight, square.topRight, square.right, square.bottom);
-                break;
-
-            // 4 points
-            case 15:
-                MeshFromPoints(square.bottomLeft, square.bottomRight, square.topRight, square.topLeft);
-                break;
-        }*/
+            checkedVertices.Add(square.topLeft.vertextIndex);
+            checkedVertices.Add(square.topRight.vertextIndex);
+            checkedVertices.Add(square.bottomRight.vertextIndex);
+            checkedVertices.Add(square.bottomLeft.vertextIndex);
+        }
     }
 
     private void MeshFromPoints(params Node[] points)
@@ -170,36 +144,118 @@ public class MeshGenerator : MonoBehaviour
         triangles.Add(a.vertextIndex);
         triangles.Add(b.vertextIndex);
         triangles.Add(c.vertextIndex);
+
+        Triangle triangle = new Triangle(a.vertextIndex, b.vertextIndex, c.vertextIndex);
+        AddTriangleDictinary(triangle.vertexIndexA, triangle);
+        AddTriangleDictinary(triangle.vertexIndexB, triangle);
+        AddTriangleDictinary(triangle.vertexIndexC, triangle);
     }
 
-    private void OnDrawGizmos()
-    {/*
-        if (grid != null)
+    private void AddTriangleDictinary(int vertexIndexKey, Triangle triangle)
+    {
+        if (triangleDictionary.ContainsKey(vertexIndexKey))
+            triangleDictionary[vertexIndexKey].Add(triangle);
+        else
         {
-            for (int x = 0; x < grid.squares.GetLength(0); x++)
+            triangleDictionary.Add(vertexIndexKey, new List<Triangle>());
+            triangleDictionary[vertexIndexKey].Add(triangle);
+        }
+    }
+
+    private void CalculateMeshOutlines()
+    {
+        for (int vertexIndex = 0; vertexIndex < vertices.Count; vertexIndex++)
+        {
+            if (!checkedVertices.Contains(vertexIndex))
             {
-                for (int y = 0; y < grid.squares.GetLength(1); y++)
+                int newOutlineVertex = GetConnectedOutlineVertex(vertexIndex);
+                if (newOutlineVertex != -1)
                 {
-                    Gizmos.color = (grid.squares[x, y].topLeft.active) ? new Color(.65f, .45f, .4f) : new Color(.2f, .5f, .2f);
-                    Gizmos.DrawCube(grid.squares[x, y].topLeft.position, Vector3.one * .4f);
+                    checkedVertices.Add(vertexIndex);
 
-                    Gizmos.color = (grid.squares[x, y].topRight.active) ? new Color(.65f, .45f, .4f) : new Color(.2f, .5f, .2f);
-                    Gizmos.DrawCube(grid.squares[x, y].topRight.position, Vector3.one * .4f);
-
-                    Gizmos.color = (grid.squares[x, y].bottomRight.active) ? new Color(.65f, .45f, .4f) : new Color(.2f, .5f, .2f);
-                    Gizmos.DrawCube(grid.squares[x, y].bottomRight.position, Vector3.one * .4f);
-
-                    Gizmos.color = (grid.squares[x, y].bottomLeft.active) ? new Color(.65f, .45f, .4f) : new Color(.2f, .5f, .2f);
-                    Gizmos.DrawCube(grid.squares[x, y].bottomLeft.position, Vector3.one * .4f);
-
-                    Gizmos.color = new Color(.425f, .475f, .3f);
-                    Gizmos.DrawCube(grid.squares[x, y].top.position, Vector3.one * .15f);
-                    Gizmos.DrawCube(grid.squares[x, y].right.position, Vector3.one * .15f);
-                    Gizmos.DrawCube(grid.squares[x, y].bottom.position, Vector3.one * .15f);
-                    Gizmos.DrawCube(grid.squares[x, y].left.position, Vector3.one * .15f);
+                    List<int> newOutline = new List<int>();
+                    newOutline.Add(vertexIndex);
+                    outlines.Add(newOutline);
+                    FollowOutline(newOutlineVertex, outlines.Count - 1);
+                    outlines[outlines.Count - 1].Add(vertexIndex);
                 }
             }
-        }*/
+        }
+    }
+
+    private void FollowOutline(int vertexIndex, int outlineIndex)
+    {
+        outlines[outlineIndex].Add(vertexIndex);
+        checkedVertices.Add(vertexIndex);
+        int nextVertexIndex = GetConnectedOutlineVertex(vertexIndex);
+
+        if (nextVertexIndex != -1)
+        {
+            FollowOutline(nextVertexIndex, outlineIndex);
+        }
+    }
+
+    private int GetConnectedOutlineVertex(int vertexIndex)
+    {
+        List<Triangle> triangles = triangleDictionary[vertexIndex];
+
+        for (int i = 0; i < triangles.Count; i++)
+        {
+            Triangle triangle = triangles[i];
+
+            for (int j = 0; j < 3; j++)
+            {
+                int vertexB = triangle[j];
+                if (vertexB == vertexIndex || checkedVertices.Contains(vertexB)) continue;
+                if (IsOutlineEdge(vertexIndex, vertexB))
+                {
+                    return vertexB;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    private bool IsOutlineEdge(int vertexA, int vertexB)
+    {
+        List<Triangle> trianglesA = triangleDictionary[vertexA];
+        int sharedTriCount = 0;
+
+        for (int i = 0; i < trianglesA.Count; i++)
+        {
+            if (trianglesA[i].Contains(vertexB))
+            {
+                sharedTriCount++;
+                if (sharedTriCount > 1) break;
+            }
+        }
+
+        return sharedTriCount == 1;
+    }
+
+    struct Triangle
+    {
+        public int vertexIndexA;
+        public int vertexIndexB;
+        public int vertexIndexC;
+        int[] vertices;
+
+        public Triangle(int a, int b, int c)
+        {
+            vertexIndexA = a;
+            vertexIndexB = b;
+            vertexIndexC = c;
+
+            vertices = new int[] { vertexIndexA, vertexIndexB, vertexIndexC };
+        }
+
+        public int this[int i] { get { return vertices[i]; } }
+
+        public bool Contains(int vertexIndex)
+        {
+            return vertexIndex == vertexIndexA || vertexIndex == vertexIndexB || vertexIndex == vertexIndexC;
+        }
     }
 
     public class SquareGrid
