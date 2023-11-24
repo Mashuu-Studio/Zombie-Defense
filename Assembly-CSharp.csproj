@@ -61,8 +61,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameControl\MapGenerator.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\PoolController.cs" />
     <Compile Include="Assets\Scripts\GameControl\MeshGenerator.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Poolable.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameController.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Pool.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
