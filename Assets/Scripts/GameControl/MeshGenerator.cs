@@ -12,6 +12,7 @@ public class MeshGenerator : MonoBehaviour
     private HashSet<int> checkedVertices = new HashSet<int>();
 
     [SerializeField] private PolygonCollider2D mapCollider;
+    [SerializeField] private AstarPath astar;
 
     public void GenerateMesh(int[,] map, float squareSize)
     {
@@ -38,6 +39,7 @@ public class MeshGenerator : MonoBehaviour
 
         GetComponent<MeshFilter>().mesh = mesh;
         CreateWallCollider();
+        astar.Scan();
     }
 
     private void CreateWallCollider()
@@ -48,10 +50,12 @@ public class MeshGenerator : MonoBehaviour
         for (int pathIndex = 0; pathIndex < outlines.Count; pathIndex++)
         {
             List<int> outline = outlines[pathIndex];
-            Vector2[] points = new Vector2[outline.Count];
+            List<Vector2> points = new List<Vector2>();
             for (int i = 0; i < outline.Count; i++)
-                points[i] = vertices[outline[i]];
-
+            {
+                Vector2 pos = vertices[outline[i]];
+                if (!points.Contains(pos)) points.Add(pos);
+            }
             mapCollider.SetPath(pathIndex, points);
         }
     }
