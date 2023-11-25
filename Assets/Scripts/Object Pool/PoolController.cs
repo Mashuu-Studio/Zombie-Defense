@@ -27,7 +27,6 @@ public class PoolController : MonoBehaviour
     {
         pools = new Dictionary<string, Pool>();
         Poolable[] poolables = Resources.LoadAll<Poolable>(path);
-        Debug.Log(poolables.Length);
         foreach (var poolable in poolables)
         {
             CreatePool(poolable);
