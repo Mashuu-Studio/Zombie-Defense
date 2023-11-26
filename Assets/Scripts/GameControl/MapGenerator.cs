@@ -5,6 +5,22 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
+    public static MapGenerator Instance { get { return instance; } }
+    private static MapGenerator instance;
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+    }
+
+    public const int WALL = 0;
+    public const int GRASS = 1;
+
     public int width, height;
     public string seed;
     public bool useSeed;
@@ -12,10 +28,14 @@ public class MapGenerator : MonoBehaviour
 
     [Range(0, 100)]
     public int randomFillPercent;
-    int[,] map;
+
+    private int[,] map;
+    private Astar astar;
+    private int squareSize = 1;
 
     private void Start()
     {
+        astar = new Astar();
         GenerateMap();
     }
 
@@ -49,7 +69,26 @@ public class MapGenerator : MonoBehaviour
 
         MeshGenerator meshGen = GetComponent<MeshGenerator>();
         //meshGen.GenerateMesh(borderedMap, 1);
-        meshGen.GenerateMesh(map, 1);
+        meshGen.GenerateMesh(map, squareSize);
+        astar.SetMap(map);
+    }
+
+    public List<Vector2Int> FindPath(Vector2 start, Vector2 dest)
+    {
+        return astar.FindPath(start, dest);
+    }
+
+    public static Vector2Int ConvertToWorldPos(int x, int y)
+    {
+        return new Vector2Int(x - Instance.map.GetLength(0) / 2, y - Instance.map.GetLength(1) / 2) * Instance.squareSize;
+    }
+    public static Vector2Int ConvertToWorldPos(Vector2Int mapPos)
+    {
+        return new Vector2Int(mapPos.x - Instance.map.GetLength(0) / 2, mapPos.y - Instance.map.GetLength(1) / 2) * Instance.squareSize;
+    }
+    public static Vector2Int ConvertToMapPos(Vector2Int worldPos)
+    {
+        return new Vector2Int(worldPos.x + Instance.map.GetLength(0) / 2, worldPos.y + Instance.map.GetLength(1) / 2) * Instance.squareSize;
     }
 
     private void RandomFillMap()
@@ -63,8 +102,8 @@ public class MapGenerator : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 // terrain 0: wall, 1: grass
-                int terrain = 0;
-                if (rand.Next() % 100 <= randomFillPercent) terrain = 1;
+                int terrain = WALL;
+                if (rand.Next() % 100 <= randomFillPercent) terrain = GRASS;
                 map[x, y] = terrain;
             }
         }
@@ -78,8 +117,8 @@ public class MapGenerator : MonoBehaviour
             {
                 int surroundWallAmount = GetSurroundWallCount(x, y);
 
-                if (surroundWallAmount > 4) map[x, y] = 1;
-                else if (surroundWallAmount < 4) map[x, y] = 0;
+                if (surroundWallAmount > 4) map[x, y] = GRASS;
+                else if (surroundWallAmount < 4) map[x, y] = WALL;
             }
         }
     }

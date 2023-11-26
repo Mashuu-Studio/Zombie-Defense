@@ -101,8 +101,8 @@ public class TurretController : MonoBehaviour
 
     private static Vector2 PosToGrid(Vector2 pos)
     {
-        float x = Mathf.FloorToInt(pos.x) + .5f;
-        float y = Mathf.FloorToInt(pos.y) + .5f;
+        float x = Mathf.FloorToInt(pos.x);
+        float y = Mathf.FloorToInt(pos.y);
         return new Vector2(x, y);
     }
 }

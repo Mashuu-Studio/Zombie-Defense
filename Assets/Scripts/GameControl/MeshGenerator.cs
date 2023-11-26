@@ -12,7 +12,6 @@ public class MeshGenerator : MonoBehaviour
     private HashSet<int> checkedVertices = new HashSet<int>();
 
     [SerializeField] private PolygonCollider2D mapCollider;
-    [SerializeField] private AstarPath astar;
 
     public void GenerateMesh(int[,] map, float squareSize)
     {
@@ -39,7 +38,6 @@ public class MeshGenerator : MonoBehaviour
 
         GetComponent<MeshFilter>().mesh = mesh;
         CreateWallCollider();
-        astar.Scan();
     }
 
     private void CreateWallCollider()
@@ -279,7 +277,7 @@ public class MeshGenerator : MonoBehaviour
             {
                 for (int y = 0; y < countY; y++)
                 {
-                    Vector3 pos = new Vector3(x - countX / 2 + .5f, y - countY / 2 + .5f) * squareSize;
+                    Vector3 pos = new Vector3(x - countX / 2, y - countY / 2) * squareSize;
                     controlNodes[x, y] = new ControlNode(pos, map[x, y] != 1, squareSize);
                 }
             }
