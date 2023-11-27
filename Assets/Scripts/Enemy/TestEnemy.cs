@@ -9,7 +9,7 @@ public class TestEnemy : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (MapGenerator.Instance == null) return;
-        List<Vector2Int> path = MapGenerator.Instance.FindPath(transform.position, target.transform.position);
+        List<Vector2Int> path = MapGenerator.Instance.FindPath(transform.position);
 
         if (path.Count > 0)
         {

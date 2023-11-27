@@ -35,7 +35,7 @@ public class MapGenerator : MonoBehaviour
 
     private void Start()
     {
-        astar = new Astar();
+        astar = gameObject.AddComponent<Astar>();
         GenerateMap();
     }
 
@@ -73,9 +73,15 @@ public class MapGenerator : MonoBehaviour
         astar.SetMap(map);
     }
 
-    public List<Vector2Int> FindPath(Vector2 start, Vector2 dest)
+    public void UpdateMapPath(Vector2 playerPos)
     {
-        return astar.FindPath(start, dest);
+        if (astar == null) return;
+        astar.UpdateMapPath(playerPos);
+    }
+
+    public List<Vector2Int> FindPath(Vector2 start)
+    {
+        return astar.FindPath(start);
     }
 
     public static Vector2Int ConvertToWorldPos(int x, int y)

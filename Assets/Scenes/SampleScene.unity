@@ -913,8 +913,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4b873ff88bb1ae4aabde38d1fc342ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 128
-  height: 72
+  width: 64
+  height: 36
   seed: 
   useSeed: 0
   smoothing: 5
