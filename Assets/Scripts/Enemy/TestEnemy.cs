@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 public class TestEnemy : MonoBehaviour
 {
     [SerializeField] private GameObject target;
-    [Range(1, 20)] [SerializeField] private float speed;
+    [Range(1, 10)] [SerializeField] private float speed;
+    [SerializeField] private float radius;
+    private Rigidbody2D rigidbody;
+    private SpriteRenderer spriteRenderer;
     private void OnDrawGizmos()
     {
         if (MapGenerator.Instance == null) return;
@@ -22,12 +24,12 @@ public class TestEnemy : MonoBehaviour
     }
 
     private BehaviourTree bt;
-    [SerializeField] private Rigidbody2D rigidbody;
     private void Awake()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         rigidbody = GetComponent<Rigidbody2D>();
         bt = new BehaviourTree(SetBT());
-        speed = Random.Range(1, 20);
+        speed = Random.Range(1, 10);
     }
 
     private void Update()
@@ -42,22 +44,57 @@ public class TestEnemy : MonoBehaviour
             {
                 new SequenceNode(new List<IBTNode>()
                 {
-                    new ActionNode(CheckMove),
-                    new ActionNode(Move),
+                    new ActionNode(Detect),
+                    new ActionNode(Attack),
                 }
                 ),
                 new SequenceNode(new List<IBTNode>()
                 {
-                    new ActionNode(Detect),
-                    new ActionNode(Attack),
+                    new ActionNode(CheckMove),
+                    new ActionNode(Move),
                 }
                 ),
             }
             );
     }
 
-    private Vector2 direction;
+    private Vector3 direction;
     private float moveAmount;
+    Collider2D targetCollider;
+    private IBTNode.NodeState Detect()
+    {
+        // 가는 방향이 막혀있을 때 Failure를 띄워야 함. (예를 들어 벽이나 플레이어)
+        // 그 외에 적끼리 붙어있을 때도 이동하는 방식도 고민할 필요가 있음.
+        // 예를 들어 적끼리 붙어있고 앞의 적이 공격 중이라면 이동을 할 필요가 없음.
+        // 다만 이 경우는 근접공격에 한함. 원거리공격 유닛이라면 앞에 근거리 유닛이 없을 수도 있으므로
+        // 앞으로 비집고 들어가서 공격을 해야할 수도 있음.
+        // 이런 모든 상황에 대한 처리가 필요함.
+
+        // 가장 기초 세팅은 먼저 Player가 주변에 있는지 체크
+        // 있다면 해당 유닛을 타겟으로 세팅
+        // 없다면 Turret이라도 있는지 체크
+        // 있다면 가장 첫 터렛을 타겟으로 세팅.
+        targetCollider = Physics2D.OverlapCircle(transform.position, .7f, 1 << LayerMask.NameToLayer("Player"));
+        if (targetCollider != null) return IBTNode.NodeState.Success;
+        else
+        {
+            Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, .7f, 1 << LayerMask.NameToLayer("Turret"));
+            if (cols != null && cols.Length > 0)
+            {
+                targetCollider = cols[0];
+                return IBTNode.NodeState.Success;
+            }
+
+            return IBTNode.NodeState.Failure;
+        }
+    }
+
+    private IBTNode.NodeState Attack()
+    {
+        Debug.Log($"Attack {targetCollider.name}");
+        spriteRenderer.color = Color.red;
+        return IBTNode.NodeState.Success;
+    }
 
     private IBTNode.NodeState CheckMove()
     {
@@ -105,23 +142,14 @@ public class TestEnemy : MonoBehaviour
             return IBTNode.NodeState.Success;
         }
         // 이동할 곳이 없다면 Failure
-        // 혹은 가는 방향이 막혀있더라도 Failure를 띄워야 함. (예를 들어 벽)
         return IBTNode.NodeState.Failure;
     }
 
     private IBTNode.NodeState Move()
     {
-        transform.position += (Vector3)(direction * moveAmount);
-        return IBTNode.NodeState.Success;
-    }
-
-    private IBTNode.NodeState Detect()
-    {
-        return IBTNode.NodeState.Success;
-    }
-
-    private IBTNode.NodeState Attack()
-    {
+        spriteRenderer.color = Color.green;
+        transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg, Vector3.forward);
+        transform.position += direction * moveAmount;
         return IBTNode.NodeState.Success;
     }
 }

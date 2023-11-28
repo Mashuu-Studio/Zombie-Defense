@@ -96,6 +96,6 @@ public sealed class SequenceNode : IBTNode
             }
         }
 
-        return IBTNode.NodeState.Failure;
+        return IBTNode.NodeState.Success;
     }
 }
