@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Poolable : MonoBehaviour
+public abstract class Poolable : MonoBehaviour
 {
+    public abstract void Init();
 }

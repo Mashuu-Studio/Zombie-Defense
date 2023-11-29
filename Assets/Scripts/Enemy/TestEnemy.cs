@@ -9,34 +9,31 @@ public class TestEnemy : MonoBehaviour
     [SerializeField] private float radius;
     private Rigidbody2D rigidbody;
     private SpriteRenderer spriteRenderer;
-    private void OnDrawGizmos()
-    {
-        if (MapGenerator.Instance == null) return;
-        List<Vector2Int> path = MapGenerator.Instance.FindPath(transform.position);
-
-        if (path.Count > 0)
-        {
-            for (int i = 0; i < path.Count - 1; i++)
-            {
-                Gizmos.DrawLine(new Vector3(path[i].x, path[i].y), new Vector3(path[i + 1].x, path[i + 1].y));
-            }
-        }
-    }
-
     private BehaviourTree bt;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigidbody = GetComponent<Rigidbody2D>();
         bt = new BehaviourTree(SetBT());
         speed = Random.Range(1, 10);
+        hp = 3;
     }
+
+    private int hp;
 
     private void Update()
     {
         bt.Operate();
     }
 
+    public void Damaged(int dmg)
+    {
+        hp -= dmg;
+        if (hp <= 0) Destroy(gameObject);
+    }
+
+    #region BT
     private IBTNode SetBT()
     {
         return new SelectorNode(
@@ -57,9 +54,7 @@ public class TestEnemy : MonoBehaviour
             }
             );
     }
-
-    private Vector3 direction;
-    private float moveAmount;
+    #region Attack
     Collider2D targetCollider;
     private IBTNode.NodeState Detect()
     {
@@ -95,7 +90,10 @@ public class TestEnemy : MonoBehaviour
         spriteRenderer.color = Color.red;
         return IBTNode.NodeState.Success;
     }
-
+    #endregion
+    #region Move
+    private Vector3 direction;
+    private float moveAmount;
     private IBTNode.NodeState CheckMove()
     {
         List<Vector2Int> path = MapGenerator.Instance.FindPath(transform.position);
@@ -149,7 +147,23 @@ public class TestEnemy : MonoBehaviour
     {
         spriteRenderer.color = Color.green;
         transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg, Vector3.forward);
-        transform.position += direction * moveAmount;
+        rigidbody.MovePosition(transform.position + direction * moveAmount);
         return IBTNode.NodeState.Success;
+    }
+    #endregion
+    #endregion
+
+    private void OnDrawGizmos()
+    {
+        if (MapGenerator.Instance == null) return;
+        List<Vector2Int> path = MapGenerator.Instance.FindPath(transform.position);
+
+        if (path.Count > 0)
+        {
+            for (int i = 0; i < path.Count - 1; i++)
+            {
+                Gizmos.DrawLine(new Vector3(path[i].x, path[i].y), new Vector3(path[i + 1].x, path[i + 1].y));
+            }
+        }
     }
 }

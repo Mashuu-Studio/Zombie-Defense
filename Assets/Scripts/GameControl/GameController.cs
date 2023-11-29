@@ -13,15 +13,24 @@ public class GameController : MonoBehaviour
         float axisX = Input.GetAxis("Horizontal");
         float axisY = Input.GetAxis("Vertical");
 
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         player.MovePosition(player.position + new Vector2(axisX, axisY) * Time.deltaTime * 15);
 
         turretPointer.position = TurretController.GetDirection(player.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
         MapGenerator.Instance.UpdateMapPath(player.position);
-        if (Input.GetKeyDown("q"))
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 dir = mouseWorldPos - player.transform.position;
+            ((Bullet)PoolController.Pop("Bullet")).SetBullet(player.transform.position, dir, 1);
+        }
+
+        if (Input.GetMouseButtonDown(1))
         {
             TurretController.Instance.AddTurret(turretPointer.position, "Turret");
         }
+
     }
 
 }
