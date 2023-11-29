@@ -63,9 +63,11 @@
     <Compile Include="Assets\Scripts\Player\Bullet.cs" />
     <Compile Include="Assets\Scripts\GameControl\MapGenerator.cs" />
     <Compile Include="Assets\Scripts\Object Pool\PoolController.cs" />
+    <Compile Include="Assets\Scripts\Player\Weapon.cs" />
     <Compile Include="Assets\Scripts\Enemy\Astar.cs" />
     <Compile Include="Assets\Scripts\GameControl\MeshGenerator.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Poolable.cs" />
+    <Compile Include="Assets\Scripts\Player\WeaponController.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameController.cs" />
     <Compile Include="Assets\Scripts\Turret\Turret.cs" />
     <Compile Include="Assets\Scripts\GameControl\CameraController.cs" />

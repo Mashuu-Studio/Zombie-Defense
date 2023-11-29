@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 dir = mouseWorldPos - player.transform.position;
-            ((Bullet)PoolController.Pop("Bullet")).SetBullet(player.transform.position, dir, 1);
+            ((Bullet)PoolController.Pop("Bullet")).SetBullet(player.transform.position, dir, WeaponController.Instance.CurWeapon.dmg, WeaponController.Instance.CurWeapon.speed);
         }
 
         if (Input.GetMouseButtonDown(1))
