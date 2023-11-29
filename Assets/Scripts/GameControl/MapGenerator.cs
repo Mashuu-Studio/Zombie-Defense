@@ -29,6 +29,7 @@ public class MapGenerator : MonoBehaviour
     [Range(0, 100)]
     public int randomFillPercent;
 
+    public int[,] Map { get { return map; } }
     private int[,] map;
     private Astar astar;
     private int squareSize = 1;
@@ -71,6 +72,17 @@ public class MapGenerator : MonoBehaviour
         //meshGen.GenerateMesh(borderedMap, 1);
         meshGen.GenerateMesh(map, squareSize);
         astar.SetMap(map);
+    }
+
+    public Vector2 GetEnemySpawnPos()
+    {
+        int x, y;
+        do
+        {
+            x = UnityEngine.Random.Range(0, width);
+            y = UnityEngine.Random.Range(0, height);
+            if (map[x, y] != WALL) return ConvertToWorldPos(x, y);
+        } while (true);
     }
 
     public void UpdateMapPath(Vector2 playerPos)

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestEnemy : MonoBehaviour
+public class TestEnemy : Poolable
 {
     [SerializeField] private GameObject target;
     [Range(1, 10)] [SerializeField] private float speed;
@@ -30,7 +30,7 @@ public class TestEnemy : MonoBehaviour
     public void Damaged(int dmg)
     {
         hp -= dmg;
-        if (hp <= 0) Destroy(gameObject);
+        if (hp <= 0) PoolController.Push("Enemy", this);
     }
 
     #region BT
