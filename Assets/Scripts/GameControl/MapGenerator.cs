@@ -21,6 +21,7 @@ public class MapGenerator : MonoBehaviour
     public const int WALL = 0;
     public const int GRASS = 1;
 
+    public Rect mapBoundary { get; private set; }
     public int width, height;
     public string seed;
     public bool useSeed;
@@ -38,6 +39,9 @@ public class MapGenerator : MonoBehaviour
     {
         astar = gameObject.AddComponent<Astar>();
         GenerateMap();
+
+        Vector2 bottomLeft = ConvertToWorldPos(0, 0);
+        mapBoundary = new Rect(bottomLeft.x, bottomLeft.y, width, height);
     }
 
     private void Update()

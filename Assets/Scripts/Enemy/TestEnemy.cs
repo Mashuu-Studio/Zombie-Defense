@@ -30,7 +30,11 @@ public class TestEnemy : Poolable
     public void Damaged(int dmg)
     {
         hp -= dmg;
-        if (hp <= 0) PoolController.Push("Enemy", this);
+        if (hp <= 0)
+        {
+            PoolController.Push("Enemy", this);
+            hp = 3;
+        }
     }
 
     #region BT

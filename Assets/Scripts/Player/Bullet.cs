@@ -26,10 +26,16 @@ public class Bullet : Poolable
     private void Update()
     {
         rigidbody.MovePosition(transform.position + direction * Time.deltaTime * speed);
+        if (MapGenerator.Instance.mapBoundary.Contains(transform.position) == false) PoolController.Push("Bullet", this);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            PoolController.Push("Bullet", this);
+        }
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             collision.GetComponent<TestEnemy>().Damaged(dmg);
