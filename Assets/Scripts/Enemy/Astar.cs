@@ -36,7 +36,7 @@ public class Astar : MonoBehaviour
     public List<Vector2Int> FindPath(Vector2 start)
     {
         List<Vector2Int> path = new List<Vector2Int>();
-        Vector2Int startMapPos = MapGenerator.ConvertToMapPos(Vector2Int.RoundToInt(start));
+        Vector2Int startMapPos = MapGenerator.ConvertToMapPos(MapGenerator.RoundToInt(start));
         
         if (startMapPos.x < 0 || startMapPos.x >= info.GetLength(0) ||
             startMapPos.y < 0 || startMapPos.y >= info.GetLength(1)) return path;
@@ -63,7 +63,7 @@ public class Astar : MonoBehaviour
 
     public void UpdateMapPath(Vector2 dest)
     {
-        Vector2Int destMapPos = MapGenerator.ConvertToMapPos(Vector2Int.RoundToInt(dest));
+        Vector2Int destMapPos = MapGenerator.ConvertToMapPos(MapGenerator.RoundToInt(dest));
         if (destMapPos.x < 0 || destMapPos.x >= info.GetLength(0) ||
             destMapPos.y < 0 || destMapPos.y >= info.GetLength(1)) return;
         if (this.dest == destMapPos) return;

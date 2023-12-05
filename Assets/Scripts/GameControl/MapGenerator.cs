@@ -86,7 +86,7 @@ public class MapGenerator : MonoBehaviour
     {
         // 생성 금지 구역 세팅.
         // 플레이어를 기준으로 맵 전체 1/4 범위 세팅
-        Vector2Int playerMapPos = ConvertToMapPos(Vector2Int.RoundToInt(playerTransform.position));
+        Vector2Int playerMapPos = ConvertToMapPos(RoundToInt(playerTransform.position));
         Rect playerZone = new Rect(playerMapPos.x - width / 4, playerMapPos.y - height / 4, width / 2, height / 2);
 
         int x, y;
@@ -112,6 +112,11 @@ public class MapGenerator : MonoBehaviour
     public List<Vector2Int> FindPath(Vector2 start)
     {
         return astar.FindPath(start);
+    }
+
+    public static Vector2Int RoundToInt(Vector2 v)
+    {
+        return new Vector2Int(Mathf.RoundToInt(v.x), Mathf.RoundToInt(v.y));
     }
 
     public static Vector2Int ConvertToWorldPos(int x, int y)

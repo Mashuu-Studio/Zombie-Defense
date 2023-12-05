@@ -50,6 +50,7 @@ public class TurretController : MonoBehaviour
             return;
         }
         turret.Init(turretDatas[name]);
+        turret.gameObject.name = name;
         turret.transform.parent = transform;
         turret.transform.position = pos;
         turrets.Add(pos, turret);
@@ -71,6 +72,7 @@ public class TurretController : MonoBehaviour
          * 우선, 캐릭터를 기준으로 주변 타일을 체크함.
          * 이 후 현재 마우스의 위치와 거리를 비교해서 해당 위치에 포인터 리턴
          */
+        charPos = MapGenerator.RoundToInt(charPos);
 
         Vector2 buildPos = PosToGrid(charPos + directions[0]);
         float minDistance = Vector2.Distance(buildPos, mouseWorldPos);
