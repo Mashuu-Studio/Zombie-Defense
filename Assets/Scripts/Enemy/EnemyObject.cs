@@ -69,6 +69,7 @@ public class EnemyObject : Poolable, IDamagedObject
     }
     #region Attack
 
+    bool isAttacking;
     Collider2D targetCollider;
     bool waitAttack;
     private IBTNode.NodeState Detect()
@@ -84,23 +85,32 @@ public class EnemyObject : Poolable, IDamagedObject
         // 있다면 해당 유닛을 타겟으로 세팅
         // 없다면 Turret이라도 있는지 체크
         // 있다면 가장 첫 터렛을 타겟으로 세팅.
-        targetCollider = Physics2D.OverlapCircle(transform.position, .7f, 1 << LayerMask.NameToLayer("Player"));
+
+        // 공격중이라면 해당 타겟이 실질적 공격 범위로 체크
+        // 그게 아니라면 0.75사이즈 안에 있나 체크
+
+        float range = radius;
+        if (!isAttacking) range *= .75f;
+
+        targetCollider = Physics2D.OverlapCircle(transform.position, range, 1 << LayerMask.NameToLayer("Player"));
         if (targetCollider != null) return IBTNode.NodeState.Success;
         else
         {
-            Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, .7f, 1 << LayerMask.NameToLayer("Turret"));
+            Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, range, 1 << LayerMask.NameToLayer("Turret"));
             if (cols != null && cols.Length > 0)
             {
                 targetCollider = cols[0];
                 return IBTNode.NodeState.Success;
             }
-
-            return IBTNode.NodeState.Failure;
         }
+
+        isAttacking = false;
+        return IBTNode.NodeState.Failure;
     }
 
     private IBTNode.NodeState Attack()
     {
+        isAttacking = true;
         if (!waitAttack)
         {
             IDamagedObject damagedObject = targetCollider.GetComponent<IDamagedObject>();
