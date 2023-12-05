@@ -35,6 +35,8 @@ public class MapGenerator : MonoBehaviour
     private Astar astar;
     private int squareSize = 1;
 
+    private Transform playerTransform;
+
     private void Start()
     {
         astar = gameObject.AddComponent<Astar>();
@@ -42,6 +44,8 @@ public class MapGenerator : MonoBehaviour
 
         Vector2 bottomLeft = ConvertToWorldPos(0, 0);
         mapBoundary = new Rect(bottomLeft.x, bottomLeft.y, width, height);
+
+        playerTransform = FindObjectOfType<Player>().transform;
     }
 
     private void Update()
@@ -80,12 +84,22 @@ public class MapGenerator : MonoBehaviour
 
     public Vector2 GetEnemySpawnPos()
     {
+        // 생성 금지 구역 세팅.
+        // 플레이어를 기준으로 맵 전체 1/4 범위 세팅
+        Vector2Int playerMapPos = ConvertToMapPos(Vector2Int.RoundToInt(playerTransform.position));
+        Rect playerZone = new Rect(playerMapPos.x - width / 4, playerMapPos.y - height / 4, width / 2, height / 2);
+
         int x, y;
         do
         {
             x = UnityEngine.Random.Range(0, width);
             y = UnityEngine.Random.Range(0, height);
-            if (map[x, y] != WALL) return ConvertToWorldPos(x, y);
+            // 플레이어 주변이 아니면서 
+            // 선택된 곳이 벽이 아니어야 하고
+            // 주변에 벽이 하나 이하로만 있어야 함 (대각선 형태가 생기지 않는 위치)
+            if (playerZone.Contains(new Vector2(x, y)) == false &&
+                map[x, y] != WALL && GetSurroundGrassCount(x,y) >= 8) 
+                return ConvertToWorldPos(x, y);
         } while (true);
     }
 
@@ -104,10 +118,12 @@ public class MapGenerator : MonoBehaviour
     {
         return new Vector2Int(x - Instance.map.GetLength(0) / 2, y - Instance.map.GetLength(1) / 2) * Instance.squareSize;
     }
+
     public static Vector2Int ConvertToWorldPos(Vector2Int mapPos)
     {
         return new Vector2Int(mapPos.x - Instance.map.GetLength(0) / 2, mapPos.y - Instance.map.GetLength(1) / 2) * Instance.squareSize;
     }
+
     public static Vector2Int ConvertToMapPos(Vector2Int worldPos)
     {
         return new Vector2Int(worldPos.x + Instance.map.GetLength(0) / 2, worldPos.y + Instance.map.GetLength(1) / 2) * Instance.squareSize;
@@ -137,7 +153,7 @@ public class MapGenerator : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                int surroundWallAmount = GetSurroundWallCount(x, y);
+                int surroundWallAmount = GetSurroundGrassCount(x, y);
 
                 if (surroundWallAmount > 4) map[x, y] = GRASS;
                 else if (surroundWallAmount < 4) map[x, y] = WALL;
@@ -145,18 +161,18 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    private int GetSurroundWallCount(int gridX, int gridY)
+    private int GetSurroundGrassCount(int gridX, int gridY)
     {
-        int wallCount = 0;
+        int grassCount = 0;
         for (int x = gridX - 1; x <= gridX + 1; x++)
         {
             for (int y = gridY - 1; y <= gridY + 1; y++)
             {
-                if (x < 0 || x >= width || y < 0 || y >= height) wallCount++;
-                else if (!(x == gridX && y == gridY)) wallCount += map[x, y];
+                if (x < 0 || x >= width || y < 0 || y >= height) grassCount++;
+                else if (!(x == gridX && y == gridY)) grassCount += map[x, y];
             }
         }
 
-        return wallCount;
+        return grassCount;
     }
 }
