@@ -37,13 +37,13 @@ public class MeshGenerator : MonoBehaviour
         mesh.RecalculateNormals();
 
         GetComponent<MeshFilter>().mesh = mesh;
-        CreateWallCollider();
+        CreateWallCollider(map.GetLength(0), map.GetLength(1));
     }
 
-    private void CreateWallCollider()
+    private void CreateWallCollider(int width, int height)
     {
         CalculateMeshOutlines();
-        mapCollider.pathCount = outlines.Count;
+        mapCollider.pathCount = outlines.Count + 1; // 바운더리까지 +1
 
         for (int pathIndex = 0; pathIndex < outlines.Count; pathIndex++)
         {
@@ -56,6 +56,29 @@ public class MeshGenerator : MonoBehaviour
             }
             mapCollider.SetPath(pathIndex, points);
         }
+
+        // 벽 바운더리 콜라이더 생성.
+        // 바운더리는 맵의 가장 바깥 범위에 생성되므로 맵의 사이즈를 기준으로 외부에 생성하면 됨.
+        // 두께 1의 범위로 생성
+        // 가장 내부가 아닌 벽의 안쪽이 채워져야 하므로 해당 모양을 생각하며 생성
+        int lx = -width / 2;
+        int rx = width / 2;
+        int dy = -height / 2;
+        int uy = height / 2;
+        Vector2[] boundary = new Vector2[]
+        {
+            new Vector2(lx-1, dy-1), // 바깥 좌하단에서 시작
+            new Vector2(lx-1, uy+1), // 시계방향으로 이동
+            new Vector2(rx+1, uy+1),
+            new Vector2(rx+1, dy-1),
+            new Vector2(rx+1, dy-1), // 최초 위치로 이동
+            new Vector2(lx, dy), // 내부의 좌하단
+            new Vector2(lx, uy), // 시계방향으로 출발
+            new Vector2(rx, uy),
+            new Vector2(rx, dy),
+            new Vector2(lx, dy), // 내부의 최초 위치로 이동            
+        };
+        mapCollider.SetPath(outlines.Count, boundary); // outlines.Count는 가장 마지막 index+1임
     }
 
     private void TriangulateSquare(Square square)
