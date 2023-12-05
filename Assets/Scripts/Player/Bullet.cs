@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [AddComponentMenu("Poolable/Bullet (Poolable)")]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Bullet : Poolable 
 {
     private Rigidbody2D rigidbody;
@@ -38,7 +39,7 @@ public class Bullet : Poolable
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            collision.GetComponent<TestEnemy>().Damaged(dmg);
+            collision.GetComponent<EnemyObject>().Damaged(dmg);
             PoolController.Push("Bullet", this);
         }
     }

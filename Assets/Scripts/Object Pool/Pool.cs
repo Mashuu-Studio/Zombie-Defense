@@ -22,6 +22,7 @@ public class Pool : MonoBehaviour
     public void CreateObject()
     {
         Poolable obj = Instantiate(prefab, transform);
+        obj.name = prefab.name;
         obj.Init();
         pool.Push(obj);
         obj.gameObject.SetActive(false);

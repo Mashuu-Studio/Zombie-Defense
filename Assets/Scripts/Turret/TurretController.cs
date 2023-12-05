@@ -30,23 +30,26 @@ public class TurretController : MonoBehaviour
             new Vector2(0,-1),
             new Vector2(-1,-1),
         };
+
+        turretDatas.Add("Turret", new Turret() { hp = 3 });
     }
 
-    private Dictionary<Vector2, Turret> turrets = new Dictionary<Vector2, Turret>();
+    private Dictionary<string, Turret> turretDatas = new Dictionary<string, Turret>();
+    private Dictionary<Vector2, TurretObject> turrets = new Dictionary<Vector2, TurretObject>();
 
     public void AddTurret(Vector2 pos, string name)
     {
+        if (turretDatas.ContainsKey(name) == false) return;
         if (turrets.ContainsKey(pos)) return;
 
         Poolable obj = PoolController.Pop(name);
-        Turret turret = obj.GetComponent<Turret>();
+        TurretObject turret = obj.GetComponent<TurretObject>();
         if (turret == null)
         {
             PoolController.Push(name, obj);
             return;
         }
-
-        turret.gameObject.name = name;
+        turret.Init(turretDatas[name]);
         turret.transform.parent = transform;
         turret.transform.position = pos;
         turrets.Add(pos, turret);

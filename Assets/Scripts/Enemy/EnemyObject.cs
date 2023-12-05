@@ -2,25 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestEnemy : Poolable
+[AddComponentMenu("Poolable/Enemy (Poolable)")]
+[RequireComponent(typeof(Rigidbody2D))]
+public class EnemyObject : Poolable, IDamagedObject
 {
     [SerializeField] private GameObject target;
-    [Range(1, 10)] [SerializeField] private float speed;
-    [SerializeField] private float radius;
+
     private Rigidbody2D rigidbody;
     private SpriteRenderer spriteRenderer;
     private BehaviourTree bt;
+
+    private int hp;
+    private int speed;
+    private int dmg;
+    private float radius;
+    private float adelay;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigidbody = GetComponent<Rigidbody2D>();
         bt = new BehaviourTree(SetBT());
-        speed = Random.Range(1, 10);
-        hp = 3;
     }
 
-    private int hp;
+    public void Init(Enemy data)
+    {
+        hp = data.hp;
+        speed = data.speed;
+        dmg = data.dmg;
+        radius = data.range;
+        adelay = data.adelay;
+    }
 
     private void Update()
     {
@@ -31,10 +43,7 @@ public class TestEnemy : Poolable
     {
         hp -= dmg;
         if (hp <= 0)
-        {
-            PoolController.Push("Enemy", this);
-            hp = 3;
-        }
+            PoolController.Push(gameObject.name, this);
     }
 
     #region BT
@@ -59,7 +68,9 @@ public class TestEnemy : Poolable
             );
     }
     #region Attack
+
     Collider2D targetCollider;
+    bool waitAttack;
     private IBTNode.NodeState Detect()
     {
         // 가는 방향이 막혀있을 때 Failure를 띄워야 함. (예를 들어 벽이나 플레이어)
@@ -90,9 +101,27 @@ public class TestEnemy : Poolable
 
     private IBTNode.NodeState Attack()
     {
-        Debug.Log($"Attack {targetCollider.name}");
-        spriteRenderer.color = Color.red;
+        if (!waitAttack)
+        {
+            IDamagedObject damagedObject = targetCollider.GetComponent<IDamagedObject>();
+            damagedObject.Damaged(dmg);
+            StartCoroutine(AttackTimer());
+        }
         return IBTNode.NodeState.Success;
+    }
+
+    IEnumerator AttackTimer()
+    {
+        spriteRenderer.color = Color.red;
+        waitAttack = true;
+        float time = 0;
+        while (time < adelay)
+        {
+            time += Time.deltaTime;
+            yield return null;
+            spriteRenderer.color = Color.yellow;
+        }
+        waitAttack = false;
     }
     #endregion
     #region Move
