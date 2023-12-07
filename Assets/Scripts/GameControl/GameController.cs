@@ -26,7 +26,11 @@ public class GameController : MonoBehaviour
             ((Bullet)PoolController.Pop("Bullet")).SetBullet(player.transform.position, dir, WeaponController.Instance.CurWeapon.dmg, WeaponController.Instance.CurWeapon.speed);
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            TurretController.Instance.AddTurret(turretPointer.position, "Barricade");
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             TurretController.Instance.AddTurret(turretPointer.position, "Turret");
         }

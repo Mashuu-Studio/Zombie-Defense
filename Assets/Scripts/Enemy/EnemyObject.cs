@@ -43,7 +43,10 @@ public class EnemyObject : Poolable, IDamagedObject
     {
         hp -= dmg;
         if (hp <= 0)
+        {
             PoolController.Push(gameObject.name, this);
+            StopAllCoroutines();
+        }
     }
 
     #region BT

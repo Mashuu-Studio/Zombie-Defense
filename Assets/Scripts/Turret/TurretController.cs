@@ -31,7 +31,8 @@ public class TurretController : MonoBehaviour
             new Vector2(-1,-1),
         };
 
-        turretDatas.Add("Turret", new Turret() { hp = 3 });
+        turretDatas.Add("Barricade", new Turret() { hp = 10, dmg = 0 });
+        turretDatas.Add("Turret", new Turret() { hp = 3, dmg = 1, range = 5, speed = 30, adelay = 1 });
     }
 
     private Dictionary<string, Turret> turretDatas = new Dictionary<string, Turret>();

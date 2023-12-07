@@ -24,17 +24,17 @@ public class WeaponController : MonoBehaviour
         {
             new Weapon()
             {
-                speed = 20,
+                speed = 50,
                 dmg = 1
             },
             new Weapon()
             {
-                speed = 10,
+                speed = 30,
                 dmg = 2
             },
             new Weapon()
             {
-                speed = 3,
+                speed = 10,
                 dmg = 3
             }
         };

@@ -19,7 +19,7 @@ public class Bullet : Poolable
     public void SetBullet(Vector2 start, Vector2 dir, int d, int spd)
     {
         transform.position = start;
-        direction = dir;
+        direction = dir.normalized;
         dmg = d;
         speed = spd;
     }
