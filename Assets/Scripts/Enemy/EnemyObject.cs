@@ -151,14 +151,36 @@ public class EnemyObject : Poolable, IDamagedObject
              * 남은 거리 < 이동거리 일 경우 다음 이동 경로를 체크해야함.
              */
 
-            direction = (path[1] - (Vector2)transform.position).normalized;
-            float remainDistance = Vector2.Distance(path[1], transform.position);
-            
+            int nextDestination = 1;
+            float remainDistance;
+            direction = (path[nextDestination] - (Vector2)transform.position);
+
+            /* path[0]는 기본적으로 자신의 위치라고 세팅된 자리임.
+             * 다만, 위치 체크 방식으로 인해 해당 위치에 도달하지 못했을 수 있음.
+             * 따라서 path[1]까지의 방향을 확인한 뒤
+             * 해당 이동 방향이 path[0]까지의 방향과 반대라면 path[1]로 세팅해주는 방식으로 진행.
+             */
+
+            Vector2 checkDirection = (path[0] - (Vector2)transform.position);
+            if (direction.x * checkDirection.x <= 0 && direction.y * checkDirection.y <= 0)
+            {
+                // 반대방향이라면 path[1]로 방향을 세팅해 줌.
+                direction = direction.normalized;
+                remainDistance = Vector2.Distance(path[1], transform.position);
+            }
+            else
+            {
+                // 아니라면 path[0]로 방향을 세팅해 줌.
+                nextDestination = 0;
+                direction = checkDirection.normalized;
+                remainDistance = Vector2.Distance(path[0], transform.position);
+            }
+
             // 이동량이 남은 거리보다 많을 때
             // 적을 때는 세팅된 방향으로 세팅된 이동량만큼 이동하면 됨.
-            if (remainDistance < moveAmount) 
+            if (remainDistance < moveAmount)
             {
-                if (path.Count > 2) // 다음 목적지가 최종 도착지가 아님
+                if (path.Count > nextDestination + 1) // 다음 목적지가 최종 도착지가 아님
                 {
                     /* 다음 목적지로 가는 방향을 체크
                      * 이 후 최종적으로 도착할 곳을 확인
@@ -167,8 +189,8 @@ public class EnemyObject : Poolable, IDamagedObject
                      * 해당 위치에서 현재 위치를 빼는 것으로 방향 세팅.
                      * magnitude를 통해 이동량 세팅.
                      */
-                    Vector2 nextDirection = path[2] - path[1];
-                    Vector2 finalDestination = path[1] + nextDirection.normalized * remainDistance;
+                    Vector2 nextDirection = path[nextDestination + 1] - path[nextDestination];
+                    Vector2 finalDestination = path[nextDestination] + nextDirection.normalized * remainDistance;
 
                     direction = finalDestination - (Vector2)transform.position;
                     moveAmount = direction.magnitude;
