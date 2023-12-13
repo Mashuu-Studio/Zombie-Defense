@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
 
         turretPointer.position = TurretController.GetDirection(player.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
-        MapGenerator.Instance.UpdateMapPath(player.position);
+        //MapGenerator.Instance.UpdateMapPath(player.position);
 
         if (Input.GetMouseButtonDown(0))
         {

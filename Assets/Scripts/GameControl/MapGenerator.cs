@@ -21,6 +21,8 @@ public class MapGenerator : MonoBehaviour
     public const int WALL = 0;
     public const int GRASS = 1;
 
+    public MeshGenerator meshGenerator;
+
     public Rect mapBoundary { get; private set; }
     public int width, height;
     public string seed;
@@ -76,9 +78,8 @@ public class MapGenerator : MonoBehaviour
             }
         }*/
 
-        MeshGenerator meshGen = GetComponent<MeshGenerator>();
         //meshGen.GenerateMesh(borderedMap, 1);
-        meshGen.GenerateMesh(map, squareSize);
+        meshGenerator.GenerateMesh(map, squareSize);
         astar.SetMap(map);
     }
 

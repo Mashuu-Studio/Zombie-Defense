@@ -12,7 +12,7 @@ public class TurretObject : Poolable, IDamagedObject
     int speed;
     bool waitAttack;
 
-    private BehaviourTree bt;
+    //private BehaviourTree bt;
 
     public void Init(Turret data)
     {
@@ -23,7 +23,7 @@ public class TurretObject : Poolable, IDamagedObject
         speed = data.speed;
         waitAttack = false;
     }
-
+    /*
     private void Start()
     {
         bt = new BehaviourTree(SetBT());
@@ -72,7 +72,8 @@ public class TurretObject : Poolable, IDamagedObject
             StartCoroutine(AttackTimer());
         }
         return IBTNode.NodeState.Success;
-    }
+    }*/
+
     IEnumerator AttackTimer()
     {
         waitAttack = true;

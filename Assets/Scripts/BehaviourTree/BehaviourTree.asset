@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7763521910720622320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4b67ac7f9da54649a7be9dd816a9f28, type: 3}
+  m_Name: BTSequencerNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 4b9e79f50239ea5448b3097c109a5ed7
+  position: {x: -136, y: 35}
+  children:
+  - {fileID: -520477958105432566}
+  - {fileID: -6829052514737814997}
+  - {fileID: 5294914063606716607}
+  - {fileID: -4236768702982417055}
+--- !u!114 &-6829052514737814997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cabc8cde955838479b3ef7302997077, type: 3}
+  m_Name: DelayNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 951b7d62e3a88fe4a881fe5a99c031ce
+  position: {x: 130.44997, y: 17.853977}
+  duration: 1
+--- !u!114 &-4236768702982417055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cabc8cde955838479b3ef7302997077, type: 3}
+  m_Name: DelayNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 5a66806b73f75df4fa5fdd69a506a256
+  position: {x: 129.99998, y: 211.45003}
+  duration: 1
+--- !u!114 &-520477958105432566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e62bb0fddb0d1854d9eea2ec4d6a4160, type: 3}
+  m_Name: DebugLogNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 7cf97fcedff0d5a47a708972420bde75
+  position: {x: 130, y: -84.52}
+  message: HELLO 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9aa0c416fe55d479d98bbf9711e212, type: 3}
+  m_Name: BehaviourTree
+  m_EditorClassIdentifier: 
+  rootNode: {fileID: 6977854765075900902}
+  treeState: 0
+  nodes:
+  - {fileID: -520477958105432566}
+  - {fileID: -6829052514737814997}
+  - {fileID: -7763521910720622320}
+  - {fileID: 6977854765075900902}
+  - {fileID: 5294914063606716607}
+  - {fileID: -4236768702982417055}
+  - {fileID: 5971344178254044880}
+--- !u!114 &5294914063606716607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e62bb0fddb0d1854d9eea2ec4d6a4160, type: 3}
+  m_Name: DebugLogNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: b36888f4c938a09499bd5785f2e64377
+  position: {x: 130, y: 112}
+  message: HELLO 2
+--- !u!114 &5971344178254044880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa2b0d4dd9064a4484e0d0b4cf7747a, type: 3}
+  m_Name: BTRepeatNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: c7eb9815c5cc82a469fa0286a90372c0
+  position: {x: 0, y: 0}
+  child: {fileID: 0}
+--- !u!114 &6977854765075900902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14cf6605a4f439d45ac0724c7e579849, type: 3}
+  m_Name: BTRootNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 3ab81f90b4756054f82b20571f3b46b3
+  position: {x: -545.7324, y: 34.999966}
+  child: {fileID: -7763521910720622320}

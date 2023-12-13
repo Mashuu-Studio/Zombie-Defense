@@ -22,7 +22,7 @@ public class MeshGenerator : MonoBehaviour
         grid = new SquareGrid(map, squareSize);
         vertices = new List<Vector3>();
         triangles = new List<int>();
-
+        
         for (int x = 0; x < grid.squares.GetLength(0); x++)
         {
             for (int y = 0; y < grid.squares.GetLength(1); y++)
@@ -30,7 +30,7 @@ public class MeshGenerator : MonoBehaviour
                 TriangulateSquare(grid.squares[x, y]);
             }
         }
-
+        
         Mesh mesh = new Mesh();
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();

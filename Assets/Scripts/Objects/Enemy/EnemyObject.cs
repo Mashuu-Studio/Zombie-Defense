@@ -17,14 +17,14 @@ public class EnemyObject : Poolable, IDamagedObject
     private int dmg;
     private float radius;
     private float adelay;
-
+    /*
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigidbody = GetComponent<Rigidbody2D>();
         bt = new BehaviourTree(SetBT());
     }
-
+    */
     public void Init(Enemy data)
     {
         hp = data.hp;
@@ -33,12 +33,12 @@ public class EnemyObject : Poolable, IDamagedObject
         radius = data.range;
         adelay = data.adelay;
     }
-
+    /*
     private void Update()
     {
         bt.Operate();
     }
-
+    */
     public void Damaged(int dmg)
     {
         hp -= dmg;
@@ -48,7 +48,7 @@ public class EnemyObject : Poolable, IDamagedObject
             StopAllCoroutines();
         }
     }
-
+    /*
     #region BT
     private IBTNode SetBT()
     {
@@ -147,22 +147,20 @@ public class EnemyObject : Poolable, IDamagedObject
 
         if (path.Count > 1) // 처음에는 자신의 위치가 기본적으로 들어감.
         {
-            /* 우선 다음 도착지까지의 남은 거리를 체크함.
-             * path[1] - curPos = 방향.
-             * path[1] - pos = 남은 거리
-             * moveAmount = 프레임당 이동거리
-             * 남은 거리 < 이동거리 일 경우 다음 이동 경로를 체크해야함.
-             */
+            // 우선 다음 도착지까지의 남은 거리를 체크함.
+            // path[1] - curPos = 방향.
+            // path[1] - pos = 남은 거리
+            // moveAmount = 프레임당 이동거리
+            // 남은 거리 < 이동거리 일 경우 다음 이동 경로를 체크해야함.
 
             int nextDestination = 1;
             float remainDistance;
             direction = (path[nextDestination] - (Vector2)transform.position);
 
-            /* path[0]는 기본적으로 자신의 위치라고 세팅된 자리임.
-             * 다만, 위치 체크 방식으로 인해 해당 위치에 도달하지 못했을 수 있음.
-             * 따라서 path[1]까지의 방향을 확인한 뒤
-             * 해당 이동 방향이 path[0]까지의 방향과 반대라면 path[1]로 세팅해주는 방식으로 진행.
-             */
+            // path[0]는 기본적으로 자신의 위치라고 세팅된 자리임.
+            // 다만, 위치 체크 방식으로 인해 해당 위치에 도달하지 못했을 수 있음.
+            // 따라서 path[1]까지의 방향을 확인한 뒤
+            // 해당 이동 방향이 path[0]까지의 방향과 반대라면 path[1]로 세팅해주는 방식으로 진행.
 
             Vector2 checkDirection = (path[0] - (Vector2)transform.position);
             if (direction.x * checkDirection.x <= 0 && direction.y * checkDirection.y <= 0)
@@ -185,13 +183,12 @@ public class EnemyObject : Poolable, IDamagedObject
             {
                 if (path.Count > nextDestination + 1) // 다음 목적지가 최종 도착지가 아님
                 {
-                    /* 다음 목적지로 가는 방향을 체크
-                     * 이 후 최종적으로 도착할 곳을 확인
-                     * 기존 목적지에서 남은 이동량만큼 다음 목적지 방향으로 이동한 위치
-                     * 해당 위치에 최종적으로 도착할 수 있도록 방향과 이동량을 세팅.
-                     * 해당 위치에서 현재 위치를 빼는 것으로 방향 세팅.
-                     * magnitude를 통해 이동량 세팅.
-                     */
+                    // 다음 목적지로 가는 방향을 체크
+                    // 이 후 최종적으로 도착할 곳을 확인
+                    // 기존 목적지에서 남은 이동량만큼 다음 목적지 방향으로 이동한 위치
+                    // 해당 위치에 최종적으로 도착할 수 있도록 방향과 이동량을 세팅.
+                    // 해당 위치에서 현재 위치를 빼는 것으로 방향 세팅.
+                    // magnitude를 통해 이동량 세팅.
                     Vector2 nextDirection = path[nextDestination + 1] - path[nextDestination];
                     Vector2 finalDestination = path[nextDestination] + nextDirection.normalized * remainDistance;
 
@@ -220,7 +217,6 @@ public class EnemyObject : Poolable, IDamagedObject
     }
     #endregion
     #endregion
-
     private void OnDrawGizmos()
     {
         if (MapGenerator.Instance == null) return;
@@ -233,5 +229,5 @@ public class EnemyObject : Poolable, IDamagedObject
                 Gizmos.DrawLine(new Vector3(path[i].x, path[i].y), new Vector3(path[i + 1].x, path[i + 1].y));
             }
         }
-    }
+    }*/
 }
