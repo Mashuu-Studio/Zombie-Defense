@@ -60,22 +60,24 @@
     <Analyzer Include="D:\Program Files\Unity\Editors\2022.3.13f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Objects\ObjectInterface.cs" />
+    <Compile Include="Assets\Scripts\BehaviourTree\MoveNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTSequencerNode.cs" />
     <Compile Include="Assets\Scripts\Objects\Player\Bullet.cs" />
     <Compile Include="Assets\Scripts\Objects\Player\Weapon.cs" />
     <Compile Include="Assets\Scripts\GameControl\MapGenerator.cs" />
     <Compile Include="Assets\Scripts\Objects\Enemy\Astar.cs" />
+    <Compile Include="Assets\Scripts\Objects\Turret\AttackTurretObject.cs" />
     <Compile Include="Assets\Scripts\Object Pool\PoolController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTNode.cs" />
-    <Compile Include="Assets\Scripts\IDamagedObject.cs" />
     <Compile Include="Assets\Scripts\Objects\Turret\TurretObject.cs" />
     <Compile Include="Assets\Scripts\Objects\Enemy\EnemyObject.cs" />
     <Compile Include="Assets\Scripts\Objects\Enemy\Enemy.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTActionNode.cs" />
+    <Compile Include="Assets\Scripts\BehaviourTree\Core\Context.cs" />
     <Compile Include="Assets\Scripts\GameControl\MeshGenerator.cs" />
     <Compile Include="Assets\Scripts\Objects\Player\Player.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Poolable.cs" />
-    <Compile Include="Assets\Scripts\BehaviourTree\BehaviourTreeRunner.cs" />
     <Compile Include="Assets\Scripts\Objects\Player\WeaponController.cs" />
     <Compile Include="Assets\Scripts\Objects\Turret\Turret.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameController.cs" />
@@ -84,7 +86,10 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTCompositeNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\DelayNode.cs" />
     <Compile Include="Assets\Scripts\Objects\Enemy\EnemyController.cs" />
+    <Compile Include="Assets\Scripts\Objects\BTPoolable.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTDecoratorNode.cs" />
+    <Compile Include="Assets\Scripts\BehaviourTree\Core\BTSelectorNode.cs" />
+    <Compile Include="Assets\Scripts\BehaviourTree\AttackNode.cs" />
     <Compile Include="Assets\Scripts\Objects\Turret\TurretController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTRepeatNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTRootNode.cs" />

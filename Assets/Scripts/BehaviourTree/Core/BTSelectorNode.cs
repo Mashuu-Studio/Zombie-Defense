@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BTSequencerNode : BTCompositeNode
+public class BTSelectorNode : BTCompositeNode
 {
     int current;
     protected override void OnStart()
@@ -22,12 +22,12 @@ public class BTSequencerNode : BTCompositeNode
             case State.Running:
                 return State.Running;
             case State.Failure:
-                return State.Failure;
-            case State.Success:
                 current++;
                 break;
+            case State.Success:
+                return State.Success;
         }
 
-        return current == children.Count ? State.Success : State.Running;
+        return current == children.Count ? State.Failure : State.Running;
     }
 }

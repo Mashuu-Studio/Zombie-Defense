@@ -82,7 +82,7 @@ public class BehaviourTree : ScriptableObject
         }
     }
 
-    public List<BTNode> GetChildren(BTNode parent)
+    public static List<BTNode> GetChildren(BTNode parent)
     {
         List<BTNode> children = new List<BTNode>();
 
@@ -111,5 +111,17 @@ public class BehaviourTree : ScriptableObject
         BehaviourTree tree = Instantiate(this);
         tree.rootNode = tree.rootNode.Clone();
         return tree;
+    }
+
+    public static void Traverse(BTNode node, Action<BTNode> action)
+    {
+        action.Invoke(node);
+        var children = GetChildren(node);
+        children.ForEach(n => Traverse(n, action));
+    }
+
+    public void Bind(Context context)
+    {
+        Traverse(rootNode, (n) => n.context = context);
     }
 }

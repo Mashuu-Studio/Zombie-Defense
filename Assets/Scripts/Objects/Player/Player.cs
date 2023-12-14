@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IDamagedObject
 {
-    int hp;
+    private int hp;
+    public int Hp { get { return hp; } }
+
     // Start is called before the first frame update
     void Start()
     {

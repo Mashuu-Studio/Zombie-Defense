@@ -4,41 +4,36 @@ using UnityEngine;
 
 [AddComponentMenu("Poolable/Enemy (Poolable)")]
 [RequireComponent(typeof(Rigidbody2D))]
-public class EnemyObject : Poolable, IDamagedObject
+public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObject
 {
-    [SerializeField] private GameObject target;
-
     private Rigidbody2D rigidbody;
     private SpriteRenderer spriteRenderer;
-    private BehaviourTree bt;
 
     private int hp;
-    private int speed;
+    private Collider2D targetCollider;
     private int dmg;
-    private float radius;
-    private float adelay;
-    /*
+    private float range;
+    private float aDelay;
+    private bool isAttacking;
+    private int speed;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigidbody = GetComponent<Rigidbody2D>();
-        bt = new BehaviourTree(SetBT());
     }
-    */
+
     public void Init(Enemy data)
     {
         hp = data.hp;
         speed = data.speed;
         dmg = data.dmg;
-        radius = data.range;
-        adelay = data.adelay;
+        range = data.range;
+        aDelay = data.adelay;
     }
-    /*
-    private void Update()
-    {
-        bt.Operate();
-    }
-    */
+
+    #region IDamagedObject
+    public int Hp { get { return hp; } }
     public void Damaged(int dmg)
     {
         hp -= dmg;
@@ -48,34 +43,16 @@ public class EnemyObject : Poolable, IDamagedObject
             StopAllCoroutines();
         }
     }
-    /*
-    #region BT
-    private IBTNode SetBT()
-    {
-        return new SelectorNode(
-            new List<IBTNode>()
-            {
-                new SequenceNode(new List<IBTNode>()
-                {
-                    new ActionNode(Detect),
-                    new ActionNode(Attack),
-                }
-                ),
-                new SequenceNode(new List<IBTNode>()
-                {
-                    new ActionNode(CheckMove),
-                    new ActionNode(Move),
-                }
-                ),
-            }
-            );
-    }
-    #region Attack
+    #endregion
 
-    bool isAttacking;
-    Collider2D targetCollider;
-    bool waitAttack;
-    private IBTNode.NodeState Detect()
+    #region IAttackObject
+    public Collider2D TargetCollider { get { return targetCollider; } }
+    public int Dmg { get { return dmg; } }
+    public float Range { get { return range; } }
+    public float ADelay { get { return aDelay; } }
+    public bool WaitAttack { get; set; }
+
+    public bool DetectTarget()
     {
         // 가는 방향이 막혀있을 때 Failure를 띄워야 함. (예를 들어 벽이나 플레이어)
         // 그 외에 적끼리 붙어있을 때도 이동하는 방식도 고민할 필요가 있음.
@@ -92,55 +69,52 @@ public class EnemyObject : Poolable, IDamagedObject
         // 공격중이라면 해당 타겟이 실질적 공격 범위로 체크
         // 그게 아니라면 0.75사이즈 안에 있나 체크
 
-        float range = radius;
+        float range = this.range;
         if (!isAttacking) range *= .75f;
 
         targetCollider = Physics2D.OverlapCircle(transform.position, range, 1 << LayerMask.NameToLayer("Player"));
-        if (targetCollider != null) return IBTNode.NodeState.Success;
-        else
+        if (targetCollider == null)
         {
             Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, range, 1 << LayerMask.NameToLayer("Turret"));
-            if (cols != null && cols.Length > 0)
-            {
-                targetCollider = cols[0];
-                return IBTNode.NodeState.Success;
-            }
+            if (cols != null && cols.Length > 0) targetCollider = cols[0];
         }
 
-        isAttacking = false;
-        return IBTNode.NodeState.Failure;
+        if (targetCollider == null) isAttacking = false;
+
+        return targetCollider != null;
     }
 
-    private IBTNode.NodeState Attack()
+    public void Attack()
     {
         isAttacking = true;
-        if (!waitAttack)
+        if (!WaitAttack)
         {
+            spriteRenderer.color = Color.red;
             IDamagedObject damagedObject = targetCollider.GetComponent<IDamagedObject>();
             damagedObject.Damaged(dmg);
             StartCoroutine(AttackTimer());
         }
-        return IBTNode.NodeState.Success;
     }
 
-    IEnumerator AttackTimer()
+    public IEnumerator AttackTimer()
     {
-        spriteRenderer.color = Color.red;
-        waitAttack = true;
+        WaitAttack = true;
         float time = 0;
-        while (time < adelay)
+        while (time < ADelay)
         {
+            if (time > ADelay / 3) spriteRenderer.color = Color.yellow;
             time += Time.deltaTime;
             yield return null;
-            spriteRenderer.color = Color.yellow;
         }
-        waitAttack = false;
+        WaitAttack = false;
     }
     #endregion
-    #region Move
+
+    #region IMovingObject
+    public int Speed { get { return speed; } }
     private Vector3 direction;
     private float moveAmount;
-    private IBTNode.NodeState CheckMove()
+    public bool DetectPath()
     {
         List<Vector2Int> path = MapGenerator.Instance.FindPath(transform.position);
         moveAmount = Time.deltaTime * speed;
@@ -202,20 +176,17 @@ public class EnemyObject : Poolable, IDamagedObject
                     moveAmount = remainDistance;
                 }
             }
-            return IBTNode.NodeState.Success;
+            return true;
         }
         // 이동할 곳이 없다면 Failure
-        return IBTNode.NodeState.Failure;
+        return false;
     }
-
-    private IBTNode.NodeState Move()
+    public void Move()
     {
         spriteRenderer.color = Color.green;
         transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg, Vector3.forward);
         rigidbody.MovePosition(transform.position + direction * moveAmount);
-        return IBTNode.NodeState.Success;
     }
-    #endregion
     #endregion
     private void OnDrawGizmos()
     {
@@ -229,5 +200,5 @@ public class EnemyObject : Poolable, IDamagedObject
                 Gizmos.DrawLine(new Vector3(path[i].x, path[i].y), new Vector3(path[i + 1].x, path[i + 1].y));
             }
         }
-    }*/
+    }
 }

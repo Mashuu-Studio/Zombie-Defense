@@ -33,6 +33,7 @@ public class Astar : MonoBehaviour
         dest = dest + Vector2Int.one;
     }
 
+    // 이동은 다음 위치와 그 다음 위치만 있으면 충분함.
     public List<Vector2Int> FindPath(Vector2 start)
     {
         List<Vector2Int> path = new List<Vector2Int>();
@@ -49,15 +50,16 @@ public class Astar : MonoBehaviour
         if (startNode.isWall || destNode.isWall) return path;
 
         AstarNode curNode = startNode;
-        path.Add(MapGenerator.ConvertToWorldPos(curNode.pos));
-        while (curNode.parentNode != null && curNode != destNode)
+        // 1. 현재 위치 추가
+        path.Add(MapGenerator.ConvertToWorldPos(curNode.pos)); 
+        // 그 다음 위치와 다음다음 위치까지만 추가
+        for (int i = 0; i < 2 && curNode.parentNode != null; i++)
         {
             curNode = curNode.parentNode;
             Vector2Int pos = MapGenerator.ConvertToWorldPos(curNode.pos);
             if (path.Contains(pos)) break;
             path.Add(pos);
         }
-        path.Add(MapGenerator.ConvertToWorldPos(destNode.pos));
         return path;
     }
 

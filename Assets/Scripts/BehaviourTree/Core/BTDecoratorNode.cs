@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class BTDecoratorNode : BTNode
 {
-    [HideInInspector] public BTNode child;
+    public BTNode child;
 
     public override BTNode Clone()
     {

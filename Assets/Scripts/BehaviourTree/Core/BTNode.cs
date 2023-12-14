@@ -15,6 +15,7 @@ public abstract class BTNode : ScriptableObject
     [HideInInspector] public bool started = false;
     [HideInInspector] public string guid;
     [HideInInspector] public Vector2 position;
+    [HideInInspector] public Context context;
 
     public State Update()
     {
