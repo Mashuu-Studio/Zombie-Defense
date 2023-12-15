@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -22,6 +23,9 @@ public class MapGenerator : MonoBehaviour
     public const int GRASS = 1;
 
     public MeshGenerator meshGenerator;
+    public Tilemap wallTilemap;
+    public Tilemap grassTilemap;
+    [SerializeField] Tile[] tiles;
 
     public Rect mapBoundary { get; private set; }
     public int width, height;
@@ -79,7 +83,20 @@ public class MapGenerator : MonoBehaviour
         }*/
 
         //meshGen.GenerateMesh(borderedMap, 1);
-        meshGenerator.GenerateMesh(map, squareSize);
+        //meshGenerator.GenerateMesh(map, squareSize);
+
+        grassTilemap.ClearAllTiles();
+        wallTilemap.ClearAllTiles();
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                Vector3Int pos = (Vector3Int)ConvertToWorldPos(x, y);
+                grassTilemap.SetTile(pos, tiles[GRASS]);
+                if (map[x, y] == WALL)
+                    wallTilemap.SetTile(pos, tiles[WALL]);
+            }
+        }
         astar.SetMap(map);
     }
 
@@ -99,7 +116,7 @@ public class MapGenerator : MonoBehaviour
             // 선택된 곳이 벽이 아니어야 하고
             // 주변에 벽이 하나 이하로만 있어야 함 (대각선 형태가 생기지 않는 위치)
             if (playerZone.Contains(new Vector2(x, y)) == false &&
-                map[x, y] != WALL && GetSurroundGrassCount(x,y) >= 8) 
+                map[x, y] != WALL && GetSurroundGrassCount(x, y) >= 8)
                 return ConvertToWorldPos(x, y);
         } while (true);
     }
