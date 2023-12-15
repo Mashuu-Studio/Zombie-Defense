@@ -116,8 +116,18 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
     private float moveAmount;
     public bool DetectPath()
     {
-        List<Vector2Int> path = MapGenerator.Instance.FindPath(transform.position);
         moveAmount = Time.deltaTime * speed;
+        List<Vector2Int> path;
+        if (MapGenerator.ObjectOnBoundary(transform.position))
+        {
+            // 처음 생성되었을 때 (현재 위치가 맵 밖에 있을때)
+            // 이동해야할 위치를 가장 가까운 위치로 세팅해 줌.
+            Vector2Int curPos = MapGenerator.RoundToInt(transform.position);
+            path = new List<Vector2Int>();
+            path.Add(curPos);
+            path.Add(MapGenerator.GetNearestMapBoundary(curPos));
+        }
+        else path = MapGenerator.Instance.FindPath(transform.position);
 
         if (path.Count > 1) // 처음에는 자신의 위치가 기본적으로 들어감.
         {

@@ -23,6 +23,7 @@ public class MapGenerator : MonoBehaviour
     public const int GRASS = 1;
 
     public MeshGenerator meshGenerator;
+    public Tilemap boundaryTilemap;
     public Tilemap wallTilemap;
     public Tilemap grassTilemap;
     [SerializeField] Tile[] tiles;
@@ -85,8 +86,21 @@ public class MapGenerator : MonoBehaviour
         //meshGen.GenerateMesh(borderedMap, 1);
         //meshGenerator.GenerateMesh(map, squareSize);
 
+        boundaryTilemap.ClearAllTiles();
         grassTilemap.ClearAllTiles();
         wallTilemap.ClearAllTiles();
+
+        for (int x = -1; x <= width; x++)
+        {
+            boundaryTilemap.SetTile((Vector3Int)ConvertToWorldPos(x, -1), tiles[GRASS]);
+            boundaryTilemap.SetTile((Vector3Int)ConvertToWorldPos(x, height), tiles[GRASS]);
+        }
+        for (int y = -1; y <= height; y++)
+        {
+            boundaryTilemap.SetTile((Vector3Int)ConvertToWorldPos(-1, y), tiles[GRASS]);
+            boundaryTilemap.SetTile((Vector3Int)ConvertToWorldPos(width, y), tiles[GRASS]);
+        }
+
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
@@ -97,11 +111,35 @@ public class MapGenerator : MonoBehaviour
                     wallTilemap.SetTile(pos, tiles[WALL]);
             }
         }
+
         astar.SetMap(map);
     }
 
     public Vector2 GetEnemySpawnPos()
     {
+        // 외곽 구역에 생성
+        // 좌우와 상하 중 어디에 생성할지 먼저 정한 뒤
+        // 좌우에 생성한다면 y값을 랜덤으로, 상하에 생성한다면 x값을 랜덤으로 함.
+
+        int x, y;
+        if (UnityEngine.Random.Range(0, 2) == 0)
+        {
+            // 좌우에 생성
+            x = UnityEngine.Random.Range(-1, 1);
+            if (x == 0) x = width;
+            y = UnityEngine.Random.Range(0, height);
+        }
+        else
+        {
+            // 상하에 생성
+            y = UnityEngine.Random.Range(-1, 1);
+            if (y == 0) y = height;
+            x = UnityEngine.Random.Range(0, width);
+        }
+
+        return ConvertToWorldPos(x, y);
+
+        /*
         // 생성 금지 구역 세팅.
         // 플레이어를 기준으로 맵 전체 1/4 범위 세팅
         Vector2Int playerMapPos = ConvertToMapPos(RoundToInt(playerTransform.position));
@@ -119,6 +157,34 @@ public class MapGenerator : MonoBehaviour
                 map[x, y] != WALL && GetSurroundGrassCount(x, y) >= 8)
                 return ConvertToWorldPos(x, y);
         } while (true);
+        */
+    }
+
+    public static bool ObjectOnBoundary(Vector2 pos)
+    {
+        Vector2Int mapPos = ConvertToMapPos(RoundToInt(pos));
+
+        return mapPos.x == -1 || mapPos.x == Instance.width || mapPos.y == -1 || mapPos.y == Instance.height;
+    }
+
+    public static Vector2Int GetNearestMapBoundary(Vector2Int pos)
+    {
+        // x가 -1이라면 0이 제일 가까움
+        // x가 width라면 width-1이 제일 가까움
+        // y가 -1이라면 0이 제일 가까움
+        // y가 height라면 height-1이 제일 가까움
+
+        pos = ConvertToMapPos(pos);
+
+        if (pos.x == -1) pos.x = 0;
+        else if (pos.x == Instance.width) pos.x = Instance.width - 1;
+
+        if (pos.y == -1) pos.y = 0;
+        else if (pos.y == Instance.height) pos.y = Instance.height - 1;
+
+        pos = ConvertToWorldPos(pos);
+
+        return pos;
     }
 
     public void UpdateMapPath(Vector2 playerPos)

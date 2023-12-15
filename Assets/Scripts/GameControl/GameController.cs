@@ -7,6 +7,10 @@ public class GameController : MonoBehaviour
     [SerializeField] private Rigidbody2D player;
     [SerializeField] private Transform turretPointer;
 
+    private void Awake()
+    {
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Map Boundary"));
+    }
 
     void Update()
     {
