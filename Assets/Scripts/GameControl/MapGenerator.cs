@@ -44,6 +44,9 @@ public class MapGenerator : MonoBehaviour
 
     private Transform playerTransform;
 
+    public GameObject shopPrefab;
+    private GameObject shop;
+
     private void Start()
     {
         astar = gameObject.AddComponent<Astar>();
@@ -110,6 +113,21 @@ public class MapGenerator : MonoBehaviour
                 if (map[x, y] == WALL)
                     wallTilemap.SetTile(pos, tiles[WALL]);
             }
+        }
+
+        {
+            if (shop != null) Destroy(shop);
+
+            int shopX, shopY;
+            do
+            {
+                shopX = UnityEngine.Random.Range(0, width);
+                shopY = UnityEngine.Random.Range(0, height);
+            } while (map[shopX, shopY] != GRASS);
+
+            Vector2Int shopPos = ConvertToWorldPos(shopX, shopY);
+            shop = Instantiate(shopPrefab);
+            shop.transform.position = (Vector2)shopPos;
         }
 
         astar.SetMap(map);

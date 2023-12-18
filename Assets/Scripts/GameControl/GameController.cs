@@ -19,7 +19,6 @@ public class GameController : MonoBehaviour
 
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         player.MovePosition(player.position + new Vector2(axisX, axisY) * Time.deltaTime * 15);
-
         turretPointer.position = TurretController.GetDirection(player.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
         MapGenerator.Instance.UpdateMapPath(player.position);
