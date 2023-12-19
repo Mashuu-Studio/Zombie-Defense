@@ -20,6 +20,7 @@ public class Player : MonoBehaviour, IDamagedObject
         float axisY = Input.GetAxis("Vertical");
 
         rigidbody.MovePosition(rigidbody.position + new Vector2(axisX, axisY) * Time.deltaTime * 15);
+        CameraController.Instance.MoveCamera(transform.position);
 
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         LookAt(mouseWorldPos);

@@ -37,6 +37,7 @@ public class MapGenerator : MonoBehaviour
     [Range(0, 100)]
     public int randomFillPercent;
 
+    public Bounds MapBounds { get { return new Bounds(Vector3.zero, new Vector3(width, height)); } }
     public int[,] Map { get { return map; } }
     private int[,] map;
     private Astar astar;
@@ -51,6 +52,7 @@ public class MapGenerator : MonoBehaviour
     {
         astar = gameObject.AddComponent<Astar>();
         GenerateMap();
+        CameraController.Instance.SetCamera(Camera.main);
 
         Vector2 bottomLeft = ConvertToWorldPos(0, 0);
         mapBoundary = new Rect(bottomLeft.x, bottomLeft.y, width, height);
