@@ -17,6 +17,22 @@ MonoBehaviour:
   guid: bfe5fc0bcf4b31f40b29d254bcf1855c
   position: {x: 105.95999, y: 207}
   child: {fileID: 605931591986942752}
+--- !u!114 &-3986483547260042108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2debd1b67c50c9648801576dad0c7aad, type: 3}
+  m_Name: AttackNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 611cdba291bdcaf41b1870ecb8ff8579
+  position: {x: 597, y: 130.00002}
 --- !u!114 &-3876910437348065047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32,7 +48,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 77e3353bb5d904b4f94f5985cd2bc73d
-  position: {x: 0, y: 0}
+  position: {x: 597.4502, y: 266.85004}
 --- !u!114 &-3796840252637003220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,8 +64,10 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 5f10bff2f0151ac49b4753ad62c10400
-  position: {x: 412, y: 207}
-  children: []
+  position: {x: 413.15002, y: 207.00002}
+  children:
+  - {fileID: -3876910437348065047}
+  - {fileID: -3986483547260042108}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,8 +86,8 @@ MonoBehaviour:
   - {fileID: -4246254029593111128}
   - {fileID: -3796840252637003220}
   - {fileID: 605931591986942752}
-  - {fileID: 3338981440638889265}
   - {fileID: -3876910437348065047}
+  - {fileID: -3986483547260042108}
 --- !u!114 &605931591986942752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,19 +105,3 @@ MonoBehaviour:
   guid: e6e5ba110562b554b80515d79e3623ae
   position: {x: 248.6, y: 207.00002}
   child: {fileID: -3796840252637003220}
---- !u!114 &3338981440638889265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2debd1b67c50c9648801576dad0c7aad, type: 3}
-  m_Name: AttackNode
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: d96419b9665b58e4fbb0b5ffd0e37139
-  position: {x: 0, y: 0}

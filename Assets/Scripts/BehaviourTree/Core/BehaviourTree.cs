@@ -99,7 +99,7 @@ public class BehaviourTree : ScriptableObject
         }
 
         BTCompositeNode composite = parent as BTCompositeNode;
-        if (composite)
+        if (composite && composite.children != null)
         {
             return composite.children;
         }

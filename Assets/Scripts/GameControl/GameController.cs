@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D player;
+    [SerializeField] private Transform player;
     [SerializeField] private Transform turretPointer;
 
     private void Awake()
@@ -13,12 +13,8 @@ public class GameController : MonoBehaviour
     }
 
     void Update()
-    {
-        float axisX = Input.GetAxis("Horizontal");
-        float axisY = Input.GetAxis("Vertical");
-
+    {        
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        player.MovePosition(player.position + new Vector2(axisX, axisY) * Time.deltaTime * 15);
         turretPointer.position = TurretController.GetDirection(player.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
         MapGenerator.Instance.UpdateMapPath(player.position);

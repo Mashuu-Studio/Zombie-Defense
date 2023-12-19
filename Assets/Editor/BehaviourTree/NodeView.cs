@@ -38,6 +38,9 @@ public class NodeView : Node
         {
             inputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
         }
+        else if (node is BTRootNode)
+        {
+        }
 
         if (inputPort != null)
         {
@@ -48,7 +51,10 @@ public class NodeView : Node
 
     private void CreateOutputPorts()
     {
-        if (node is BTCompositeNode)
+        if (node is BTActionNode)
+        {
+        }
+        else if (node is BTCompositeNode)
         {
             outputPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(bool));
         }
