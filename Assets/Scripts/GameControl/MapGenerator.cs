@@ -213,7 +213,7 @@ public class MapGenerator : MonoBehaviour
         astar.UpdateMapPath(playerPos);
     }
 
-    public List<Vector2Int> FindPath(Vector2 start)
+    public Vector2 FindPath(Vector2 start)
     {
         return astar.FindPath(start);
     }

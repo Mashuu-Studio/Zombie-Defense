@@ -9,6 +9,8 @@ public class Astar : MonoBehaviour
     private IEnumerator updatePathCoroutine;
     private Transform player;
 
+    public static Vector2 NoneVector { get; private set; }
+
     private static Vector2Int[] directions = new Vector2Int[]
     {
         new Vector2Int(-1,1),
@@ -24,6 +26,7 @@ public class Astar : MonoBehaviour
     public void SetMap(int[,] map)
     {
         info = new AstarNode[map.GetLength(0), map.GetLength(1)];
+        NoneVector = new Vector2(map.GetLength(0), map.GetLength(1)) * 2;
 
         for (int x = 0; x < map.GetLength(0); x++)
             for (int y = 0; y < map.GetLength(1); y++)
@@ -33,14 +36,15 @@ public class Astar : MonoBehaviour
         dest = dest + Vector2Int.one;
     }
 
-    // 이동은 다음 위치와 그 다음 위치만 있으면 충분함.
-    public List<Vector2Int> FindPath(Vector2 start)
+    // 어디로 이동해야하는 지 알려줌.
+    public Vector2 FindPath(Vector2 start)
     {
-        List<Vector2Int> path = new List<Vector2Int>();
+        Vector2 path = NoneVector;
         Vector2Int startMapPos = MapGenerator.ConvertToMapPos(MapGenerator.RoundToInt(start));
-        
+
         if (startMapPos.x < 0 || startMapPos.x >= info.GetLength(0) ||
             startMapPos.y < 0 || startMapPos.y >= info.GetLength(1)) return path;
+
         if (dest.x < 0 || dest.x >= info.GetLength(0) ||
             dest.y < 0 || dest.y >= info.GetLength(1)) return path;
 
@@ -49,7 +53,11 @@ public class Astar : MonoBehaviour
 
         if (startNode.isWall || destNode.isWall) return path;
 
-        AstarNode curNode = startNode;
+        AstarNode node = startNode.parentNode;
+        if (node == null) node = destNode;
+        path = (MapGenerator.ConvertToWorldPos(node.pos) - MapGenerator.ConvertToWorldPos(startNode.pos));
+
+        /*
         // 1. 현재 위치 추가
         path.Add(MapGenerator.ConvertToWorldPos(curNode.pos)); 
         // 그 다음 위치와 다음다음 위치까지만 추가
@@ -60,6 +68,7 @@ public class Astar : MonoBehaviour
             if (path.Contains(pos)) break;
             path.Add(pos);
         }
+        */
         return path;
     }
 
@@ -83,6 +92,7 @@ public class Astar : MonoBehaviour
     IEnumerator UpdatePath()
     {
         AstarNode destNode = info[dest.x, dest.y];
+        destNode.parentNode = null;
 
         // 목적지를 openList에 넣어둔 뒤 모든 방향을 돌며 전체 노드를 업데이트 함.
         List<AstarNode> openList = new List<AstarNode>() { destNode };

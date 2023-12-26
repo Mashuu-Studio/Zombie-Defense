@@ -24,5 +24,6 @@ public interface IMovingObject
 {
     public int Speed { get; }
     public bool DetectPath();
+
     public void Move();
 }

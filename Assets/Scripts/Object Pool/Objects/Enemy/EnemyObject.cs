@@ -32,6 +32,14 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
         aDelay = data.adelay;
     }
 
+    private void FixedUpdate()
+    {
+        if (isMove)
+        {
+            rigidbody.MovePosition(rigidbody.position + (Vector2)direction * moveAmount);
+        }
+    }
+
     #region IDamagedObject
     public int Hp { get { return hp; } }
     public void Damaged(int dmg)
@@ -54,6 +62,7 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
 
     public bool DetectTarget()
     {
+        isMove = false;
         // 가는 방향이 막혀있을 때 Failure를 띄워야 함. (예를 들어 벽이나 플레이어)
         // 그 외에 적끼리 붙어있을 때도 이동하는 방식도 고민할 필요가 있음.
         // 예를 들어 적끼리 붙어있고 앞의 적이 공격 중이라면 이동을 할 필요가 없음.
@@ -114,22 +123,29 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
     public int Speed { get { return speed; } }
     private Vector3 direction;
     private float moveAmount;
+    private bool isMove;
     public bool DetectPath()
     {
-        moveAmount = Time.deltaTime * speed;
-        List<Vector2Int> path;
-        if (MapGenerator.ObjectOnBoundary(transform.position))
+        moveAmount = Time.fixedDeltaTime * speed;
+        Vector2 path;
+        if (MapGenerator.ObjectOnBoundary(rigidbody.position))
         {
             // 처음 생성되었을 때 (현재 위치가 맵 밖에 있을때)
             // 이동해야할 위치를 가장 가까운 위치로 세팅해 줌.
-            Vector2Int curPos = MapGenerator.RoundToInt(transform.position);
-            path = new List<Vector2Int>();
-            path.Add(curPos);
-            path.Add(MapGenerator.GetNearestMapBoundary(curPos));
+            Vector2Int curPos = MapGenerator.RoundToInt(rigidbody.position);
+            path = MapGenerator.GetNearestMapBoundary(curPos) - rigidbody.position;
         }
-        else path = MapGenerator.Instance.FindPath(transform.position);
+        else path = MapGenerator.Instance.FindPath(rigidbody.position);
 
-        if (path.Count > 1) // 처음에는 자신의 위치가 기본적으로 들어감.
+        if (path != Astar.NoneVector) // 처음에는 자신의 위치가 기본적으로 들어감.
+        {
+            direction = path;
+            return true;
+        }
+        return false;
+
+        /*
+        if (path != Astar.NoneVector) 
         {
             // 우선 다음 도착지까지의 남은 거리를 체크함.
             // path[1] - curPos = 방향.
@@ -139,26 +155,23 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
 
             int nextDestination = 1;
             float remainDistance;
-            direction = (path[nextDestination] - (Vector2)transform.position);
-
             // path[0]는 기본적으로 자신의 위치라고 세팅된 자리임.
             // 다만, 위치 체크 방식으로 인해 해당 위치에 도달하지 못했을 수 있음.
             // 따라서 path[1]까지의 방향을 확인한 뒤
             // 해당 이동 방향이 path[0]까지의 방향과 반대라면 path[1]로 세팅해주는 방식으로 진행.
 
-            Vector2 checkDirection = (path[0] - (Vector2)transform.position);
+            Vector2 checkDirection = (path[0] - rigidbody.position);
             if (direction.x * checkDirection.x <= 0 && direction.y * checkDirection.y <= 0)
             {
                 // 반대방향이라면 path[1]로 방향을 세팅해 줌.
-                direction = direction.normalized;
-                remainDistance = Vector2.Distance(path[1], transform.position);
+                remainDistance = Vector2.Distance(path[1], rigidbody.position);
             }
             else
             {
                 // 아니라면 path[0]로 방향을 세팅해 줌.
                 nextDestination = 0;
-                direction = checkDirection.normalized;
-                remainDistance = Vector2.Distance(path[0], transform.position);
+                direction = checkDirection;
+                remainDistance = Vector2.Distance(path[0], rigidbody.position);
             }
 
             // 이동량이 남은 거리보다 많을 때
@@ -176,9 +189,8 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
                     Vector2 nextDirection = path[nextDestination + 1] - path[nextDestination];
                     Vector2 finalDestination = path[nextDestination] + nextDirection.normalized * remainDistance;
 
-                    direction = finalDestination - (Vector2)transform.position;
+                    direction = finalDestination - rigidbody.position;
                     moveAmount = direction.magnitude;
-                    direction = direction.normalized;
                 }
                 else // 다음 목적지가 최종 도착지임.
                 {
@@ -186,29 +198,29 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
                     moveAmount = remainDistance;
                 }
             }
-            return true;
+            direction = direction.normalized;
         }
         // 이동할 곳이 없다면 Failure
-        return false;
+        */
     }
+
     public void Move()
     {
+        direction = direction.normalized;
         spriteRenderer.color = Color.green;
-        transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg, Vector3.forward);
-        rigidbody.MovePosition(transform.position + direction * moveAmount);
+        rigidbody.rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        isMove = true;
     }
+
     #endregion
     private void OnDrawGizmos()
     {
         if (MapGenerator.Instance == null) return;
-        List<Vector2Int> path = MapGenerator.Instance.FindPath(transform.position);
+        Vector2 path = MapGenerator.Instance.FindPath(transform.position);
 
-        if (path.Count > 0)
+        if (path != Astar.NoneVector)
         {
-            for (int i = 0; i < path.Count - 1; i++)
-            {
-                Gizmos.DrawLine(new Vector3(path[i].x, path[i].y), new Vector3(path[i + 1].x, path[i + 1].y));
-            }
+            Gizmos.DrawLine(transform.position, transform.position + new Vector3(path.x, path.y));
         }
     }
 }

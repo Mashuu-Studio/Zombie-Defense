@@ -12,7 +12,7 @@ public class EnemyController : MonoBehaviour
             new Enemy()
             {
                 hp = 3,
-                speed = 10,
+                speed = 5,
                 dmg = 1,
                 range = 3f,
                 adelay = 1,
@@ -20,7 +20,7 @@ public class EnemyController : MonoBehaviour
             new Enemy()
             {
                 hp = 5,
-                speed = 5,
+                speed = 2,
                 dmg = 3,
                 range = 0.8f,
                 adelay = 3,
@@ -28,7 +28,7 @@ public class EnemyController : MonoBehaviour
             new Enemy()
             {
                 hp = 1,
-                speed = 15,
+                speed = 4,
                 dmg = 2,
                 range = 1.2f,
                 adelay = .5f,
