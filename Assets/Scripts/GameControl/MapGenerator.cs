@@ -25,8 +25,10 @@ public class MapGenerator : MonoBehaviour
     public MeshGenerator meshGenerator;
     public Tilemap boundaryTilemap;
     public Tilemap wallTilemap;
+    public Tilemap wallBottomTilemap;
     public Tilemap grassTilemap;
     [SerializeField] Tile[] tiles;
+    [SerializeField] Tile wallBottomTile;
 
     public Rect mapBoundary { get; private set; }
     public int width, height;
@@ -113,7 +115,14 @@ public class MapGenerator : MonoBehaviour
                 Vector3Int pos = (Vector3Int)ConvertToWorldPos(x, y);
                 grassTilemap.SetTile(pos, tiles[GRASS]);
                 if (map[x, y] == WALL)
+                {
                     wallTilemap.SetTile(pos, tiles[WALL]);
+                    if (y > 1 && map[x, y - 1] == GRASS)
+                    {
+                        pos.y -= 1;
+                        wallBottomTilemap.SetTile(pos, wallBottomTile);
+                    }
+                }
             }
         }
 
