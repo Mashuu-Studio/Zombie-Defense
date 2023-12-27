@@ -22,7 +22,11 @@ public class MapGenerator : MonoBehaviour
     public const int WALL = 0;
     public const int GRASS = 1;
 
-    public MeshGenerator meshGenerator;
+    [SerializeField] private AstarPath astar;
+    private bool updateCol;
+
+    [Space]
+    //public MeshGenerator meshGenerator;
     public Tilemap boundaryTilemap;
     public Tilemap wallTilemap;
     public Tilemap wallBottomTilemap;
@@ -42,7 +46,6 @@ public class MapGenerator : MonoBehaviour
     public Bounds MapBounds { get { return new Bounds(Vector3.zero, new Vector3(width, height)); } }
     public int[,] Map { get { return map; } }
     private int[,] map;
-    private Astar astar;
     private int squareSize = 1;
 
     private Transform playerTransform;
@@ -52,7 +55,7 @@ public class MapGenerator : MonoBehaviour
 
     private void Start()
     {
-        astar = gameObject.AddComponent<Astar>();
+        //astar = gameObject.AddComponent<Astar>();
         GenerateMap();
         CameraController.Instance.SetCamera(Camera.main);
 
@@ -67,6 +70,16 @@ public class MapGenerator : MonoBehaviour
         if (Input.GetButtonDown("Submit"))
         {
             GenerateMap();
+        }
+    }
+
+    // Tilemap Collider의 세팅이 전부 끝난 뒤에 Scan을 해야하기 때문에 Scan을 LateUpdate에 배치.
+    private void LateUpdate()
+    {
+        if (updateCol == false)
+        {
+            astar.Scan();
+            updateCol = true;
         }
     }
 
@@ -140,8 +153,11 @@ public class MapGenerator : MonoBehaviour
             shop = Instantiate(shopPrefab);
             shop.transform.position = (Vector2)shopPos;
         }
-
-        astar.SetMap(map);
+        Pathfinding.GridGraph astarGrid = (Pathfinding.GridGraph)astar.graphs[0];
+        astarGrid.SetDimensions(width + 2, height + 2, 1);
+        astarGrid.center = new Vector3(-.5f, 0);
+        updateCol = false;
+        //astar.SetMap(map);
     }
 
     public Vector2 GetEnemySpawnPos()
@@ -218,13 +234,15 @@ public class MapGenerator : MonoBehaviour
 
     public void UpdateMapPath(Vector2 playerPos)
     {
+        /*
         if (astar == null) return;
-        astar.UpdateMapPath(playerPos);
+        astar.UpdateMapPath(playerPos);*/
     }
 
     public Vector2 FindPath(Vector2 start)
     {
-        return astar.FindPath(start);
+        return Vector2.zero;
+        //return astar.FindPath(start);
     }
 
     public static Vector2Int RoundToInt(Vector2 v)

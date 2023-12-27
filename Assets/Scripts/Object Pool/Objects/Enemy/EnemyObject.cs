@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [AddComponentMenu("Poolable/Enemy (Poolable)")]
-[RequireComponent(typeof(Rigidbody2D))]
 public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObject
 {
-    private Rigidbody2D rigidbody;
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] private Rigidbody2D rigidbody;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Pathfinding.AIPath aiPath;
+    [SerializeField] private Pathfinding.AIDestinationSetter aIDestinationSetter;
 
     private int hp;
     private Collider2D targetCollider;
@@ -17,21 +18,21 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
     private bool isAttacking;
     private int speed;
 
-    private void Awake()
+    private void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        rigidbody = GetComponent<Rigidbody2D>();
+        // 후에 player를 관리하는 컨트롤러를 통해서 받아오면 좋을 듯.
+        aIDestinationSetter.target = FindObjectOfType<Player>().transform;
     }
 
     public void Init(Enemy data)
     {
         hp = data.hp;
-        speed = data.speed;
+        aiPath.maxSpeed = speed = data.speed;
         dmg = data.dmg;
         range = data.range;
         aDelay = data.adelay;
     }
-
+    /*
     private void FixedUpdate()
     {
         if (isMove)
@@ -39,7 +40,7 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
             rigidbody.MovePosition(rigidbody.position + (Vector2)direction * moveAmount);
         }
     }
-
+    */
     #region IDamagedObject
     public int Hp { get { return hp; } }
     public void Damaged(int dmg)
@@ -62,7 +63,7 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
 
     public bool DetectTarget()
     {
-        isMove = false;
+        aiPath.canMove = false;
         // 가는 방향이 막혀있을 때 Failure를 띄워야 함. (예를 들어 벽이나 플레이어)
         // 그 외에 적끼리 붙어있을 때도 이동하는 방식도 고민할 필요가 있음.
         // 예를 들어 적끼리 붙어있고 앞의 적이 공격 중이라면 이동을 할 필요가 없음.
@@ -126,6 +127,9 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
     private bool isMove;
     public bool DetectPath()
     {
+        // 우선 path를 무조건 찾는다고 가정.
+        return true;
+
         moveAmount = Time.fixedDeltaTime * speed;
         Vector2 path;
         if (MapGenerator.ObjectOnBoundary(rigidbody.position))
@@ -136,12 +140,12 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
             path = MapGenerator.GetNearestMapBoundary(curPos) - rigidbody.position;
         }
         else path = MapGenerator.Instance.FindPath(rigidbody.position);
-
+        /*
         if (path != Astar.NoneVector) // 처음에는 자신의 위치가 기본적으로 들어감.
         {
             direction = path;
             return true;
-        }
+        }*/
         return false;
 
         /*
@@ -209,7 +213,7 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
         direction = direction.normalized;
         spriteRenderer.color = Color.green;
         rigidbody.rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        isMove = true;
+        aiPath.canMove = true;
     }
 
     #endregion
@@ -217,10 +221,10 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
     {
         if (MapGenerator.Instance == null) return;
         Vector2 path = MapGenerator.Instance.FindPath(transform.position);
-
+        /*
         if (path != Astar.NoneVector)
         {
             Gizmos.DrawLine(transform.position, transform.position + new Vector3(path.x, path.y));
-        }
+        }*/
     }
 }

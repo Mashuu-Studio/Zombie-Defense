@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -67,8 +67,8 @@ public class Astar : MonoBehaviour
             Vector2Int pos = MapGenerator.ConvertToWorldPos(curNode.pos);
             if (path.Contains(pos)) break;
             path.Add(pos);
-        }
-        */
+        }*
+        
         return path;
     }
 
@@ -223,7 +223,7 @@ public class Astar : MonoBehaviour
             }
         }
         return path;
-    }*/
+    }*
 }
 
 public class AstarNode
@@ -239,4 +239,4 @@ public class AstarNode
         this.pos = pos;
         this.isWall = isWall;
     }
-}
+}*/
