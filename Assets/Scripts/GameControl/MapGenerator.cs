@@ -26,7 +26,6 @@ public class MapGenerator : MonoBehaviour
     private bool updateCol;
 
     [Space]
-    //public MeshGenerator meshGenerator;
     public Tilemap boundaryTilemap;
     public Tilemap wallTilemap;
     public Tilemap wallBottomTilemap;
@@ -48,21 +47,16 @@ public class MapGenerator : MonoBehaviour
     private int[,] map;
     private int squareSize = 1;
 
-    private Transform playerTransform;
-
     public GameObject shopPrefab;
     private GameObject shop;
 
     private void Start()
     {
-        //astar = gameObject.AddComponent<Astar>();
         GenerateMap();
         CameraController.Instance.SetCamera(Camera.main);
 
         Vector2 bottomLeft = ConvertToWorldPos(0, 0);
         mapBoundary = new Rect(bottomLeft.x, bottomLeft.y, width, height);
-
-        playerTransform = FindObjectOfType<Player>().transform;
     }
 
     private void Update()
@@ -89,26 +83,12 @@ public class MapGenerator : MonoBehaviour
         RandomFillMap();
         for (int i = 0; i < smoothing; i++)
             SmoothMap();
-        /*
-        int borderSize = 2;
-        int[,] borderedMap = new int[width + borderSize * 2, height + borderSize * 2];
 
-        for (int x = 0; x < borderedMap.GetLength(0); x++)
-        {
-            for (int y = 0; y < borderedMap.GetLength(1); y++)
-            {
-                if (x < borderSize || x >= width + borderSize || y < borderSize || y >= height + borderSize)
-                    borderedMap[x, y] = 0;
-                else borderedMap[x, y] = map[x - borderSize, y - borderSize];
-            }
-        }*/
-
-        //meshGen.GenerateMesh(borderedMap, 1);
-        //meshGenerator.GenerateMesh(map, squareSize);
-
+        // 타일 세팅
         boundaryTilemap.ClearAllTiles();
         grassTilemap.ClearAllTiles();
         wallTilemap.ClearAllTiles();
+        wallBottomTilemap.ClearAllTiles();
 
         for (int x = -1; x <= width; x++)
         {
@@ -139,6 +119,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
+        // 오브젝트 생성
         {
             if (shop != null) Destroy(shop);
 
@@ -153,11 +134,47 @@ public class MapGenerator : MonoBehaviour
             shop = Instantiate(shopPrefab);
             shop.transform.position = (Vector2)shopPos;
         }
+
+        // 캐릭터 스폰
+        // 가장 중심점을 기준으로 조금씩 퍼져나가는 방식을 활용.
+        {
+            Vector2Int center = ConvertToMapPos(Vector2Int.zero);
+            Vector2 spawnPoint = Vector2.zero;
+
+            bool[,] visited = new bool[width, height];
+            Queue<Vector2Int> q = new Queue<Vector2Int>();
+            q.Enqueue(center);
+            visited[center.x, center.y] = true;
+            bool find = false;
+
+            while (q.Count > 0 && !find)
+            {
+                int qsize = q.Count;
+                for (int i = 0; i < qsize; i++)
+                {
+                    Vector2Int pos = q.Dequeue();
+                    if (map[pos.x, pos.y] == GRASS)
+                    {
+                        spawnPoint = ConvertToWorldPos(pos);
+                        find = true;
+                        break;
+                    }
+
+                    if (pos.x > 1 && visited[pos.x - 1, pos.y] == false) q.Enqueue(new Vector2Int(pos.x - 1, pos.y));
+                    if (pos.x < width - 1 && visited[pos.x + 1, pos.y] == false) q.Enqueue(new Vector2Int(pos.x + 1, pos.y));
+                    if (pos.y > 1 && visited[pos.x, pos.y - 1] == false) q.Enqueue(new Vector2Int(pos.x, pos.y - 1));
+                    if (pos.y < height - 1 && visited[pos.x, pos.y + 1] == false) q.Enqueue(new Vector2Int(pos.x, pos.y + 1));
+                }
+            }
+
+            // 후에 player를 관리하는 컨트롤러를 통해서 받아오면 좋을 듯.
+            FindObjectOfType<Player>().transform.position = spawnPoint;
+        }
+
         Pathfinding.GridGraph astarGrid = (Pathfinding.GridGraph)astar.graphs[0];
         astarGrid.SetDimensions(width + 2, height + 2, 1);
         astarGrid.center = new Vector3(-.5f, 0);
         updateCol = false;
-        //astar.SetMap(map);
     }
 
     public Vector2 GetEnemySpawnPos()
@@ -183,26 +200,6 @@ public class MapGenerator : MonoBehaviour
         }
 
         return ConvertToWorldPos(x, y);
-
-        /*
-        // 생성 금지 구역 세팅.
-        // 플레이어를 기준으로 맵 전체 1/4 범위 세팅
-        Vector2Int playerMapPos = ConvertToMapPos(RoundToInt(playerTransform.position));
-        Rect playerZone = new Rect(playerMapPos.x - width / 4, playerMapPos.y - height / 4, width / 2, height / 2);
-
-        int x, y;
-        do
-        {
-            x = UnityEngine.Random.Range(0, width);
-            y = UnityEngine.Random.Range(0, height);
-            // 플레이어 주변이 아니면서 
-            // 선택된 곳이 벽이 아니어야 하고
-            // 주변에 벽이 하나 이하로만 있어야 함 (대각선 형태가 생기지 않는 위치)
-            if (playerZone.Contains(new Vector2(x, y)) == false &&
-                map[x, y] != WALL && GetSurroundGrassCount(x, y) >= 8)
-                return ConvertToWorldPos(x, y);
-        } while (true);
-        */
     }
 
     public static bool ObjectOnBoundary(Vector2 pos)
@@ -230,19 +227,6 @@ public class MapGenerator : MonoBehaviour
         pos = ConvertToWorldPos(pos);
 
         return pos;
-    }
-
-    public void UpdateMapPath(Vector2 playerPos)
-    {
-        /*
-        if (astar == null) return;
-        astar.UpdateMapPath(playerPos);*/
-    }
-
-    public Vector2 FindPath(Vector2 start)
-    {
-        return Vector2.zero;
-        //return astar.FindPath(start);
     }
 
     public static Vector2Int RoundToInt(Vector2 v)

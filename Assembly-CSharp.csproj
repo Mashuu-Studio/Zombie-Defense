@@ -73,7 +73,6 @@
     <Compile Include="Assets\Scripts\Data\Weapon.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTActionNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\Context.cs" />
-    <Compile Include="Assets\Scripts\GameControl\MeshGenerator.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Poolable.cs" />
     <Compile Include="Assets\Scripts\Object Pool\BTPoolable.cs" />
     <Compile Include="Assets\Scripts\Support\SupportObject.cs" />
@@ -82,7 +81,6 @@
     <Compile Include="Assets\Scripts\GameControl\GameController.cs" />
     <Compile Include="Assets\Scripts\GameControl\CameraController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\DebugLogNode.cs" />
-    <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\Astar.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTCompositeNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\DelayNode.cs" />
     <Compile Include="Assets\Scripts\GameControl\WeaponController.cs" />
