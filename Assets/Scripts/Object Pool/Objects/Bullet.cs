@@ -7,7 +7,7 @@ using UnityEngine;
 public class Bullet : Poolable 
 {
     private Rigidbody2D rigidbody;
-    private Vector3 direction;
+    private Vector2 direction;
     private int dmg;
     private float range;
     private int speed;
@@ -26,11 +26,11 @@ public class Bullet : Poolable
         speed = spd;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        rigidbody.MovePosition(transform.position + direction * Time.deltaTime * speed);
-        range -= Time.deltaTime * speed;
-        if (MapGenerator.Instance.mapBoundary.Contains(transform.position) == false
+        rigidbody.MovePosition(rigidbody.position + direction * Time.fixedDeltaTime * speed);
+        range -= Time.fixedDeltaTime * speed;
+        if (MapGenerator.Instance.mapBoundary.Contains(rigidbody.position) == false
             || range < 0) PoolController.Push("Bullet", this);
     }
 

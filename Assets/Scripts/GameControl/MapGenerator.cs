@@ -167,8 +167,7 @@ public class MapGenerator : MonoBehaviour
                 }
             }
 
-            // 후에 player를 관리하는 컨트롤러를 통해서 받아오면 좋을 듯.
-            FindObjectOfType<Player>().transform.position = spawnPoint;
+            Player.Instance.transform.position = spawnPoint;
         }
 
         Pathfinding.GridGraph astarGrid = (Pathfinding.GridGraph)astar.graphs[0];

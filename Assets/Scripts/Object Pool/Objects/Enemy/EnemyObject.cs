@@ -21,7 +21,7 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
     private void Start()
     {
         // 후에 player를 관리하는 컨트롤러를 통해서 받아오면 좋을 듯.
-        aIDestinationSetter.target = FindObjectOfType<Player>().transform;
+        aIDestinationSetter.target = Player.Instance.transform;
     }
 
     public void Init(Enemy data)

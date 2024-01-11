@@ -30,7 +30,7 @@ public class WeaponController : MonoBehaviour
 
                 dmg = 1,
                 adelay = 0.5f,
-                range = 10,
+                range = 15,
                 bulletspreadangle = 10,
 
                 ammo = 7,
@@ -43,8 +43,8 @@ public class WeaponController : MonoBehaviour
 
                 dmg = 1,
                 adelay = 0.1f,
-                range = 7,
-                bulletspreadangle = 20,
+                range = 15,
+                bulletspreadangle = 10,
 
                 ammo = 30,
                 reload = 1,
@@ -56,8 +56,8 @@ public class WeaponController : MonoBehaviour
 
                 dmg = 3,
                 adelay = 0.2f,
-                range = 15,
-                bulletspreadangle = 10,
+                range = 25,
+                bulletspreadangle = 5,
 
                 ammo = 30,
                 reload = 2,
@@ -69,8 +69,8 @@ public class WeaponController : MonoBehaviour
 
                 dmg = 3,
                 adelay = 2f,
-                range = 4,
-                bulletspreadangle = 60,
+                range = 8,
+                bulletspreadangle = 45,
                 bullets = 10,
 
                 ammo = 5,
@@ -80,16 +80,29 @@ public class WeaponController : MonoBehaviour
 
         weapons.ForEach(w => w.Reload());
         wait = false;
+        UIController.Instance.SwitchWeapon();
     }
+
+    IEnumerator adelayCoroutine;
+    IEnumerator reloadCoroutine;
 
     private void Update()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         int move = (scroll > 0) ? 1 : -1;
         if (scroll == 0) move = 0;
-
         Switch(move);
+
+        if (Input.GetMouseButton(0))
+        {
+            Vector2 dir = mouseWorldPos - Player.Instance.transform.position;
+            Fire(Player.Instance.transform.position, dir);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+            Reload();
     }
 
     IEnumerator AttackDelay()
@@ -102,13 +115,21 @@ public class WeaponController : MonoBehaviour
             time -= Time.deltaTime;
             yield return null;
         }
-
         wait = false;
     }
 
-    IEnumerator Reload()
+    public void Reload()
+    {
+        if (wait) return;
+        if (reloadCoroutine != null) StopCoroutine(reloadCoroutine);
+        reloadCoroutine = Reloading();
+        StartCoroutine(reloadCoroutine);
+    }
+
+    IEnumerator Reloading()
     {
         wait = true;
+        UIController.Instance.Reloading(true);
 
         float time = CurWeapon.reload;
         while (time > 0)
@@ -117,7 +138,7 @@ public class WeaponController : MonoBehaviour
             yield return null;
         }
         CurWeapon.Reload();
-        Debug.Log("Reloaded");
+        UIController.Instance.Reloading(false);
         wait = false;
     }
 
@@ -129,7 +150,21 @@ public class WeaponController : MonoBehaviour
         if (curIndex < 0) curIndex = weapons.Count - 1;
         if (curIndex >= weapons.Count) curIndex = 0;
 
-        Debug.Log($"CurWeapon : {CurWeapon.name}");
+        if (move != 0)
+        {
+            if (adelayCoroutine != null)
+            {
+                StopCoroutine(adelayCoroutine);
+                adelayCoroutine = null;
+            }
+            if (reloadCoroutine != null)
+            {
+                StopCoroutine(reloadCoroutine);
+                reloadCoroutine = null;
+            }
+            wait = false;
+            UIController.Instance.SwitchWeapon();
+        }
     }
 
     public void Fire(Vector3 pos, Vector3 dir)
@@ -137,7 +172,7 @@ public class WeaponController : MonoBehaviour
         if (wait) return;
         if (CurWeapon.curammo == 0)
         {
-            StartCoroutine(Reload());
+            Reload();
             return;
         }
 
@@ -149,6 +184,7 @@ public class WeaponController : MonoBehaviour
             ((Bullet)PoolController.Pop("Bullet")).SetBullet(pos, newDir, CurWeapon.dmg, CurWeapon.range, 50);
         }
         CurWeapon.curammo--;
-        StartCoroutine(AttackDelay());
+        adelayCoroutine = AttackDelay();
+        StartCoroutine(adelayCoroutine);
     }
 }

@@ -35,6 +35,24 @@ public class TurretController : MonoBehaviour
         turretDatas.Add("Turret", new Turret() { hp = 3, dmg = 1, range = 5, speed = 30, adelay = 1 });
     }
 
+    [SerializeField] private Transform turretPointer;
+
+    void Update()
+    {
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        turretPointer.position = GetDirection(Player.Instance.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            AddTurret(turretPointer.position, "Barricade");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            AddTurret(turretPointer.position, "Turret");
+        }
+    }
+
     private Dictionary<string, Turret> turretDatas = new Dictionary<string, Turret>();
     private Dictionary<Vector2, TurretObject> turrets = new Dictionary<Vector2, TurretObject>();
 
