@@ -18,10 +18,11 @@ public class GameController : MonoBehaviour
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         turretPointer.position = TurretController.GetDirection(player.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             Vector2 dir = mouseWorldPos - player.transform.position;
-            ((Bullet)PoolController.Pop("Bullet")).SetBullet(player.transform.position, dir, WeaponController.Instance.CurWeapon.dmg, WeaponController.Instance.CurWeapon.speed);
+            WeaponController.Instance.Fire(player.transform.position, dir);
+            
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))

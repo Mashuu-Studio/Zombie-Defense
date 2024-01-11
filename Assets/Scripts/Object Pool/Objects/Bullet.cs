@@ -9,6 +9,7 @@ public class Bullet : Poolable
     private Rigidbody2D rigidbody;
     private Vector3 direction;
     private int dmg;
+    private float range;
     private int speed;
 
     public override void Init()
@@ -16,18 +17,21 @@ public class Bullet : Poolable
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void SetBullet(Vector2 start, Vector2 dir, int d, int spd)
+    public void SetBullet(Vector2 start, Vector2 dir, int d, float r, int spd)
     {
         transform.position = start;
         direction = dir.normalized;
         dmg = d;
+        range = r;
         speed = spd;
     }
 
     private void Update()
     {
         rigidbody.MovePosition(transform.position + direction * Time.deltaTime * speed);
-        if (MapGenerator.Instance.mapBoundary.Contains(transform.position) == false) PoolController.Push("Bullet", this);
+        range -= Time.deltaTime * speed;
+        if (MapGenerator.Instance.mapBoundary.Contains(transform.position) == false
+            || range < 0) PoolController.Push("Bullet", this);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -39,7 +43,7 @@ public class Bullet : Poolable
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            collision.GetComponent<EnemyObject>().Damaged(dmg);
+            collision.transform.parent.GetComponent<EnemyObject>().Damaged(dmg);
             PoolController.Push("Bullet", this);
         }
     }
