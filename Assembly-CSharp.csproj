@@ -74,6 +74,7 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTActionNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\Context.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Poolable.cs" />
+    <Compile Include="Assets\Scripts\Sound\SoundController.cs" />
     <Compile Include="Assets\Scripts\Object Pool\BTPoolable.cs" />
     <Compile Include="Assets\Scripts\Support\SupportObject.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\TurretController.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTDecoratorNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTSelectorNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\AttackNode.cs" />
+    <Compile Include="Assets\Scripts\Sound\SfxSource.cs" />
     <Compile Include="Assets\Scripts\Data\Turret.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTRepeatNode.cs" />
     <Compile Include="Assets\Scripts\UI\UIController.cs" />

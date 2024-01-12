@@ -29,7 +29,7 @@ public class WeaponController : MonoBehaviour
                 price = 0,
 
                 dmg = 1,
-                adelay = 0.5f,
+                adelay = 0.4f,
                 range = 15,
                 bulletspreadangle = 10,
 
@@ -42,7 +42,7 @@ public class WeaponController : MonoBehaviour
                 price = 300,
 
                 dmg = 1,
-                adelay = 0.1f,
+                adelay = 0.05f,
                 range = 15,
                 bulletspreadangle = 10,
 
@@ -55,7 +55,7 @@ public class WeaponController : MonoBehaviour
                 price = 1000,
 
                 dmg = 3,
-                adelay = 0.2f,
+                adelay = 0.1f,
                 range = 25,
                 bulletspreadangle = 5,
 
@@ -132,6 +132,7 @@ public class WeaponController : MonoBehaviour
         UIController.Instance.Reloading(true);
 
         float time = CurWeapon.reload;
+        SoundController.Instance.PlaySFX(Player.Instance.gameObject, "RELOAD");
         while (time > 0)
         {
             time -= Time.deltaTime;
@@ -183,6 +184,7 @@ public class WeaponController : MonoBehaviour
             Vector3 newDir = Quaternion.Euler(0, 0, angle) * dir;
             ((Bullet)PoolController.Pop("Bullet")).SetBullet(pos, newDir, CurWeapon.dmg, CurWeapon.range, 50);
         }
+        SoundController.Instance.PlaySFX(Player.Instance.gameObject, CurWeapon.name);
         CurWeapon.curammo--;
         adelayCoroutine = AttackDelay();
         StartCoroutine(adelayCoroutine);
