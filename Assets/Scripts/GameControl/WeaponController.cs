@@ -54,7 +54,7 @@ public class WeaponController : MonoBehaviour
                 name = "ASSULT RIFLE",
                 price = 1000,
 
-                dmg = 3,
+                dmg = 2,
                 adelay = 0.1f,
                 range = 25,
                 bulletspreadangle = 5,
@@ -76,6 +76,21 @@ public class WeaponController : MonoBehaviour
                 ammo = 5,
                 reload = 3,
             },
+            new Weapon()
+            {
+                name = "SNIPER RIFLE",
+                price = 1000,
+
+                dmg = 5,
+                adelay = 2f,
+                range = 40,
+                bulletspreadangle = 2,
+                bullets = 1,
+
+                ammo = 7,
+                pierce = true,
+                reload = 2,
+            }
         };
 
         weapons.ForEach(w => w.Reload());
@@ -182,7 +197,7 @@ public class WeaponController : MonoBehaviour
         {
             int angle = Random.Range(-spread / 2, spread / 2 + 1);
             Vector3 newDir = Quaternion.Euler(0, 0, angle) * dir;
-            ((Bullet)PoolController.Pop("Bullet")).SetBullet(pos, newDir, CurWeapon.dmg, CurWeapon.range, 50);
+            ((Bullet)PoolController.Pop("Bullet")).SetBullet(pos, newDir, CurWeapon, 50);
         }
         SoundController.Instance.PlaySFX(Player.Instance.gameObject, CurWeapon.name);
         CurWeapon.curammo--;

@@ -8,7 +8,7 @@ public class Bullet : Poolable
 {
     private Rigidbody2D rigidbody;
     private Vector2 direction;
-    private int dmg;
+    private Weapon weapon;
     private float range;
     private int speed;
 
@@ -17,12 +17,12 @@ public class Bullet : Poolable
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void SetBullet(Vector2 start, Vector2 dir, int d, float r, int spd)
+    public void SetBullet(Vector2 start, Vector2 dir, Weapon w, int spd)
     {
-        transform.position = start;
+        rigidbody.position = start;
         direction = dir.normalized;
-        dmg = d;
-        range = r;
+        weapon = w;
+        range = weapon.range;
         speed = spd;
     }
 
@@ -43,8 +43,8 @@ public class Bullet : Poolable
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            collision.transform.parent.GetComponent<EnemyObject>().Damaged(dmg);
-            PoolController.Push("Bullet", this);
+            collision.transform.parent.GetComponent<EnemyObject>().Damaged(weapon.dmg);
+            if (weapon.pierce == false) PoolController.Push("Bullet", this);
         }
     }
 }

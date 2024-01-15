@@ -25,6 +25,6 @@ public class SfxSource : Poolable
 
     private void OnEnable()
     {
-        source.Stop();
+        if (source != null) source.Stop();
     }
 }

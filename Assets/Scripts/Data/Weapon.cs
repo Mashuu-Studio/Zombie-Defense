@@ -17,6 +17,7 @@ public class Weapon
     public float reload;
     
     public int bullets = 1;
+    public bool pierce = false;
     public float splash = 0;
     public int target = 1;
 

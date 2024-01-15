@@ -1956,6 +1956,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: e374b67e3b0572f49a3a7e11c896f613, type: 3}
   - name: SHOTGUN
     clip: {fileID: 8300000, guid: fde2ea642ba371f428c4aeeaf7f7a343, type: 3}
+  - name: SNIPER RIFLE
+    clip: {fileID: 8300000, guid: 6679e471bf7d768418477152e467248a, type: 3}
   - name: RELOAD
     clip: {fileID: 8300000, guid: e61360ca3b76de044925861377f1c183, type: 3}
 --- !u!82 &704435085

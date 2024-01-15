@@ -43,7 +43,8 @@ public class AttackTurretObject : TurretObject, IAttackObject
         if (!WaitAttack)
         {
             Vector2 dir = target.position - transform.position;
-            ((Bullet)PoolController.Pop("Bullet")).SetBullet(transform.position, dir, dmg, 10, speed);
+            // 임시로 현재 무기 세팅
+            ((Bullet)PoolController.Pop("Bullet")).SetBullet(transform.position, dir, WeaponController.Instance.CurWeapon, speed);
             StartCoroutine(AttackTimer());
         }
     }
