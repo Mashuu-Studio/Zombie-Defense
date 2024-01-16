@@ -10,7 +10,10 @@ public class AttackTurretObject : TurretObject, IAttackObject
     private float range;
     private float aDelay;
     private int speed;
-    private bool isAttacking;
+    private bool reloading;
+    private IEnumerator reloadCoroutine;
+
+    private Weapon weapon;
 
     public Collider2D TargetCollider { get { return targetCollider; } }
     public int Dmg { get { return dmg; } }
@@ -25,13 +28,24 @@ public class AttackTurretObject : TurretObject, IAttackObject
         range = data.range;
         aDelay = data.adelay;
         speed = data.speed;
+        weapon = null;
+    }
+
+    public void Mount(Weapon w)
+    {
+        weapon = new Weapon(w);
+        dmg = weapon.dmg;
+        range = weapon.range;
+        aDelay = weapon.adelay;
     }
 
     Collider2D[] targets;
     Transform target;
     public bool DetectTarget()
     {
-        targets = Physics2D.OverlapCircleAll(transform.position, range, 1 << LayerMask.NameToLayer("Enemy"));
+        if (weapon == null || reloading) return false;
+
+        targets = Physics2D.OverlapCircleAll(transform.position, range / 2, 1 << LayerMask.NameToLayer("Enemy"));
         return targets != null && targets.Length > 0;
     }
 
@@ -40,11 +54,24 @@ public class AttackTurretObject : TurretObject, IAttackObject
         // 우선순위에 따라 적을 선택하는 코드가 들어갈 예정
         target = targets[0].transform;
 
-        if (!WaitAttack)
+        if (!WaitAttack && !reloading)
         {
+            if (weapon.curammo <= 0)
+            {
+                Reload();
+                return;
+            }
             Vector2 dir = target.position - transform.position;
-            // 임시로 현재 무기 세팅
-            ((Bullet)PoolController.Pop("Bullet")).SetBullet(transform.position, dir, WeaponController.Instance.CurWeapon, speed);
+            int spread = weapon.bulletspreadangle;
+            for (int i = 0; i < weapon.bullets; i++)
+            {
+                int angle = Random.Range(-spread / 2, spread / 2 + 1);
+                Vector3 newDir = Quaternion.Euler(0, 0, angle) * dir;
+                ((Bullet)PoolController.Pop("Bullet")).SetBullet(transform.position, newDir, weapon, 50);
+            }
+            SoundController.Instance.PlaySFX(Player.Instance.gameObject, weapon.name);
+            weapon.curammo--;
+
             StartCoroutine(AttackTimer());
         }
     }
@@ -59,5 +86,36 @@ public class AttackTurretObject : TurretObject, IAttackObject
             yield return null;
         }
         WaitAttack = false;
+    }
+
+    public void Reload()
+    {
+        if (reloading) return;
+        reloadCoroutine = Reloading();
+        StartCoroutine(reloadCoroutine);
+    }
+
+    IEnumerator Reloading()
+    {
+        reloading = true;
+        UIController.Instance.Reloading(true);
+
+        float time = weapon.reload;
+        while (time > 0)
+        {
+            time -= Time.deltaTime;
+            yield return null;
+        }
+        weapon.Reload();
+        reloading = false;
+    }
+
+    public override void DestroyTurret()
+    {
+        base.DestroyTurret();
+        StopAllCoroutines();
+        weapon = null;
+        WaitAttack = false;
+        reloading = false;
     }
 }

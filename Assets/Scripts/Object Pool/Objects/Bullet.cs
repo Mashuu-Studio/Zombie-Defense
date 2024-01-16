@@ -4,7 +4,7 @@ using UnityEngine;
 
 [AddComponentMenu("Poolable/Bullet (Poolable)")]
 [RequireComponent(typeof(Rigidbody2D))]
-public class Bullet : Poolable 
+public class Bullet : Poolable
 {
     private Rigidbody2D rigidbody;
     private Vector2 direction;
@@ -36,11 +36,6 @@ public class Bullet : Poolable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
-        {
-            PoolController.Push("Bullet", this);
-        }
-
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             collision.transform.parent.GetComponent<EnemyObject>().Damaged(weapon.dmg);

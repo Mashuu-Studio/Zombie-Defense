@@ -19,8 +19,13 @@ public class TurretObject : BTPoolable, IDamagedObject
         hp -= dmg;
         if (hp <= 0)
         {
-            PoolController.Push(gameObject.name, this);
-            StopAllCoroutines();
+            DestroyTurret();
         }
+    }
+
+    public virtual void DestroyTurret()
+    {
+        PoolController.Push(gameObject.name, this);
+        StopAllCoroutines();
     }
 }

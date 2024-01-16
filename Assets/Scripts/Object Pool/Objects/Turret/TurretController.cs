@@ -51,6 +51,18 @@ public class TurretController : MonoBehaviour
         {
             AddTurret(turretPointer.position, "Turret");
         }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (turrets.ContainsKey(turretPointer.position))
+            {
+                var turret = (AttackTurretObject)turrets[turretPointer.position];
+                if (turret)
+                {
+                    turret.Mount(WeaponController.Instance.CurWeapon);
+                }
+            }
+        }
     }
 
     private Dictionary<string, Turret> turretDatas = new Dictionary<string, Turret>();
