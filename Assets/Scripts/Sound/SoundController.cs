@@ -68,7 +68,8 @@ public class SoundController : MonoBehaviour
         var source = (SfxSource)sfxPool.Pop();
         sfxSources.Add(source);
         source.SetVolume(sfxVol);
-        source.PlaySfx(sfxes[name.ToUpper()]);
+        name = name.ToUpper();
+        if (sfxes.ContainsKey(name)) source.PlaySfx(sfxes[name]);
     }
 
 

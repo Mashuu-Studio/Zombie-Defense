@@ -18,6 +18,7 @@ public class Weapon
 
     public int bullets = 1;
     public bool pierce = false;
+    public float point = 0;
     public float splash = 0;
     public int target = 1;
 

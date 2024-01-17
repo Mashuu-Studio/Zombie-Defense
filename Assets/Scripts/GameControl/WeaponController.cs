@@ -90,6 +90,22 @@ public class WeaponController : MonoBehaviour
                 ammo = 7,
                 pierce = true,
                 reload = 2,
+            },
+            new Weapon()
+            {
+                name = "BAZUKA",
+                price = 1000,
+
+                dmg = 5,
+                adelay = 4f,
+                range = 40,
+                bulletspreadangle = 2,
+                bullets = 1,
+
+                ammo = 7,
+                point = 1,
+                splash = 10,
+                reload = 2,
             }
         };
 
@@ -111,10 +127,7 @@ public class WeaponController : MonoBehaviour
         Switch(move);
 
         if (Input.GetMouseButton(0))
-        {
-            Vector2 dir = mouseWorldPos - Player.Instance.transform.position;
-            Fire(Player.Instance.transform.position, dir);
-        }
+            Fire(Player.Instance.transform.position, mouseWorldPos);
 
         if (Input.GetKeyDown(KeyCode.R))
             Reload();
@@ -183,7 +196,7 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    public void Fire(Vector3 pos, Vector3 dir)
+    public void Fire(Vector3 pos, Vector3 dest)
     {
         if (wait) return;
         if (CurWeapon.curammo == 0)
@@ -192,11 +205,13 @@ public class WeaponController : MonoBehaviour
             return;
         }
 
+        Vector3 dir = dest - pos;
         int spread = CurWeapon.bulletspreadangle;
         for (int i = 0; i < CurWeapon.bullets; i++)
         {
             int angle = Random.Range(-spread / 2, spread / 2 + 1);
             Vector3 newDir = Quaternion.Euler(0, 0, angle) * dir;
+            if (CurWeapon.point != 0) pos = dest;
             ((Bullet)PoolController.Pop("Bullet")).SetBullet(pos, newDir, CurWeapon, 50);
         }
         SoundController.Instance.PlaySFX(Player.Instance.gameObject, CurWeapon.name);
