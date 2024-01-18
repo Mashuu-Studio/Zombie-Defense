@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class UIController : MonoBehaviour
 {
@@ -21,16 +22,20 @@ public class UIController : MonoBehaviour
     }
 
     [SerializeField] private ShopUI shop;
+    public void OpenShop(bool b)
+    {
+        shop.Open(b);
+    }
+
+    public void BuyItem(ShopItem shopItem)
+    {
+        shop.BuyItem(shopItem);
+    }
 
     [SerializeField] private Slider hpSlider;
     [SerializeField] private Slider ammoSlider;
     [SerializeField] private TextMeshProUGUI weaponNameText;
     [SerializeField] private GameObject reloadingObj;
-
-    public void OpenShop()
-    {
-        shop.Open();
-    }
 
     void Update()
     {

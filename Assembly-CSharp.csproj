@@ -74,11 +74,14 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTActionNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\Context.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Poolable.cs" />
+    <Compile Include="Assets\Scripts\GameControl\Initializer.cs" />
+    <Compile Include="Assets\Scripts\UI\ShopItem.cs" />
     <Compile Include="Assets\Scripts\Sound\SoundController.cs" />
     <Compile Include="Assets\Scripts\Object Pool\BTPoolable.cs" />
     <Compile Include="Assets\Scripts\Support\SupportObject.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\TurretController.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\EnemyController.cs" />
+    <Compile Include="Assets\Scripts\Data\WeaponManager.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameController.cs" />
     <Compile Include="Assets\Scripts\GameControl\CameraController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\DebugLogNode.cs" />

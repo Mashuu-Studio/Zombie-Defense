@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public abstract class SupportObject : MonoBehaviour
 {
-    bool interact;
+    protected bool interact;
     public abstract void Interact();
 
     private void Update()
@@ -29,6 +29,7 @@ public abstract class SupportObject : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             interact = false;
+            Interact();
         }
     }
 }

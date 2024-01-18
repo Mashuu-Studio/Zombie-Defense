@@ -36,97 +36,24 @@ public class WeaponController : MonoBehaviour
                 ammo = 7,
                 reload = 1,
             },
-            new Weapon()
-            {
-                name = "SMG",
-                price = 300,
-
-                dmg = 1,
-                adelay = 0.05f,
-                range = 15,
-                bulletspreadangle = 10,
-
-                ammo = 30,
-                reload = 1,
-            },
-            new Weapon()
-            {
-                name = "ASSULT RIFLE",
-                price = 1000,
-
-                dmg = 2,
-                adelay = 0.1f,
-                range = 25,
-                bulletspreadangle = 5,
-
-                ammo = 30,
-                reload = 2,
-            },
-            new Weapon()
-            {
-                name = "SHOTGUN",
-                price = 1000,
-
-                dmg = 3,
-                adelay = 2f,
-                range = 8,
-                bulletspreadangle = 45,
-                bullets = 10,
-
-                ammo = 5,
-                reload = 3,
-            },
-            new Weapon()
-            {
-                name = "SNIPER RIFLE",
-                price = 1000,
-
-                dmg = 5,
-                adelay = 2f,
-                range = 40,
-                bulletspreadangle = 2,
-                bullets = 1,
-
-                ammo = 7,
-                pierce = true,
-                reload = 2,
-            },
-            new Weapon()
-            {
-                name = "BAZUKA",
-                price = 1000,
-
-                dmg = 5,
-                adelay = 3f,
-                range = 40,
-                bulletspreadangle = 2,
-                bullets = 1,
-
-                ammo = 7,
-                point = 1,
-                splash = 10,
-                reload = 2,
-            },
-            new Weapon()
-            {
-                name = "TESLA",
-                price = 1000,
-
-                dmg = 1,
-                adelay = .5f,
-                range = 5,
-                bulletspreadangle = 2,
-                bullets = 5,
-
-                ammo = 30,
-                reload = 2,
-                autotarget = true,
-            },
         };
 
         weapons.ForEach(w => w.Reload());
         wait = false;
         UIController.Instance.SwitchWeapon();
+    }
+
+    public void GetWeapon(Weapon weapon)
+    {
+        if (HasWeapon(weapon.name)) return;
+
+        weapon.Reload();
+        weapons.Add(weapon);
+    }
+
+    public bool HasWeapon(string name)
+    {
+        return weapons.Find(weapon => weapon.name == name) != null;
     }
 
     IEnumerator adelayCoroutine;

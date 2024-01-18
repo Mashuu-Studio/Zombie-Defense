@@ -6,6 +6,6 @@ public class Shop : SupportObject
 {
     public override void Interact()
     {
-        UIController.Instance.OpenShop();
+        UIController.Instance.OpenShop(interact);
     }
 }
