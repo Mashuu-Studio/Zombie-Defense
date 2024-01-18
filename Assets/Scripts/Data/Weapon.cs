@@ -20,7 +20,7 @@ public class Weapon
     public bool pierce = false;
     public float point = 0;
     public float splash = 0;
-    public int target = 1;
+    public bool autotarget = false;
 
     public Weapon() { }
 
@@ -40,7 +40,7 @@ public class Weapon
         bullets = w.bullets;
         pierce = w.pierce;
         splash = w.splash;
-        target = w.target;
+        autotarget = w.autotarget;
     }
 
     public void Reload()

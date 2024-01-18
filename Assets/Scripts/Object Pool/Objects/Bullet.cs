@@ -26,7 +26,7 @@ public class Bullet : Poolable
         range = weapon.range;
         speed = spd;
         remainTime = weapon.point;
-        if (remainTime == 0) remainTime = 1;
+        if (remainTime == 0) remainTime = Time.fixedDeltaTime * 2;
 
         if (weapon.splash == 0) transform.localScale = Vector3.one;
         else transform.localScale = Vector3.one * w.splash;
@@ -34,13 +34,14 @@ public class Bullet : Poolable
 
     private void FixedUpdate()
     {
-        if (weapon.point == 0)
+        if (weapon.point != 0 || weapon.autotarget)
+            remainTime -= Time.fixedDeltaTime;
+        else
         {
             rigidbody.MovePosition(rigidbody.position + direction * Time.fixedDeltaTime * speed);
             range -= Time.fixedDeltaTime * speed;
         }
-        else remainTime -= Time.fixedDeltaTime;
-        Debug.Log(remainTime);
+
         if (MapGenerator.Instance.mapBoundary.Contains(rigidbody.position) == false
             || range < 0 || remainTime <= 0) PoolController.Push("Bullet", this);
     }

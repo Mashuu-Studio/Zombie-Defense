@@ -97,7 +97,7 @@ public class WeaponController : MonoBehaviour
                 price = 1000,
 
                 dmg = 5,
-                adelay = 4f,
+                adelay = 3f,
                 range = 40,
                 bulletspreadangle = 2,
                 bullets = 1,
@@ -106,7 +106,22 @@ public class WeaponController : MonoBehaviour
                 point = 1,
                 splash = 10,
                 reload = 2,
-            }
+            },
+            new Weapon()
+            {
+                name = "TESLA",
+                price = 1000,
+
+                dmg = 1,
+                adelay = .5f,
+                range = 5,
+                bulletspreadangle = 2,
+                bullets = 5,
+
+                ammo = 30,
+                reload = 2,
+                autotarget = true,
+            },
         };
 
         weapons.ForEach(w => w.Reload());
@@ -205,13 +220,22 @@ public class WeaponController : MonoBehaviour
             return;
         }
 
+        List<Collider2D> autoTargets = CurWeapon.autotarget ? Player.Instance.DetectEnemyTargets(CurWeapon.range) : new List<Collider2D>();
         Vector3 dir = dest - pos;
         int spread = CurWeapon.bulletspreadangle;
         for (int i = 0; i < CurWeapon.bullets; i++)
         {
             int angle = Random.Range(-spread / 2, spread / 2 + 1);
             Vector3 newDir = Quaternion.Euler(0, 0, angle) * dir;
+            // 지점 공격이면 위치 지정
             if (CurWeapon.point != 0) pos = dest;
+            // 오토타겟이면 적의 수만큼 자동타겟팅하여 공격.
+            if (CurWeapon.autotarget)
+            {
+                if (autoTargets.Count > i) pos = autoTargets[i].transform.position;
+                // 적의 수가 타겟팅 수보다 적다면 스킵
+                else break;
+            }
             ((Bullet)PoolController.Pop("Bullet")).SetBullet(pos, newDir, CurWeapon, 50);
         }
         SoundController.Instance.PlaySFX(Player.Instance.gameObject, CurWeapon.name);

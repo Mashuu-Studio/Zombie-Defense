@@ -15,6 +15,8 @@ public class Player : MonoBehaviour, IDamagedObject
     public int Hp { get { return hp; } }
     private Rigidbody2D rigidbody;
 
+    [SerializeField] private BoxCollider2D autoTargetCollider;
+
     private void Awake()
     {
         if (Instance != null)
@@ -57,5 +59,21 @@ public class Player : MonoBehaviour, IDamagedObject
 
     public void Damaged(int dmg)
     {
+
+    }
+
+    public List<Collider2D> DetectEnemyTargets(float range)
+    {
+        // 위치를 캐릭터 앞으로 세팅
+        // 크기는 range로 세팅
+        autoTargetCollider.offset = new Vector2(range / 2 + .5f, 0);
+        autoTargetCollider.size = Vector2.one * range;
+
+        List<Collider2D> cols = new List<Collider2D>();
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.layerMask = 1 << LayerMask.NameToLayer("Enemy");
+        // 전방 사각형 모양
+        autoTargetCollider.OverlapCollider(filter, cols);
+        return cols;
     }
 }

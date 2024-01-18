@@ -46,11 +46,20 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
     public void Damaged(int dmg)
     {
         hp -= dmg;
+        StartCoroutine(ChangeColor());
         if (hp <= 0)
         {
             PoolController.Push(gameObject.name, this);
+            spriteRenderer.color = Color.green;
             StopAllCoroutines();
         }
+    }
+
+    IEnumerator ChangeColor()
+    {
+        spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        spriteRenderer.color = Color.green;
     }
     #endregion
 
@@ -99,7 +108,6 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
         isAttacking = true;
         if (!WaitAttack)
         {
-            spriteRenderer.color = Color.red;
             IDamagedObject damagedObject = targetCollider.GetComponent<IDamagedObject>();
             damagedObject.Damaged(dmg);
             StartCoroutine(AttackTimer());
@@ -112,7 +120,6 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
         float time = 0;
         while (time < ADelay)
         {
-            if (time > ADelay / 3) spriteRenderer.color = Color.yellow;
             time += Time.deltaTime;
             yield return null;
         }
@@ -134,7 +141,6 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
     public void Move()
     {
         direction = direction.normalized;
-        spriteRenderer.color = Color.green;
         rigidbody.rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         aiPath.canMove = true;
     }
