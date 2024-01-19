@@ -38,7 +38,7 @@ public static class WeaponManager
             },
             new Weapon()
             {
-                name = "ASSULT RIFLE",
+                name = "ASSAULT RIFLE",
                 price = 1000,
 
                 dmg = 2,

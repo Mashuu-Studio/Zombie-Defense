@@ -7,5 +7,6 @@ public class Initializer : MonoBehaviour
     private void Awake()
     {
         WeaponManager.Init();
+        SpriteManager.Init();
     }
 }

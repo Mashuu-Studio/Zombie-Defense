@@ -40,6 +40,7 @@ public class WeaponController : MonoBehaviour
 
         weapons.ForEach(w => w.Reload());
         wait = false;
+        Player.Instance.SwitchWeapon(CurWeapon.name);
         UIController.Instance.SwitchWeapon();
     }
 
@@ -134,6 +135,7 @@ public class WeaponController : MonoBehaviour
                 reloadCoroutine = null;
             }
             wait = false;
+            Player.Instance.SwitchWeapon(CurWeapon.name);
             UIController.Instance.SwitchWeapon();
         }
     }

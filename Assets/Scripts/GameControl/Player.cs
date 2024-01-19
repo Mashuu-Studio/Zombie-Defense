@@ -16,6 +16,7 @@ public class Player : MonoBehaviour, IDamagedObject
     private Rigidbody2D rigidbody;
 
     [SerializeField] private BoxCollider2D autoTargetCollider;
+    [SerializeField] private SpriteRenderer gunSpriteRenderer;
 
     private void Awake()
     {
@@ -55,6 +56,11 @@ public class Player : MonoBehaviour, IDamagedObject
         Vector2 dir = target - transform.position;
         float degree = Mathf.Rad2Deg * Mathf.Atan2(dir.y, dir.x);
         transform.rotation = Quaternion.Euler(0, 0, degree);
+    }
+
+    public void SwitchWeapon(string name)
+    {
+        gunSpriteRenderer.sprite = SpriteManager.GetSprite(name);
     }
 
     public void Damaged(int dmg)
