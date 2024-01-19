@@ -82,6 +82,7 @@
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\TurretController.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\EnemyController.cs" />
     <Compile Include="Assets\Scripts\Data\WeaponManager.cs" />
+    <Compile Include="Assets\Scripts\GameControl\GameSetting.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameController.cs" />
     <Compile Include="Assets\Scripts\GameControl\CameraController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\DebugLogNode.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Assets\Scripts\Sound\SfxSource.cs" />
     <Compile Include="Assets\Scripts\Data\Turret.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTRepeatNode.cs" />
+    <Compile Include="Assets\Scripts\UI\SettingUI.cs" />
     <Compile Include="Assets\Scripts\UI\UIController.cs" />
     <Compile Include="Assets\Scripts\Data\Enemy.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTRootNode.cs" />

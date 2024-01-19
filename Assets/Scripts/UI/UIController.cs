@@ -18,10 +18,18 @@ public class UIController : MonoBehaviour
             return;
         }
         instance = this;
-        shop.gameObject.SetActive(false);
     }
 
+
     [SerializeField] private ShopUI shop;
+    [SerializeField] private SettingUI setting;
+    private void Start()
+    {
+        setting.Init();
+        setting.gameObject.SetActive(false);
+        OpenShop(false);
+    }
+
     public void OpenShop(bool b)
     {
         shop.Open(b);
@@ -39,6 +47,11 @@ public class UIController : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            setting.gameObject.SetActive(!setting.gameObject.activeSelf);
+        }
+
         hpSlider.maxValue = Player.Instance.MaxHp;
         hpSlider.value = Player.Instance.Hp;
         ammoSlider.value = WeaponController.Instance.CurWeapon.curammo;

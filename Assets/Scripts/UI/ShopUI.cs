@@ -16,21 +16,24 @@ public class ShopUI : MonoBehaviour
     {
         gameObject.SetActive(b);
 
-        items.ForEach(item => Destroy(item.gameObject));
-        items.Clear();
-
-        foreach (var weapon in WeaponManager.Weapons)
+        if (b)
         {
-            if (WeaponController.Instance.HasWeapon(weapon.name) == false)
-            {
-                var item = Instantiate(itemPrefab, scrollRectTransform);
-                item.Init(weapon);
-                item.gameObject.SetActive(true);
-                items.Add(item);
-            }
-        }
+            items.ForEach(item => Destroy(item.gameObject));
+            items.Clear();
 
-        scrollRectTransform.sizeDelta = new Vector2(scrollRectTransform.sizeDelta.x, 150 * items.Count);
+            foreach (var weapon in WeaponManager.Weapons)
+            {
+                if (WeaponController.Instance.HasWeapon(weapon.name) == false)
+                {
+                    var item = Instantiate(itemPrefab, scrollRectTransform);
+                    item.Init(weapon);
+                    item.gameObject.SetActive(true);
+                    items.Add(item);
+                }
+            }
+
+            scrollRectTransform.sizeDelta = new Vector2(scrollRectTransform.sizeDelta.x, 150 * items.Count);
+        }
     }
 
     public void BuyItem(ShopItem shopItem)

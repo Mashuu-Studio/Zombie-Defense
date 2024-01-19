@@ -34,40 +34,19 @@ public class SoundController : MonoBehaviour
     private List<SfxSource> sfxSources;
     private Pool sfxPool;
 
-    private float bgmVol;
-    private float sfxVol;
-
     private void Start()
     {
         sfxSources = new List<SfxSource>();
-        bgmSource.volume = bgmVol = 1;
-        sfxVol = 1;
+        bgmSource.volume = 1;
 
         sfxes = new Dictionary<string, AudioClip>();
         sfxInfos.ForEach(info => sfxes.Add(info.name.ToUpper(), info.clip));
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        for (int i = 0; i < sfxSources.Count; i++)
-        {
-            var source = sfxSources[i];
-            if (source.isPlaying) source.SetVolume(sfxVol);
-            else
-            {
-                sfxSources.Remove(source);
-                sfxPool.Push(source);
-                i--;
-            }
-        }
     }
 
     public void PlaySFX(GameObject obj, string name)
     {
         var source = (SfxSource)sfxPool.Pop();
         sfxSources.Add(source);
-        source.SetVolume(sfxVol);
         name = name.ToUpper();
         if (sfxes.ContainsKey(name)) source.PlaySfx(sfxes[name]);
     }

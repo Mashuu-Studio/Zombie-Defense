@@ -10,17 +10,14 @@ public class SfxSource : Poolable
     public override void Init()
     {
         source = GetComponent<AudioSource>();
+        source.volume = 1;
+        source.outputAudioMixerGroup = GameSetting.Instance.GetMixerGroup(GameSetting.SFX_MIXER);
     }
 
     public void PlaySfx(AudioClip clip)
     {
         source.clip = clip;
         source.Play();
-    }
-
-    public void SetVolume(float vol)
-    {
-        source.volume = vol;
     }
 
     private void OnEnable()
