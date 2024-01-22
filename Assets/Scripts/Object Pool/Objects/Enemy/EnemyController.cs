@@ -16,6 +16,9 @@ public class EnemyController : MonoBehaviour
                 dmg = 1,
                 range = 3f,
                 adelay = 1,
+
+                exp = 1,
+                money = 10,
             },
             new Enemy()
             {
@@ -24,6 +27,9 @@ public class EnemyController : MonoBehaviour
                 dmg = 3,
                 range = 0.8f,
                 adelay = 3,
+
+                exp = 1,
+                money = 10,
             },
             new Enemy()
             {
@@ -32,6 +38,9 @@ public class EnemyController : MonoBehaviour
                 dmg = 2,
                 range = 1.2f,
                 adelay = .5f,
+
+                exp = 1,
+                money = 10,
             },
         };
     }

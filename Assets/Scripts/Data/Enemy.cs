@@ -9,4 +9,7 @@ public class Enemy
     public int speed;
     public float range;
     public float adelay;
+
+    public int exp;
+    public int money;
 }

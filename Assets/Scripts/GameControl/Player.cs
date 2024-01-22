@@ -4,19 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IDamagedObject
 {
+    #region Instance
     public static Player Instance { get { return instance; } }
     private static Player instance;
-
-    private int maxhp;
-    private int hp;
-    private int speed = 5;
-
-    public int MaxHp { get { return maxhp; } }
-    public int Hp { get { return hp; } }
-    private Rigidbody2D rigidbody;
-
-    [SerializeField] private BoxCollider2D autoTargetCollider;
-    [SerializeField] private SpriteRenderer gunSpriteRenderer;
 
     private void Awake()
     {
@@ -29,7 +19,51 @@ public class Player : MonoBehaviour, IDamagedObject
 
         rigidbody = GetComponent<Rigidbody2D>();
 
-        hp = maxhp = 3;
+        Init();
+    }
+    #endregion
+
+    public enum StatType { HP = 0, SPEED, RELOAD, REWARD, }
+
+    private int lv;
+    private int exp;
+    private int maxexp;
+
+    private int hp;
+    private int maxhp;
+    private int speed;
+    private int reload;
+    private int reward;
+
+    private int money;
+
+    public int Lv { get { return lv; } }
+    public int MaxExp { get { return maxexp; } }
+    public int Exp { get { return exp; } }
+
+    public int MaxHp { get { return maxhp; } }
+    public int Hp { get { return hp; } }
+
+    public int Money { get { return money; } }
+
+    private Rigidbody2D rigidbody;
+
+    [SerializeField] private BoxCollider2D autoTargetCollider;
+    [SerializeField] private SpriteRenderer gunSpriteRenderer;
+
+    #region Init & Update
+
+    public void Init()
+    {
+        lv = 1;
+        exp = 0;
+        maxexp = 10;
+
+        hp = maxhp = 10;
+        speed = 5;
+        reload = 0;
+        reward = 0;
+        money = 0;
     }
 
     float axisX;
@@ -57,7 +91,53 @@ public class Player : MonoBehaviour, IDamagedObject
         float degree = Mathf.Rad2Deg * Mathf.Atan2(dir.y, dir.x);
         transform.rotation = Quaternion.Euler(0, 0, degree);
     }
+    #endregion
 
+    #region Reward
+    public void Reward(int xp, int m)
+    {
+        float percentage = (100 + reward) / 100f;
+        exp += (int)(xp * percentage);
+        money += (int)(m * percentage);
+
+        if (exp >= maxexp) StartCoroutine(LevelUp());
+    }
+
+    IEnumerator LevelUp()
+    {
+        // 한 번에 여러번 레벨업 할 수 있으므로 반복문 활용
+        while (exp >= maxexp)
+        {
+            lv += 1;
+            exp -= maxexp;
+            maxexp += 10;
+            Debug.Log("Level Up");
+            // UI 출력
+            // 선택하는 동안에는 스탑.
+            yield return null;
+        }
+    }
+
+    public void Upgrade(StatType type)
+    {
+        switch (type)
+        {
+            case StatType.HP:
+                hp += 5;
+                maxhp += 5;
+                break;
+            case StatType.SPEED:
+                speed += 1;
+                break;
+            case StatType.RELOAD:
+                reload += 25;
+                break;
+            case StatType.REWARD:
+                reward += 25;
+                break;
+        }
+    }
+    #endregion
     public void SwitchWeapon(string name)
     {
         gunSpriteRenderer.sprite = SpriteManager.GetSprite(name);
@@ -65,7 +145,7 @@ public class Player : MonoBehaviour, IDamagedObject
 
     public void Damaged(int dmg)
     {
-
+        Debug.Log("Player Damaged");
     }
 
     public List<Collider2D> DetectEnemyTargets(float range)

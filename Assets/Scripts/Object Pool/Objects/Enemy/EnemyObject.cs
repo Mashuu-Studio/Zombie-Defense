@@ -18,6 +18,9 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
     private bool isAttacking;
     private int speed;
 
+    private int exp;
+    private int money;
+
     private void Start()
     {
         // 후에 player를 관리하는 컨트롤러를 통해서 받아오면 좋을 듯.
@@ -31,6 +34,9 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
         dmg = data.dmg;
         range = data.range;
         aDelay = data.adelay;
+
+        exp = data.exp;
+        money = data.money;
     }
     /*
     private void FixedUpdate()
@@ -49,6 +55,7 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
         StartCoroutine(ChangeColor());
         if (hp <= 0)
         {
+            Player.Instance.Reward(exp, money);
             PoolController.Push(gameObject.name, this);
             spriteRenderer.color = Color.green;
             StopAllCoroutines();

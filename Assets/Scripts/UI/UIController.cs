@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System;
 
 public class UIController : MonoBehaviour
 {
@@ -43,7 +42,10 @@ public class UIController : MonoBehaviour
     [SerializeField] private Slider hpSlider;
     [SerializeField] private Slider ammoSlider;
     [SerializeField] private TextMeshProUGUI weaponNameText;
+    [SerializeField] private Slider expSlider;
+    [SerializeField] private TextMeshProUGUI lvText;
     [SerializeField] private GameObject reloadingObj;
+    [SerializeField] private TextMeshProUGUI moneyText;
 
     void Update()
     {
@@ -54,7 +56,11 @@ public class UIController : MonoBehaviour
 
         hpSlider.maxValue = Player.Instance.MaxHp;
         hpSlider.value = Player.Instance.Hp;
+        expSlider.maxValue = Player.Instance.MaxExp;
+        expSlider.value = Player.Instance.Exp;
+        lvText.text = Player.Instance.Lv.ToString();
         ammoSlider.value = WeaponController.Instance.CurWeapon.curammo;
+        moneyText.text = $"$ {Player.Instance.Money}";
     }
 
     public void SwitchWeapon()
