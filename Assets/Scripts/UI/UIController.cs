@@ -20,13 +20,15 @@ public class UIController : MonoBehaviour
     }
 
 
-    [SerializeField] private ShopUI shop;
+    [Header("Game")]
     [SerializeField] private SettingUI setting;
+    [SerializeField] private ShopUI shop;
     private void Start()
     {
         setting.Init();
         OpenSetting(false);
         OpenShop(false);
+        levelUpView.gameObject.SetActive(false);
     }
 
     public void OpenShop(bool b)
@@ -44,6 +46,8 @@ public class UIController : MonoBehaviour
         setting.gameObject.SetActive(b);
     }
 
+    #region Status
+    [Header("Status")]
     [SerializeField] private Slider hpSlider;
     [SerializeField] private Slider ammoSlider;
     [SerializeField] private TextMeshProUGUI weaponNameText;
@@ -74,5 +78,27 @@ public class UIController : MonoBehaviour
     public void Reloading(bool b)
     {
         reloadingObj.SetActive(b);
+    }
+    #endregion
+    [Header("Level Up")]
+    [SerializeField] private GameObject levelUpView;
+    [SerializeField] private TextMeshProUGUI[] upgradeInfos;
+
+    public void LevelUp()
+    {
+        upgradeInfos[0].text = $"{Player.Instance.MaxHp} ¡æ {Player.Instance.MaxHp + 5}";
+        upgradeInfos[1].text = $"{Player.Instance.Speed} ¡æ {Player.Instance.Speed + 1}";
+        upgradeInfos[2].text = $"{Player.Instance.Reload}% ¡æ {Player.Instance.Reload + 25}%";
+        upgradeInfos[3].text = $"{Player.Instance.Reward}% ¡æ {Player.Instance.Reward + 25}%";
+
+        levelUpView.gameObject.SetActive(true);
+        GameController.Instance.LevelUpPause(true);
+    }
+
+    public void UpgradeStat(int index)
+    {
+        Player.Instance.Upgrade((Player.StatType)index);
+        levelUpView.gameObject.SetActive(false);
+        GameController.Instance.LevelUpPause(false);
     }
 }

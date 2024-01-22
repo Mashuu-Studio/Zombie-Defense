@@ -104,7 +104,8 @@ public class WeaponController : MonoBehaviour
         wait = true;
         UIController.Instance.Reloading(true);
 
-        float time = CurWeapon.reload;
+        float pReload = (100 + Player.Instance.Reload) / 100f;
+        float time = CurWeapon.reload / pReload;
         SoundController.Instance.PlaySFX(Player.Instance.gameObject, "RELOAD");
         while (time > 0)
         {

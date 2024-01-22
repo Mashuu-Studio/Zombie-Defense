@@ -43,6 +43,9 @@ public class Player : MonoBehaviour, IDamagedObject
 
     public int MaxHp { get { return maxhp; } }
     public int Hp { get { return hp; } }
+    public int Speed { get { return speed; } }
+    public int Reload { get { return reload; } }
+    public int Reward { get { return reward; } }
 
     public int Money { get { return money; } }
 
@@ -100,7 +103,7 @@ public class Player : MonoBehaviour, IDamagedObject
     #endregion
 
     #region Reward
-    public void Reward(int xp, int m)
+    public void GetReward(int xp, int m)
     {
         float percentage = (100 + reward) / 100f;
         exp += (int)(xp * percentage);
@@ -114,12 +117,13 @@ public class Player : MonoBehaviour, IDamagedObject
         // 한 번에 여러번 레벨업 할 수 있으므로 반복문 활용
         while (exp >= maxexp)
         {
-            lv += 1;
-            exp -= maxexp;
-            maxexp += 10;
-            Debug.Log("Level Up");
-            // UI 출력
-            // 선택하는 동안에는 스탑.
+            if (!GameController.Instance.Pause)
+            {
+                lv += 1;
+                exp -= maxexp;
+                maxexp += 10;
+                UIController.Instance.LevelUp();
+            }
             yield return null;
         }
     }

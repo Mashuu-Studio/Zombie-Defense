@@ -20,8 +20,9 @@ public class GameController : MonoBehaviour
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Map Boundary"));
     }
 
-    public bool Pause { get { return pause; } }
+    public bool Pause { get { return pause || levelUpPause; } }
     private bool pause;
+    private bool levelUpPause;
 
     private void Update()
     {
@@ -35,5 +36,10 @@ public class GameController : MonoBehaviour
     public void PauseGame(bool b)
     {
         pause = b;
+    }
+
+    public void LevelUpPause(bool b)
+    {
+        levelUpPause = b;
     }
 }
