@@ -38,15 +38,13 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
         exp = data.exp;
         money = data.money;
     }
-    /*
-    private void FixedUpdate()
+
+    public override void Update()
     {
-        if (isMove)
-        {
-            rigidbody.MovePosition(rigidbody.position + (Vector2)direction * moveAmount);
-        }
+        base.Update();
+        if (GameController.Instance.Pause) aiPath.canMove = false;
     }
-    */
+
     #region IDamagedObject
     public int Hp { get { return hp; } }
     public void Damaged(int dmg)
@@ -127,7 +125,7 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
         float time = 0;
         while (time < ADelay)
         {
-            time += Time.deltaTime;
+            if (!GameController.Instance.Pause) time += Time.deltaTime;
             yield return null;
         }
         WaitAttack = false;

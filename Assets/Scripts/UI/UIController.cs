@@ -25,7 +25,7 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         setting.Init();
-        setting.gameObject.SetActive(false);
+        OpenSetting(false);
         OpenShop(false);
     }
 
@@ -39,6 +39,11 @@ public class UIController : MonoBehaviour
         shop.BuyItem(shopItem);
     }
 
+    public void OpenSetting(bool b)
+    {
+        setting.gameObject.SetActive(b);
+    }
+
     [SerializeField] private Slider hpSlider;
     [SerializeField] private Slider ammoSlider;
     [SerializeField] private TextMeshProUGUI weaponNameText;
@@ -49,11 +54,6 @@ public class UIController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            setting.gameObject.SetActive(!setting.gameObject.activeSelf);
-        }
-
         hpSlider.maxValue = Player.Instance.MaxHp;
         hpSlider.value = Player.Instance.Hp;
         expSlider.maxValue = Player.Instance.MaxExp;

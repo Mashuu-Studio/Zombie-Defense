@@ -62,6 +62,8 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
+        if (GameController.Instance.Pause) return;
+
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -83,7 +85,7 @@ public class WeaponController : MonoBehaviour
         float time = CurWeapon.adelay;
         while (time > 0)
         {
-            time -= Time.deltaTime;
+            if (!GameController.Instance.Pause) time -= Time.deltaTime;
             yield return null;
         }
         wait = false;
@@ -106,7 +108,7 @@ public class WeaponController : MonoBehaviour
         SoundController.Instance.PlaySFX(Player.Instance.gameObject, "RELOAD");
         while (time > 0)
         {
-            time -= Time.deltaTime;
+            if (!GameController.Instance.Pause) time -= Time.deltaTime;
             yield return null;
         }
         CurWeapon.Reload();

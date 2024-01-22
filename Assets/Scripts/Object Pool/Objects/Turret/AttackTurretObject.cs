@@ -82,7 +82,7 @@ public class AttackTurretObject : TurretObject, IAttackObject
         float time = 0;
         while (time < ADelay)
         {
-            time += Time.deltaTime;
+            if (!GameController.Instance.Pause) time += Time.deltaTime;
             yield return null;
         }
         WaitAttack = false;
@@ -103,7 +103,7 @@ public class AttackTurretObject : TurretObject, IAttackObject
         float time = weapon.reload;
         while (time > 0)
         {
-            time -= Time.deltaTime;
+            if (!GameController.Instance.Pause) time -= Time.deltaTime;
             yield return null;
         }
         weapon.Reload();

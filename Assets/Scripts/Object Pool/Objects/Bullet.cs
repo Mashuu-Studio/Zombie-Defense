@@ -34,6 +34,8 @@ public class Bullet : Poolable
 
     private void FixedUpdate()
     {
+        if (GameController.Instance.Pause) return;
+
         if (weapon.point != 0 || weapon.autotarget)
             remainTime -= Time.fixedDeltaTime;
         else

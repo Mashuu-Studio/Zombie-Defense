@@ -2,19 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BTRepeatNode : BTDecoratorNode
+public class PauseCheckNode : BTDecoratorNode
 {
     protected override void OnStart()
     {
+        throw new System.NotImplementedException();
     }
 
     protected override void OnStop()
     {
+        throw new System.NotImplementedException();
     }
 
     protected override State OnUpdate()
     {
-        if (!GameController.Instance.Pause) child.Update();
-        return State.Running;
+        throw new System.NotImplementedException();
     }
 }

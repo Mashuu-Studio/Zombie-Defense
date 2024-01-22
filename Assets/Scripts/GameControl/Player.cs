@@ -71,6 +71,12 @@ public class Player : MonoBehaviour, IDamagedObject
 
     private void Update()
     {
+        if (GameController.Instance.Pause)
+        {
+            axisX = 0;
+            axisY = 0;
+            return;
+        }
         axisX = Input.GetAxis("Horizontal");
         axisY = Input.GetAxis("Vertical");
 

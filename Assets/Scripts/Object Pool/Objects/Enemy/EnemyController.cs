@@ -52,15 +52,21 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator SpawnEnemy(float time)
     {
+        float t = 0;
         while (true)
         {
-            if (MapGenerator.Instance.Map == null) yield return null;
-            EnemyObject enemy = (EnemyObject)PoolController.Pop("Enemy");
-            int rand = Random.Range(0, enemies.Count);
-            enemy.Init(enemies[rand]);
-            enemy.transform.position = MapGenerator.Instance.GetEnemySpawnPos();
+            if (!GameController.Instance.Pause) t += Time.deltaTime;
 
-            yield return new WaitForSeconds(time);
+            if (t >= time)
+            {
+                t -= time;
+                if (MapGenerator.Instance.Map == null) yield return null;
+                EnemyObject enemy = (EnemyObject)PoolController.Pop("Enemy");
+                int rand = Random.Range(0, enemies.Count);
+                enemy.Init(enemies[rand]);
+                enemy.transform.position = MapGenerator.Instance.GetEnemySpawnPos();
+            }
+            yield return null;
         }
     }
 }
