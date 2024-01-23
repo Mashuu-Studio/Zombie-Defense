@@ -29,6 +29,8 @@ public class Player : MonoBehaviour, IDamagedObject
     private int exp;
     private int maxexp;
 
+    private bool invincible;
+
     private int hp;
     private int maxhp;
     private int speed;
@@ -61,6 +63,8 @@ public class Player : MonoBehaviour, IDamagedObject
         lv = 1;
         exp = 0;
         maxexp = 10;
+
+        invincible = false;
 
         hp = maxhp = 10;
         speed = 5;
@@ -148,14 +152,53 @@ public class Player : MonoBehaviour, IDamagedObject
         }
     }
     #endregion
-    public void SwitchWeapon(string name)
+
+    public void Buff(Item.BuffType type, int value = 0)
     {
-        gunSpriteRenderer.sprite = SpriteManager.GetSprite(name);
+        Debug.Log($"GET BUFF {type}");
+
+        if (type == Item.BuffType.HP) hp = maxhp;
+        else if (type == Item.BuffType.MONEY) money += value;
+        else StartCoroutine(ActiveBuff(type));
+    }
+
+    IEnumerator ActiveBuff(Item.BuffType type)
+    {
+        float time = 3;
+        switch (type)
+        {
+            case Item.BuffType.INVINCIBLE: invincible = true; time = 3; break;
+            case Item.BuffType.RELOAD: reload += 100; time = 10; break;
+            case Item.BuffType.SPEED: speed += 5; time = 10; break;
+        }
+
+        while (time > 0)
+        {
+            if (!GameController.Instance.Pause) time -= Time.deltaTime;
+            yield return null;
+        }
+
+        switch (type)
+        {
+            case Item.BuffType.INVINCIBLE: invincible = false; break;
+            case Item.BuffType.RELOAD: reload -= 100; break;
+            case Item.BuffType.SPEED: speed -= 5; break;
+        }
     }
 
     public void Damaged(int dmg)
     {
-        Debug.Log("Player Damaged");
+        if (invincible) return;
+        hp -= dmg;
+
+        // 게임오버 전까지 임시 세팅
+        if (hp <= 0) hp = 0;
+    }
+
+    #region Weapon
+    public void SwitchWeapon(string name)
+    {
+        gunSpriteRenderer.sprite = SpriteManager.GetSprite(name);
     }
 
     public List<Collider2D> DetectEnemyTargets(float range)
@@ -172,4 +215,5 @@ public class Player : MonoBehaviour, IDamagedObject
         autoTargetCollider.OverlapCollider(filter, cols);
         return cols;
     }
+    #endregion
 }

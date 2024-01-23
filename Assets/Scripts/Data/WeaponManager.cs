@@ -89,7 +89,7 @@ public static class WeaponManager
                 bulletspreadangle = 2,
                 bullets = 1,
 
-                ammo = 7,
+                ammo = 1,
                 point = 1,
                 splash = 10,
                 reload = 2,

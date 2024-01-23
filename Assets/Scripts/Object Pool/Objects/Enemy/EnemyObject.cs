@@ -53,6 +53,9 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
         StartCoroutine(ChangeColor());
         if (hp <= 0)
         {
+            int rand = Random.Range(0, 2);
+            if (rand == 0) Item.Drop(transform.position);
+
             Player.Instance.GetReward(exp, money);
             PoolController.Push(gameObject.name, this);
             spriteRenderer.color = Color.green;

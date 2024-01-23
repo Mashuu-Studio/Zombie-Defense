@@ -57,7 +57,6 @@ public class GameSetting : MonoBehaviour
 
     private void InitResolutions()
     {
-        Debug.Log($"{Screen.mainWindowDisplayInfo.width} x {Screen.mainWindowDisplayInfo.height}");
         resolutions = new List<Resolution>();
         foreach (var resol in Screen.resolutions)
         {

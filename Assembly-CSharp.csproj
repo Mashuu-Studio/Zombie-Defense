@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\Data\Weapon.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTActionNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\Context.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\Item.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Poolable.cs" />
     <Compile Include="Assets\Scripts\GameControl\Initializer.cs" />
     <Compile Include="Assets\Scripts\UI\ShopItem.cs" />

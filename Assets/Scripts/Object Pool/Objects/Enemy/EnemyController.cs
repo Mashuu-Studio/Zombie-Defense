@@ -17,7 +17,7 @@ public class EnemyController : MonoBehaviour
                 range = 3f,
                 adelay = 1,
 
-                exp = 50,
+                exp = 5,
                 money = 10,
             },
             new Enemy()
@@ -28,7 +28,7 @@ public class EnemyController : MonoBehaviour
                 range = 0.8f,
                 adelay = 3,
 
-                exp = 50,
+                exp = 5,
                 money = 10,
             },
             new Enemy()
@@ -39,7 +39,7 @@ public class EnemyController : MonoBehaviour
                 range = 1.2f,
                 adelay = .5f,
 
-                exp = 50,
+                exp = 5,
                 money = 10,
             },
         };
