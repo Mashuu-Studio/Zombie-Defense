@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public static class EnemyManager
 {
-    List<Enemy> enemies;
-    private void Awake()
+    public static List<Enemy> Enemies { get { return enemies; } }
+    private static List<Enemy> enemies;
+    public static void Init()
     {
         enemies = new List<Enemy>()
         {
@@ -43,30 +44,5 @@ public class EnemyController : MonoBehaviour
                 money = 10,
             },
         };
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        StartCoroutine(SpawnEnemy(1.5f));
-    }
-
-    IEnumerator SpawnEnemy(float time)
-    {
-        float t = 0;
-        while (true)
-        {
-            if (!GameController.Instance.Pause) t += Time.deltaTime;
-
-            if (t >= time)
-            {
-                t -= time;
-                if (MapGenerator.Instance.Map == null) yield return null;
-                EnemyObject enemy = (EnemyObject)PoolController.Pop("Enemy");
-                int rand = Random.Range(0, enemies.Count);
-                enemy.Init(enemies[rand]);
-                enemy.transform.position = MapGenerator.Instance.GetEnemySpawnPos();
-            }
-            yield return null;
-        }
     }
 }

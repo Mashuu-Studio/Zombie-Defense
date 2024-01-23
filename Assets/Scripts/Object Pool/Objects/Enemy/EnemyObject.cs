@@ -57,10 +57,16 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
             if (rand == 0) Item.Drop(transform.position);
 
             Player.Instance.GetReward(exp, money);
-            PoolController.Push(gameObject.name, this);
-            spriteRenderer.color = Color.green;
-            StopAllCoroutines();
+            Dead();
         }
+    }
+
+    public void Dead()
+    {
+        PoolController.Push(gameObject.name, this);
+        spriteRenderer.color = Color.green;
+        StopAllCoroutines();
+        EnemyController.Instance.DeadEnemy(this);
     }
 
     IEnumerator ChangeColor()

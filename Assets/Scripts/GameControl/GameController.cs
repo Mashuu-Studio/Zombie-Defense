@@ -41,4 +41,16 @@ public class GameController : MonoBehaviour
     {
         levelUpPause = b;
     }
+
+    public void StartRound()
+    {
+        RoundController.Instance.StartRound();
+        UIController.Instance.StartRound();
+    }
+
+    public void EndRound()
+    {
+        UIController.Instance.EndRound();
+        EnemyController.Instance.EndRound();
+    }
 }

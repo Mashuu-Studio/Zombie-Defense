@@ -80,6 +80,8 @@ public class UIController : MonoBehaviour
         reloadingObj.SetActive(b);
     }
     #endregion
+
+    #region Level
     [Header("Level Up")]
     [SerializeField] private GameObject levelUpView;
     [SerializeField] private TextMeshProUGUI[] upgradeInfos;
@@ -101,4 +103,29 @@ public class UIController : MonoBehaviour
         levelUpView.gameObject.SetActive(false);
         GameController.Instance.LevelUpPause(false);
     }
+    #endregion
+
+    #region Round
+    [Space]
+    [SerializeField] private TextMeshProUGUI roundText;
+    [SerializeField] private TextMeshProUGUI roundTimeText;
+    [SerializeField] private GameObject startRoundButton;
+
+    public void UpdateRoundTime(int time)
+    {
+        roundTimeText.text = time.ToString();
+    }
+
+    public void StartRound()
+    {
+        roundTimeText.gameObject.SetActive(true);
+        startRoundButton.SetActive(false);
+    }
+
+    public void EndRound()
+    {
+        roundTimeText.gameObject.SetActive(false);
+        startRoundButton.SetActive(true);
+    }
+    #endregion
 }
