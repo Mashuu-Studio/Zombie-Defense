@@ -16,7 +16,6 @@ public class GameController : MonoBehaviour
         }
         instance = this;
 
-        Application.targetFrameRate = 60;
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Map Boundary"));
     }
 

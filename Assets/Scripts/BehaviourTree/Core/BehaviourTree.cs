@@ -20,6 +20,8 @@ public class BehaviourTree : ScriptableObject
         return treeState;
     }
 
+    #region Editor
+#if UNITY_EDITOR
     public BTNode CreateNode(Type type)
     {
         BTNode node = CreateInstance(type) as BTNode;
@@ -81,6 +83,8 @@ public class BehaviourTree : ScriptableObject
             composite.children.Remove(child);
         }
     }
+#endif
+#endregion
 
     public static List<BTNode> GetChildren(BTNode parent)
     {

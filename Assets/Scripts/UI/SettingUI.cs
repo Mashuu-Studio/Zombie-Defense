@@ -13,6 +13,9 @@ public class SettingUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bgmVolumeText;
     [SerializeField] private TextMeshProUGUI sfxVolumeText;
 
+    [Space]
+    [SerializeField] private TMP_Dropdown resolDropdown;
+    [SerializeField] private Toggle fullscreenToggle;
     public void Init()
     {
         masterVolumeSlider.minValue = bgmVolumeSlider.minValue = sfxVolumeSlider.minValue = 1;
@@ -44,5 +47,18 @@ public class SettingUI : MonoBehaviour
         });
 
         masterVolumeSlider.value = bgmVolumeSlider.value = sfxVolumeSlider.value = 100;
+
+        List<string> resolList = new List<string>();
+        GameSetting.Instance.Resols.ForEach(resol =>
+        {
+            resolList.Add($"{resol.width} x {resol.height}");
+        });
+        resolDropdown.AddOptions(resolList);
+    }    
+
+    public void ChangeResolution()
+    {
+        resolDropdown.interactable = !fullscreenToggle.isOn;
+        GameSetting.Instance.ChangeResolution(resolDropdown.value, fullscreenToggle.isOn);
     }
 }
