@@ -8,7 +8,7 @@ public class WeaponController : MonoBehaviour
     private static WeaponController instance;
 
     private List<Weapon> weapons;
-    private int curIndex = 0;
+    private int curIndex;
     private bool wait;
     public Weapon CurWeapon { get { return weapons[curIndex]; } }
 
@@ -20,23 +20,13 @@ public class WeaponController : MonoBehaviour
             return;
         }
         instance = this;
+    }
 
-        weapons = new List<Weapon>()
-        {
-            new Weapon()
-            {
-                name = "PISTOL",
-                price = 0,
-
-                dmg = 1,
-                adelay = 0.4f,
-                range = 15,
-                bulletspreadangle = 10,
-
-                ammo = 7,
-                reload = 1,
-            },
-        };
+    public void StartGame()
+    {
+        weapons = new List<Weapon>();
+        weapons.Add(WeaponManager.GetWeapon("PISTOL"));
+        curIndex = 0;
 
         weapons.ForEach(w => w.Reload());
         wait = false;
@@ -62,7 +52,7 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        if (GameController.Instance.Pause) return;
+        if (GameController.Instance.GameStarted == false || GameController.Instance.Pause) return;
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

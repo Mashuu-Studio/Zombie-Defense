@@ -35,6 +35,15 @@ public class TurretController : MonoBehaviour
         turretDatas.Add("Turret", new Turret() { hp = 3, dmg = 1, range = 5, speed = 30, adelay = 1 });
     }
 
+    public void StartGame()
+    {
+        foreach(var turret in turrets.Values)
+        {
+            turret.DestroyTurret();
+        }
+        turrets.Clear();
+    }
+
     [SerializeField] private Transform turretPointer;
 
     void Update()

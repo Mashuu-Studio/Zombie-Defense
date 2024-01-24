@@ -18,8 +18,6 @@ public class Player : MonoBehaviour, IDamagedObject
         instance = this;
 
         rigidbody = GetComponent<Rigidbody2D>();
-
-        Init();
     }
     #endregion
 
@@ -78,7 +76,7 @@ public class Player : MonoBehaviour, IDamagedObject
 
     private void Update()
     {
-        if (GameController.Instance.Pause)
+        if (GameController.Instance.GameStarted == false || GameController.Instance.Pause)
         {
             axisX = 0;
             axisY = 0;
@@ -94,6 +92,8 @@ public class Player : MonoBehaviour, IDamagedObject
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (GameController.Instance.GameStarted == false || GameController.Instance.Pause) return;
+
         rigidbody.position += new Vector2(axisX, axisY) * Time.fixedDeltaTime * speed;
         CameraController.Instance.MoveCamera(rigidbody.position);
     }
@@ -191,8 +191,7 @@ public class Player : MonoBehaviour, IDamagedObject
         if (invincible) return;
         hp -= dmg;
 
-        // 게임오버 전까지 임시 세팅
-        if (hp <= 0) hp = 0;
+        if (hp <= 0) GameController.Instance.Title();
     }
 
     #region Weapon

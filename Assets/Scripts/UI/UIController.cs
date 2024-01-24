@@ -19,17 +19,30 @@ public class UIController : MonoBehaviour
         instance = this;
     }
 
-
-    [Header("Game")]
-    [SerializeField] private SettingUI setting;
-    [SerializeField] private ShopUI shop;
     private void Start()
     {
+        ChangeScene(0);
+
         setting.Init();
         OpenSetting(false);
         OpenShop(false);
         levelUpView.gameObject.SetActive(false);
     }
+
+    [Header("Scene")]
+    [SerializeField] private GameObject[] scenes;
+
+    public void ChangeScene(int index)
+    {
+        for(int i = 0; i < scenes.Length; i++)
+        {
+            scenes[i].SetActive(i == index);
+        }
+    }
+
+    [Header("Game")]
+    [SerializeField] private SettingUI setting;
+    [SerializeField] private ShopUI shop;
 
     public void OpenShop(bool b)
     {
@@ -63,6 +76,8 @@ public class UIController : MonoBehaviour
 
     void Update()
     {
+        if (GameController.Instance.GameStarted == false) return;
+
         hpSlider.maxValue = Player.Instance.MaxHp;
         hpSlider.value = Player.Instance.Hp;
         expSlider.maxValue = Player.Instance.MaxExp;

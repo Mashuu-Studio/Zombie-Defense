@@ -17,6 +17,11 @@ public class CameraController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Start()
+    {
+        SetCamera(Camera.main);
+    }
+
     private Camera cam;
     private float minX, maxX, minY, maxY;
 

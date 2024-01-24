@@ -50,10 +50,9 @@ public class MapGenerator : MonoBehaviour
     public GameObject shopPrefab;
     private GameObject shop;
 
-    private void Start()
+    public void StartGame()
     {
         GenerateMap();
-        CameraController.Instance.SetCamera(Camera.main);
 
         Vector2 bottomLeft = ConvertToWorldPos(0, 0);
         mapBoundary = new Rect(bottomLeft.x, bottomLeft.y, width, height);

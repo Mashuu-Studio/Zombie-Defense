@@ -111,4 +111,13 @@ public static class WeaponManager
             },
         };
     }
+
+    public static Weapon GetWeapon(string name)
+    {
+        foreach (Weapon weapon in weapons)
+        {
+            if (name == weapon.name) return weapon;
+        }
+        return null;
+    }
 }

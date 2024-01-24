@@ -15,14 +15,18 @@ public class RoundController : MonoBehaviour
             return;
         }
         instance = this;
+        spawnEnemyCoroutines = new List<IEnumerator>();
     }
 
     private int round;
     private List<IEnumerator> spawnEnemyCoroutines;
 
-    private void Start()
+    public void EndGame()
     {
-        spawnEnemyCoroutines = new List<IEnumerator>();
+        StopAllCoroutines();
+        GameController.Instance.EndRound();
+        spawnEnemyCoroutines.ForEach(coroutine => StopCoroutine(coroutine));
+        spawnEnemyCoroutines.Clear();
     }
 
     public void StartRound()
@@ -52,5 +56,6 @@ public class RoundController : MonoBehaviour
 
         GameController.Instance.EndRound();
         spawnEnemyCoroutines.ForEach(coroutine => StopCoroutine(coroutine));
+        spawnEnemyCoroutines.Clear();
     }
 }
