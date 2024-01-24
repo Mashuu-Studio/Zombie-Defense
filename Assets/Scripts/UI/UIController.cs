@@ -46,6 +46,11 @@ public class UIController : MonoBehaviour
         setting.gameObject.SetActive(b);
     }
 
+    public void LoadResolutionInfo()
+    {
+        setting.LoadResolutionInfo();
+    }
+
     #region Status
     [Header("Status")]
     [SerializeField] private Slider hpSlider;

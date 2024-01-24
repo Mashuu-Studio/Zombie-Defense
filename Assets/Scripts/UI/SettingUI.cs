@@ -25,36 +25,40 @@ public class SettingUI : MonoBehaviour
         masterVolumeSlider.onValueChanged.AddListener(v =>
         {
             masterVolumeText.text = v.ToString();
-            v = v * v / 10000f;
-            v = Mathf.Log10(v) * 20f;
-            GameSetting.Instance.AdjustMasterVolume(v);
+            GameSetting.Instance.AdjustVolume(GameSetting.SoundType.MASTER, v);
         });
 
         bgmVolumeSlider.onValueChanged.AddListener(v =>
         {
             bgmVolumeText.text = v.ToString();
-            v = v * v / 10000f;
-            v = Mathf.Log10(v) * 20f;
-            GameSetting.Instance.AdjustBGMVolume(v);
+            GameSetting.Instance.AdjustVolume(GameSetting.SoundType.BGM, v);
         });
 
         sfxVolumeSlider.onValueChanged.AddListener(v =>
         {
             sfxVolumeText.text = v.ToString();
-            v = v * v / 10000f;
-            v = Mathf.Log10(v) * 20f;
-            GameSetting.Instance.AdjustSFXVolume(v);
+            GameSetting.Instance.AdjustVolume(GameSetting.SoundType.SFX, v);
         });
 
-        masterVolumeSlider.value = bgmVolumeSlider.value = sfxVolumeSlider.value = 100;
+        masterVolumeSlider.value = GameSetting.Instance.SettingInfo.options["volume"][0];
+        bgmVolumeSlider.value = GameSetting.Instance.SettingInfo.options["volume"][1];
+        sfxVolumeSlider.value = GameSetting.Instance.SettingInfo.options["volume"][2];
 
+        LoadResolutionInfo();
+    }
+
+    public void LoadResolutionInfo()
+    {
+        resolDropdown.ClearOptions();
         List<string> resolList = new List<string>();
-        GameSetting.Instance.Resols.ForEach(resol =>
+        GameSetting.Instance.Resolutions.ForEach(resol =>
         {
             resolList.Add($"{resol.width} x {resol.height}");
         });
         resolDropdown.AddOptions(resolList);
-    }    
+        resolDropdown.value = GameSetting.Instance.CurrentResolutionIndex;
+        fullscreenToggle.isOn = Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
+    }
 
     public void ChangeResolution()
     {
