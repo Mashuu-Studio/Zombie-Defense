@@ -31,13 +31,11 @@ public class TurretController : MonoBehaviour
             new Vector2(-1,-1),
         };
 
-        turretDatas.Add("Barricade", new Turret() { hp = 10, dmg = 0 });
-        turretDatas.Add("Turret", new Turret() { hp = 3, dmg = 1, range = 5, speed = 30, adelay = 1 });
     }
 
     public void StartGame()
     {
-        foreach(var turret in turrets.Values)
+        foreach (var turret in turrets.Values)
         {
             turret.DestroyTurret();
         }
@@ -48,6 +46,8 @@ public class TurretController : MonoBehaviour
 
     void Update()
     {
+        if (GameController.Instance.GameStarted == false || GameController.Instance.Pause) return;
+
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         turretPointer.position = GetDirection(Player.Instance.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
@@ -74,12 +74,12 @@ public class TurretController : MonoBehaviour
         }
     }
 
-    private Dictionary<string, Turret> turretDatas = new Dictionary<string, Turret>();
     private Dictionary<Vector2, TurretObject> turrets = new Dictionary<Vector2, TurretObject>();
 
     public void AddTurret(Vector2 pos, string name)
     {
-        if (turretDatas.ContainsKey(name) == false) return;
+        Turret data = TurretManager.GetTurret(name);
+        if (data == null) return;
         if (turrets.ContainsKey(pos)) return;
 
         Poolable obj = PoolController.Pop(name);
@@ -89,11 +89,16 @@ public class TurretController : MonoBehaviour
             PoolController.Push(name, obj);
             return;
         }
-        turret.Init(turretDatas[name]);
+        turret.Init(data, pos);
         turret.gameObject.name = name;
         turret.transform.parent = transform;
         turret.transform.position = pos;
         turrets.Add(pos, turret);
+    }
+
+    public void RemoveTurret(Vector2 pos)
+    {
+        if (turrets.ContainsKey(pos)) turrets.Remove(pos);
     }
 
     public static Vector2 GetDirection(Vector2 charPos, Vector3 mouseWorldPos)

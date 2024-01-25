@@ -83,6 +83,7 @@
     <Compile Include="Assets\Scripts\Sound\SoundController.cs" />
     <Compile Include="Assets\Scripts\Data\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\Object Pool\BTPoolable.cs" />
+    <Compile Include="Assets\Scripts\Data\TurretManager.cs" />
     <Compile Include="Assets\Scripts\Support\SupportObject.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\TurretController.cs" />
     <Compile Include="Assets\Scripts\Data\WeaponManager.cs" />

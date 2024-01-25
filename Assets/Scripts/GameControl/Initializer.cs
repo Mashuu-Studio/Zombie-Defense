@@ -8,6 +8,7 @@ public class Initializer : MonoBehaviour
     {
         EnemyManager.Init();
         WeaponManager.Init();
+        TurretManager.Init();
         SpriteManager.Init();
     }
 }
