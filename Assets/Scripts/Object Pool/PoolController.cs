@@ -16,7 +16,6 @@ public class PoolController : MonoBehaviour
         }
 
         instance = this;
-        DontDestroyOnLoad(gameObject);
         Instance.Init();
     }
 

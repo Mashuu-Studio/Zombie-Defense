@@ -11,4 +11,9 @@ public class Initializer : MonoBehaviour
         TurretManager.Init();
         SpriteManager.Init();
     }
+
+    private void Start()
+    {
+        GameController.Instance.GoTo(SceneController.Scene.TITLE);
+    }
 }

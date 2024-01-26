@@ -13,13 +13,18 @@ public class SfxSource : Poolable
         source.volume = 1;
         source.outputAudioMixerGroup = GameSetting.Instance.GetMixerGroup(GameSetting.SFX_MIXER);
     }
-
+    
+    private void Update()
+    {
+        if (gameObject.activeSelf && !source.isPlaying) SoundController.Instance.Push(this);
+    }
+    
     public void PlaySfx(AudioClip clip)
     {
         source.clip = clip;
         source.Play();
     }
-
+    
     private void OnEnable()
     {
         if (source != null) source.Stop();

@@ -23,6 +23,7 @@ public class SoundController : MonoBehaviour
 
         var go = new GameObject("SFX");
         var sfxSource = go.AddComponent<SfxSource>();
+        go.transform.SetParent(transform);
 
         sfxPool.Init(sfxSource);
     }
@@ -49,6 +50,12 @@ public class SoundController : MonoBehaviour
         sfxSources.Add(source);
         name = name.ToUpper();
         if (sfxes.ContainsKey(name)) source.PlaySfx(sfxes[name]);
+    }
+
+    public void Push(SfxSource sfx)
+    {
+        sfxSources.Remove(sfx);
+        sfxPool.Push(sfx);
     }
 
 

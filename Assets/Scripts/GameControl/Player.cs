@@ -191,7 +191,7 @@ public class Player : MonoBehaviour, IDamagedObject
         if (invincible) return;
         hp -= dmg;
 
-        if (hp <= 0) GameController.Instance.Title();
+        if (hp <= 0) GameController.Instance.GoTo(SceneController.Scene.TITLE);
     }
 
     #region Weapon

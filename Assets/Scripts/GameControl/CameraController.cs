@@ -15,11 +15,7 @@ public class CameraController : MonoBehaviour
         }
         instance = this;
         DontDestroyOnLoad(gameObject);
-    }
-
-    private void Start()
-    {
-        SetCamera(Camera.main);
+        cam = Camera.main;
     }
 
     public Camera Cam { get { return cam; } }

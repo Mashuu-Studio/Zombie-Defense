@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Pool : MonoBehaviour
 {
+    public Poolable Prefab { get { return prefab; } }
     private Poolable prefab;
     private Stack<Poolable> pool;
 

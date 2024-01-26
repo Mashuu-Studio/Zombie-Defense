@@ -17,12 +17,11 @@ public class UIController : MonoBehaviour
             return;
         }
         instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
-        ChangeScene(0);
-
         setting.Init();
         OpenSetting(false);
         OpenShop(false);
@@ -31,6 +30,7 @@ public class UIController : MonoBehaviour
 
     [Header("Scene")]
     [SerializeField] private GameObject[] scenes;
+    [SerializeField] private Canvas canvas;
 
     public void ChangeScene(int index)
     {
@@ -38,6 +38,8 @@ public class UIController : MonoBehaviour
         {
             scenes[i].SetActive(i == index);
         }
+
+        if (index == 2) canvas.worldCamera = CameraController.Instance.Cam;
     }
 
     [Header("Game")]

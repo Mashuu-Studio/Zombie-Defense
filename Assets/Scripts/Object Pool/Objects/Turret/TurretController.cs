@@ -30,7 +30,6 @@ public class TurretController : MonoBehaviour
             new Vector2(0,-1),
             new Vector2(-1,-1),
         };
-
     }
 
     public void StartGame()
@@ -48,8 +47,7 @@ public class TurretController : MonoBehaviour
     {
         if (GameController.Instance.GameStarted == false || GameController.Instance.Pause) return;
 
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        turretPointer.position = GetDirection(Player.Instance.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        turretPointer.position = GetDirection(Player.Instance.transform.position, CameraController.Instance.Cam.ScreenToWorldPoint(Input.mousePosition));
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {

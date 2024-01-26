@@ -16,7 +16,6 @@ public class GameController : MonoBehaviour
         }
         instance = this;
         DontDestroyOnLoad(gameObject);
-        Title();
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Map Boundary"));
     }
 
@@ -45,25 +44,36 @@ public class GameController : MonoBehaviour
     {
         levelUpPause = b;
     }
-    public void Title()
+    public void GoTo(SceneController.Scene scene)
     {
-        gameStarted = false;
-        UIController.Instance.ChangeScene(0);
-        RoundController.Instance.EndGame();
+        SceneController.ChangeScene(scene);
+        StartCoroutine(ControlGame(scene));
     }
 
-    public void StartGame()
+    IEnumerator ControlGame(SceneController.Scene scene)
     {
-        gameStarted = true;
-        UIController.Instance.ChangeScene(1);
-        MapGenerator.Instance.StartGame();
-        RoundController.Instance.EndGame();
-        WeaponController.Instance.StartGame();
-        TurretController.Instance.StartGame();
+        while (!SceneController.isLoad) yield return null;
 
-        Player.Instance.Init();
+        switch (scene)
+        {
+            case SceneController.Scene.TITLE:
+                gameStarted = false;
+                UIController.Instance.ChangeScene(1);
+                break;
+
+            case SceneController.Scene.GAME:
+                gameStarted = true;
+                UIController.Instance.ChangeScene(2);
+                MapGenerator.Instance.StartGame();
+                RoundController.Instance.EndGame();
+                WeaponController.Instance.StartGame();
+                TurretController.Instance.StartGame();
+
+                Player.Instance.Init();
+                CameraController.Instance.SetCamera(Camera.main);
+                break;
+        }
     }
-
     public void StartRound()
     {
         RoundController.Instance.StartRound();

@@ -6,6 +6,6 @@ public class GameStartButton : ScriptableButton
 {
     protected override void ClickEvent()
     {
-        GameController.Instance.StartGame();
+        GameController.Instance.GoTo(SceneController.Scene.GAME);
     }
 }
