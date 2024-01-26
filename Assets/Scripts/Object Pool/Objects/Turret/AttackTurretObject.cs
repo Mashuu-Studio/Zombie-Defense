@@ -21,9 +21,9 @@ public class AttackTurretObject : TurretObject, IAttackObject
     public float ADelay { get { return aDelay; } }
     public bool WaitAttack { get; set; }
 
-    public override void Init(Turret data, Vector2 pos)
+    public override void SetData(Turret data, Vector2 pos)
     {
-        base.Init(data, pos);
+        base.SetData(data, pos);
         dmg = data.dmg;
         range = data.range;
         aDelay = data.adelay;

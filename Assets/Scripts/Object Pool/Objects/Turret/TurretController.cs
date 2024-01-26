@@ -89,7 +89,7 @@ public class TurretController : MonoBehaviour
             PoolController.Push(name, obj);
             return;
         }
-        turret.Init(data, pos);
+        turret.SetData(data, pos);
         turret.gameObject.name = name;
         turret.transform.parent = transform;
         turret.transform.position = pos;

@@ -1,12 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [AddComponentMenu("Poolable/Enemy (Poolable)")]
 public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObject
 {
+    [Space]
+    [SerializeField] private ObjectHpBar hpBar;
+
+    [Space]
     [SerializeField] private Rigidbody2D rigidbody;
     [SerializeField] private SpriteRenderer spriteRenderer;
+
+    [Space]
     [SerializeField] private Pathfinding.AIPath aiPath;
     [SerializeField] private Pathfinding.AIDestinationSetter aIDestinationSetter;
 
@@ -27,9 +34,11 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
         aIDestinationSetter.target = Player.Instance.transform;
     }
 
-    public void Init(Enemy data)
+    public void SetData(Enemy data)
     {
         hp = data.hp;
+        hpBar.SetHpBar(hp, new Vector2(spriteRenderer.sprite.rect.width / spriteRenderer.sprite.pixelsPerUnit, spriteRenderer.sprite.rect.height / spriteRenderer.sprite.pixelsPerUnit));
+
         aiPath.maxSpeed = speed = data.speed;
         dmg = data.dmg;
         range = data.range;
@@ -50,6 +59,7 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
     public void Damaged(int dmg)
     {
         hp -= dmg;
+        hpBar.UpdateHpBar(hp);
         StartCoroutine(ChangeColor());
         if (hp <= 0)
         {

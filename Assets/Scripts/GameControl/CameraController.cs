@@ -22,6 +22,7 @@ public class CameraController : MonoBehaviour
         SetCamera(Camera.main);
     }
 
+    public Camera Cam { get { return cam; } }
     private Camera cam;
     private float minX, maxX, minY, maxY;
 
