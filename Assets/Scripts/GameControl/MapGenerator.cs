@@ -58,14 +58,6 @@ public class MapGenerator : MonoBehaviour
         mapBoundary = new Rect(bottomLeft.x, bottomLeft.y, width, height);
     }
 
-    private void Update()
-    {
-        if (Input.GetButtonDown("Submit"))
-        {
-            GenerateMap();
-        }
-    }
-
     // Tilemap Collider의 세팅이 전부 끝난 뒤에 Scan을 해야하기 때문에 Scan을 LateUpdate에 배치.
     private void LateUpdate()
     {

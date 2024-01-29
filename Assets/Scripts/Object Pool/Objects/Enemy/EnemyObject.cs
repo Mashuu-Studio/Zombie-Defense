@@ -83,7 +83,6 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
             // 그냥 보이는 유닛일 때
             else if (!invisible) color = VisibleColor;
         }
-        Debug.Log(visible);
         SetColor(color);
 
         if (GameController.Instance.Pause) aiPath.canMove = false;
