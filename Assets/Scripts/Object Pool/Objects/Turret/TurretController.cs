@@ -59,6 +59,11 @@ public class TurretController : MonoBehaviour
             AddTurret(turretPointer.position, "Turret");
         }
 
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            AddTurret(turretPointer.position, "Scan Tower");
+        }
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (turrets.ContainsKey(turretPointer.position))

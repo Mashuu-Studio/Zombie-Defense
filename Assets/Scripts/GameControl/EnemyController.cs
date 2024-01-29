@@ -41,7 +41,7 @@ public class EnemyController : MonoBehaviour
             {
                 t -= time;
                 if (MapGenerator.Instance.Map == null) yield return null;
-                EnemyObject enemyObject = (EnemyObject)PoolController.Pop("Enemy");
+                EnemyObject enemyObject = (EnemyObject)PoolController.Pop("Invisible Enemy");
                 enemyObject.SetData(enemy);
                 enemyObject.transform.position = MapGenerator.Instance.GetEnemySpawnPos();
                 spawnedEnemies.Add(enemyObject);

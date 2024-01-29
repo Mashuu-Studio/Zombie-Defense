@@ -18,11 +18,17 @@ public static class TurretManager
             new Turret()
             {
                 name = "Turret",
-                hp = 3, 
-                dmg = 1, 
-                range = 5, 
-                speed = 30, 
+                hp = 3,
+                dmg = 1,
+                range = 5,
+                speed = 30,
                 adelay = 1 ,
+            },
+            new Turret()
+            {
+                name = "Scan Tower",
+                hp = 10,
+                range = 5,
             }
         };
     }

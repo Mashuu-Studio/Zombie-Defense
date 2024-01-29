@@ -28,14 +28,31 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
     private int exp;
     private int money;
 
+    private bool flight;
+    private bool invisible;
+    private bool visible;
+
     private void Start()
     {
-        // 후에 player를 관리하는 컨트롤러를 통해서 받아오면 좋을 듯.
         aIDestinationSetter.target = Player.Instance.transform;
+    }
+
+    public void SetSpecialAbility(bool inv, bool fly)
+    {
+        invisible = inv;
+        visible = !inv;
+        flight = fly;
+    }
+
+    public void SetVisible(bool b)
+    {
+        visible = b;
     }
 
     public void SetData(Enemy data)
     {
+        visible = !invisible;
+
         hp = data.hp;
         hpBar.SetHpBar(hp, new Vector2(spriteRenderer.sprite.rect.width / spriteRenderer.sprite.pixelsPerUnit, spriteRenderer.sprite.rect.height / spriteRenderer.sprite.pixelsPerUnit));
 
@@ -48,10 +65,36 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
         money = data.money;
     }
 
+    private Color currentColor;
+    private static Color VisibleColor = new Color(1, 1, 1, 1);
+    private static Color InvisibleColor = new Color(1, 1, 1, 0);
+    private static Color ScanedInvisibleColor = new Color(1, 1, 1, .5f);
+
     public override void Update()
     {
         base.Update();
+
+        // 보이지 않는 상태로 세팅.
+        Color color = InvisibleColor;
+        if (visible)
+        {
+            // 보이지 않는 유닛이지만 보이는 상태일 때
+            if (invisible) color = ScanedInvisibleColor;
+            // 그냥 보이는 유닛일 때
+            else if (!invisible) color = VisibleColor;
+        }
+        Debug.Log(visible);
+        SetColor(color);
+
         if (GameController.Instance.Pause) aiPath.canMove = false;
+    }
+
+    private void SetColor(Color color)
+    {
+        if (currentColor == color) return;
+        currentColor = color;
+        spriteRenderer.color = color;
+        hpBar.gameObject.SetActive(visible);
     }
 
     #region IDamagedObject
@@ -74,16 +117,16 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
     public void Dead()
     {
         PoolController.Push(gameObject.name, this);
-        spriteRenderer.color = Color.green;
+        //spriteRenderer.color = Color.green;
         StopAllCoroutines();
         EnemyController.Instance.DeadEnemy(this);
     }
 
     IEnumerator ChangeColor()
     {
-        spriteRenderer.color = Color.red;
+        //spriteRenderer.color = Color.red;
         yield return new WaitForSeconds(0.1f);
-        spriteRenderer.color = Color.green;
+        //spriteRenderer.color = Color.green;
     }
     #endregion
 
@@ -132,7 +175,7 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
         isAttacking = true;
         if (!WaitAttack)
         {
-            IDamagedObject damagedObject = targetCollider.GetComponent<IDamagedObject>();
+            IDamagedObject damagedObject = targetCollider.transform.parent.GetComponent<IDamagedObject>();
             damagedObject.Damaged(dmg);
             StartCoroutine(AttackTimer());
         }
