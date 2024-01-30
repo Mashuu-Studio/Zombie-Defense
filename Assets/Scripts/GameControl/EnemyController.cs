@@ -41,7 +41,15 @@ public class EnemyController : MonoBehaviour
             {
                 t -= time;
                 if (MapGenerator.Instance.Map == null) yield return null;
-                EnemyObject enemyObject = (EnemyObject)PoolController.Pop("Buff Enemy");
+
+                // 후에는 몬스터 이름이 하나의 프리팹이 될 예정. 
+                // 현재는 테스트 용도로 프리팹을 분류해줌.
+                string prefabname = "Enemy";
+                if (enemy.fly) prefabname = "Flight " + prefabname;
+                if (enemy.inv) prefabname = "Invisible " + prefabname;
+                if (enemy.buff != null) prefabname = "Buff Enemy";
+
+                EnemyObject enemyObject = (EnemyObject)PoolController.Pop(prefabname);
                 enemyObject.SetData(enemy);
                 enemyObject.transform.position = MapGenerator.Instance.GetEnemySpawnPos();
                 spawnedEnemies.Add(enemyObject);

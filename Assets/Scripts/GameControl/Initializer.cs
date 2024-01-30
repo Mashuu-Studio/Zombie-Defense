@@ -6,10 +6,11 @@ public class Initializer : MonoBehaviour
 {
     private void Awake()
     {
+        SpriteManager.Init();
         EnemyManager.Init();
         WeaponManager.Init();
         TurretManager.Init();
-        SpriteManager.Init();
+        RoundManager.Init();
     }
 
     private void Start()

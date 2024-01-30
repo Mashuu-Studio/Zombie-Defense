@@ -19,6 +19,7 @@ public static class SpriteManager
 
     public static Sprite GetSprite(string name)
     {
+        name = name.ToUpper();
         if (sprites.ContainsKey(name)) return sprites[name];
         return null;
     }

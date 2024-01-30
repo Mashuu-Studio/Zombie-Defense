@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class Enemy
 {
-    public BuffInfo buff;
+    public string name;
+
+    public bool inv;
+    public bool fly;
 
     public int hp;
     public int dmg;
     public int speed;
     public float range;
     public float adelay;
+
+    public BuffInfo buff;
 
     public int exp;
     public int money;

@@ -23,6 +23,7 @@ public class RoundController : MonoBehaviour
 
     public void EndGame()
     {
+        round = 0;
         StopAllCoroutines();
         GameController.Instance.EndRound();
         spawnEnemyCoroutines.ForEach(coroutine => StopCoroutine(coroutine));
@@ -31,17 +32,20 @@ public class RoundController : MonoBehaviour
 
     public void StartRound()
     {
+        var roundInfo = RoundManager.GetRound(round);
+        round++;
         // 라운드에 따라 라운드 시간 부여
-        StartCoroutine(ProgressRound(20));
+        if (roundInfo != null)
+            StartCoroutine(ProgressRound(roundInfo, 20));
+        else GameController.Instance.GoTo(SceneController.Scene.TITLE);
     }
 
-    private IEnumerator ProgressRound(float time)
+    private IEnumerator ProgressRound(Round roundInfo, float time)
     {
-        // 이 후 라운드 데이터가 들어오게 되면 상황에 맞게 세팅될 듯.
-        spawnEnemyCoroutines.Add(EnemyController.Instance.SpawnEnemy(EnemyManager.Enemies[0], 2f));
-        spawnEnemyCoroutines.Add(EnemyController.Instance.SpawnEnemy(EnemyManager.Enemies[1], 2f));
-        //spawnEnemyCoroutines.Add(EnemyController.Instance.SpawnEnemy(EnemyManager.Enemies[2], 2.5f));
-
+        foreach (var info in roundInfo.enemyInfo)
+        {
+            spawnEnemyCoroutines.Add(EnemyController.Instance.SpawnEnemy(EnemyManager.GetEnemy(info.Key), info.Value));
+        }
         spawnEnemyCoroutines.ForEach(coroutine => StartCoroutine(coroutine));
 
         while (time > 0)
