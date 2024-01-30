@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy
 {
+    public BuffInfo buff;
+
     public int hp;
     public int dmg;
     public int speed;

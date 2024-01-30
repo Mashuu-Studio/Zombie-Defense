@@ -43,6 +43,7 @@ public class Player : MonoBehaviour, IDamagedObject
 
     public int MaxHp { get { return maxhp; } }
     public int Hp { get { return hp; } }
+    public int Def { get; }
     public int Speed { get { return speed; } }
     public int Reload { get { return reload; } }
     public int Reward { get { return reward; } }

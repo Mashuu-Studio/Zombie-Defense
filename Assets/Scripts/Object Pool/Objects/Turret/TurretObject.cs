@@ -13,6 +13,7 @@ public class TurretObject : BTPoolable, IDamagedObject
     private int hp;
 
     public int Hp { get { return hp; } }
+    public int Def { get; }
 
     public virtual void SetData(Turret data, Vector2 pos)
     {

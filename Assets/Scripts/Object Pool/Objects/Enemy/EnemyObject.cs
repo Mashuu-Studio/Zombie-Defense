@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [AddComponentMenu("Poolable/Enemy (Poolable)")]
-public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObject
+public class EnemyObject : BTPoolable,
+    IDamagedObject, IAttackObject, IMovingObject, IBuffTargetObject
 {
     [Space]
     [SerializeField] private ObjectHpBar hpBar;
@@ -18,8 +19,10 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
     [SerializeField] private Pathfinding.AIDestinationSetter aIDestinationSetter;
 
     private int hp;
+    private int maxhp;
     private Collider2D targetCollider;
     private int dmg;
+    private int def;
     private float range;
     private float aDelay;
     private bool isAttacking;
@@ -49,12 +52,12 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
         visible = b;
     }
 
-    public void SetData(Enemy data)
+    public virtual void SetData(Enemy data)
     {
         visible = !invisible;
 
-        hp = data.hp;
-        hpBar.SetHpBar(hp, new Vector2(spriteRenderer.sprite.rect.width / spriteRenderer.sprite.pixelsPerUnit, spriteRenderer.sprite.rect.height / spriteRenderer.sprite.pixelsPerUnit));
+        maxhp = hp = data.hp;
+        hpBar.SetHpBar(maxhp, new Vector2(spriteRenderer.sprite.rect.width / spriteRenderer.sprite.pixelsPerUnit, spriteRenderer.sprite.rect.height / spriteRenderer.sprite.pixelsPerUnit));
 
         aiPath.maxSpeed = speed = data.speed;
         dmg = data.dmg;
@@ -63,6 +66,9 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
 
         exp = data.exp;
         money = data.money;
+
+        WaitAttack = false;
+        activatedBuff = null;
     }
 
     private Color currentColor;
@@ -98,8 +104,21 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
 
     #region IDamagedObject
     public int Hp { get { return hp; } }
+    public int Def { get { return def + (activatedBuff != null ? activatedBuff.def : 0); } }
+
+    public void Heal(int amount)
+    {
+        hp += amount;
+        if (hp > maxhp) hp = maxhp;
+        hpBar.UpdateHpBar(hp);
+    }
+
     public void Damaged(int dmg)
     {
+        // 방어력보다 데미지가 높다면 데미지는 1로 고정.
+        dmg -= Def;
+        if (dmg < 0) dmg = 1;
+
         hp -= dmg;
         hpBar.UpdateHpBar(hp);
         StartCoroutine(ChangeColor());
@@ -131,9 +150,9 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
 
     #region IAttackObject
     public Collider2D TargetCollider { get { return targetCollider; } }
-    public int Dmg { get { return dmg; } }
+    public int Dmg { get { return dmg + (activatedBuff != null ? activatedBuff.dmg : 0); } }
     public float Range { get { return range; } }
-    public float ADelay { get { return aDelay; } }
+    public float ADelay { get { return aDelay / (activatedBuff != null ? activatedBuff.aspeed : 1); } }
     public bool WaitAttack { get; set; }
 
     public bool DetectTarget()
@@ -175,7 +194,7 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
         if (!WaitAttack)
         {
             IDamagedObject damagedObject = targetCollider.transform.parent.GetComponent<IDamagedObject>();
-            damagedObject.Damaged(dmg);
+            damagedObject.Damaged(Dmg);
             StartCoroutine(AttackTimer());
         }
     }
@@ -211,5 +230,35 @@ public class EnemyObject : BTPoolable, IDamagedObject, IAttackObject, IMovingObj
         aiPath.canMove = true;
     }
 
+    #endregion
+
+    #region IBuffTargetObject
+
+    public BuffInfo ActivatedBuff { get { return activatedBuff; } }
+    private BuffInfo activatedBuff;
+
+    public bool BuffIsActivated { get { return activatedBuff != null; } }
+
+    public void ActivateBuff(BuffInfo buff)
+    {
+        // 단순 회복일 경우 즉시 발동
+        if (buff.IsHeal) Heal(buff.hp);
+        else
+        {
+            activatedBuff = buff;
+            StartCoroutine(BuffTimer());
+        }
+    }
+
+    public IEnumerator BuffTimer()
+    {
+        float time = 0;
+        while (time < activatedBuff.time)
+        {
+            if (!GameController.Instance.Pause) time += Time.deltaTime;
+            yield return null;
+        }
+        activatedBuff = null;
+    }
     #endregion
 }

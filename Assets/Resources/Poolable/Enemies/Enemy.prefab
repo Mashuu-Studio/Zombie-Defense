@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93ec04a9f403d054b8e630683998f80e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tree: {fileID: 11400000, guid: a7cd1c507c0442a419df40f080d19971, type: 2}
+  tree: {fileID: 11400000, guid: 402cbe79f16749941bab0618f086a99b, type: 2}
   hpBar: {fileID: 2916030960996584663}
   rigidbody: {fileID: 1910243207678167368}
   spriteRenderer: {fileID: 1321946643927903598}

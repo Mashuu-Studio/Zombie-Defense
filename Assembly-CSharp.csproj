@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\Object Pool\Objects\ObjectInterface.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTSequencerNode.cs" />
     <Compile Include="Assets\Scripts\GameControl\SceneController.cs" />
+    <Compile Include="Assets\Scripts\BehaviourTree\Nodes\BuffNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\EnemyAbilityNode.cs" />
     <Compile Include="Assets\Scripts\GameControl\MapGenerator.cs" />
     <Compile Include="Assets\Scripts\GameControl\Player.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Assets\Scripts\Data\Turret.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTRepeatNode.cs" />
     <Compile Include="Assets\Scripts\GameControl\RoundController.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\BuffEnemyObject.cs" />
     <Compile Include="Assets\Scripts\UI\SettingUI.cs" />
     <Compile Include="Assets\Scripts\UI\UIController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\MoveNode.cs" />

@@ -7,6 +7,7 @@ public class Context
     public GameObject gameObject;
     public Transform transform;
     public IAttackObject attackObject;
+    public IBuffObject buffObject;
     public IDamagedObject damagedObject;
     public IMovingObject movingObject;
 
@@ -16,6 +17,7 @@ public class Context
         context.gameObject = go;
         context.transform = go.transform;
         context.attackObject = go.GetComponent<IAttackObject>();
+        context.buffObject = go.GetComponent<IBuffObject>();
         context.damagedObject = go.GetComponent<IDamagedObject>();
         context.movingObject = go.GetComponent<IMovingObject>();
 

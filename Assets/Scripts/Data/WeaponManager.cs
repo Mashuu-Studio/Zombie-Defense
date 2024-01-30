@@ -15,7 +15,7 @@ public static class WeaponManager
                 name = "PISTOL",
                 price = 0,
 
-                dmg = 1,
+                dmg = 2,
                 adelay = 0.4f,
                 range = 15,
                 bulletspreadangle = 10,
