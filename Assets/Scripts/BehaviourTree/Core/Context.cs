@@ -7,9 +7,10 @@ public class Context
     public GameObject gameObject;
     public Transform transform;
     public IAttackObject attackObject;
-    public IBuffObject buffObject;
     public IDamagedObject damagedObject;
     public IMovingObject movingObject;
+    public IBuffObject buffObject;
+    public ISummonObject summonObject;
 
     public static Context CreateContextFromObject(GameObject go)
     {
@@ -17,9 +18,10 @@ public class Context
         context.gameObject = go;
         context.transform = go.transform;
         context.attackObject = go.GetComponent<IAttackObject>();
-        context.buffObject = go.GetComponent<IBuffObject>();
         context.damagedObject = go.GetComponent<IDamagedObject>();
         context.movingObject = go.GetComponent<IMovingObject>();
+        context.buffObject = go.GetComponent<IBuffObject>();
+        context.summonObject = go.GetComponent<ISummonObject>();
 
         return context;
     }

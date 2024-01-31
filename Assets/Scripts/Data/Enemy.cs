@@ -16,6 +16,9 @@ public class Enemy
     public float adelay;
 
     public BuffInfo buff;
+    public string summonUnit;
+    public float summonCD;
+    public int summonAmount;
 
     public int exp;
     public int money;

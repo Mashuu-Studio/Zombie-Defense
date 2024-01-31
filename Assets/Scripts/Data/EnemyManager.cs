@@ -41,7 +41,7 @@ public static class EnemyManager
                 name = "test3",
 
                 hp = 1,
-                speed = 4,
+                speed = 5,
                 dmg = 2,
                 range = 1.2f,
                 adelay = .5f,
@@ -121,6 +121,23 @@ public static class EnemyManager
                 dmg = 1,
                 range = 3f,
                 adelay = 1,
+
+                exp = 5,
+                money = 10,
+            },
+            new Enemy()
+            {
+                name = "test_summon",
+
+                hp = 3,
+                speed = 2,
+                dmg = 1,
+                range = 3f,
+                adelay = 1,
+
+                summonUnit = "test3",
+                summonCD = 1f,
+                summonAmount = 2,
 
                 exp = 5,
                 money = 10,

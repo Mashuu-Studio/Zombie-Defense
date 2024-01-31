@@ -64,3 +64,14 @@ public interface IBuffTargetObject
     public void ActivateBuff(BuffInfo buff);
     IEnumerator BuffTimer();
 }
+
+public interface ISummonObject
+{
+    public List<GameObject> SummonedUnits { get; }
+
+    public bool CanSummon { get; }
+
+    public bool DetectTarget();
+    public void Summon();
+    IEnumerator SummonTimer();
+}
