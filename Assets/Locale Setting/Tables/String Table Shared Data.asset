@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: String Table Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: String Table
+  m_TableCollectionNameGuidString: 530b1c1b89e9b764bbb3d84fe74639be
+  m_Entries:
+  - m_Id: 303105581056
+    m_Key: TITLE.GAMESTART
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59144463720448
+    m_Key: SETTING.SFX
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59143629053952
+    m_Key: SETTING.RESOLUTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59145076088832
+    m_Key: SETTING.MASTER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59088603979776
+    m_Key: SETTING.LANGUAGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59141104082944
+    m_Key: SETTING.FULLSCREEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59939968000000
+    m_Key: SETTING.BGM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60262413508608
+    m_Key: SETTING.SETTING
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 1240389979376189464
+  references:
+    version: 2
+    RefIds:
+    - rid: 1240389979376189464
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1707139699092
