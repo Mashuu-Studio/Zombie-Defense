@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 using TMPro;
 
 public class UIController : MonoBehaviour
@@ -70,7 +72,7 @@ public class UIController : MonoBehaviour
     [Header("Status")]
     [SerializeField] private Slider hpSlider;
     [SerializeField] private Slider ammoSlider;
-    [SerializeField] private TextMeshProUGUI weaponNameText;
+    [SerializeField] private LocalizeStringEvent weaponLocalizeString;
     [SerializeField] private Slider expSlider;
     [SerializeField] private TextMeshProUGUI lvText;
     [SerializeField] private GameObject reloadingObj;
@@ -93,7 +95,7 @@ public class UIController : MonoBehaviour
     {
         ammoSlider.maxValue = WeaponController.Instance.CurWeapon.ammo;
         ammoSlider.value = WeaponController.Instance.CurWeapon.curammo;
-        weaponNameText.text = WeaponController.Instance.CurWeapon.name;
+        weaponLocalizeString.StringReference.TableEntryReference = WeaponController.Instance.CurWeapon.key;
         Reloading(false);
     }
 

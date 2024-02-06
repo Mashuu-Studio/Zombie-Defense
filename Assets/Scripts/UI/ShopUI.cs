@@ -23,7 +23,7 @@ public class ShopUI : MonoBehaviour
 
             foreach (var weapon in WeaponManager.Weapons)
             {
-                if (WeaponController.Instance.HasWeapon(weapon.name) == false)
+                if (WeaponController.Instance.HasWeapon(weapon.key) == false)
                 {
                     var item = Instantiate(itemPrefab, scrollRectTransform);
                     item.Init(weapon);

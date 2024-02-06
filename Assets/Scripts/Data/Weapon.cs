@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Weapon
 {
-    public string name;
+    public string key;
     public int price;
 
     public int dmg;
@@ -26,7 +26,7 @@ public class Weapon
 
     public Weapon(Weapon w)
     {
-        name = w.name;
+        key = w.key;
         price = w.price;
 
         dmg = w.dmg;

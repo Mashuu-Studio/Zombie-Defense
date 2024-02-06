@@ -10,51 +10,47 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
-  m_Name: String Table Shared Data
+  m_Name: Item Name Table Shared Data
   m_EditorClassIdentifier: 
-  m_TableCollectionName: String Table
-  m_TableCollectionNameGuidString: 530b1c1b89e9b764bbb3d84fe74639be
+  m_TableCollectionName: Item Name Table
+  m_TableCollectionNameGuidString: 0c561564f8be1c24f97283432dd08184
   m_Entries:
-  - m_Id: 303105581056
-    m_Key: TITLE.GAMESTART
+  - m_Id: 195282608128
+    m_Key: WEAPON.PISTOL
     m_Metadata:
       m_Items: []
-  - m_Id: 59144463720448
-    m_Key: SETTING.SFX
+  - m_Id: 279156105216
+    m_Key: WEAPON.SMG
     m_Metadata:
       m_Items: []
-  - m_Id: 59143629053952
-    m_Key: SETTING.RESOLUTION
+  - m_Id: 311242530816
+    m_Key: WEAPON.AR
     m_Metadata:
       m_Items: []
-  - m_Id: 59145076088832
-    m_Key: SETTING.MASTER
+  - m_Id: 713853771776
+    m_Key: WEAPON.SHOTGUN
     m_Metadata:
       m_Items: []
-  - m_Id: 59088603979776
-    m_Key: SETTING.LANGUAGE
+  - m_Id: 760016281600
+    m_Key: WEAPON.SR
     m_Metadata:
       m_Items: []
-  - m_Id: 59141104082944
-    m_Key: SETTING.FULLSCREEN
+  - m_Id: 824105246720
+    m_Key: WEAPON.LAUNCHER
     m_Metadata:
       m_Items: []
-  - m_Id: 59939968000000
-    m_Key: SETTING.BGM
-    m_Metadata:
-      m_Items: []
-  - m_Id: 60262413508608
-    m_Key: SETTING.SETTING
+  - m_Id: 1667416203264
+    m_Key: WEAPON.TESLACOIL
     m_Metadata:
       m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
-    rid: 1240389979376189464
+    rid: 1240389998592655361
   references:
     version: 2
     RefIds:
-    - rid: 1240389979376189464
+    - rid: 1240389998592655361
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
       data:
-        m_CustomEpoch: 1707139699092
+        m_CustomEpoch: 1707212258537

@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UI String Table_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 530b1c1b89e9b764bbb3d84fe74639be, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 303105581056
+    m_Localized: START GAME
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59144463720448
+    m_Localized: SFX
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59143629053952
+    m_Localized: RESOLUTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59145076088832
+    m_Localized: MASTER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59088603979776
+    m_Localized: LANGUAGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59141104082944
+    m_Localized: FULLSCREEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59939968000000
+    m_Localized: BGM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60262413508608
+    m_Localized: SETTING
+    m_Metadata:
+      m_Items: []
+  - m_Id: 304389734539264
+    m_Localized: SHOP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 311279940018176
+    m_Localized: 'HP:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 311296197140480
+    m_Localized: 'AMMO:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 312037217411072
+    m_Localized: START ROUND
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

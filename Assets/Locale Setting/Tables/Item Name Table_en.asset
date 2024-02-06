@@ -10,44 +10,40 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: String Table_en
+  m_Name: Item Name Table_en
   m_EditorClassIdentifier: 
   m_LocaleId:
     m_Code: en
-  m_SharedData: {fileID: 11400000, guid: 530b1c1b89e9b764bbb3d84fe74639be, type: 2}
+  m_SharedData: {fileID: 11400000, guid: 0c561564f8be1c24f97283432dd08184, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 303105581056
-    m_Localized: START GAME
+  - m_Id: 195282608128
+    m_Localized: PISTOL
     m_Metadata:
       m_Items: []
-  - m_Id: 59144463720448
-    m_Localized: SFX
+  - m_Id: 279156105216
+    m_Localized: SMG
     m_Metadata:
       m_Items: []
-  - m_Id: 59143629053952
-    m_Localized: RESOLUTION
+  - m_Id: 311242530816
+    m_Localized: ASSAULT RIFLE
     m_Metadata:
       m_Items: []
-  - m_Id: 59145076088832
-    m_Localized: MASTER
+  - m_Id: 713853771776
+    m_Localized: SHOTGUN
     m_Metadata:
       m_Items: []
-  - m_Id: 59088603979776
-    m_Localized: LANGUAGE
+  - m_Id: 760016281600
+    m_Localized: SNIPER RIFLE
     m_Metadata:
       m_Items: []
-  - m_Id: 59141104082944
-    m_Localized: FULLSCREEN
+  - m_Id: 824105246720
+    m_Localized: ROCKET LAUNCHER
     m_Metadata:
       m_Items: []
-  - m_Id: 59939968000000
-    m_Localized: BGM
-    m_Metadata:
-      m_Items: []
-  - m_Id: 60262413508608
-    m_Localized: SETTING
+  - m_Id: 1667416203264
+    m_Localized: TESLA COIL
     m_Metadata:
       m_Items: []
   references:

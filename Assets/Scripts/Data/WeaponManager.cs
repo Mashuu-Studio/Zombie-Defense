@@ -12,7 +12,7 @@ public static class WeaponManager
         {
             new Weapon()
             {
-                name = "PISTOL",
+                key = "WEAPON.PISTOL",
                 price = 0,
 
                 dmg = 2,
@@ -25,7 +25,7 @@ public static class WeaponManager
             },
             new Weapon()
             {
-                name = "SMG",
+                key = "WEAPON.SMG",
                 price = 300,
 
                 dmg = 1,
@@ -38,7 +38,7 @@ public static class WeaponManager
             },
             new Weapon()
             {
-                name = "ASSAULT RIFLE",
+                key = "WEAPON.AR",
                 price = 1000,
 
                 dmg = 2,
@@ -51,7 +51,7 @@ public static class WeaponManager
             },
             new Weapon()
             {
-                name = "SHOTGUN",
+                key = "WEAPON.SHOTGUN",
                 price = 1000,
 
                 dmg = 3,
@@ -65,7 +65,7 @@ public static class WeaponManager
             },
             new Weapon()
             {
-                name = "SNIPER RIFLE",
+                key = "WEAPON.SR",
                 price = 1000,
 
                 dmg = 5,
@@ -80,7 +80,7 @@ public static class WeaponManager
             },
             new Weapon()
             {
-                name = "BAZUKA",
+                key = "WEAPON.LAUNCHER",
                 price = 1000,
 
                 dmg = 5,
@@ -96,7 +96,7 @@ public static class WeaponManager
             },
             new Weapon()
             {
-                name = "TESLA",
+                key = "WEAPON.TESLACOIL",
                 price = 1000,
 
                 dmg = 1,
@@ -112,11 +112,11 @@ public static class WeaponManager
         };
     }
 
-    public static Weapon GetWeapon(string name)
+    public static Weapon GetWeapon(string key)
     {
         foreach (Weapon weapon in weapons)
         {
-            if (name == weapon.name) return weapon;
+            if (key == weapon.key) return weapon;
         }
         return null;
     }

@@ -25,26 +25,26 @@ public class WeaponController : MonoBehaviour
     public void StartGame()
     {
         weapons = new List<Weapon>();
-        weapons.Add(WeaponManager.GetWeapon("PISTOL"));
+        weapons.Add(WeaponManager.GetWeapon("WEAPON.PISTOL"));
         curIndex = 0;
 
         weapons.ForEach(w => w.Reload());
         wait = false;
-        Player.Instance.SwitchWeapon(CurWeapon.name);
+        Player.Instance.SwitchWeapon(CurWeapon.key);
         UIController.Instance.SwitchWeapon();
     }
 
     public void GetWeapon(Weapon weapon)
     {
-        if (HasWeapon(weapon.name)) return;
+        if (HasWeapon(weapon.key)) return;
 
         weapon.Reload();
         weapons.Add(weapon);
     }
 
-    public bool HasWeapon(string name)
+    public bool HasWeapon(string key)
     {
-        return weapons.Find(weapon => weapon.name == name) != null;
+        return weapons.Find(weapon => weapon.key == key) != null;
     }
 
     IEnumerator adelayCoroutine;
@@ -128,7 +128,7 @@ public class WeaponController : MonoBehaviour
                 reloadCoroutine = null;
             }
             wait = false;
-            Player.Instance.SwitchWeapon(CurWeapon.name);
+            Player.Instance.SwitchWeapon(CurWeapon.key);
             UIController.Instance.SwitchWeapon();
         }
     }
@@ -160,7 +160,7 @@ public class WeaponController : MonoBehaviour
             }
             ((Bullet)PoolController.Pop("Bullet")).SetBullet(pos, newDir, CurWeapon, 50);
         }
-        SoundController.Instance.PlaySFX(Player.Instance.gameObject, CurWeapon.name);
+        SoundController.Instance.PlaySFX(Player.Instance.gameObject, CurWeapon.key);
         CurWeapon.curammo--;
         adelayCoroutine = AttackDelay();
         StartCoroutine(adelayCoroutine);

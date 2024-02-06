@@ -69,7 +69,7 @@ public class AttackTurretObject : TurretObject, IAttackObject
                 Vector3 newDir = Quaternion.Euler(0, 0, angle) * dir;
                 ((Bullet)PoolController.Pop("Bullet")).SetBullet(transform.position, newDir, weapon, 50);
             }
-            SoundController.Instance.PlaySFX(Player.Instance.gameObject, weapon.name);
+            SoundController.Instance.PlaySFX(Player.Instance.gameObject, weapon.key);
             weapon.curammo--;
 
             StartCoroutine(AttackTimer());
