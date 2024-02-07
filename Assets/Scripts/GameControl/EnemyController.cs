@@ -44,8 +44,6 @@ public class EnemyController : MonoBehaviour
 
                 // 후에는 몬스터 이름이 하나의 프리팹이 될 예정. 
                 // 현재는 테스트 용도로 프리팹을 분류해줌.
-
-
                 EnemyObject enemyObject = (EnemyObject)PoolController.Pop(GetEnemyPrefabName(enemy));
                 enemyObject.SetData(enemy);
                 AddEnemy(enemyObject, MapGenerator.Instance.GetEnemySpawnPos());

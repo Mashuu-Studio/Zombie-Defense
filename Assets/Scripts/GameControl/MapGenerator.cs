@@ -161,9 +161,11 @@ public class MapGenerator : MonoBehaviour
             Player.Instance.transform.position = spawnPoint;
         }
 
-        Pathfinding.GridGraph astarGrid = (Pathfinding.GridGraph)astar.graphs[0];
-        astarGrid.SetDimensions(width + 2, height + 2, 1);
-        astarGrid.center = new Vector3(-.5f, 0);
+        foreach (var grid in astar.graphs)
+        {
+            ((Pathfinding.GridGraph)grid).SetDimensions((width + 2) * 2, (height + 2) * 2, .5f);
+            ((Pathfinding.GridGraph)grid).center = new Vector3(-.5f, 0);
+        }
         updateCol = false;
     }
 

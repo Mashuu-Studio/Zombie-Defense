@@ -157,7 +157,6 @@ public class EnemyObject : BTPoolable,
 
     public bool DetectTarget()
     {
-        aiPath.canMove = false;
         // 가는 방향이 막혀있을 때 Failure를 띄워야 함. (예를 들어 벽이나 플레이어)
         // 그 외에 적끼리 붙어있을 때도 이동하는 방식도 고민할 필요가 있음.
         // 예를 들어 적끼리 붙어있고 앞의 적이 공격 중이라면 이동을 할 필요가 없음.
@@ -184,6 +183,7 @@ public class EnemyObject : BTPoolable,
         }
 
         if (targetCollider == null) isAttacking = false;
+        else aiPath.canMove = false;
 
         return targetCollider != null;
     }
