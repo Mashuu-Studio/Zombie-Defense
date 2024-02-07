@@ -15,7 +15,7 @@ public class BuffEnemyObject : EnemyObject, IBuffObject
 
     private List<IBuffTargetObject> buffTargets = new List<IBuffTargetObject>();
 
-    public override void SetData(Enemy data)
+    public override void SetData(Enemy data, int remainSep = 0)
     {
         base.SetData(data);
         buff = data.buff;

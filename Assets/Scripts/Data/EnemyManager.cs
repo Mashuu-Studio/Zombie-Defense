@@ -142,6 +142,21 @@ public static class EnemyManager
                 exp = 5,
                 money = 10,
             },
+            new Enemy()
+            {
+                name = "test_divide",
+
+                hp = 8,
+                speed = 2,
+                dmg = 1,
+                range = 3f,
+                adelay = 1,
+
+                separate = 3,
+
+                exp = 4,
+                money = 10,
+            },
         };
     }
 

@@ -18,6 +18,8 @@ public class EnemyObject : BTPoolable,
     [SerializeField] private Pathfinding.AIPath aiPath;
     [SerializeField] private Pathfinding.AIDestinationSetter aIDestinationSetter;
 
+    Enemy data;
+
     private int hp;
     private int maxhp;
     private Collider2D targetCollider;
@@ -34,6 +36,8 @@ public class EnemyObject : BTPoolable,
     private bool flight;
     private bool invisible;
     private bool visible;
+
+    private int remainSep;
 
     private void Start()
     {
@@ -52,11 +56,15 @@ public class EnemyObject : BTPoolable,
         visible = b;
     }
 
-    public virtual void SetData(Enemy data)
+    public virtual void SetData(Enemy data, int remainSep = -1)
     {
-        visible = !invisible;
+        this.data = data;
 
-        maxhp = hp = data.hp;
+        visible = !invisible;
+        // remainSep를 이전하는 경우와 아닌 경우로 구분.
+        this.remainSep = (remainSep != -1) ? remainSep : data.separate;
+        // 분리된 수만큼 체력을 divide
+        maxhp = hp = (int)(data.hp / Mathf.Pow(2, data.separate - this.remainSep));
         hpBar.SetHpBar(maxhp, new Vector2(spriteRenderer.sprite.rect.width / spriteRenderer.sprite.pixelsPerUnit, spriteRenderer.sprite.rect.height / spriteRenderer.sprite.pixelsPerUnit));
 
         aiPath.maxSpeed = speed = data.speed;
@@ -124,11 +132,24 @@ public class EnemyObject : BTPoolable,
         StartCoroutine(ChangeColor());
         if (hp <= 0)
         {
-            int rand = Random.Range(0, 2);
-            if (rand == 0) Item.Drop(transform.position);
+            if (remainSep > 0)
+            {
+                remainSep--;
+                SetData(data, remainSep);
+                string prefabName = EnemyController.GetEnemyPrefabName(data);
 
-            Player.Instance.GetReward(exp, money);
-            Dead();
+                EnemyObject sepObject = (EnemyObject)PoolController.Pop(prefabName);
+                sepObject.SetData(data, remainSep);
+                EnemyController.Instance.AddEnemy(sepObject, transform.position);
+            }
+            else
+            {
+                int rand = Random.Range(0, 2);
+                if (rand == 0) Item.Drop(transform.position);
+
+                Player.Instance.GetReward(exp, money);
+                Dead();
+            }
         }
     }
 
@@ -183,7 +204,11 @@ public class EnemyObject : BTPoolable,
         }
 
         if (targetCollider == null) isAttacking = false;
-        else aiPath.canMove = false;
+        else
+        {
+            LookAt(targetCollider.transform.position);
+            aiPath.canMove = false;
+        }
 
         return targetCollider != null;
     }
@@ -197,6 +222,13 @@ public class EnemyObject : BTPoolable,
             damagedObject.Damaged(Dmg);
             StartCoroutine(AttackTimer());
         }
+    }
+
+    private void LookAt(Vector3 target)
+    {
+        Vector2 dir = target - transform.position;
+        float degree = Mathf.Rad2Deg * Mathf.Atan2(dir.y, dir.x);
+        transform.rotation = Quaternion.Euler(0, 0, degree - 90);
     }
 
     public IEnumerator AttackTimer()

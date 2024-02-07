@@ -20,6 +20,8 @@ public class Enemy
     public float summonCD;
     public int summonAmount;
 
+    public int separate;
+
     public int exp;
     public int money;
 }

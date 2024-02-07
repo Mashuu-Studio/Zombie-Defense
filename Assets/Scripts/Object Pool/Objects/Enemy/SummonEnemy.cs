@@ -24,7 +24,7 @@ public class SummonEnemy : EnemyObject, ISummonObject
             else index++;
         }
     }
-    public override void SetData(Enemy data)
+    public override void SetData(Enemy data, int remainSep = 0)
     {
         base.SetData(data);
         summonedUnits = new List<GameObject>();
