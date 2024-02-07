@@ -81,9 +81,12 @@ public class TurretController : MonoBehaviour
 
     public void AddTurret(Vector2 pos, string name)
     {
+        Vector2Int mapPos = MapGenerator.ConvertToMapPos(MapGenerator.RoundToInt(pos));
+
         Turret data = TurretManager.GetTurret(name);
         if (data == null) return;
         if (turrets.ContainsKey(pos)) return;
+        if (MapGenerator.Instance.Map[mapPos.x, mapPos.y] == MapGenerator.WALL) return;
 
         Poolable obj = PoolController.Pop(name);
         TurretObject turret = obj.GetComponent<TurretObject>();
