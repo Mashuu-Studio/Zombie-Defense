@@ -129,7 +129,7 @@ public class EnemyObject : BTPoolable,
 
         hp -= dmg;
         hpBar.UpdateHpBar(hp);
-        StartCoroutine(ChangeColor());
+        if (gameObject.activeSelf) StartCoroutine(ChangeColor());
         if (hp <= 0)
         {
             if (remainSep > 0)

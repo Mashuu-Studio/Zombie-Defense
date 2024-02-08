@@ -52,8 +52,13 @@ public class Bullet : Poolable
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            collision.transform.parent.GetComponent<EnemyObject>().Damaged(weapon.dmg);
-            if (weapon.pierce == false && weapon.point == 0) PoolController.Push("Bullet", this);
+            var enemy = collision.transform.parent.GetComponent<EnemyObject>();
+
+            ActionController.AddAction(gameObject, () =>
+                {
+                    enemy.Damaged(weapon.dmg);
+                    if (weapon.pierce == false && weapon.point == 0) PoolController.Push("Bullet", this);
+                });
         }
     }
 }
