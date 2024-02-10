@@ -34,7 +34,6 @@ public class TurretController : MonoBehaviour
 
     [SerializeField] private Transform turretPointer;
 
-    private Dictionary<string, int> turretAmounts = new Dictionary<string, int>();
     private Dictionary<Vector2, TurretObject> turrets = new Dictionary<Vector2, TurretObject>();
 
     public void StartGame()
@@ -44,12 +43,6 @@ public class TurretController : MonoBehaviour
             turret.DestroyTurret();
         }
         turrets.Clear();
-
-        turretAmounts.Clear();
-        foreach (var turret in TurretManager.Turrets)
-        {
-            turretAmounts.Add(turret.key, 0);
-        }
     }
 
     void Update()
@@ -80,17 +73,22 @@ public class TurretController : MonoBehaviour
                 var turret = (AttackTurretObject)turrets[turretPointer.position];
                 if (turret)
                 {
-                    turret.Mount(WeaponController.Instance.CurWeapon);
+                    turret.Mount(WeaponController.Instance.CurWeapon, true);
                 }
             }
         }
-    }
 
-    public void AddTurret(string key)
-    {
-        if (turretAmounts.ContainsKey(key) == false) return;
-        turretAmounts[key]++;
-        UIController.Instance.UpdateTurretAmount(key, turretAmounts[key]);
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (turrets.ContainsKey(turretPointer.position))
+            {
+                var turret = (AttackTurretObject)turrets[turretPointer.position];
+                if (turret)
+                {
+                    turret.Mount(WeaponController.Instance.CurWeapon, false);
+                }
+            }
+        }
     }
 
     public void BuildTurret(Vector2 pos, string name)
@@ -99,7 +97,7 @@ public class TurretController : MonoBehaviour
 
         Turret data = TurretManager.GetTurret(name);
         if (data == null
-            || turretAmounts.ContainsKey(data.key) == false || turretAmounts[data.key] <= 0
+            || Player.Instance.ItemAmount(data.key) <= 0
             || turrets.ContainsKey(pos)) return;
         if (MapGenerator.Instance.Map[mapPos.x, mapPos.y] == MapGenerator.WALL) return;
 
@@ -110,8 +108,7 @@ public class TurretController : MonoBehaviour
             PoolController.Push(name, obj);
             return;
         }
-        turretAmounts[data.key]--;
-        UIController.Instance.UpdateTurretAmount(data.key, turretAmounts[data.key]);
+        Player.Instance.AdjustItemAmount(data.key, -1);
 
         turret.SetData(data, pos);
         turret.gameObject.name = name;

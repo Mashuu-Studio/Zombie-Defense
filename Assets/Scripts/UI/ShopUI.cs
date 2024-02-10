@@ -21,16 +21,12 @@ public class ShopUI : MonoBehaviour
 
         foreach (var weapon in WeaponManager.Weapons)
         {
-            if (WeaponController.Instance.HasWeapon(weapon.key) == false)
-            {
-                var item = Instantiate(itemPrefab, weaponScrollRectTransform);
-                item.Init(weapon);
-                item.gameObject.SetActive(true);
-                items.Add(item);
-            }
+            var item = Instantiate(itemPrefab, weaponScrollRectTransform);
+            item.Init(weapon);
+            item.gameObject.SetActive(true);
+            items.Add(item);
         }
         weaponScrollRectTransform.sizeDelta = new Vector2(weaponScrollRectTransform.sizeDelta.x, 150 * items.Count);
-
 
         foreach (var turret in TurretManager.Turrets)
         {
@@ -52,15 +48,20 @@ public class ShopUI : MonoBehaviour
         Weapon weapon = shopItem.Item as Weapon;
         if (weapon != null)
         {
-            items.Remove(shopItem);
-            shopItem.gameObject.SetActive(false);
-            WeaponController.Instance.GetWeapon(weapon);
+            // 무기가 없다면 새롭게 획득
+            if (!WeaponController.Instance.HasWeapon(weapon.key))
+            {
+                WeaponController.Instance.GetWeapon(weapon);
+                UIController.Instance.GetItem(weapon.key);
+            }
+            // 무기가 있다면 소지품에 추가
+            else Player.Instance.AdjustItemAmount(weapon.key, 1);
         }
 
         Turret turret = shopItem.Item as Turret;
         if (turret != null)
         {
-            TurretController.Instance.AddTurret(turret.key);
+            Player.Instance.AdjustItemAmount(turret.key, 1);
         }
     }
 }

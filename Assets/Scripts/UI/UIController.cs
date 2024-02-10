@@ -25,7 +25,7 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         setting.Init();
-        InitTurretInfo();
+        InitItemInfo();
         OpenSetting(false);
         OpenShop(false);
         levelUpView.gameObject.SetActive(false);
@@ -52,6 +52,10 @@ public class UIController : MonoBehaviour
     public void StartGame()
     {
         shop.Init();
+        foreach (var weapon in WeaponManager.Weapons)
+        {
+            itemInfos[weapon.key].gameObject.SetActive(WeaponController.Instance.HasWeapon(weapon.key));
+        }
     }
 
     public void OpenShop(bool b)
@@ -84,10 +88,11 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject reloadingObj;
     [SerializeField] private TextMeshProUGUI moneyText;
 
-    [Header("Turret")]
+    [Header("Item")]
+    [SerializeField] private Transform weaponInfoParent;
     [SerializeField] private Transform turretInfoParent;
-    [SerializeField] private TurretInfoUI turretInfoPrefab;
-    private Dictionary<string, TurretInfoUI> turretInfos;
+    [SerializeField] private ItemInfoUI itemInfoPrefab;
+    private Dictionary<string, ItemInfoUI> itemInfos;
 
     void Update()
     {
@@ -115,23 +120,38 @@ public class UIController : MonoBehaviour
         reloadingObj.SetActive(b);
     }
 
-    private void InitTurretInfo()
+    private void InitItemInfo()
     {
-        turretInfoPrefab.gameObject.SetActive(false);
-        turretInfos = new Dictionary<string, TurretInfoUI>();
+        itemInfoPrefab.gameObject.SetActive(false);
+
+        itemInfos = new Dictionary<string, ItemInfoUI>();
+        foreach (var weapon in WeaponManager.Weapons)
+        {
+            var weaponInfoUI = Instantiate(itemInfoPrefab, weaponInfoParent);
+            weaponInfoUI.SetInfo(SpriteManager.GetSprite(weapon.key));
+            itemInfos.Add(weapon.key, weaponInfoUI);
+            weaponInfoUI.gameObject.SetActive(false);
+        }
+
         foreach (var turret in TurretManager.Turrets)
         {
-            var turretInfoUI = Instantiate(turretInfoPrefab, turretInfoParent);
+            var turretInfoUI = Instantiate(itemInfoPrefab, turretInfoParent);
             turretInfoUI.SetInfo(SpriteManager.GetSprite(turret.key));
-            turretInfos.Add(turret.key, turretInfoUI);
+            itemInfos.Add(turret.key, turretInfoUI);
             turretInfoUI.gameObject.SetActive(true);
         }
     }
 
-    public void UpdateTurretAmount(string turretName, int amount)
+    public void GetItem(string key)
     {
-        if (turretInfos.ContainsKey(turretName))
-            turretInfos[turretName].UpdateInfo(amount);
+        if (itemInfos.ContainsKey(key))
+            itemInfos[key].gameObject.SetActive(true);
+    }
+
+    public void UpdateItemAmount(string key, int amount)
+    {
+        if (itemInfos.ContainsKey(key))
+            itemInfos[key].UpdateInfo(amount);
     }
     #endregion
 

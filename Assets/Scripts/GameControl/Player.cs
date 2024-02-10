@@ -55,6 +55,8 @@ public class Player : MonoBehaviour, IDamagedObject
     [SerializeField] private BoxCollider2D autoTargetCollider;
     [SerializeField] private SpriteRenderer gunSpriteRenderer;
 
+    private Dictionary<string, int> itemAmount = new Dictionary<string, int>();
+    
     #region Init & Update
 
     public void Init()
@@ -70,6 +72,17 @@ public class Player : MonoBehaviour, IDamagedObject
         reload = 0;
         reward = 0;
         money = 0;
+
+        itemAmount.Clear();
+        foreach (var weapon in WeaponManager.Weapons)
+        {
+            itemAmount.Add(weapon.key, 0);
+        }
+
+        foreach (var turret in TurretManager.Turrets)
+        {
+            itemAmount.Add(turret.key, 0);
+        }
     }
 
     float axisX;
@@ -106,6 +119,21 @@ public class Player : MonoBehaviour, IDamagedObject
         transform.rotation = Quaternion.Euler(0, 0, degree);
     }
     #endregion
+
+    public void AdjustItemAmount(string key, int amount)
+    {
+        if (itemAmount.ContainsKey(key))
+        {
+            itemAmount[key] += amount;
+            UIController.Instance.UpdateItemAmount(key, itemAmount[key]);
+        }        
+    }
+
+    public int ItemAmount(string key)
+    {
+        if (itemAmount.ContainsKey(key)) return itemAmount[key];
+        return 0;
+    }
 
     #region Reward
     public void GetReward(int xp, int m)
@@ -156,8 +184,6 @@ public class Player : MonoBehaviour, IDamagedObject
 
     public void Buff(Item.BuffType type, int value = 0)
     {
-        Debug.Log($"GET BUFF {type}");
-
         if (type == Item.BuffType.HP) hp = maxhp;
         else if (type == Item.BuffType.MONEY) money += value;
         else StartCoroutine(ActiveBuff(type));

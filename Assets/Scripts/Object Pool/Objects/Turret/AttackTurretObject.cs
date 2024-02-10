@@ -34,13 +34,34 @@ public class AttackTurretObject : TurretObject, IAttackObject
         mountedWeapon.SetEntry("WEAPON.NONE");
     }
 
-    public void Mount(Weapon w)
+    public void Mount(Weapon w, bool b)
     {
-        weapon = new Weapon(w);
-        dmg = weapon.dmg;
-        range = weapon.range;
-        aDelay = weapon.adelay;
-        mountedWeapon.SetEntry(w.key);
+        // 마운트 하는 경우
+        if (b)
+        {
+            if (Player.Instance.ItemAmount(w.key) <= 0) return;
+
+            // 터렛에 들어있는 무기와 마운트하려는 무기가 다를 경우
+            if (weapon != null && weapon.key != w.key)
+            {
+                // 기존에 있던 무기는 소지품으로
+                Player.Instance.AdjustItemAmount(weapon.key, 1);
+            }
+            weapon = new Weapon(w);
+            dmg = weapon.dmg;
+            range = weapon.range;
+            aDelay = weapon.adelay;
+            mountedWeapon.SetEntry(w.key);
+            Player.Instance.AdjustItemAmount(w.key, -1);
+        }
+        // 언마운트 하는 경우
+        else
+        {
+            // 기존에 있던 무기는 소지품으로
+            Player.Instance.AdjustItemAmount(weapon.key, 1);
+            weapon = null;
+            mountedWeapon.SetEntry("WEAPON.NONE");
+        }
     }
 
     Collider2D[] targets;
@@ -118,6 +139,9 @@ public class AttackTurretObject : TurretObject, IAttackObject
     {
         base.DestroyTurret();
         StopAllCoroutines();
+
+        // 무기가 있었다면 언마운트
+        if (weapon != null) Mount(weapon, false);
         weapon = null;
         WaitAttack = false;
         reloading = false;
