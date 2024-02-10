@@ -51,7 +51,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 304389734539264
-    m_Localized: SHOP
+    m_Localized: WEAPONS
     m_Metadata:
       m_Items: []
   - m_Id: 311279940018176
@@ -64,6 +64,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 312037217411072
     m_Localized: START ROUND
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1633941140283392
+    m_Localized: TURRETS
     m_Metadata:
       m_Items: []
   references:

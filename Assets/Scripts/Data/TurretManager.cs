@@ -12,12 +12,12 @@ public static class TurretManager
         {
             new Turret()
             {
-                name = "Barricade",
+                key = "TURRET.BARRICADE",
                 hp = 10,
             },
             new Turret()
             {
-                name = "Turret",
+                key = "TURRET.TURRET",
                 hp = 3,
                 dmg = 1,
                 range = 5,
@@ -26,18 +26,18 @@ public static class TurretManager
             },
             new Turret()
             {
-                name = "Scan Tower",
+                key = "TURRET.SCANTOWER",
                 hp = 10,
                 range = 5,
             }
         };
     }
 
-    public static Turret GetTurret(string name)
+    public static Turret GetTurret(string key)
     {
         foreach (Turret turret in turrets)
         {
-            if (name == turret.name) return turret;
+            if (key == turret.key) return turret;
         }
         return null;
     }

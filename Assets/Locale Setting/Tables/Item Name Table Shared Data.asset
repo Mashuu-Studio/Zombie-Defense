@@ -43,6 +43,18 @@ MonoBehaviour:
     m_Key: WEAPON.TESLACOIL
     m_Metadata:
       m_Items: []
+  - m_Id: 1332005581103104
+    m_Key: TURRET.BARRICADE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1332066364956672
+    m_Key: TURRET.TURRET
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1332067925237760
+    m_Key: TURRET.SCANTOWER
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -46,6 +46,18 @@ MonoBehaviour:
     m_Localized: TESLA COIL
     m_Metadata:
       m_Items: []
+  - m_Id: 1332005581103104
+    m_Localized: BARRICADE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1332066364956672
+    m_Localized: TURRET
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1332067925237760
+    m_Localized: SCAN TOWER
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

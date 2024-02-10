@@ -12,12 +12,13 @@ public class ShopItem : MonoBehaviour
     [SerializeField] private LocalizeStringEvent localizeStringEvent;
     [SerializeField] private TextMeshProUGUI itemPrice;
 
-    public Weapon Item { get; private set; }
-    public void Init(Weapon weapon)
+    public BuyableData Item { get; private set; }
+    public void Init(BuyableData data)
     {
-        localizeStringEvent.StringReference.TableEntryReference = weapon.key;    
-        itemPrice.text = $"${weapon.price}";
-        Item = weapon;
+        localizeStringEvent.StringReference.TableEntryReference = data.key;
+        itemImage.sprite = SpriteManager.GetSprite(data.key);
+        itemPrice.text = $"${data.price}";
+        Item = data;
     }
 
     public void BuyItem()

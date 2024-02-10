@@ -12,7 +12,7 @@ public static class EnemyManager
         {
             new Enemy()
             {
-                name = "test1",
+                key = "test1",
 
                 hp = 3,
                 speed = 5,
@@ -25,7 +25,7 @@ public static class EnemyManager
             },
             new Enemy()
             {
-                name = "test2",
+                key = "test2",
 
                 hp = 5,
                 speed = 2,
@@ -38,7 +38,7 @@ public static class EnemyManager
             },
             new Enemy()
             {
-                name = "test3",
+                key = "test3",
 
                 hp = 1,
                 speed = 5,
@@ -51,7 +51,7 @@ public static class EnemyManager
             },
             new Enemy()
             {
-                name = "test_buff1",
+                key = "test_buff1",
 
                 hp = 5,
                 speed = 4,
@@ -66,7 +66,7 @@ public static class EnemyManager
             },
             new Enemy()
             {
-                name = "test_buff2",
+                key = "test_buff2",
 
                 hp = 5,
                 speed = 4,
@@ -81,7 +81,7 @@ public static class EnemyManager
             },
             new Enemy()
             {
-                name = "test_inv",
+                key = "test_inv",
 
                 inv = true,
 
@@ -96,7 +96,7 @@ public static class EnemyManager
             },
             new Enemy()
             {
-                name = "test_flight",
+                key = "test_flight",
 
                 fly = true,
 
@@ -111,7 +111,7 @@ public static class EnemyManager
             },
             new Enemy()
             {
-                name = "test_invflight",
+                key = "test_invflight",
 
                 inv = true,
                 fly = true,
@@ -127,7 +127,7 @@ public static class EnemyManager
             },
             new Enemy()
             {
-                name = "test_summon",
+                key = "test_summon",
 
                 hp = 3,
                 speed = 2,
@@ -144,7 +144,7 @@ public static class EnemyManager
             },
             new Enemy()
             {
-                name = "test_divide",
+                key = "test_divide",
 
                 hp = 8,
                 speed = 2,
@@ -160,11 +160,11 @@ public static class EnemyManager
         };
     }
 
-    public static Enemy GetEnemy(string name)
+    public static Enemy GetEnemy(string key)
     {
         foreach (var enemy in enemies)
         {
-            if (name == enemy.name) return enemy;
+            if (key == enemy.key) return enemy;
         }
         return null;
     }

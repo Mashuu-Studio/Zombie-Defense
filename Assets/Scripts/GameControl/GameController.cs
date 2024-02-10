@@ -68,6 +68,7 @@ public class GameController : MonoBehaviour
                 RoundController.Instance.EndGame();
                 WeaponController.Instance.StartGame();
                 TurretController.Instance.StartGame();
+                UIController.Instance.StartGame();
 
                 Player.Instance.Init();
                 CameraController.Instance.SetCamera(Camera.main);

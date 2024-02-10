@@ -25,6 +25,7 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         setting.Init();
+        InitTurretInfo();
         OpenSetting(false);
         OpenShop(false);
         levelUpView.gameObject.SetActive(false);
@@ -36,7 +37,7 @@ public class UIController : MonoBehaviour
 
     public void ChangeScene(int index)
     {
-        for(int i = 0; i < scenes.Length; i++)
+        for (int i = 0; i < scenes.Length; i++)
         {
             scenes[i].SetActive(i == index);
         }
@@ -47,6 +48,11 @@ public class UIController : MonoBehaviour
     [Header("Game")]
     [SerializeField] private SettingUI setting;
     [SerializeField] private ShopUI shop;
+
+    public void StartGame()
+    {
+        shop.Init();
+    }
 
     public void OpenShop(bool b)
     {
@@ -78,6 +84,11 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject reloadingObj;
     [SerializeField] private TextMeshProUGUI moneyText;
 
+    [Header("Turret")]
+    [SerializeField] private Transform turretInfoParent;
+    [SerializeField] private TurretInfoUI turretInfoPrefab;
+    private Dictionary<string, TurretInfoUI> turretInfos;
+
     void Update()
     {
         if (GameController.Instance.GameStarted == false) return;
@@ -102,6 +113,25 @@ public class UIController : MonoBehaviour
     public void Reloading(bool b)
     {
         reloadingObj.SetActive(b);
+    }
+
+    private void InitTurretInfo()
+    {
+        turretInfoPrefab.gameObject.SetActive(false);
+        turretInfos = new Dictionary<string, TurretInfoUI>();
+        foreach (var turret in TurretManager.Turrets)
+        {
+            var turretInfoUI = Instantiate(turretInfoPrefab, turretInfoParent);
+            turretInfoUI.SetInfo(SpriteManager.GetSprite(turret.key));
+            turretInfos.Add(turret.key, turretInfoUI);
+            turretInfoUI.gameObject.SetActive(true);
+        }
+    }
+
+    public void UpdateTurretAmount(string turretName, int amount)
+    {
+        if (turretInfos.ContainsKey(turretName))
+            turretInfos[turretName].UpdateInfo(amount);
     }
     #endregion
 

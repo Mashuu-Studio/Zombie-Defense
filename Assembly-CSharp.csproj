@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\ScanTurretObject.cs" />
     <Compile Include="Assets\Scripts\Data\RoundManager.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\TurretObject.cs" />
+    <Compile Include="Assets\Scripts\UI\TurretInfoUI.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\AttackTurretObject.cs" />
     <Compile Include="Assets\Scripts\GameControl\LocaleSelector.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\ObjectInterface.cs" />
@@ -80,8 +81,8 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTNode.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Bullet.cs" />
     <Compile Include="Assets\Scripts\UI\RoundStartButton.cs" />
+    <Compile Include="Assets\Scripts\Data\ObjectData.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\DebugLogNode.cs" />
-    <Compile Include="Assets\Scripts\Data\Weapon.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTActionNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\Context.cs" />
     <Compile Include="Assets\Scripts\UI\GameStartButton.cs" />
@@ -111,14 +112,12 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\DelayNode.cs" />
     <Compile Include="Assets\Scripts\Data\SpriteManager.cs" />
     <Compile Include="Assets\Scripts\Sound\SfxSource.cs" />
-    <Compile Include="Assets\Scripts\Data\Turret.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTRepeatNode.cs" />
     <Compile Include="Assets\Scripts\GameControl\RoundController.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\BuffEnemyObject.cs" />
     <Compile Include="Assets\Scripts\UI\SettingUI.cs" />
     <Compile Include="Assets\Scripts\UI\UIController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\MoveNode.cs" />
-    <Compile Include="Assets\Scripts\Data\Enemy.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTRootNode.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Pool.cs" />
     <Compile Include="Assets\Scripts\UI\ShopUI.cs" />
