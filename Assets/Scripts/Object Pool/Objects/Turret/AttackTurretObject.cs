@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization.Components;
 
 [AddComponentMenu("Poolable/Attacking Turret (Poolable)")]
 public class AttackTurretObject : TurretObject, IAttackObject
 {
+    [SerializeField] private LocalizeStringEvent mountedWeapon;
     private Collider2D targetCollider;
     private int dmg;
     private float range;
@@ -29,6 +31,7 @@ public class AttackTurretObject : TurretObject, IAttackObject
         aDelay = data.adelay;
         speed = data.speed;
         weapon = null;
+        mountedWeapon.SetEntry("WEAPON.NONE");
     }
 
     public void Mount(Weapon w)
@@ -37,6 +40,7 @@ public class AttackTurretObject : TurretObject, IAttackObject
         dmg = weapon.dmg;
         range = weapon.range;
         aDelay = weapon.adelay;
+        mountedWeapon.SetEntry(w.key);
     }
 
     Collider2D[] targets;

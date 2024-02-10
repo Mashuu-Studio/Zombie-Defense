@@ -106,7 +106,7 @@ public class UIController : MonoBehaviour
     {
         ammoSlider.maxValue = WeaponController.Instance.CurWeapon.ammo;
         ammoSlider.value = WeaponController.Instance.CurWeapon.curammo;
-        weaponLocalizeString.StringReference.TableEntryReference = WeaponController.Instance.CurWeapon.key;
+        weaponLocalizeString.SetEntry(WeaponController.Instance.CurWeapon.key);
         Reloading(false);
     }
 

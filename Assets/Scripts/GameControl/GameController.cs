@@ -44,6 +44,7 @@ public class GameController : MonoBehaviour
     {
         levelUpPause = b;
     }
+
     public void GoTo(SceneController.Scene scene)
     {
         SceneController.ChangeScene(scene);
@@ -75,6 +76,7 @@ public class GameController : MonoBehaviour
                 break;
         }
     }
+
     public void StartRound()
     {
         RoundController.Instance.StartRound();

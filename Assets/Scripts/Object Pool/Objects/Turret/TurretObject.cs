@@ -18,7 +18,7 @@ public class TurretObject : BTPoolable, IDamagedObject
     public virtual void SetData(Turret data, Vector2 pos)
     {
         hp = data.hp;
-        hpBar.SetHpBar(hp, new Vector2(spriteRenderer.sprite.rect.width / spriteRenderer.sprite.pixelsPerUnit, spriteRenderer.sprite.rect.height / spriteRenderer.sprite.pixelsPerUnit));
+        hpBar.SetHpBar(hp, new Vector2(0.75f, 0.1f), 0.6f);
 
         this.pos = pos;
     }

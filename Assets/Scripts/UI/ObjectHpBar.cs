@@ -23,10 +23,10 @@ public class ObjectHpBar : MonoBehaviour
         hpBar.value = hp;
     }
 
-    public void SetHpBar(int hp, Vector2 size)
+    public void SetHpBar(int hp, Vector2 size, float pos)
     {
         hpBar.value = hpBar.maxValue = hp;
-        ((RectTransform)hpBar.transform).sizeDelta = new Vector2(size.x * 3 / 2, 0.25f);
-        ((RectTransform)hpBar.transform).anchoredPosition = new Vector2(0, size.y * 3 / 4);
+        ((RectTransform)hpBar.transform).sizeDelta = size;
+        ((RectTransform)hpBar.transform).anchoredPosition = new Vector2(0, pos);
     }
 }

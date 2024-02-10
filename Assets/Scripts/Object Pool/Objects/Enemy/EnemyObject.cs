@@ -65,7 +65,8 @@ public class EnemyObject : BTPoolable,
         this.remainSep = (remainSep != -1) ? remainSep : data.separate;
         // 분리된 수만큼 체력을 divide
         maxhp = hp = (int)(data.hp / Mathf.Pow(2, data.separate - this.remainSep));
-        hpBar.SetHpBar(maxhp, new Vector2(spriteRenderer.sprite.rect.width / spriteRenderer.sprite.pixelsPerUnit, spriteRenderer.sprite.rect.height / spriteRenderer.sprite.pixelsPerUnit));
+        Vector2 spriteSize = new Vector2(spriteRenderer.sprite.rect.width, spriteRenderer.sprite.rect.height) / spriteRenderer.sprite.pixelsPerUnit;
+        hpBar.SetHpBar(maxhp, new Vector2(spriteSize.x * 3 / 2, 0.25f), spriteSize.y * 3 / 4);
 
         aiPath.maxSpeed = speed = data.speed;
         dmg = data.dmg;

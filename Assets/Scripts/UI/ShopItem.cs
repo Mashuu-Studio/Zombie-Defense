@@ -15,7 +15,7 @@ public class ShopItem : MonoBehaviour
     public BuyableData Item { get; private set; }
     public void Init(BuyableData data)
     {
-        localizeStringEvent.StringReference.TableEntryReference = data.key;
+        localizeStringEvent.SetEntry(data.key);
         itemImage.sprite = SpriteManager.GetSprite(data.key);
         itemPrice.text = $"${data.price}";
         Item = data;

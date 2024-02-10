@@ -50,7 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7372834378904203343, guid: 9aad55fc98932104bbb389f686755b54, type: 3}
       propertyPath: m_Name
-      value: Basic Turret Variant
+      value: TURRET.BARRICADE
+      objectReference: {fileID: 0}
+    - target: {fileID: 7372834378904203343, guid: 9aad55fc98932104bbb389f686755b54, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -55,6 +55,10 @@ MonoBehaviour:
     m_Key: TURRET.SCANTOWER
     m_Metadata:
       m_Items: []
+  - m_Id: 1451127455358976
+    m_Key: WEAPON.NONE
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
