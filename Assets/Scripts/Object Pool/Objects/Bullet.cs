@@ -13,11 +13,11 @@ public class Bullet : Poolable
     private Vector2 destination;
     private Vector2 direction;
 
-    private float range;
+    private float distance;
     private float remainTime;
-    private int speed;
+    private float speed;
 
-    private float splash;
+    private float radius;
 
     private bool stop;
     private bool point;
@@ -28,7 +28,7 @@ public class Bullet : Poolable
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void SetBullet(Vector2 start, Vector2 dest, Vector2 dir, Weapon w, int spd)
+    public void SetBullet(Vector2 start, Vector2 dest, Vector2 dir, Weapon w, float spd)
     {
         stop = false;
 
@@ -38,15 +38,15 @@ public class Bullet : Poolable
 
         weapon = w;
         dmgDelay = w.dmgdelay;
-        range = weapon.range;
+        distance = weapon.range;
         speed = spd;
 
-        splash = w.splash;
+        radius = w.radius;
 
         point = w.point;
         if (remainTime == 0) remainTime = Time.fixedDeltaTime * 2;
 
-        transform.localScale = Vector3.one;
+        transform.localScale = Vector3.one * w.bulletSize;
     }
 
     private void FixedUpdate()
@@ -60,7 +60,7 @@ public class Bullet : Poolable
         else if (!stop)
         {
             rigidbody.MovePosition(rigidbody.position + direction * Time.fixedDeltaTime * speed);
-            range -= Time.fixedDeltaTime * speed;
+            distance -= Time.fixedDeltaTime * speed;
         }
 
         // 포인트 공격의 경우에는 특정 위치에 도착했을 경우만 폭발해야함.
@@ -80,7 +80,7 @@ public class Bullet : Poolable
         }
         // 그 외의 경우에는 특정 상황이 되면 사라짐.
         else if (MapGenerator.Instance.mapBoundary.Contains(rigidbody.position) == false
-                || range < 0 || remainTime <= 0)
+                || distance < 0 || remainTime <= 0)
         {
             PoolController.Push("Bullet", this);
         }
@@ -110,9 +110,9 @@ public class Bullet : Poolable
         }
 
         // 폭발 범위를 보기 위한 용도
-        transform.localScale = Vector3.one * splash;
+        transform.localScale = Vector3.one * radius * 2;
 
-        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, splash / 2, 1 << LayerMask.NameToLayer("Enemy"));
+        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, radius, 1 << LayerMask.NameToLayer("Enemy"));
         foreach (var col in cols) Damage(col);
 
         yield return null;

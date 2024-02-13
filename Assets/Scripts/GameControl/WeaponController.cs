@@ -86,9 +86,12 @@ public class WeaponController : MonoBehaviour
 
     public void Granade(Vector2 start, Vector2 dest)
     {
-        if (Player.Instance.ItemAmount("WEAPON.GRANADE") <= 0) return; 
+        if (Player.Instance.ItemAmount("WEAPON.GRANADE") <= 0) return;
+
+        Weapon granade = WeaponManager.GetWeapon("WEAPON.GRANADE");
+
         Vector2 dir = (dest - start).normalized;
-        ((Bullet)PoolController.Pop("Bullet")).SetBullet(start, dest, dir, WeaponManager.GetWeapon("WEAPON.GRANADE"), 5);
+        ((Bullet)PoolController.Pop("Bullet")).SetBullet(start, dest, dir, granade, granade.bulletSpeed);
         Player.Instance.AdjustItemAmount("WEAPON.GRANADE", -1);
     }
 
@@ -167,7 +170,7 @@ public class WeaponController : MonoBehaviour
                 // 적의 수가 타겟팅 수보다 적다면 스킵
                 else break;
             }
-            ((Bullet)PoolController.Pop("Bullet")).SetBullet(pos, dest, newDir, CurWeapon, 50);
+            ((Bullet)PoolController.Pop("Bullet")).SetBullet(pos, dest, newDir, CurWeapon, CurWeapon.bulletSpeed);
         }
         SoundController.Instance.PlaySFX(Player.Instance.gameObject, CurWeapon.key);
         CurWeapon.curammo--;

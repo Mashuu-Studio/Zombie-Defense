@@ -63,6 +63,14 @@ MonoBehaviour:
     m_Key: WEAPON.GRANADE
     m_Metadata:
       m_Items: []
+  - m_Id: 2654267060002816
+    m_Key: WEAPON.FLAMETHROWER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2659953537982464
+    m_Key: WEAPON.MINIGUN
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

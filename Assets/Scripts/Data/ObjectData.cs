@@ -20,16 +20,18 @@ public class Weapon : BuyableData
     public float range;
     public int bulletspreadangle;
 
+    public float bulletSize = 1;
+    public float bulletSpeed = 20;
+    public int bullets = 1;
+    public float radius = 0;
+
     public int ammo;
     public int curammo;
     public float reload;
 
-    public int bullets = 1;
     public bool pierce = false;
     public bool point = false;
-    public float splash = 0;
     public bool autotarget = false;
-
     public bool consumable = false;
 
     public Weapon() { }
@@ -48,12 +50,14 @@ public class Weapon : BuyableData
         ammo = curammo = w.ammo;
         reload = w.reload;
 
+        bulletSize = w.bulletSize;
+        bulletSpeed = w.bulletSpeed;
         bullets = w.bullets;
+        radius = w.radius;
+
         pierce = w.pierce;
         point = w.point;
-        splash = w.splash;
         autotarget = w.autotarget;
-
         consumable = w.consumable;
     }
 

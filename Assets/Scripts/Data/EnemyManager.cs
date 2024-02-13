@@ -14,7 +14,7 @@ public static class EnemyManager
             {
                 key = "test1",
 
-                hp = 3,
+                hp = 15,
                 speed = 5,
                 dmg = 0,
                 range = 3f,
@@ -27,7 +27,7 @@ public static class EnemyManager
             {
                 key = "test2",
 
-                hp = 5,
+                hp = 20,
                 speed = 2,
                 dmg = 3,
                 range = 0.8f,
@@ -40,7 +40,7 @@ public static class EnemyManager
             {
                 key = "test3",
 
-                hp = 1,
+                hp = 10,
                 speed = 5,
                 dmg = 2,
                 range = 1.2f,
@@ -53,7 +53,7 @@ public static class EnemyManager
             {
                 key = "test_buff1",
 
-                hp = 5,
+                hp = 30,
                 speed = 4,
                 dmg = 1,
                 range = 1.2f,
@@ -68,7 +68,7 @@ public static class EnemyManager
             {
                 key = "test_buff2",
 
-                hp = 5,
+                hp = 30,
                 speed = 4,
                 dmg = 1,
                 range = 1.2f,
@@ -85,7 +85,7 @@ public static class EnemyManager
 
                 inv = true,
 
-                hp = 3,
+                hp = 15,
                 speed = 5,
                 dmg = 1,
                 range = 3f,
@@ -100,7 +100,7 @@ public static class EnemyManager
 
                 fly = true,
 
-                hp = 3,
+                hp = 15,
                 speed = 5,
                 dmg = 1,
                 range = 3f,
@@ -116,7 +116,7 @@ public static class EnemyManager
                 inv = true,
                 fly = true,
 
-                hp = 3,
+                hp = 15,
                 speed = 5,
                 dmg = 1,
                 range = 3f,
@@ -129,7 +129,7 @@ public static class EnemyManager
             {
                 key = "test_summon",
 
-                hp = 3,
+                hp = 15,
                 speed = 2,
                 dmg = 1,
                 range = 3f,
@@ -146,7 +146,7 @@ public static class EnemyManager
             {
                 key = "test_divide",
 
-                hp = 8,
+                hp = 40,
                 speed = 2,
                 dmg = 1,
                 range = 3f,
