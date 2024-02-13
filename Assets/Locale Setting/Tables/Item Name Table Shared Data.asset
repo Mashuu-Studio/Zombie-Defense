@@ -59,6 +59,10 @@ MonoBehaviour:
     m_Key: WEAPON.NONE
     m_Metadata:
       m_Items: []
+  - m_Id: 2624507680399360
+    m_Key: WEAPON.GRANADE
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

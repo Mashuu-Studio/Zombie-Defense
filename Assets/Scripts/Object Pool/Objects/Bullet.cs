@@ -7,58 +7,130 @@ using UnityEngine;
 public class Bullet : Poolable
 {
     private Rigidbody2D rigidbody;
-    private Vector2 direction;
+
     private Weapon weapon;
+
+    private Vector2 destination;
+    private Vector2 direction;
+
     private float range;
     private float remainTime;
     private int speed;
+
+    private float splash;
+
+    private bool stop;
+    private bool point;
+    private float dmgDelay;
 
     public override void Init()
     {
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void SetBullet(Vector2 start, Vector2 dir, Weapon w, int spd)
+    public void SetBullet(Vector2 start, Vector2 dest, Vector2 dir, Weapon w, int spd)
     {
+        stop = false;
+
         transform.position = rigidbody.position = start;
+        destination = dest;
         direction = dir.normalized;
+
         weapon = w;
+        dmgDelay = w.dmgdelay;
         range = weapon.range;
         speed = spd;
-        remainTime = weapon.point;
+
+        splash = w.splash;
+
+        point = w.point;
         if (remainTime == 0) remainTime = Time.fixedDeltaTime * 2;
 
-        if (weapon.splash == 0) transform.localScale = Vector3.one;
-        else transform.localScale = Vector3.one * w.splash;
+        transform.localScale = Vector3.one;
     }
 
     private void FixedUpdate()
     {
         if (GameController.Instance.Pause) return;
 
-        if (weapon.point != 0 || weapon.autotarget)
+        // 오토타겟의 경우 특정 위치에 생겼다가 사라져야 함.
+        if (weapon.autotarget)
             remainTime -= Time.fixedDeltaTime;
-        else
+        // 그 외의 경우는 특정 방향으로 이동해야 함.
+        else if (!stop)
         {
             rigidbody.MovePosition(rigidbody.position + direction * Time.fixedDeltaTime * speed);
             range -= Time.fixedDeltaTime * speed;
         }
 
-        if (MapGenerator.Instance.mapBoundary.Contains(rigidbody.position) == false
-            || range < 0 || remainTime <= 0) PoolController.Push("Bullet", this);
+        // 포인트 공격의 경우에는 특정 위치에 도착했을 경우만 폭발해야함.
+        if (point)
+        {
+            // 도착한 것은 특정한 방법을 활용하기로 함.
+            // 현재 위치로부터 dest, dest + moveAmount 3가지 경우와의 거리를 책정함.
+            // dest와 가깝다면 아직 도착하지 않은 것이고 dest + moveAmount와 가깝다면 도착한 것임.
+            // 도착했을 때 위치를 dest로 세팅해주고 폭발시켜줌.
+            float dist1 = Vector2.Distance(transform.position, destination);
+            float dist2 = Vector2.Distance(transform.position, destination + direction * Time.fixedDeltaTime);
+            if (dist1 == 0 || dist1 >= dist2)
+            {
+                transform.position = destination;
+                StartCoroutine(RangeDamage());
+            }
+        }
+        // 그 외의 경우에는 특정 상황이 되면 사라짐.
+        else if (MapGenerator.Instance.mapBoundary.Contains(rigidbody.position) == false
+                || range < 0 || remainTime <= 0)
+        {
+            PoolController.Push("Bullet", this);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            var enemy = collision.transform.parent.GetComponent<EnemyObject>();
-
-            ActionController.AddAction(gameObject, () =>
-                {
-                    enemy.Damaged(weapon.dmg);
-                    if (weapon.pierce == false && weapon.point == 0) PoolController.Push("Bullet", this);
-                });
+            if (point)
+            {
+                dmgDelay = 0;
+                StartCoroutine(RangeDamage());
+            }
+            else Damage(collision);
         }
+    }
+
+    IEnumerator RangeDamage()
+    {
+        stop = true;
+
+        while (dmgDelay > 0)
+        {
+            if (!GameController.Instance.Pause) dmgDelay -= Time.deltaTime;
+            yield return null;
+        }
+
+        // 폭발 범위를 보기 위한 용도
+        transform.localScale = Vector3.one * splash;
+
+        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, splash / 2, 1 << LayerMask.NameToLayer("Enemy"));
+        foreach (var col in cols) Damage(col);
+
+        yield return null;
+        PoolController.Push("Bullet", this);
+    }
+
+    private void Damage(Collider2D collision)
+    {
+        var enemy = collision.transform.parent.GetComponent<EnemyObject>();
+
+        ActionController.AddAction(gameObject, () =>
+        {
+            enemy.Damaged(weapon.dmg);
+            if (weapon.pierce == false && !point)
+            {
+                PoolController.Push("Bullet", this);
+                StopAllCoroutines();
+            }
+        });
     }
 }

@@ -92,7 +92,7 @@ public class AttackTurretObject : TurretObject, IAttackObject
             {
                 int angle = Random.Range(-spread / 2, spread / 2 + 1);
                 Vector3 newDir = Quaternion.Euler(0, 0, angle) * dir;
-                ((Bullet)PoolController.Pop("Bullet")).SetBullet(transform.position, newDir, weapon, 50);
+                ((Bullet)PoolController.Pop("Bullet")).SetBullet(transform.position, target.position, newDir, weapon, 50);
             }
             SoundController.Instance.PlaySFX(Player.Instance.gameObject, weapon.key);
             weapon.curammo--;

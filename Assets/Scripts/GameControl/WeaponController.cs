@@ -36,7 +36,7 @@ public class WeaponController : MonoBehaviour
 
     public void GetWeapon(Weapon weapon)
     {
-        if (HasWeapon(weapon.key)) return;
+        if (weapon.consumable || HasWeapon(weapon.key)) return;
 
         weapon.Reload();
         weapons.Add(weapon);
@@ -66,6 +66,9 @@ public class WeaponController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
             Reload();
+
+        if (Input.GetKeyDown(KeyCode.G))
+            Granade(Player.Instance.transform.position, mouseWorldPos);
     }
 
     IEnumerator AttackDelay()
@@ -79,6 +82,14 @@ public class WeaponController : MonoBehaviour
             yield return null;
         }
         wait = false;
+    }
+
+    public void Granade(Vector2 start, Vector2 dest)
+    {
+        if (Player.Instance.ItemAmount("WEAPON.GRANADE") <= 0) return; 
+        Vector2 dir = (dest - start).normalized;
+        ((Bullet)PoolController.Pop("Bullet")).SetBullet(start, dest, dir, WeaponManager.GetWeapon("WEAPON.GRANADE"), 5);
+        Player.Instance.AdjustItemAmount("WEAPON.GRANADE", -1);
     }
 
     public void Reload()
@@ -149,8 +160,6 @@ public class WeaponController : MonoBehaviour
         {
             int angle = Random.Range(-spread / 2, spread / 2 + 1);
             Vector3 newDir = Quaternion.Euler(0, 0, angle) * dir;
-            // 지점 공격이면 위치 지정
-            if (CurWeapon.point != 0) pos = dest;
             // 오토타겟이면 적의 수만큼 자동타겟팅하여 공격.
             if (CurWeapon.autotarget)
             {
@@ -158,7 +167,7 @@ public class WeaponController : MonoBehaviour
                 // 적의 수가 타겟팅 수보다 적다면 스킵
                 else break;
             }
-            ((Bullet)PoolController.Pop("Bullet")).SetBullet(pos, newDir, CurWeapon, 50);
+            ((Bullet)PoolController.Pop("Bullet")).SetBullet(pos, dest, newDir, CurWeapon, 50);
         }
         SoundController.Instance.PlaySFX(Player.Instance.gameObject, CurWeapon.key);
         CurWeapon.curammo--;

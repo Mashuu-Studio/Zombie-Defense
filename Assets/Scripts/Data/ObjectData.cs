@@ -16,6 +16,7 @@ public class Weapon : BuyableData
 {
     public int dmg;
     public float adelay;
+    public float dmgdelay = 0;
     public float range;
     public int bulletspreadangle;
 
@@ -25,9 +26,11 @@ public class Weapon : BuyableData
 
     public int bullets = 1;
     public bool pierce = false;
-    public float point = 0;
+    public bool point = false;
     public float splash = 0;
     public bool autotarget = false;
+
+    public bool consumable = false;
 
     public Weapon() { }
 
@@ -38,6 +41,7 @@ public class Weapon : BuyableData
 
         dmg = w.dmg;
         adelay = w.adelay;
+        dmgdelay = w.dmgdelay;
         range = w.range;
         bulletspreadangle = w.bulletspreadangle;
 
@@ -46,8 +50,11 @@ public class Weapon : BuyableData
 
         bullets = w.bullets;
         pierce = w.pierce;
+        point = w.point;
         splash = w.splash;
         autotarget = w.autotarget;
+
+        consumable = w.consumable;
     }
 
     public void Reload()

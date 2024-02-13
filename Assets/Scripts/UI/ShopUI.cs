@@ -48,14 +48,17 @@ public class ShopUI : MonoBehaviour
         Weapon weapon = shopItem.Item as Weapon;
         if (weapon != null)
         {
-            // 무기가 없다면 새롭게 획득
-            if (!WeaponController.Instance.HasWeapon(weapon.key))
+            // 무기가 있거나 소모품이면 소지품에 추가
+            if (weapon.consumable || WeaponController.Instance.HasWeapon(weapon.key))
+            {
+                Player.Instance.AdjustItemAmount(weapon.key, 1);
+            }
+            // 소모품이 아닌데 무기가 없다면 새롭게 획득
+            else
             {
                 WeaponController.Instance.GetWeapon(weapon);
                 UIController.Instance.GetItem(weapon.key);
             }
-            // 무기가 있다면 소지품에 추가
-            else Player.Instance.AdjustItemAmount(weapon.key, 1);
         }
 
         Turret turret = shopItem.Item as Turret;

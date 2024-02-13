@@ -90,7 +90,7 @@ public static class WeaponManager
                 bullets = 1,
 
                 ammo = 1,
-                point = 1,
+                point = true,
                 splash = 10,
                 reload = 2,
             },
@@ -109,6 +109,19 @@ public static class WeaponManager
                 reload = 2,
                 autotarget = true,
             },
+            new Weapon()
+            {
+                key = "WEAPON.GRANADE",
+                price = 100,
+
+                dmg = 3,
+                adelay = 0f,
+                dmgdelay = 1.5f,
+                splash = 10,
+
+                point = true,
+                consumable = true,
+            }
         };
     }
 

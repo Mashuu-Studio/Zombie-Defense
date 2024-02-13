@@ -54,6 +54,7 @@ public class UIController : MonoBehaviour
         shop.Init();
         foreach (var weapon in WeaponManager.Weapons)
         {
+            if (weapon.consumable) continue;
             itemInfos[weapon.key].gameObject.SetActive(WeaponController.Instance.HasWeapon(weapon.key));
         }
     }
@@ -87,6 +88,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI lvText;
     [SerializeField] private GameObject reloadingObj;
     [SerializeField] private TextMeshProUGUI moneyText;
+    [SerializeField] private TextMeshProUGUI granadeAmountText;
 
     [Header("Item")]
     [SerializeField] private Transform weaponInfoParent;
@@ -104,6 +106,7 @@ public class UIController : MonoBehaviour
         expSlider.value = Player.Instance.Exp;
         lvText.text = Player.Instance.Lv.ToString();
         ammoSlider.value = WeaponController.Instance.CurWeapon.curammo;
+        granadeAmountText.text = Player.Instance.ItemAmount("WEAPON.GRANADE").ToString();
         moneyText.text = $"$ {Player.Instance.Money}";
     }
 
@@ -127,6 +130,7 @@ public class UIController : MonoBehaviour
         itemInfos = new Dictionary<string, ItemInfoUI>();
         foreach (var weapon in WeaponManager.Weapons)
         {
+            if (weapon.consumable) continue;
             var weaponInfoUI = Instantiate(itemInfoPrefab, weaponInfoParent);
             weaponInfoUI.SetInfo(SpriteManager.GetSprite(weapon.key));
             itemInfos.Add(weapon.key, weaponInfoUI);
