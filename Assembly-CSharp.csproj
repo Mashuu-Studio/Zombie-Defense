@@ -81,6 +81,7 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTNode.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Bullet.cs" />
     <Compile Include="Assets\Scripts\UI\RoundStartButton.cs" />
+    <Compile Include="Assets\Scripts\GameControl\MinimapCamera.cs" />
     <Compile Include="Assets\Scripts\Data\ObjectData.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\DebugLogNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTActionNode.cs" />
