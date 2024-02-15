@@ -35,12 +35,13 @@ public class CameraController : MonoBehaviour
         maxY = bound.max.y - halfHeight;
     }
 
-    public void MoveCamera(Vector3 target)
+    public void MoveCamera(Vector3 target, Vector3 pointer)
     {
-        var diff = target - cam.transform.position;
+        // 카메라의 위치는 target과 마우스를 기준으로 사이값으로 이동. 6:1 비율로 맞추도록 함.
+        Vector3 pos = (target * 5 + pointer) / 6;
         cam.transform.position = new Vector3(
-            Mathf.Clamp(cam.transform.position.x + diff.x, minX, maxX),
-            Mathf.Clamp(cam.transform.position.y + diff.y, minY, maxY),
+            Mathf.Clamp(pos.x, minX, maxX),
+            Mathf.Clamp(pos.y, minY, maxY),
             cam.transform.position.z);
     }
 }

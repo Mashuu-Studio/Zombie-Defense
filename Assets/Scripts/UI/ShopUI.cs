@@ -56,8 +56,8 @@ public class ShopUI : MonoBehaviour
             // 소모품이 아닌데 무기가 없다면 새롭게 획득
             else
             {
-                WeaponController.Instance.GetWeapon(weapon);
-                UIController.Instance.GetItem(weapon.key);
+                WeaponController.Instance.AddWeapon(weapon);
+                UIController.Instance.AddItem(weapon.key);
             }
         }
 

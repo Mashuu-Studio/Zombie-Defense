@@ -109,7 +109,7 @@ public class Player : MonoBehaviour, IDamagedObject
         if (GameController.Instance.GameStarted == false || GameController.Instance.Pause) return;
 
         rigidbody.position += new Vector2(axisX, axisY) * Time.fixedDeltaTime * speed;
-        CameraController.Instance.MoveCamera(rigidbody.position);
+        CameraController.Instance.MoveCamera(rigidbody.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
     }
 
     public void LookAt(Vector3 target)

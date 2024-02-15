@@ -11,6 +11,33 @@ public class WeaponController : MonoBehaviour
     private int curIndex;
     private bool wait;
     public Weapon CurWeapon { get { return weapons[curIndex]; } }
+    public string[] PrevCurNextWeaponKeys 
+    { 
+        get
+        {
+            string[] str = new string[3] { "", "", "" };
+
+            // 0부터 2까지 순서대로 prev, cur, next
+            str[1] = weapons[curIndex].key;
+            // 무기가 하나라면 prev와 next는 비움.
+            if (weapons.Count > 1)
+            {
+                // prev부터 채워줌.
+                // 무기가 둘이라면 prev와 next가 같으나 next를 비우기 위함.
+                int index = curIndex - 1;
+                if (index < 0) index = weapons.Count - 1;
+                str[0] = weapons[index].key;
+
+                if (weapons.Count > 2)
+                {
+                    index = curIndex + 1;
+                    if (index >= weapons.Count) index = 0;
+                    str[2] = weapons[index].key;
+                }
+            }
+            return str;
+        } 
+    }
 
     private void Awake()
     {
@@ -34,12 +61,14 @@ public class WeaponController : MonoBehaviour
         UIController.Instance.SwitchWeapon();
     }
 
-    public void GetWeapon(Weapon weapon)
+
+    public void AddWeapon(Weapon weapon)
     {
         if (weapon.consumable || HasWeapon(weapon.key)) return;
 
         weapon.Reload();
         weapons.Add(weapon);
+        UIController.Instance.UpdateWeaponImage();
     }
 
     public bool HasWeapon(string key)
@@ -174,6 +203,7 @@ public class WeaponController : MonoBehaviour
         }
         SoundController.Instance.PlaySFX(Player.Instance.gameObject, CurWeapon.key);
         CurWeapon.curammo--;
+        UIController.Instance.UpdateAmmo(CurWeapon.curammo);
         adelayCoroutine = AttackDelay();
         StartCoroutine(adelayCoroutine);
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -81,47 +82,80 @@ public class UIController : MonoBehaviour
 
     #region Status
     [Header("Status")]
-    [SerializeField] private Slider hpSlider;
-    [SerializeField] private Slider ammoSlider;
-    [SerializeField] private LocalizeStringEvent weaponLocalizeString;
+    [SerializeField] private TextMeshProUGUI hpText;
+    [SerializeField] private TextMeshProUGUI ammoText;
+    [SerializeField] private TextMeshProUGUI maxAmmoText;
     [SerializeField] private Slider expSlider;
     [SerializeField] private TextMeshProUGUI lvText;
-    [SerializeField] private GameObject reloadingObj;
     [SerializeField] private TextMeshProUGUI moneyText;
-    [SerializeField] private TextMeshProUGUI granadeAmountText;
+
+    void Update()
+    {
+        if (GameController.Instance.GameStarted == false) return;
+
+        hpText.text = $"{Player.Instance.Hp}/{Player.Instance.MaxHp}";
+        expSlider.maxValue = Player.Instance.MaxExp;
+        expSlider.value = Player.Instance.Exp;
+        lvText.text = Player.Instance.Lv.ToString();
+        granadeAmount.text = Player.Instance.ItemAmount("WEAPON.GRANADE").ToString();
+        moneyText.text = $"$ {Player.Instance.Money}";
+    }
+
+    [Header("WEAPON")]
+    [SerializeField] private Image[] weaponImages;
+    [SerializeField] private TextMeshProUGUI granadeAmount;
+
+    public void UpdateWeaponImage()
+    {
+        // UI 이미지로 키 변환
+        string[] weaponKeys = WeaponController.Instance.PrevCurNextWeaponKeys;
+        for (int i = 0; i < weaponKeys.Length; i++)
+        {
+            bool empty = string.IsNullOrEmpty(weaponKeys[i]);
+            weaponImages[i].gameObject.SetActive(!empty);
+            if (empty) continue;
+
+            string uiKey = weaponKeys[i].Replace("WEAPON.", "UI.");
+            Sprite sprite = SpriteManager.GetSprite(uiKey);
+            Vector2 size = GetWeaponImageSize(sprite);
+
+            weaponImages[i].sprite = sprite;
+            ((RectTransform)weaponImages[i].transform).sizeDelta = size;
+        }
+    }
+
+    private Vector2 GetWeaponImageSize(Sprite sprite)
+    {
+        if (sprite == null) return Vector2.zero;
+        Vector2 size = new Vector2(sprite.rect.width, sprite.rect.height);
+        size = size / sprite.pixelsPerUnit * 80;
+        return size;
+    }
+
+    public void SwitchWeapon()
+    {
+        ammoText.text = WeaponController.Instance.CurWeapon.curammo.ToString();
+        maxAmmoText.text = WeaponController.Instance.CurWeapon.ammo.ToString();
+        UpdateWeaponImage();
+        Reloading(false);
+    }
+
+    public void UpdateAmmo(int ammo)
+    {
+        ammoText.text = ammo.ToString();
+    }
+
+    public void Reloading(bool b)
+    {
+        if (b) ammoText.text = "RELOAD";
+        else ammoText.text = WeaponController.Instance.CurWeapon.curammo.ToString();
+    }
 
     [Header("Item")]
     [SerializeField] private Transform weaponInfoParent;
     [SerializeField] private Transform turretInfoParent;
     [SerializeField] private ItemInfoUI itemInfoPrefab;
     private Dictionary<string, ItemInfoUI> itemInfos;
-
-    void Update()
-    {
-        if (GameController.Instance.GameStarted == false) return;
-
-        hpSlider.maxValue = Player.Instance.MaxHp;
-        hpSlider.value = Player.Instance.Hp;
-        expSlider.maxValue = Player.Instance.MaxExp;
-        expSlider.value = Player.Instance.Exp;
-        lvText.text = Player.Instance.Lv.ToString();
-        ammoSlider.value = WeaponController.Instance.CurWeapon.curammo;
-        granadeAmountText.text = Player.Instance.ItemAmount("WEAPON.GRANADE").ToString();
-        moneyText.text = $"$ {Player.Instance.Money}";
-    }
-
-    public void SwitchWeapon()
-    {
-        ammoSlider.maxValue = WeaponController.Instance.CurWeapon.ammo;
-        ammoSlider.value = WeaponController.Instance.CurWeapon.curammo;
-        weaponLocalizeString.SetEntry(WeaponController.Instance.CurWeapon.key);
-        Reloading(false);
-    }
-
-    public void Reloading(bool b)
-    {
-        reloadingObj.SetActive(b);
-    }
 
     private void InitItemInfo()
     {
@@ -146,7 +180,7 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void GetItem(string key)
+    public void AddItem(string key)
     {
         if (itemInfos.ContainsKey(key))
             itemInfos[key].gameObject.SetActive(true);
@@ -191,17 +225,20 @@ public class UIController : MonoBehaviour
 
     public void UpdateRoundTime(int time)
     {
-        roundTimeText.text = time.ToString();
+        TimeSpan res = TimeSpan.FromSeconds(time);
+        roundTimeText.text = res.ToString("mm':'ss");
     }
 
     public void StartRound()
     {
+        roundText.text = $"ROUND {RoundController.Instance.Round}";
         roundTimeText.gameObject.SetActive(true);
         startRoundButton.SetActive(false);
     }
 
     public void EndRound()
     {
+        roundText.text = $"ROUND {RoundController.Instance.Round}";
         roundTimeText.gameObject.SetActive(false);
         startRoundButton.SetActive(true);
     }

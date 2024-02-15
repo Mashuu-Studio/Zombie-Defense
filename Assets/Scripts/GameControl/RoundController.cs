@@ -18,6 +18,9 @@ public class RoundController : MonoBehaviour
         spawnEnemyCoroutines = new List<IEnumerator>();
     }
 
+    public bool Progress { get { return progress; } }
+    private bool progress;
+    public int Round { get { return round; } }
     private int round;
     private List<IEnumerator> spawnEnemyCoroutines;
 
@@ -42,6 +45,7 @@ public class RoundController : MonoBehaviour
 
     private IEnumerator ProgressRound(Round roundInfo, float time)
     {
+        progress = true;
         foreach (var info in roundInfo.enemyInfo)
         {
             spawnEnemyCoroutines.Add(EnemyController.Instance.SpawnEnemy(EnemyManager.GetEnemy(info.Key), info.Value));
@@ -61,5 +65,6 @@ public class RoundController : MonoBehaviour
         GameController.Instance.EndRound();
         spawnEnemyCoroutines.ForEach(coroutine => StopCoroutine(coroutine));
         spawnEnemyCoroutines.Clear();
+        progress = false;
     }
 }
