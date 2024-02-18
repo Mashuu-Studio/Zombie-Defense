@@ -47,9 +47,6 @@ public class MapGenerator : MonoBehaviour
     private int[,] map;
     private int squareSize = 1;
 
-    public GameObject shopPrefab;
-    private GameObject shop;
-
     public void StartGame()
     {
         GenerateMap();
@@ -108,22 +105,6 @@ public class MapGenerator : MonoBehaviour
                     }
                 }
             }
-        }
-
-        // 오브젝트 생성
-        {
-            if (shop != null) Destroy(shop);
-
-            int shopX, shopY;
-            do
-            {
-                shopX = UnityEngine.Random.Range(0, width);
-                shopY = UnityEngine.Random.Range(0, height);
-            } while (map[shopX, shopY] != GRASS);
-
-            Vector2Int shopPos = ConvertToWorldPos(shopX, shopY);
-            shop = Instantiate(shopPrefab);
-            shop.transform.position = (Vector2)shopPos;
         }
 
         // 캐릭터 스폰

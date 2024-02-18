@@ -89,6 +89,7 @@ public class UIController : MonoBehaviour
     [Header("Game")]
     [SerializeField] private SettingUI setting;
     [SerializeField] private ShopUI shop;
+    [SerializeField] private GameObject shopButton;
 
     public void StartGame()
     {
@@ -98,6 +99,11 @@ public class UIController : MonoBehaviour
             if (weapon.consumable) continue;
             itemInfos[weapon.key].gameObject.SetActive(WeaponController.Instance.HasWeapon(weapon.key));
         }
+    }
+
+    public void OnOffShop()
+    {
+        shop.Open(!shop.gameObject.activeSelf);
     }
 
     public void OpenShop(bool b)
@@ -275,6 +281,8 @@ public class UIController : MonoBehaviour
         roundText.text = $"ROUND {RoundController.Instance.Round}";
         roundTimeText.gameObject.SetActive(true);
         startRoundButton.SetActive(false);
+        shopButton.SetActive(false);
+        OpenShop(false);
     }
 
     public void EndRound()
@@ -282,6 +290,7 @@ public class UIController : MonoBehaviour
         roundText.text = $"ROUND {RoundController.Instance.Round}";
         roundTimeText.gameObject.SetActive(false);
         startRoundButton.SetActive(true);
+        shopButton.SetActive(true);
     }
     #endregion
 }

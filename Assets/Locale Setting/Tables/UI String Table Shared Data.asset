@@ -71,6 +71,10 @@ MonoBehaviour:
     m_Key: GAME.SHOP.OTHER
     m_Metadata:
       m_Items: []
+  - m_Id: 4833988023689216
+    m_Key: GAME.SHOP
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

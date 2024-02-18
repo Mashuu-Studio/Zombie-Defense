@@ -74,6 +74,10 @@ MonoBehaviour:
     m_Localized: OTHERS
     m_Metadata:
       m_Items: []
+  - m_Id: 4833988023689216
+    m_Localized: SHOP
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
