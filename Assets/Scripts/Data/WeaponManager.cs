@@ -189,7 +189,7 @@ public static class WeaponManager
     {
         List<Weapon> list = new List<Weapon>();
 
-        foreach(Weapon weapon in weapons)
+        foreach (Weapon weapon in weapons)
         {
             if (weapon.consumable) continue;
             list.Add(weapon);

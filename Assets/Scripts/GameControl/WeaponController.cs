@@ -25,8 +25,8 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    public string[] PrevCurNextWeaponKeys 
-    { 
+    public string[] PrevCurNextWeaponKeys
+    {
         get
         {
             string[] str = new string[3] { "", "", "" };
@@ -111,7 +111,7 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        if (GameController.Instance.GameStarted == false || GameController.Instance.Pause) return;
+        if (GameController.Instance.GameStarted == false || GameController.Instance.Pause || UIController.PointOverUI()) return;
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

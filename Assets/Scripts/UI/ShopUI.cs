@@ -78,7 +78,7 @@ public class ShopUI : MonoBehaviour
             }
         }
         else
-        { 
+        {
             Player.Instance.AdjustItemAmount(shopItem.Item.key, 1);
         }
     }

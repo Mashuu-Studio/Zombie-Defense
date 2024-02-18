@@ -56,7 +56,7 @@ public class Player : MonoBehaviour, IDamagedObject
     [SerializeField] private SpriteRenderer gunSpriteRenderer;
 
     private Dictionary<string, int> itemAmount = new Dictionary<string, int>();
-    
+
     #region Init & Update
 
     public void Init()
@@ -126,7 +126,7 @@ public class Player : MonoBehaviour, IDamagedObject
         {
             itemAmount[key] += amount;
             UIController.Instance.UpdateItemAmount(key, itemAmount[key]);
-        }        
+        }
     }
 
     public int ItemAmount(string key)

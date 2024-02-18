@@ -68,6 +68,22 @@ public class UIController : MonoBehaviour
         return pos * ratio;
     }
 
+    public static bool PointOverUI()
+    {
+        if (EventSystem.current == null) return false;
+
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        foreach (var result in results)
+        {
+            if (result.gameObject.layer == LayerMask.NameToLayer("UI")) return true;
+        }
+        return false;
+    }
+
     public static bool PointOverUI(GameObject go)
     {
         if (EventSystem.current == null) return false;
@@ -77,9 +93,9 @@ public class UIController : MonoBehaviour
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, results);
 
-        for (int i = 0; i < results.Count; i++)
+        foreach (var result in results)
         {
-            if (results[i].gameObject == go) return true;
+            if (result.gameObject == go) return true;
         }
         return false;
     }

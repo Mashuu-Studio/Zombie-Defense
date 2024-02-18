@@ -51,7 +51,7 @@ public class TurretController : MonoBehaviour
 
         turretPointer.gameObject.SetActive(!RoundController.Instance.Progress);
         if (RoundController.Instance.Progress) return;
-        
+
         turretPointer.position = GetDirection(Player.Instance.transform.position, CameraController.Instance.Cam.ScreenToWorldPoint(Input.mousePosition));
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
