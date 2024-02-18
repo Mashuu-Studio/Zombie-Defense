@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTSequencerNode.cs" />
     <Compile Include="Assets\Scripts\GameControl\SceneController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\BuffNode.cs" />
+    <Compile Include="Assets\Scripts\UI\FloatingDescription.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\EnemyAbilityNode.cs" />
     <Compile Include="Assets\Scripts\GameControl\MapGenerator.cs" />
     <Compile Include="Assets\Scripts\GameControl\Player.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Assets\Scripts\GameControl\GameSetting.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameController.cs" />
     <Compile Include="Assets\Scripts\GameControl\CameraController.cs" />
+    <Compile Include="Assets\Scripts\Data\ItemManager.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTCompositeNode.cs" />
     <Compile Include="Assets\Scripts\UI\ScriptableButton.cs" />
     <Compile Include="Assets\Scripts\GameControl\WeaponController.cs" />
@@ -122,6 +124,7 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTRootNode.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Pool.cs" />
     <Compile Include="Assets\Scripts\UI\ShopUI.cs" />
+    <Compile Include="Assets\Scripts\UI\DescriptionIcon.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BehaviourTree.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\EnemyObject.cs" />
   </ItemGroup>

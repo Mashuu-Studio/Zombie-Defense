@@ -6,6 +6,7 @@ public class ShopUI : MonoBehaviour
 {
     [SerializeField] private RectTransform weaponScrollRectTransform;
     [SerializeField] private RectTransform turretScrollRectTransform;
+    [SerializeField] private RectTransform otherItemScrollRectTransform;
     [SerializeField] private ShopItem itemPrefab;
     private List<ShopItem> items = new List<ShopItem>();
 
@@ -19,23 +20,39 @@ public class ShopUI : MonoBehaviour
         items.ForEach(item => Destroy(item.gameObject));
         items.Clear();
 
+        int count = 0;
         foreach (var weapon in WeaponManager.Weapons)
         {
+            if (weapon.consumable) continue;
             var item = Instantiate(itemPrefab, weaponScrollRectTransform);
             item.Init(weapon);
             item.gameObject.SetActive(true);
             items.Add(item);
+            count++;
         }
-        weaponScrollRectTransform.sizeDelta = new Vector2(weaponScrollRectTransform.sizeDelta.x, 150 * items.Count);
+        weaponScrollRectTransform.sizeDelta = new Vector2(150 * count, weaponScrollRectTransform.sizeDelta.y);
 
+        count = 0;
         foreach (var turret in TurretManager.Turrets)
         {
             var item = Instantiate(itemPrefab, turretScrollRectTransform);
             item.Init(turret);
             item.gameObject.SetActive(true);
             items.Add(item);
+            count++;
         }
-        turretScrollRectTransform.sizeDelta = new Vector2(turretScrollRectTransform.sizeDelta.x, 150 * items.Count);
+        turretScrollRectTransform.sizeDelta = new Vector2(150 * count, turretScrollRectTransform.sizeDelta.y);
+
+        count = 0;
+        foreach (var other in ItemManager.Items)
+        {
+            var item = Instantiate(itemPrefab, otherItemScrollRectTransform);
+            item.Init(other);
+            item.gameObject.SetActive(true);
+            items.Add(item);
+            count++;
+        }
+        otherItemScrollRectTransform.sizeDelta = new Vector2(150 * count, otherItemScrollRectTransform.sizeDelta.y);
     }
 
     public void Open(bool b)
@@ -60,11 +77,9 @@ public class ShopUI : MonoBehaviour
                 UIController.Instance.AddItem(weapon.key);
             }
         }
-
-        Turret turret = shopItem.Item as Turret;
-        if (turret != null)
-        {
-            Player.Instance.AdjustItemAmount(turret.key, 1);
+        else
+        { 
+            Player.Instance.AdjustItemAmount(shopItem.Item.key, 1);
         }
     }
 }

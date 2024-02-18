@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Components;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class UIController : MonoBehaviour
 {
@@ -46,6 +47,45 @@ public class UIController : MonoBehaviour
         if (index == 2) canvas.worldCamera = CameraController.Instance.Cam;
     }
 
+    #region UI
+    [Header("UI")]
+    [SerializeField] private CanvasScaler scaler;
+    [SerializeField] private FloatingDescription floatingDescription;
+
+    public void SetDescription(Vector3 pos, string key)
+    {
+        floatingDescription.SetDescription(ScalingPos(pos), key);
+    }
+
+    public void MoveDescription(Vector3 pos)
+    {
+        floatingDescription.MoveDescription(ScalingPos(pos));
+    }
+
+    public static Vector2 ScalingPos(Vector2 pos)
+    {
+        float ratio = Instance.scaler.referenceResolution.y / Screen.height;
+        return pos * ratio;
+    }
+
+    public static bool PointOverUI(GameObject go)
+    {
+        if (EventSystem.current == null) return false;
+
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        for (int i = 0; i < results.Count; i++)
+        {
+            if (results[i].gameObject == go) return true;
+        }
+        return false;
+    }
+    #endregion
+
+    #region Game
     [Header("Game")]
     [SerializeField] private SettingUI setting;
     [SerializeField] private ShopUI shop;
@@ -79,6 +119,7 @@ public class UIController : MonoBehaviour
     {
         setting.LoadResolutionInfo();
     }
+    #endregion
 
     #region Status
     [Header("Status")]

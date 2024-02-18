@@ -77,6 +77,11 @@ public class Turret : BuyableData
     public int speed;
 }
 
+public class OtherItem : BuyableData
+{
+
+}
+
 public class Enemy : ObjectData
 {
     public bool inv;

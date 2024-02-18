@@ -70,6 +70,10 @@ MonoBehaviour:
     m_Localized: TURRETS
     m_Metadata:
       m_Items: []
+  - m_Id: 4810010227908608
+    m_Localized: OTHERS
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
