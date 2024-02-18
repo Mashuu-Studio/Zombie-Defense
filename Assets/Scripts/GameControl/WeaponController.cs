@@ -11,6 +11,20 @@ public class WeaponController : MonoBehaviour
     private int curIndex;
     private bool wait;
     public Weapon CurWeapon { get { return weapons[curIndex]; } }
+
+    private int WeaponAmount
+    {
+        get
+        {
+            int amount = 0;
+            foreach (var weapon in weapons)
+            {
+                if (weapon.usable) amount++;
+            }
+            return amount;
+        }
+    }
+
     public string[] PrevCurNextWeaponKeys 
     { 
         get
@@ -20,23 +34,31 @@ public class WeaponController : MonoBehaviour
             // 0부터 2까지 순서대로 prev, cur, next
             str[1] = weapons[curIndex].key;
             // 무기가 하나라면 prev와 next는 비움.
-            if (weapons.Count > 1)
+            if (WeaponAmount > 1)
             {
                 // prev부터 채워줌.
                 // 무기가 둘이라면 prev와 next가 같으나 next를 비우기 위함.
-                int index = curIndex - 1;
-                if (index < 0) index = weapons.Count - 1;
+                int index = curIndex;
+                do
+                {
+                    index--;
+                    if (index < 0) index = weapons.Count - 1;
+                } while (!weapons[index].usable);
                 str[0] = weapons[index].key;
 
-                if (weapons.Count > 2)
+                if (WeaponAmount > 2)
                 {
-                    index = curIndex + 1;
-                    if (index >= weapons.Count) index = 0;
+                    index = curIndex;
+                    do
+                    {
+                        index++;
+                        if (index >= weapons.Count) index = 0;
+                    } while (!weapons[index].usable);
                     str[2] = weapons[index].key;
                 }
             }
             return str;
-        } 
+        }
     }
 
     private void Awake()
@@ -51,8 +73,9 @@ public class WeaponController : MonoBehaviour
 
     public void StartGame()
     {
-        weapons = new List<Weapon>();
-        weapons.Add(WeaponManager.GetWeapon("WEAPON.PISTOL"));
+        weapons = WeaponManager.GetWeapons();
+        weapons.ForEach(weapon => weapon.usable = false);
+        weapons[0].usable = true;
         curIndex = 0;
 
         weapons.ForEach(w => w.Reload());
@@ -62,18 +85,25 @@ public class WeaponController : MonoBehaviour
     }
 
 
-    public void AddWeapon(Weapon weapon)
+    public void AddWeapon(string key)
     {
-        if (weapon.consumable || HasWeapon(weapon.key)) return;
+        Weapon weapon = FindWeapon(key);
+        if (weapon == null || weapon.consumable || HasWeapon(key)) return;
 
         weapon.Reload();
-        weapons.Add(weapon);
+        weapon.usable = true;
         UIController.Instance.UpdateWeaponImage();
     }
 
     public bool HasWeapon(string key)
     {
-        return weapons.Find(weapon => weapon.key == key) != null;
+        Weapon weapon = FindWeapon(key);
+        return (weapon != null) ? weapon.usable : false;
+    }
+
+    private Weapon FindWeapon(string key)
+    {
+        return weapons.Find(weapon => weapon.key == key);
     }
 
     IEnumerator adelayCoroutine;
@@ -152,11 +182,14 @@ public class WeaponController : MonoBehaviour
 
     public void Switch(int move)
     {
-        if (move > 0) curIndex--;
-        if (move < 0) curIndex++;
+        do
+        {
+            if (move > 0) curIndex--;
+            if (move < 0) curIndex++;
 
-        if (curIndex < 0) curIndex = weapons.Count - 1;
-        if (curIndex >= weapons.Count) curIndex = 0;
+            if (curIndex < 0) curIndex = weapons.Count - 1;
+            if (curIndex >= weapons.Count) curIndex = 0;
+        } while (!CurWeapon.usable);
 
         if (move != 0)
         {

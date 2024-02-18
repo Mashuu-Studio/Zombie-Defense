@@ -14,6 +14,8 @@ public abstract class BuyableData : ObjectData
 
 public class Weapon : BuyableData
 {
+    public bool usable;
+
     public int dmg;
     public float adelay;
     public float dmgdelay = 0;

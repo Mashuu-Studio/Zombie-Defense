@@ -184,4 +184,16 @@ public static class WeaponManager
         }
         return null;
     }
+
+    public static List<Weapon> GetWeapons()
+    {
+        List<Weapon> list = new List<Weapon>();
+
+        foreach(Weapon weapon in weapons)
+        {
+            if (weapon.consumable) continue;
+            list.Add(weapon);
+        }
+        return list;
+    }
 }
