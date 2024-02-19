@@ -223,7 +223,9 @@ public class WeaponController : MonoBehaviour
         int spread = CurWeapon.bulletspreadangle;
         for (int i = 0; i < CurWeapon.bullets; i++)
         {
-            int angle = Random.Range(-spread / 2, spread / 2 + 1);
+            // 줌인 상태라면 흔들림 보정
+            // 추후 샷건, 화염방사 등 흔들림 보정을 할 필요가 없는 값들에 대해 추가 조정
+            int angle = Random.Range(-spread / 2, spread / 2 + 1) / (Player.Instance.ZoomIn ? 2 : 1);
             Vector3 newDir = Quaternion.Euler(0, 0, angle) * dir;
             // 오토타겟이면 적의 수만큼 자동타겟팅하여 공격.
             if (CurWeapon.autotarget)

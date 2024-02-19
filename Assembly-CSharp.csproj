@@ -98,7 +98,7 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\AttackNode.cs" />
     <Compile Include="Assets\Scripts\Object Pool\BTPoolable.cs" />
     <Compile Include="Assets\Scripts\Data\TurretManager.cs" />
-    <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\TurretController.cs" />
+    <Compile Include="Assets\Scripts\GameControl\TurretController.cs" />
     <Compile Include="Assets\Scripts\Data\WeaponManager.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameSetting.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameController.cs" />

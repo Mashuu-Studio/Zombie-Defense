@@ -85,6 +85,14 @@ public class Player : MonoBehaviour, IDamagedObject
         }
     }
 
+    // 사격 시 흔들림 보정을 위한 값
+    public bool ZoomIn { get { return zoomin; } }
+    private bool zoomin;
+    public void Zoom(bool b)
+    {
+        zoomin = b;
+    }
+
     float axisX;
     float axisY;
 
@@ -96,11 +104,15 @@ public class Player : MonoBehaviour, IDamagedObject
             axisY = 0;
             return;
         }
+
         axisX = Input.GetAxis("Horizontal");
         axisY = Input.GetAxis("Vertical");
 
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         LookAt(mouseWorldPos);
+
+        bool zoomin = Input.GetMouseButton(1);
+        CameraController.Instance.ZoomCamera(zoomin);
     }
 
     // Update is called once per frame
