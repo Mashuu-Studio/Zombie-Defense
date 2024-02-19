@@ -78,6 +78,18 @@ MonoBehaviour:
     m_Localized: SHOP
     m_Metadata:
       m_Items: []
+  - m_Id: 5129299237543936
+    m_Localized: 'DAMAGE: {0}
+
+      ASPEED: {1}
+
+      AMMO: {2}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5132925951549440
+    m_Localized: ' '
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
