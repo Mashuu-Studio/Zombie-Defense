@@ -79,7 +79,7 @@ public class Bullet : Poolable
             }
         }
         // 그 외의 경우에는 특정 상황이 되면 사라짐.
-        else if (MapGenerator.Instance.mapBoundary.Contains(rigidbody.position) == false
+        else if (MapGenerator.Instance.MapBoundary.Contains(rigidbody.position) == false
                 || distance < 0 || remainTime <= 0)
         {
             PoolController.Push("Bullet", this);

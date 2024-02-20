@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\GameControl\ActionController.cs" />
     <Compile Include="Assets\Scripts\GameControl\EnemyController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\SummonNode.cs" />
+    <Compile Include="Assets\Scripts\UI\BuildModeUI.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\ScanTurretObject.cs" />
     <Compile Include="Assets\Scripts\Data\RoundManager.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\TurretObject.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Assets\Scripts\UI\RoundStartButton.cs" />
     <Compile Include="Assets\Scripts\GameControl\MinimapCamera.cs" />
     <Compile Include="Assets\Scripts\Data\ObjectData.cs" />
+    <Compile Include="Assets\Scripts\GameControl\TurretBuildPointer.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\DebugLogNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTActionNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\Context.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\DelayNode.cs" />
     <Compile Include="Assets\Scripts\Data\SpriteManager.cs" />
     <Compile Include="Assets\Scripts\Sound\SfxSource.cs" />
+    <Compile Include="Assets\Scripts\UI\BuildModeItemIcon.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTRepeatNode.cs" />
     <Compile Include="Assets\Scripts\GameControl\RoundController.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\BuffEnemyObject.cs" />

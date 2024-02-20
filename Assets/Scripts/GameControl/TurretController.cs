@@ -32,8 +32,8 @@ public class TurretController : MonoBehaviour
         };
     }
 
-    [SerializeField] private Transform turretPointer;
-
+    [SerializeField] private TurretBuildPointer turretPointer;
+   
     private Dictionary<Vector2, TurretObject> turrets = new Dictionary<Vector2, TurretObject>();
 
     public void StartGame()
@@ -45,64 +45,65 @@ public class TurretController : MonoBehaviour
         turrets.Clear();
     }
 
+    public bool BuildMode { get { return buildMode; } }
+    private bool buildMode;
+    private string selectedTurretKey;
+    private string selectedWeaponKey;
+
+    public void SelectBuildingTurret(string key)
+    {
+        selectedTurretKey = key;
+        turretPointer.ChangeSprite(SpriteManager.GetSprite(key));
+    }
+
+    public void SelectWeapon(string key)
+    {
+        selectedWeaponKey = key;
+    }
+
+    public void ChangeBulidMode(bool b)
+    {
+        buildMode = b;
+    }
+
     void Update()
     {
-        if (GameController.Instance.GameStarted == false || GameController.Instance.Pause) return;
+        if (GameController.Instance.GameStarted == false 
+            || GameController.Instance.Pause
+            || RoundController.Instance.Progress) return;
 
-        turretPointer.gameObject.SetActive(!RoundController.Instance.Progress);
-        if (RoundController.Instance.Progress) return;
-
-        turretPointer.position = GetDirection(Player.Instance.transform.position, CameraController.Instance.Cam.ScreenToWorldPoint(Input.mousePosition));
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        turretPointer.gameObject.SetActive(buildMode);
+        if (BuildMode)
         {
-            BuildTurret(turretPointer.position, "TURRET.BARRICADE");
-        }
+            Vector3 mousePos = CameraController.Instance.Cam.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 pos = PosToGrid(MapGenerator.RoundToInt(mousePos));
+            turretPointer.transform.position = pos;
+            turretPointer.SetColor(Buildable(pos));
+            
+            float axisX = Input.GetAxis("Horizontal");
+            float axisY = Input.GetAxis("Vertical");
+            Vector3 movePos = CameraController.Instance.Cam.transform.position + new Vector3(axisX, axisY) * Time.deltaTime * 10;
+            CameraController.Instance.MoveCamera(movePos, movePos);
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            BuildTurret(turretPointer.position, "TURRET.TURRET");
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            BuildTurret(turretPointer.position, "TURRET.SCANTOWER");
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (turrets.ContainsKey(turretPointer.position))
+            if (Input.GetMouseButton(0) && !UIController.PointOverUI())
             {
-                var turret = (AttackTurretObject)turrets[turretPointer.position];
-                if (turret)
-                {
-                    turret.Mount(WeaponController.Instance.CurWeapon, true);
-                }
+                BuildTurret(turretPointer.transform.position, selectedTurretKey);
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            if (turrets.ContainsKey(turretPointer.position))
+            if (Input.GetMouseButton(1) && turrets.ContainsKey(turretPointer.transform.position))
             {
-                var turret = (AttackTurretObject)turrets[turretPointer.position];
-                if (turret)
-                {
-                    turret.Mount(WeaponController.Instance.CurWeapon, false);
-                }
+                var turret = turrets[turretPointer.transform.position] as AttackTurretObject;
+                if (turret) turret.Mount(WeaponManager.GetWeapon(selectedWeaponKey), true);
             }
         }
     }
 
     public void BuildTurret(Vector2 pos, string name)
     {
-        Vector2Int mapPos = MapGenerator.ConvertToMapPos(MapGenerator.RoundToInt(pos));
-
         Turret data = TurretManager.GetTurret(name);
         if (data == null
             || Player.Instance.ItemAmount(data.key) <= 0
-            || turrets.ContainsKey(pos)) return;
-        if (MapGenerator.Instance.Map[mapPos.x, mapPos.y] == MapGenerator.WALL) return;
+            || !Buildable(pos)) return;
 
         Poolable obj = PoolController.Pop(name);
         TurretObject turret = obj.GetComponent<TurretObject>();
@@ -125,58 +126,19 @@ public class TurretController : MonoBehaviour
         if (turrets.ContainsKey(pos)) turrets.Remove(pos);
     }
 
-    public static Vector2 GetDirection(Vector2 charPos, Vector3 mouseWorldPos)
+    private bool Buildable(Vector2 pos)
     {
-        /* [-1, 1] [0, 1] [1, 1]
-         * [-1, 0] [0, 0] [1, 0]
-         * [-1,-1] [0,-1] [1,-1]
-         */
-
-        /* 타일은 grid.cellSize만큼 나누어져 있음
-         * 따라서 worldPos에서 내림을 통해 사각형의 왼쪽 아래 꼭지점을 얻음.
-         * 이후 cellSize의 절반만큼 위치를 조정해주면 타일의 위치가 됨.
-         */
-
-        /* 캐릭터를 기준으로 타워를 지을 수 있는 범위를 본인 위치를 포함해 8방향 한 칸으로 하고 싶음.
-         * 우선, 캐릭터를 기준으로 주변 타일을 체크함.
-         * 이 후 현재 마우스의 위치와 거리를 비교해서 해당 위치에 포인터 리턴
-         */
-        charPos = MapGenerator.RoundToInt(charPos);
-
-        Vector2 buildPos = PosToGrid(charPos + directions[0]);
-        float minDistance = Vector2.Distance(buildPos, mouseWorldPos);
-        for (int i = 1; i < directions.Length; i++)
-        {
-            Vector2 cmpPos = PosToGrid(charPos + directions[i]);
-            float distance = Vector2.Distance(cmpPos, mouseWorldPos);
-
-            if (minDistance > distance)
-            {
-                minDistance = distance;
-                buildPos = cmpPos;
-            }
-        }
-
-        return buildPos;
-        /*
-        Vector3 dir = mousePos - charPos;
-        float deg = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-        if (deg > 180 - 22.5f) return directions[7];
-        else if (deg > 180 - 22.5f * 3) return directions[0];
-        else if (deg > 180 - 22.5f * 5) return directions[1];
-        else if (deg > 180 - 22.5f * 7) return directions[2];
-        else if (deg > 180 - 22.5f * 9) return directions[3];
-        else if (deg > 180 - 22.5f * 11) return directions[4];
-        else if (deg > 180 - 22.5f * 13) return directions[5];
-        else if (deg > 180 - 22.5f * 15) return directions[6];
-        else return directions[7];*/
+        Vector2Int mapPos = MapGenerator.ConvertToMapPos(MapGenerator.RoundToInt(pos));
+        
+        return !turrets.ContainsKey(pos)  
+            && MapGenerator.PosOnMap(mapPos)
+            && !(MapGenerator.Instance.Map[mapPos.x, mapPos.y] == MapGenerator.WALL);
     }
 
-    private static Vector2 PosToGrid(Vector2 pos)
+    private static Vector2Int PosToGrid(Vector2 pos)
     {
-        float x = Mathf.FloorToInt(pos.x);
-        float y = Mathf.FloorToInt(pos.y);
-        return new Vector2(x, y);
+        int x = Mathf.FloorToInt(pos.x);
+        int y = Mathf.FloorToInt(pos.y);
+        return new Vector2Int(x, y);
     }
 }

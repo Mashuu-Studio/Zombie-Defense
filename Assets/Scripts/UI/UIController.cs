@@ -25,9 +25,12 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         setting.Init();
+        shop.Init();
+        buildModeUI.Init();
         InitItemInfo();
         OpenSetting(false);
         OpenShop(false);
+        buildModeUI.gameObject.SetActive(false);
         levelUpView.gameObject.SetActive(false);
     }
 
@@ -104,10 +107,11 @@ public class UIController : MonoBehaviour
     [SerializeField] private SettingUI setting;
     [SerializeField] private ShopUI shop;
     [SerializeField] private GameObject shopButton;
+    [SerializeField] private BuildModeUI buildModeUI;
+    [SerializeField] private GameObject buildButton;
 
     public void StartGame()
     {
-        shop.Init();
         foreach (var weapon in WeaponManager.Weapons)
         {
             if (weapon.consumable) continue;
@@ -117,7 +121,7 @@ public class UIController : MonoBehaviour
 
     public void OnOffShop()
     {
-        shop.Open(!shop.gameObject.activeSelf);
+        OpenShop(!shop.gameObject.activeSelf);
     }
 
     public void OpenShop(bool b)
@@ -128,6 +132,19 @@ public class UIController : MonoBehaviour
     public void BuyItem(ShopItem shopItem)
     {
         shop.BuyItem(shopItem);
+    }
+
+    public void OnOffBuildMode()
+    {
+        bool isOn = !buildModeUI.gameObject.activeSelf;
+        BuildMode(isOn);
+    }
+
+    public void BuildMode(bool b)
+    {
+        buildModeUI.gameObject.SetActive(b);
+        TurretController.Instance.ChangeBulidMode(b);
+        MapGenerator.Instance.BuildMode(b);
     }
 
     public void OpenSetting(bool b)
@@ -297,6 +314,8 @@ public class UIController : MonoBehaviour
         startRoundButton.SetActive(false);
         shopButton.SetActive(false);
         OpenShop(false);
+        BuildMode(false);
+        buildButton.SetActive(false);
     }
 
     public void EndRound()
@@ -305,6 +324,7 @@ public class UIController : MonoBehaviour
         roundTimeText.gameObject.SetActive(false);
         startRoundButton.SetActive(true);
         shopButton.SetActive(true);
+        buildButton.SetActive(true);
     }
     #endregion
 }

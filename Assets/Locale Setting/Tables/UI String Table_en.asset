@@ -86,8 +86,8 @@ MonoBehaviour:
       AMMO: {2}'
     m_Metadata:
       m_Items: []
-  - m_Id: 5132925951549440
-    m_Localized: ' '
+  - m_Id: 5399108437155840
+    m_Localized: BUILD MODE
     m_Metadata:
       m_Items: []
   references:

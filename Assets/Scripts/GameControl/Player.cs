@@ -98,7 +98,9 @@ public class Player : MonoBehaviour, IDamagedObject
 
     private void Update()
     {
-        if (GameController.Instance.GameStarted == false || GameController.Instance.Pause)
+        if (GameController.Instance.GameStarted == false 
+            || GameController.Instance.Pause 
+            || TurretController.Instance.BuildMode)
         {
             axisX = 0;
             axisY = 0;
@@ -118,7 +120,9 @@ public class Player : MonoBehaviour, IDamagedObject
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (GameController.Instance.GameStarted == false || GameController.Instance.Pause) return;
+        if (GameController.Instance.GameStarted == false 
+            || GameController.Instance.Pause
+            || TurretController.Instance.BuildMode) return;
 
         rigidbody.position += new Vector2(axisX, axisY) * Time.fixedDeltaTime * speed;
         CameraController.Instance.MoveCamera(rigidbody.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));

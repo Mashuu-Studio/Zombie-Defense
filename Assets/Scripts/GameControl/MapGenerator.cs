@@ -25,23 +25,26 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private AstarPath astar;
     private bool updateCol;
 
-    [Space]
-    public Tilemap boundaryTilemap;
-    public Tilemap wallTilemap;
-    public Tilemap wallBottomTilemap;
-    public Tilemap grassTilemap;
-    [SerializeField] Tile[] tiles;
-    [SerializeField] Tile wallBottomTile;
+    [Header("TILE")]
+    [SerializeField] private Tilemap boundaryTilemap;
+    [SerializeField] private Tilemap wallTilemap;
+    [SerializeField] private Tilemap wallBottomTilemap;
+    [SerializeField] private Tilemap grassTilemap;
+    [SerializeField] private Tilemap buildModeGridTilemap;
+    [SerializeField] private Tile[] tiles;
+    [SerializeField] private Tile wallBottomTile;
 
-    public Rect mapBoundary { get; private set; }
-    public int width, height;
-    public string seed;
-    public bool useSeed;
-    public int smoothing;
+    [Header("MapInfo")]
+    [SerializeField] private int width;
+    [SerializeField] private int height;
+    [SerializeField] private string seed;
+    [SerializeField] private bool useSeed;
+    [SerializeField] private int smoothing;
 
     [Range(0, 100)]
-    public int randomFillPercent;
+    [SerializeField] private int randomFillPercent;
 
+    public Rect MapBoundary { get; private set; }
     public Bounds MapBounds { get { return new Bounds(Vector3.zero, new Vector3(width, height)); } }
     public int[,] Map { get { return map; } }
     private int[,] map;
@@ -50,9 +53,15 @@ public class MapGenerator : MonoBehaviour
     public void StartGame()
     {
         GenerateMap();
+        BuildMode(false);
 
         Vector2 bottomLeft = ConvertToWorldPos(0, 0);
-        mapBoundary = new Rect(bottomLeft.x, bottomLeft.y, width, height);
+        MapBoundary = new Rect(bottomLeft.x, bottomLeft.y, width, height);
+    }
+
+    public void BuildMode(bool b)
+    {
+        buildModeGridTilemap.gameObject.SetActive(b);
     }
 
     // Tilemap Collider의 세팅이 전부 끝난 뒤에 Scan을 해야하기 때문에 Scan을 LateUpdate에 배치.
@@ -200,6 +209,12 @@ public class MapGenerator : MonoBehaviour
         pos = ConvertToWorldPos(pos);
 
         return pos;
+    }
+
+    public static bool PosOnMap(Vector2Int mapPos)
+    {
+        return mapPos.x >= 0 && mapPos.x < Instance.width
+            && mapPos.y >= 0 && mapPos.y < Instance.height;
     }
 
     public static Vector2Int RoundToInt(Vector2 v)

@@ -79,8 +79,8 @@ MonoBehaviour:
     m_Key: GAME.SHOP.STATDESCRIPTION
     m_Metadata:
       m_Items: []
-  - m_Id: 5132925951549440
-    m_Key: NONE
+  - m_Id: 5399108437155840
+    m_Key: GAME.BUILDMODE
     m_Metadata:
       m_Items: []
   m_Metadata:

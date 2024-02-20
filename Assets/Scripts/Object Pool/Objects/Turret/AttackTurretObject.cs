@@ -41,8 +41,8 @@ public class AttackTurretObject : TurretObject, IAttackObject
         {
             if (Player.Instance.ItemAmount(w.key) <= 0) return;
 
-            // 터렛에 들어있는 무기와 마운트하려는 무기가 다를 경우
-            if (weapon != null && weapon.key != w.key)
+            // 이미 무기가 들어있을 경우
+            if (weapon != null)
             {
                 // 기존에 있던 무기는 소지품으로
                 Player.Instance.AdjustItemAmount(weapon.key, 1);

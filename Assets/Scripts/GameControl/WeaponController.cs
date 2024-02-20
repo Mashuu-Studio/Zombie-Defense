@@ -111,7 +111,9 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        if (GameController.Instance.GameStarted == false || GameController.Instance.Pause || UIController.PointOverUI()) return;
+        if (GameController.Instance.GameStarted == false 
+            || GameController.Instance.Pause
+            || TurretController.Instance.BuildMode) return;
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -120,6 +122,7 @@ public class WeaponController : MonoBehaviour
         if (scroll == 0) move = 0;
         Switch(move);
 
+        if (UIController.PointOverUI()) return;
         if (Input.GetMouseButton(0))
             Fire(Player.Instance.transform.position, mouseWorldPos);
 
