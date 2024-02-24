@@ -111,7 +111,7 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        if (GameController.Instance.GameStarted == false 
+        if (GameController.Instance.GameStarted == false
             || GameController.Instance.Pause
             || TurretController.Instance.BuildMode) return;
 
@@ -159,7 +159,7 @@ public class WeaponController : MonoBehaviour
 
     public void Reload()
     {
-        if (wait) return;
+        if (wait || !Player.Instance.HasMagazine(CurWeapon.key)) return;
         if (reloadCoroutine != null) StopCoroutine(reloadCoroutine);
         reloadCoroutine = Reloading();
         StartCoroutine(reloadCoroutine);
@@ -170,7 +170,7 @@ public class WeaponController : MonoBehaviour
         wait = true;
         UIController.Instance.Reloading(true);
 
-        float pReload = (100 + Player.Instance.Reload) / 100f;
+        float pReload = (100 + Player.Instance.ReloadTime) / 100f;
         float time = CurWeapon.reload / pReload;
         SoundController.Instance.PlaySFX(Player.Instance.gameObject, "RELOAD");
         while (time > 0)
@@ -178,6 +178,7 @@ public class WeaponController : MonoBehaviour
             if (!GameController.Instance.Pause) time -= Time.deltaTime;
             yield return null;
         }
+        Player.Instance.Reload(CurWeapon.key);
         CurWeapon.Reload();
         UIController.Instance.Reloading(false);
         wait = false;

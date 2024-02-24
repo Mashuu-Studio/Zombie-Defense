@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameControl\ActionController.cs" />
     <Compile Include="Assets\Scripts\GameControl\EnemyController.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\Colleage\ColleageObject.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\SummonNode.cs" />
     <Compile Include="Assets\Scripts\UI\BuildModeUI.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\ScanTurretObject.cs" />

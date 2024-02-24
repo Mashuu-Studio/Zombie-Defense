@@ -45,7 +45,7 @@ public class Player : MonoBehaviour, IDamagedObject
     public int Hp { get { return hp; } }
     public int Def { get; }
     public int Speed { get { return speed; } }
-    public int Reload { get { return reload; } }
+    public int ReloadTime { get { return reload; } }
     public int Reward { get { return reward; } }
 
     public int Money { get { return money; } }
@@ -56,10 +56,10 @@ public class Player : MonoBehaviour, IDamagedObject
     [SerializeField] private SpriteRenderer gunSpriteRenderer;
 
     private Dictionary<string, int> itemAmount = new Dictionary<string, int>();
-
+    private Dictionary<string, int> magazines = new Dictionary<string, int>();
     #region Init & Update
 
-    public void Init()
+    public void StartGame()
     {
         lv = 1;
         exp = 0;
@@ -77,6 +77,7 @@ public class Player : MonoBehaviour, IDamagedObject
         foreach (var weapon in WeaponManager.Weapons)
         {
             itemAmount.Add(weapon.key, 0);
+            magazines.Add(weapon.key, 0);
         }
 
         foreach (var turret in TurretManager.Turrets)
@@ -98,8 +99,8 @@ public class Player : MonoBehaviour, IDamagedObject
 
     private void Update()
     {
-        if (GameController.Instance.GameStarted == false 
-            || GameController.Instance.Pause 
+        if (GameController.Instance.GameStarted == false
+            || GameController.Instance.Pause
             || TurretController.Instance.BuildMode)
         {
             axisX = 0;
@@ -120,7 +121,7 @@ public class Player : MonoBehaviour, IDamagedObject
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (GameController.Instance.GameStarted == false 
+        if (GameController.Instance.GameStarted == false
             || GameController.Instance.Pause
             || TurretController.Instance.BuildMode) return;
 
@@ -149,6 +150,36 @@ public class Player : MonoBehaviour, IDamagedObject
     {
         if (itemAmount.ContainsKey(key)) return itemAmount[key];
         return 0;
+    }
+
+    public int GetMagazine(string key)
+    {
+        int mag = 0;
+        if (magazines.ContainsKey(key))
+        {
+            if (WeaponManager.GetWeapon(key).infmagazine) mag = -1;
+            else mag = magazines[key];
+        }
+        return mag;
+    }
+
+    public void AddMagazine(string key)
+    {
+        if (magazines.ContainsKey(key)) magazines[key]++;
+    }
+
+    public bool HasMagazine(string key)
+    {
+        if (WeaponManager.GetWeapon(key).infmagazine
+            || (magazines.ContainsKey(key)
+            && magazines[key] > 0)) return true;
+        return false;
+    }
+
+    public void Reload(string key)
+    {
+        if (magazines.ContainsKey(key))
+            magazines[key]--;
     }
 
     #region Reward

@@ -71,7 +71,7 @@ public class GameController : MonoBehaviour
                 TurretController.Instance.StartGame();
                 UIController.Instance.StartGame();
 
-                Player.Instance.Init();
+                Player.Instance.StartGame();
                 CameraController.Instance.SetCamera(Camera.main);
                 break;
         }

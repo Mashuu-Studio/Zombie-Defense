@@ -163,6 +163,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private TextMeshProUGUI ammoText;
     [SerializeField] private TextMeshProUGUI maxAmmoText;
+    [SerializeField] private TextMeshProUGUI magazineText;
     [SerializeField] private Slider expSlider;
     [SerializeField] private TextMeshProUGUI lvText;
     [SerializeField] private TextMeshProUGUI moneyText;
@@ -177,6 +178,8 @@ public class UIController : MonoBehaviour
         lvText.text = Player.Instance.Lv.ToString();
         granadeAmount.text = Player.Instance.ItemAmount("WEAPON.GRANADE").ToString();
         moneyText.text = $"$ {Player.Instance.Money}";
+
+        UpdateMagazine();
     }
 
     [Header("WEAPON")]
@@ -212,8 +215,9 @@ public class UIController : MonoBehaviour
 
     public void SwitchWeapon()
     {
-        ammoText.text = WeaponController.Instance.CurWeapon.curammo.ToString();
-        maxAmmoText.text = WeaponController.Instance.CurWeapon.ammo.ToString();
+        Weapon weapon = WeaponController.Instance.CurWeapon;
+        ammoText.text = weapon.curammo.ToString();
+        maxAmmoText.text = weapon.ammo.ToString();
         UpdateWeaponImage();
         Reloading(false);
     }
@@ -223,10 +227,17 @@ public class UIController : MonoBehaviour
         ammoText.text = ammo.ToString();
     }
 
+    private void UpdateMagazine()
+    {
+        int mag = Player.Instance.GetMagazine(WeaponController.Instance.CurWeapon.key);
+        magazineText.text = (mag == -1) ? "INF" : mag.ToString();
+    }
+
     public void Reloading(bool b)
     {
         if (b) ammoText.text = "RELOAD";
         else ammoText.text = WeaponController.Instance.CurWeapon.curammo.ToString();
+
     }
 
     [Header("Item")]
@@ -280,7 +291,7 @@ public class UIController : MonoBehaviour
     {
         upgradeInfos[0].text = $"{Player.Instance.MaxHp} ¡æ {Player.Instance.MaxHp + 5}";
         upgradeInfos[1].text = $"{Player.Instance.Speed} ¡æ {Player.Instance.Speed + 1}";
-        upgradeInfos[2].text = $"{Player.Instance.Reload}% ¡æ {Player.Instance.Reload + 25}%";
+        upgradeInfos[2].text = $"{Player.Instance.ReloadTime}% ¡æ {Player.Instance.ReloadTime + 25}%";
         upgradeInfos[3].text = $"{Player.Instance.Reward}% ¡æ {Player.Instance.Reward + 25}%";
 
         levelUpView.gameObject.SetActive(true);

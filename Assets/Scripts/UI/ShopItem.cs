@@ -12,12 +12,16 @@ public class ShopItem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemPrice;
 
     public BuyableData Item { get; private set; }
-    public void Init(BuyableData data)
+    public bool IsMagazine { get { return magazine; } }
+    private bool magazine;
+    public void Init(BuyableData data, bool magazine = false)
     {
         itemImage.sprite = SpriteManager.GetSprite(data.key);
         itemPrice.text = $"${data.price}";
         Item = data;
         itemIcon.SetIcon(Item.key);
+
+        this.magazine = magazine;
     }
 
     private void Update()
