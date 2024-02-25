@@ -51,8 +51,12 @@ public class BuildModeUI : MonoBehaviour
     public void BuildMode(bool b)
     {
         gameObject.SetActive(b);
-        if (b) weaponIndex = 0;
-        selectedWeaponPoint.anchoredPosition = new Vector2(150 * weaponIndex, 0);
+        if (b)
+        {
+            weaponIndex = 0;
+            TurretController.Instance.SelectWeapon(weaponIcons[weaponIndex].Key);
+            selectedWeaponPoint.anchoredPosition = new Vector2(150 * weaponIndex, 0);
+        }
     }
 
     private void Update()

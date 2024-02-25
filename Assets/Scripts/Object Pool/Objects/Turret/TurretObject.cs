@@ -15,8 +15,13 @@ public class TurretObject : BTPoolable, IDamagedObject
     public int Hp { get { return hp; } }
     public int Def { get; }
 
+    public Turret Data { get { return data; } }
+    private Turret data;
+
     public virtual void SetData(Turret data, Vector2 pos)
     {
+        this.data = data;
+
         hp = data.hp;
         hpBar.SetHpBar(hp, new Vector2(0.75f, 0.1f), 0.6f);
 

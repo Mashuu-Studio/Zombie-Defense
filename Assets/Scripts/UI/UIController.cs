@@ -142,7 +142,7 @@ public class UIController : MonoBehaviour
 
     public void BuildMode(bool b)
     {
-        buildModeUI.gameObject.SetActive(b);
+        buildModeUI.BuildMode(b);
         TurretController.Instance.ChangeBulidMode(b);
         MapGenerator.Instance.BuildMode(b);
     }

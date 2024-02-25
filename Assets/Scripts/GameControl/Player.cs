@@ -137,6 +137,18 @@ public class Player : MonoBehaviour, IDamagedObject
     }
     #endregion
 
+    public bool BuyItem(BuyableData data)
+    {
+        // 우선 true로 세팅.
+        if (itemAmount.ContainsKey(data.key))// Money >= data.price )
+        {
+            //money -= data.price;
+            itemAmount[data.key]++;
+            return true;
+        }
+        return false;
+    }
+
     public void AdjustItemAmount(string key, int amount)
     {
         if (itemAmount.ContainsKey(key))

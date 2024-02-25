@@ -85,12 +85,20 @@ public class TurretController : MonoBehaviour
             Vector3 movePos = CameraController.Instance.Cam.transform.position + new Vector3(axisX, axisY) * Time.deltaTime * 10;
             CameraController.Instance.MoveCamera(movePos, movePos);
 
+            // ÅÍ·¿ ±¸¸Å ¹× ºôµå
             if (Input.GetMouseButton(0) && !UIController.PointOverUI())
             {
                 BuildTurret(turretPointer.transform.position, selectedTurretKey);
             }
 
-            if (Input.GetMouseButton(1) && turrets.ContainsKey(turretPointer.transform.position))
+            // ÅÍ·¿ º¸°ü
+            if (Input.GetMouseButton(1))
+            {
+                StoreTurret(turretPointer.transform.position);
+            }
+
+            // ¸¶¿îÆ®
+            if (Input.GetKeyDown(KeyCode.Q) && turrets.ContainsKey(turretPointer.transform.position))
             {
                 var turret = turrets[turretPointer.transform.position] as AttackTurretObject;
                 if (turret) turret.Mount(WeaponManager.GetWeapon(selectedWeaponKey), true);
@@ -101,9 +109,9 @@ public class TurretController : MonoBehaviour
     public void BuildTurret(Vector2 pos, string name)
     {
         Turret data = TurretManager.GetTurret(name);
-        if (data == null
-            || Player.Instance.ItemAmount(data.key) <= 0
-            || !Buildable(pos)) return;
+        if (data == null || !Buildable(pos)) return;
+        if (Player.Instance.ItemAmount(data.key) <= 0
+            && !Player.Instance.BuyItem(data)) return;
 
         Poolable obj = PoolController.Pop(name);
         TurretObject turret = obj.GetComponent<TurretObject>();
@@ -119,6 +127,17 @@ public class TurretController : MonoBehaviour
         turret.transform.parent = transform;
         turret.transform.position = pos;
         turrets.Add(pos, turret);
+    }
+
+    public void StoreTurret(Vector2 pos)
+    {
+        if (turrets.ContainsKey(pos))
+        {
+            var turret = turrets[pos];
+            Turret data = turret.Data;
+            Player.Instance.AdjustItemAmount(data.key, 1);
+            turret.DestroyTurret();
+        }
     }
 
     public void RemoveTurret(Vector2 pos)
