@@ -122,6 +122,7 @@
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\BuffEnemyObject.cs" />
     <Compile Include="Assets\Scripts\UI\SettingUI.cs" />
     <Compile Include="Assets\Scripts\UI\UIController.cs" />
+    <Compile Include="Assets\Scripts\UI\ShopStatus.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\MoveNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTRootNode.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Pool.cs" />

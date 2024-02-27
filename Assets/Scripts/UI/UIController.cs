@@ -129,9 +129,9 @@ public class UIController : MonoBehaviour
         shop.Open(b);
     }
 
-    public void BuyItem(ShopItem shopItem)
+    public void BuyItem(ShopItem shopItem, bool isMagazine = false)
     {
-        shop.BuyItem(shopItem);
+        shop.BuyItem(shopItem, isMagazine);
     }
 
     public void OnOffBuildMode()

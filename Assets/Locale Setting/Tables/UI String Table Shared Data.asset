@@ -83,6 +83,18 @@ MonoBehaviour:
     m_Key: GAME.BUILDMODE
     m_Metadata:
       m_Items: []
+  - m_Id: 8068943524667392
+    m_Key: GAME.SHOP.STAT.DMG
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8068986524672000
+    m_Key: GAME.SHOP.STAT.ASPEED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8069004228829184
+    m_Key: GAME.SHOP.STAT.AMMO
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

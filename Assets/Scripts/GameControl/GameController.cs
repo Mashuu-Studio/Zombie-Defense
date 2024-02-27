@@ -63,7 +63,6 @@ public class GameController : MonoBehaviour
                 break;
 
             case SceneController.Scene.GAME:
-                gameStarted = true;
                 UIController.Instance.ChangeScene(2);
                 MapGenerator.Instance.StartGame();
                 RoundController.Instance.EndGame();
@@ -73,6 +72,7 @@ public class GameController : MonoBehaviour
 
                 Player.Instance.StartGame();
                 CameraController.Instance.SetCamera(Camera.main);
+                gameStarted = true;
                 break;
         }
     }
