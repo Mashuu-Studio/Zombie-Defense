@@ -26,6 +26,7 @@ public class Player : MonoBehaviour, IDamagedObject
     private int lv;
     private int exp;
     private int maxexp;
+    private int bonusStat;
 
     private bool invincible;
 
@@ -40,6 +41,7 @@ public class Player : MonoBehaviour, IDamagedObject
     public int Lv { get { return lv; } }
     public int MaxExp { get { return maxexp; } }
     public int Exp { get { return exp; } }
+    public int BonusStat { get { return bonusStat; } }
 
     public int MaxHp { get { return maxhp; } }
     public int Hp { get { return hp; } }
@@ -64,6 +66,7 @@ public class Player : MonoBehaviour, IDamagedObject
         lv = 1;
         exp = 0;
         maxexp = 10;
+        bonusStat = 0;
 
         invincible = false;
 
@@ -214,7 +217,8 @@ public class Player : MonoBehaviour, IDamagedObject
                 lv += 1;
                 exp -= maxexp;
                 maxexp += 10;
-                UIController.Instance.LevelUp();
+                bonusStat++;
+                //UIController.Instance.LevelUp();
             }
             yield return null;
         }
@@ -222,6 +226,9 @@ public class Player : MonoBehaviour, IDamagedObject
 
     public void Upgrade(StatType type)
     {
+        if (bonusStat <= 0) return;
+
+        bonusStat--;
         switch (type)
         {
             case StatType.HP:

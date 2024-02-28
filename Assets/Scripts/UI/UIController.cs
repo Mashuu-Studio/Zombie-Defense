@@ -31,7 +31,6 @@ public class UIController : MonoBehaviour
         OpenSetting(false);
         OpenShop(false);
         buildModeUI.gameObject.SetActive(false);
-        levelUpView.gameObject.SetActive(false);
     }
 
     [Header("Scene")]
@@ -279,30 +278,6 @@ public class UIController : MonoBehaviour
     {
         if (itemInfos.ContainsKey(key))
             itemInfos[key].UpdateInfo(amount);
-    }
-    #endregion
-
-    #region Level
-    [Header("Level Up")]
-    [SerializeField] private GameObject levelUpView;
-    [SerializeField] private TextMeshProUGUI[] upgradeInfos;
-
-    public void LevelUp()
-    {
-        upgradeInfos[0].text = $"{Player.Instance.MaxHp} ¡æ {Player.Instance.MaxHp + 5}";
-        upgradeInfos[1].text = $"{Player.Instance.Speed} ¡æ {Player.Instance.Speed + 1}";
-        upgradeInfos[2].text = $"{Player.Instance.ReloadTime}% ¡æ {Player.Instance.ReloadTime + 25}%";
-        upgradeInfos[3].text = $"{Player.Instance.Reward}% ¡æ {Player.Instance.Reward + 25}%";
-
-        levelUpView.gameObject.SetActive(true);
-        GameController.Instance.LevelUpPause(true);
-    }
-
-    public void UpgradeStat(int index)
-    {
-        Player.Instance.Upgrade((Player.StatType)index);
-        levelUpView.gameObject.SetActive(false);
-        GameController.Instance.LevelUpPause(false);
     }
     #endregion
 

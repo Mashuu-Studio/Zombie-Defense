@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization.Components;
+using TMPro;
 
 public class ShopUI : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class ShopUI : MonoBehaviour
     [SerializeField] private RectTransform weaponScrollRectTransform;
     [SerializeField] private RectTransform otherItemScrollRectTransform;
     [SerializeField] private ShopItem itemPrefab;
+
+    [Header("Status")]
+    [SerializeField] private TextMeshProUGUI bonusStat;
+    [SerializeField] private TextMeshProUGUI[] statUpgradeInfos;
 
     [Header("INFO")]
     [SerializeField] private LocalizeStringEvent description;
@@ -68,14 +73,7 @@ public class ShopUI : MonoBehaviour
         {
             panels[i].SetActive(i == index);
         }
-    }
-
-    public void UpdateInfo(ShopItem shopItem)
-    {
-        description.SetEntry(shopItem.Item.key);
-        Weapon weapon = shopItem.Item as Weapon;
-        if (weapon != null) itemStatus.UpdateStatus(weapon);
-        itemStatus.gameObject.SetActive(weapon != null);
+        if (index == 2) UpdateStatus();
     }
 
     public void BuyItem(ShopItem shopItem, bool isMagazine)
@@ -101,4 +99,31 @@ public class ShopUI : MonoBehaviour
             Player.Instance.AdjustItemAmount(shopItem.Item.key, 1);
         }
     }
+
+    #region Status
+    public void UpdateStatus()
+    {
+        bonusStat.text = $"BONUS: {Player.Instance.BonusStat}";
+        statUpgradeInfos[0].text = $"{Player.Instance.MaxHp} ¡æ {Player.Instance.MaxHp + 5}";
+        statUpgradeInfos[1].text = $"{Player.Instance.Speed} ¡æ {Player.Instance.Speed + 1}";
+        statUpgradeInfos[2].text = $"{Player.Instance.ReloadTime}% ¡æ {Player.Instance.ReloadTime + 25}%";
+        statUpgradeInfos[3].text = $"{Player.Instance.Reward}% ¡æ {Player.Instance.Reward + 25}%";
+    }
+
+    public void UpgradeStat(int index)
+    {
+        Player.Instance.Upgrade((Player.StatType)index);
+        UpdateStatus();
+    }
+    #endregion
+
+    #region Info
+    public void UpdateInfo(ShopItem shopItem)
+    {
+        description.SetEntry(shopItem.Item.key);
+        Weapon weapon = shopItem.Item as Weapon;
+        if (weapon != null) itemStatus.UpdateStatus(weapon);
+        itemStatus.gameObject.SetActive(weapon != null);
+    }
+    #endregion
 }
