@@ -133,6 +133,11 @@ public class UIController : MonoBehaviour
         shop.BuyItem(shopItem, isMagazine);
     }
 
+    public void RemoveCompanion(CompanionObject companion)
+    {
+        shop.RemoveCompanion(companion);
+    }
+
     public void OnOffBuildMode()
     {
         bool isOn = !buildModeUI.gameObject.activeSelf;

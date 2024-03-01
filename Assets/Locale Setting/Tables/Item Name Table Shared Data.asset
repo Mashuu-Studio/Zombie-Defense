@@ -71,6 +71,10 @@ MonoBehaviour:
     m_Key: WEAPON.MINIGUN
     m_Metadata:
       m_Items: []
+  - m_Id: 8725370605936640
+    m_Key: COMPANION.COMPANION
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -39,7 +39,7 @@ public class RoundController : MonoBehaviour
         round++;
         // 라운드에 따라 라운드 시간 부여
         if (roundInfo != null)
-            StartCoroutine(ProgressRound(roundInfo, 60));
+            StartCoroutine(ProgressRound(roundInfo, 20));
         else GameController.Instance.GoTo(SceneController.Scene.TITLE);
     }
 

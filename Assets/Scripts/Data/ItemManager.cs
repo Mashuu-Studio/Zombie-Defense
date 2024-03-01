@@ -15,6 +15,11 @@ public class ItemManager
                 key = "WEAPON.GRANADE",
                 price = 0,
             },
+            new OtherItem()
+            {
+                key = "COMPANION.COMPANION",
+                price = 0,
+            }
         };
     }
 

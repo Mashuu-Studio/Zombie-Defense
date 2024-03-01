@@ -11,13 +11,17 @@ public class ShopUI : MonoBehaviour
     [SerializeField] private RectTransform otherItemScrollRectTransform;
     [SerializeField] private ShopItem itemPrefab;
 
+    [Header("Units")]
+    [SerializeField] private List<CompanionSlot> companionSlots;
+
     [Header("Status")]
     [SerializeField] private TextMeshProUGUI bonusStat;
     [SerializeField] private TextMeshProUGUI[] statUpgradeInfos;
 
-    [Header("INFO")]
+    [Header("Info")]
     [SerializeField] private LocalizeStringEvent description;
     [SerializeField] private ShopStatus itemStatus;
+
     private List<ShopItem> items = new List<ShopItem>();
 
     public static int ITEM_IMAGE_MAX_WIDTH = 250;
@@ -60,6 +64,11 @@ public class ShopUI : MonoBehaviour
 
         UpdateInfo(items[0]);
         ChangePanel(0);
+
+        foreach(var slot in companionSlots)
+        {
+            slot.SetActive(false);
+        }
     }
 
     public void Open(bool b)
@@ -94,9 +103,34 @@ public class ShopUI : MonoBehaviour
                 UIController.Instance.AddItem(weapon.key);
             }
         }
+        else if (shopItem.Item.key.Contains("COMPANION"))
+        {
+            CompanionObject companion = CompanionController.Instance.AddCompanion();
+            foreach (var slot in companionSlots)
+            {
+                if (slot.Data == null)
+                {
+                    slot.Init(companion);
+                    slot.transform.SetAsLastSibling();
+                    break;
+                }
+            }
+        }
         else
         {
             Player.Instance.AdjustItemAmount(shopItem.Item.key, 1);
+        }
+    }
+
+    public void RemoveCompanion(CompanionObject companion)
+    {
+        foreach (var slot in companionSlots)
+        {
+            if (slot.Data == companion)
+            {
+                slot.SetActive(false);
+                return;
+            }
         }
     }
 

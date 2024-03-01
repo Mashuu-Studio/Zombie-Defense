@@ -15,15 +15,9 @@ public class EnemyController : MonoBehaviour
             return;
         }
         instance = this;
-        spawnedEnemies = new List<EnemyObject>();
     }
 
-    private List<EnemyObject> spawnedEnemies;
-
-    public void DeadEnemy(EnemyObject enemy)
-    {
-        spawnedEnemies.Remove(enemy);
-    }
+    private List<EnemyObject> spawnedEnemies = new List<EnemyObject>();
 
     public void EndRound()
     {
@@ -54,8 +48,13 @@ public class EnemyController : MonoBehaviour
 
     public void AddEnemy(EnemyObject enemyObject, Vector3 pos)
     {
-        enemyObject.transform.position = pos; 
+        enemyObject.transform.position = pos;
         spawnedEnemies.Add(enemyObject);
+    }
+
+    public void DeadEnemy(EnemyObject enemy)
+    {
+        spawnedEnemies.Remove(enemy);
     }
 
     public static string GetEnemyPrefabName(Enemy enemy)

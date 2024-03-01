@@ -62,7 +62,6 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameControl\ActionController.cs" />
     <Compile Include="Assets\Scripts\GameControl\EnemyController.cs" />
-    <Compile Include="Assets\Scripts\Object Pool\Objects\Colleage\ColleageObject.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\SummonNode.cs" />
     <Compile Include="Assets\Scripts\UI\BuildModeUI.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\ScanTurretObject.cs" />
@@ -79,6 +78,7 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\EnemyAbilityNode.cs" />
     <Compile Include="Assets\Scripts\GameControl\MapGenerator.cs" />
     <Compile Include="Assets\Scripts\GameControl\Player.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\Companion\CompanionObject.cs" />
     <Compile Include="Assets\Scripts\Object Pool\PoolController.cs" />
     <Compile Include="Assets\Scripts\UI\ObjectHpBar.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTNode.cs" />
@@ -105,6 +105,7 @@
     <Compile Include="Assets\Scripts\Data\WeaponManager.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameSetting.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameController.cs" />
+    <Compile Include="Assets\Scripts\UI\CompanionSlot.cs" />
     <Compile Include="Assets\Scripts\GameControl\CameraController.cs" />
     <Compile Include="Assets\Scripts\Data\ItemManager.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTCompositeNode.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Assets\Scripts\UI\SettingUI.cs" />
     <Compile Include="Assets\Scripts\UI\UIController.cs" />
     <Compile Include="Assets\Scripts\UI\ShopStatus.cs" />
+    <Compile Include="Assets\Scripts\GameControl\CompanionController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\MoveNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTRootNode.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Pool.cs" />
