@@ -16,6 +16,7 @@ public class LocaleSelector: MonoBehaviour
         active = true;
         yield return LocalizationSettings.InitializationOperation;
         LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[index];
+        GameSetting.Instance.SetLanguage(index);
         active = false;
     }
 }

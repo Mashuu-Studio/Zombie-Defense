@@ -108,6 +108,13 @@ public class GameSetting : MonoBehaviour
     #region Data
     public Setting SettingInfo { get { return setting; } }
     private Setting setting;
+    public int CurrentLanguage { get { return currentLanguage; } }
+    private int currentLanguage;
+
+    public void SetLanguage(int index)
+    {
+        currentLanguage = index;
+    }
 
     public class Setting
     {

@@ -6,6 +6,7 @@ public class CompanionObject : BTPoolable, IDamagedObject, IAttackObject
 {
     [SerializeField] private SpriteRenderer gunSpriteRenderer;
 
+    private int maxhp;
     private int hp;
     private int def;
 
@@ -15,7 +16,7 @@ public class CompanionObject : BTPoolable, IDamagedObject, IAttackObject
     public override void Init()
     {
         base.Init();
-        hp = 3;
+        hp = maxhp = 5;
         def = 0;
         reloading = false;
         WaitAttack = false;
@@ -24,11 +25,12 @@ public class CompanionObject : BTPoolable, IDamagedObject, IAttackObject
 
     public void SetBasicWeapon()
     {
-        ChangeWeapon(WeaponManager.GetWeapon("WEAPON.PISTOL"));
+        ChangeWeapon("WEAPON.PISTOL");
     }
 
-    public void ChangeWeapon(Weapon w)
+    public void ChangeWeapon(string key)
     {
+        Weapon w = WeaponManager.GetWeapon(key);
         weapon = new Weapon(w);
         gunSpriteRenderer.sprite = SpriteManager.GetSprite(w.key);
     }
@@ -51,7 +53,14 @@ public class CompanionObject : BTPoolable, IDamagedObject, IAttackObject
     */
     #region IDamagedObject
     public int Hp { get { return hp; } }
+    public int MaxHp { get { return maxhp; } }
     public int Def { get { return def; } }
+
+    public void Heal()
+    {
+        hp = maxhp;
+    }
+
     public void Damaged(int dmg)
     {
         hp -= dmg;
