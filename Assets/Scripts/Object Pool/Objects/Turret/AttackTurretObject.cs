@@ -115,7 +115,7 @@ public class AttackTurretObject : TurretObject, IAttackObject
 
     public void Reload()
     {
-        if (reloading) return;
+        if (reloading || !Player.Instance.HasMagazine(weapon.key)) return;
         reloadCoroutine = Reloading();
         StartCoroutine(reloadCoroutine);
     }

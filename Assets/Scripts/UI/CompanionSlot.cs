@@ -13,7 +13,10 @@ public class CompanionSlot : MonoBehaviour
 
     private static List<string> weaponKeys;
     private int language;
-    private void Start()
+    public CompanionObject Data { get { return data; } }
+    private CompanionObject data;
+
+    public void Init()
     {
         if (weaponKeys == null)
         {
@@ -21,12 +24,11 @@ public class CompanionSlot : MonoBehaviour
             WeaponManager.GetWeapons().ForEach(weapon => weaponKeys.Add(weapon.key));
         }
         weaponDropdown.AddOptions(weaponKeys);
+        SetActive(false);
     }
-    public CompanionObject Data { get { return data; } }
-    private CompanionObject data;
-    public void Init(CompanionObject data)
+    public void SetData(CompanionObject data)
     {
-        this.data = data;        
+        this.data = data;
         SetActive(true);
     }
 
@@ -44,6 +46,15 @@ public class CompanionSlot : MonoBehaviour
     private void UpdateInfo()
     {
         hpText.text = $"HP: {Data.Hp} / {Data.MaxHp}";
+        if (data.UsingWeapon != null)
+            for (int i = 0; i < weaponKeys.Count; i++)
+            {
+                if (data.UsingWeapon.key == weaponKeys[i])
+                {
+                    weaponDropdown.value = i;
+                    break;
+                }
+            }
     }
 
     public void ChangeWeapon(int index)

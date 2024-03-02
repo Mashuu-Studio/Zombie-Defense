@@ -65,9 +65,9 @@ public class ShopUI : MonoBehaviour
         UpdateInfo(items[0]);
         ChangePanel(0);
 
-        foreach(var slot in companionSlots)
+        foreach (var slot in companionSlots)
         {
-            slot.SetActive(false);
+            slot.Init();
         }
     }
 
@@ -120,7 +120,7 @@ public class ShopUI : MonoBehaviour
             {
                 if (slot.Data == null)
                 {
-                    slot.Init(companion);
+                    slot.SetData(companion);
                     slot.transform.SetAsLastSibling();
                     break;
                 }

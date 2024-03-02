@@ -13,6 +13,8 @@ public class CompanionObject : BTPoolable, IDamagedObject, IAttackObject
     private Weapon weapon;
     private bool reloading;
 
+    public Weapon UsingWeapon { get { return weapon; } }
+
     public override void Init()
     {
         base.Init();
@@ -30,6 +32,12 @@ public class CompanionObject : BTPoolable, IDamagedObject, IAttackObject
 
     public void ChangeWeapon(string key)
     {
+        // 다르다면 기존에 가진 무기와 교체
+        if (weapon != null && key != weapon.key)
+        {
+            // 소지품으로 돌아감.
+            Player.Instance.AdjustItemAmount(weapon.key, 1);
+        }
         Weapon w = WeaponManager.GetWeapon(key);
         weapon = new Weapon(w);
         gunSpriteRenderer.sprite = SpriteManager.GetSprite(w.key);
@@ -90,6 +98,13 @@ public class CompanionObject : BTPoolable, IDamagedObject, IAttackObject
         return targets != null && targets.Length > 0;
     }
 
+    public void LookAt(Vector3 target)
+    {
+        Vector2 dir = target - transform.position;
+        float degree = Mathf.Rad2Deg * Mathf.Atan2(dir.y, dir.x);
+        transform.rotation = Quaternion.Euler(0, 0, degree);
+    }
+
     public void Attack()
     {
         // 우선순위에 따라 적을 선택하는 코드가 들어갈 예정
@@ -102,6 +117,7 @@ public class CompanionObject : BTPoolable, IDamagedObject, IAttackObject
                 Reload();
                 return;
             }
+            LookAt(target.transform.position);
             Vector2 dir = target.position - transform.position;
             int spread = weapon.bulletspreadangle;
             for (int i = 0; i < weapon.bullets; i++)
@@ -135,6 +151,12 @@ public class CompanionObject : BTPoolable, IDamagedObject, IAttackObject
 
     public void Reload()
     {
+        // Magazine이 다 떨어졌다면 권총으로 변환
+        if (!Player.Instance.HasMagazine(weapon.key))
+        {
+            SetBasicWeapon();
+            return;
+        }
         if (reloading) return;
         reloadCoroutine = Reloading();
         StartCoroutine(reloadCoroutine);
