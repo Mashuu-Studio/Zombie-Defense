@@ -118,6 +118,8 @@ public class UIController : MonoBehaviour
         }
     }
 
+    #region Shop
+
     public void OnOffShop()
     {
         OpenShop(!shop.gameObject.activeSelf);
@@ -138,6 +140,13 @@ public class UIController : MonoBehaviour
         shop.RemoveCompanion(companion);
     }
 
+    public void UpdateCompanions()
+    {
+        shop.UpdateCompanionSlots();
+    }
+    #endregion
+
+    #region BuildMode
     public void OnOffBuildMode()
     {
         bool isOn = !buildModeUI.gameObject.activeSelf;
@@ -150,7 +159,9 @@ public class UIController : MonoBehaviour
         TurretController.Instance.ChangeBulidMode(b);
         MapGenerator.Instance.BuildMode(b);
     }
+    #endregion
 
+    #region Setting
     public void OpenSetting(bool b)
     {
         setting.gameObject.SetActive(b);
@@ -160,6 +171,7 @@ public class UIController : MonoBehaviour
     {
         setting.LoadResolutionInfo();
     }
+    #endregion
     #endregion
 
     #region Status

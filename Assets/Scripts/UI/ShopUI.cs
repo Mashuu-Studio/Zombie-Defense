@@ -42,6 +42,7 @@ public class ShopUI : MonoBehaviour
         int count = 0;
         foreach (var weapon in WeaponManager.Weapons)
         {
+            if (weapon.infAmount) continue;
             if (weapon.consumable) continue;
             var item = Instantiate(itemPrefab, weaponScrollRectTransform);
             item.Init(weapon);
@@ -97,13 +98,7 @@ public class ShopUI : MonoBehaviour
                 else
                 {
                     Player.Instance.AdjustItemAmount(weapon.key, 1);
-                    foreach (var slot in companionSlots)
-                    {
-                        if (slot.Data == null)
-                        {
-                            slot.UpdateDropdown();
-                        }
-                    }
+                    UpdateCompanionSlots();
                 }
             }
             // 소모품이 아닌데 무기가 없고 탄창이 아니라면 새롭게 획득
@@ -129,6 +124,14 @@ public class ShopUI : MonoBehaviour
         else
         {
             Player.Instance.AdjustItemAmount(shopItem.Item.key, 1);
+        }
+    }
+
+    public void UpdateCompanionSlots()
+    {
+        foreach (var slot in companionSlots)
+        {
+            slot.UpdateDropdown();
         }
     }
 

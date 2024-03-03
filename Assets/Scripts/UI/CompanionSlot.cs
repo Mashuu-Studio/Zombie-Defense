@@ -12,6 +12,7 @@ public class CompanionSlot : MonoBehaviour
     [SerializeField] private TMP_Dropdown weaponDropdown;
 
     private static List<string> weaponKeys;
+    private int keyIndex;
     private int language;
     public CompanionObject Data { get { return data; } }
     private CompanionObject data;
@@ -46,21 +47,18 @@ public class CompanionSlot : MonoBehaviour
     private void UpdateInfo()
     {
         hpText.text = $"HP: {Data.Hp} / {Data.MaxHp}";
-        if (data.UsingWeapon != null)
-            for (int i = 0; i < weaponKeys.Count; i++)
-            {
-                if (data.UsingWeapon.key == weaponKeys[i])
-                {
-                    weaponDropdown.value = i;
-                    break;
-                }
-            }
+        if (data.UsingWeapon != null) weaponDropdown.value = keyIndex;
     }
 
     public void ChangeWeapon(int index)
     {
-        string key = weaponKeys[index];
-        data.ChangeWeapon(key);
+        // 재고가 없다면 false 리턴. 원래대로 드랍다운 변경
+        if (data.ChangeWeapon(weaponKeys[index]))
+        {
+            keyIndex = index;
+            UIController.Instance.UpdateCompanions();
+        }
+        else weaponDropdown.value = keyIndex;
     }
 
     private void Update()
@@ -78,7 +76,7 @@ public class CompanionSlot : MonoBehaviour
         for (int i = 0; i < weaponKeys.Count; i++)
         {
             string key = weaponKeys[i];
-            int amount = Player.Instance.ItemAmount(key);
+            string amount = WeaponManager.GetWeapon(key).infAmount ? "INF" : Player.Instance.ItemAmount(key).ToString();
             LocalizedString localizedString = new LocalizedString("Item Name Table", key);
             weaponDropdown.options[i].text = $"{localizedString.GetLocalizedString()} : {amount}";
         }

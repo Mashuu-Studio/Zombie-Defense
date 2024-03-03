@@ -14,7 +14,7 @@ public abstract class BuyableData : ObjectData
 
 public class Weapon : BuyableData
 {
-    public bool infmagazine;
+    public bool infAmount;
     public bool usable;
 
     public int dmg;
@@ -41,7 +41,7 @@ public class Weapon : BuyableData
 
     public Weapon(Weapon w)
     {
-        infmagazine = w.infmagazine;
+        infAmount = w.infAmount;
 
         key = w.key;
         price = w.price;

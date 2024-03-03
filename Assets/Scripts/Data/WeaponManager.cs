@@ -39,7 +39,7 @@ public static class WeaponManager
 
                 ammo = 7,
                 reload = 1,
-                infmagazine = true,
+                infAmount = true,
             },
             new Weapon()
             {

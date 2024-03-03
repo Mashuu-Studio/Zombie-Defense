@@ -172,7 +172,7 @@ public class Player : MonoBehaviour, IDamagedObject
         int mag = 0;
         if (magazines.ContainsKey(key))
         {
-            if (WeaponManager.GetWeapon(key).infmagazine) mag = -1;
+            if (WeaponManager.GetWeapon(key).infAmount) mag = -1;
             else mag = magazines[key];
         }
         return mag;
@@ -185,16 +185,19 @@ public class Player : MonoBehaviour, IDamagedObject
 
     public bool HasMagazine(string key)
     {
-        if (WeaponManager.GetWeapon(key).infmagazine
-            || (magazines.ContainsKey(key)
-            && magazines[key] > 0)) return true;
+        if (WeaponManager.GetWeapon(key).infAmount) return true;
+        if (magazines.ContainsKey(key) && magazines[key] > 0)
+        { 
+            magazines[key]--;
+            return true;
+        }
         return false;
     }
 
-    public void Reload(string key)
+    public void ReturnMagazine(string key)
     {
         if (magazines.ContainsKey(key))
-            magazines[key]--;
+            magazines[key]++;
     }
 
     #region Reward

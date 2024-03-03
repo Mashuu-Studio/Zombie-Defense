@@ -39,7 +39,7 @@ public class AttackTurretObject : TurretObject, IAttackObject
         // 마운트 하는 경우
         if (b)
         {
-            if (Player.Instance.ItemAmount(w.key) <= 0) return;
+            if (w.infAmount == false && Player.Instance.ItemAmount(w.key) <= 0) return;
 
             // 이미 무기가 들어있을 경우
             if (weapon != null)

@@ -30,17 +30,23 @@ public class CompanionObject : BTPoolable, IDamagedObject, IAttackObject
         ChangeWeapon("WEAPON.PISTOL");
     }
 
-    public void ChangeWeapon(string key)
+    public bool ChangeWeapon(string key)
     {
-        // 다르다면 기존에 가진 무기와 교체
-        if (weapon != null && key != weapon.key)
-        {
-            // 소지품으로 돌아감.
-            Player.Instance.AdjustItemAmount(weapon.key, 1);
-        }
         Weapon w = WeaponManager.GetWeapon(key);
-        weapon = new Weapon(w);
-        gunSpriteRenderer.sprite = SpriteManager.GetSprite(w.key);
+        if (w.infAmount || Player.Instance.ItemAmount(key) > 0)
+        {
+            // 다르다면 기존에 가진 무기와 교체
+            if (weapon != null && key != weapon.key)
+            {
+                // 소지품으로 돌아감.
+                Player.Instance.AdjustItemAmount(weapon.key, 1);
+            }
+            weapon = new Weapon(w);
+            gunSpriteRenderer.sprite = SpriteManager.GetSprite(w.key);
+            if (w.infAmount == false) Player.Instance.AdjustItemAmount(key, -1);
+            return true;
+        }
+        return false;
     }
 
     /*
@@ -144,7 +150,6 @@ public class CompanionObject : BTPoolable, IDamagedObject, IAttackObject
         }
         WaitAttack = false;
     }
-
     #endregion
 
     private IEnumerator reloadCoroutine;

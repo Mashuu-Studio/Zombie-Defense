@@ -84,7 +84,7 @@ public class WeaponController : MonoBehaviour
         UIController.Instance.SwitchWeapon();
     }
 
-
+    #region ManageWeapon
     public void AddWeapon(string key)
     {
         Weapon weapon = FindWeapon(key);
@@ -105,9 +105,8 @@ public class WeaponController : MonoBehaviour
     {
         return weapons.Find(weapon => weapon.key == key);
     }
+    #endregion
 
-    IEnumerator adelayCoroutine;
-    IEnumerator reloadCoroutine;
 
     private void Update()
     {
@@ -133,6 +132,8 @@ public class WeaponController : MonoBehaviour
             Granade(Player.Instance.transform.position, mouseWorldPos);
     }
 
+    IEnumerator adelayCoroutine;
+    IEnumerator reloadCoroutine;
     IEnumerator AttackDelay()
     {
         wait = true;
@@ -146,21 +147,10 @@ public class WeaponController : MonoBehaviour
         wait = false;
     }
 
-    public void Granade(Vector2 start, Vector2 dest)
-    {
-        if (Player.Instance.ItemAmount("WEAPON.GRANADE") <= 0) return;
-
-        Weapon granade = WeaponManager.GetWeapon("WEAPON.GRANADE");
-
-        Vector2 dir = (dest - start).normalized;
-        ((Bullet)PoolController.Pop("Bullet")).SetBullet(start, dest, dir, granade, granade.bulletSpeed);
-        Player.Instance.AdjustItemAmount("WEAPON.GRANADE", -1);
-    }
-
     public void Reload()
     {
         if (wait || !Player.Instance.HasMagazine(CurWeapon.key)) return;
-        if (reloadCoroutine != null) StopCoroutine(reloadCoroutine);
+        CancelReload();
         reloadCoroutine = Reloading();
         StartCoroutine(reloadCoroutine);
     }
@@ -178,22 +168,32 @@ public class WeaponController : MonoBehaviour
             if (!GameController.Instance.Pause) time -= Time.deltaTime;
             yield return null;
         }
-        Player.Instance.Reload(CurWeapon.key);
         CurWeapon.Reload();
         UIController.Instance.Reloading(false);
         wait = false;
     }
 
+    public void CancelReload()
+    {
+        if (reloadCoroutine != null)
+        {
+            Player.Instance.ReturnMagazine(CurWeapon.key);
+            StopCoroutine(reloadCoroutine);
+            reloadCoroutine = null;
+        }
+    }
+
     public void Switch(int move)
     {
+        int index = curIndex;
         do
         {
-            if (move > 0) curIndex--;
-            if (move < 0) curIndex++;
+            if (move > 0) index--;
+            if (move < 0) index++;
 
-            if (curIndex < 0) curIndex = weapons.Count - 1;
-            if (curIndex >= weapons.Count) curIndex = 0;
-        } while (!CurWeapon.usable);
+            if (index < 0) index = weapons.Count - 1;
+            if (index >= weapons.Count) index = 0;
+        } while (!weapons[index].usable);
 
         if (move != 0)
         {
@@ -202,11 +202,8 @@ public class WeaponController : MonoBehaviour
                 StopCoroutine(adelayCoroutine);
                 adelayCoroutine = null;
             }
-            if (reloadCoroutine != null)
-            {
-                StopCoroutine(reloadCoroutine);
-                reloadCoroutine = null;
-            }
+            CancelReload();
+            curIndex = index;
             wait = false;
             Player.Instance.SwitchWeapon(CurWeapon.key);
             UIController.Instance.SwitchWeapon();
@@ -245,5 +242,16 @@ public class WeaponController : MonoBehaviour
         UIController.Instance.UpdateAmmo(CurWeapon.curammo);
         adelayCoroutine = AttackDelay();
         StartCoroutine(adelayCoroutine);
+    }
+
+    public void Granade(Vector2 start, Vector2 dest)
+    {
+        if (Player.Instance.ItemAmount("WEAPON.GRANADE") <= 0) return;
+
+        Weapon granade = WeaponManager.GetWeapon("WEAPON.GRANADE");
+
+        Vector2 dir = (dest - start).normalized;
+        ((Bullet)PoolController.Pop("Bullet")).SetBullet(start, dest, dir, granade, granade.bulletSpeed);
+        Player.Instance.AdjustItemAmount("WEAPON.GRANADE", -1);
     }
 }
