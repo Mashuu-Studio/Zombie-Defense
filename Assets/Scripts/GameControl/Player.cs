@@ -138,6 +138,7 @@ public class Player : MonoBehaviour, IDamagedObject
         float degree = Mathf.Rad2Deg * Mathf.Atan2(dir.y, dir.x);
         transform.rotation = Quaternion.Euler(0, 0, degree);
     }
+
     #endregion
 
     public bool BuyItem(BuyableData data)
@@ -187,7 +188,7 @@ public class Player : MonoBehaviour, IDamagedObject
     {
         if (WeaponManager.GetWeapon(key).infAmount) return true;
         if (magazines.ContainsKey(key) && magazines[key] > 0)
-        { 
+        {
             magazines[key]--;
             return true;
         }

@@ -108,8 +108,19 @@ public class CompanionObject : BTPoolable,
                 targetPos += new Vector2(x, y);
                 break;
             case PatrolType.LEAD:
+                // 회전각이 0일 때 오른쪽을 바라보고 있음.
+                // 이를 기준으로 y값만 변환시켜 위치를 지정해줌.
+                // 이 후 Player를 기준으로 회전시켜 위치를 잡음.
+                // 단, 항상 Player 앞에 존재해야하므로 캐릭터가 각을 변환시키면 빠르게 조정해주어야 함.
+
+                x = 2f;
+                y = Random.Range(-2.5f, 2.5f);
+                targetPos += (Vector2)(Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles) * new Vector2(x, y));
                 break;
             case PatrolType.BACK:
+                x = -2f;
+                y = Random.Range(-2.5f, 2.5f);
+                targetPos += (Vector2)(Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles) * new Vector2(x, y));
                 break;
         }
         move = true;
