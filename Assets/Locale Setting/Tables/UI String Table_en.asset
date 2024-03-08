@@ -102,6 +102,22 @@ MonoBehaviour:
     m_Localized: AMMO
     m_Metadata:
       m_Items: []
+  - m_Id: 11505000542904320
+    m_Localized: NARROWLY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11505135633047552
+    m_Localized: WIDELY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11505139256926208
+    m_Localized: LEAD
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11505145607102464
+    m_Localized: BACK
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

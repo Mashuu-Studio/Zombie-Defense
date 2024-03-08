@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CompanionObject : BTPoolable, IDamagedObject, IAttackObject
+public class CompanionObject : BTPoolable,
+    IMovingObject, IDamagedObject, IAttackObject
 {
     [SerializeField] private SpriteRenderer gunSpriteRenderer;
 
     private int maxhp;
     private int hp;
     private int def;
+    private int speed = 5;
 
     private Weapon weapon;
     private bool reloading;
@@ -65,6 +67,72 @@ public class CompanionObject : BTPoolable, IDamagedObject, IAttackObject
         return cols;
     }
     */
+
+    #region IMovingObject
+
+    public enum PatrolType { NARROWLY = 0, WIDELY, LEAD, BACK, }
+    private PatrolType patrolType;
+    private bool move;
+    private Vector2 targetPos;
+    public int Speed { get { return speed; } }
+
+    public void SetPatrolType(PatrolType type)
+    {
+        patrolType = type;
+    }
+
+    public bool DetectPath()
+    {
+        if (move) return true;
+
+        targetPos = Player.Instance.transform.position;
+        float x, y;
+        switch (patrolType)
+        {
+            case PatrolType.NARROWLY:
+                x = Random.Range(1, 2f);
+                y = Random.Range(1, 2f);
+
+                x *= (Random.Range(1, 3) % 2 == 0) ? 1 : -1;
+                y *= (Random.Range(1, 3) % 2 == 0) ? 1 : -1;
+
+                targetPos += new Vector2(x, y);
+                break;
+            case PatrolType.WIDELY:
+                x = Random.Range(3, 4f);
+                y = Random.Range(3, 4f);
+
+                x *= (Random.Range(1, 3) % 2 == 0) ? 1 : -1;
+                y *= (Random.Range(1, 3) % 2 == 0) ? 1 : -1;
+
+                targetPos += new Vector2(x, y);
+                break;
+            case PatrolType.LEAD:
+                break;
+            case PatrolType.BACK:
+                break;
+        }
+        move = true;
+        return true;
+    }
+
+    public void Move()
+    {
+        float moveAmount = Time.deltaTime * speed;
+        Vector3 dir = (targetPos - (Vector2)transform.position).normalized;
+
+        LookAt(targetPos);
+        transform.position += dir * moveAmount;
+
+        // 이동량 범위 안쪽이면 도착으로 판정
+        if (Vector2.Distance(targetPos, transform.position) < moveAmount)
+        {
+            // 패트롤 초기화
+            move = false;
+        }
+    }
+
+    #endregion
     #region IDamagedObject
     public int Hp { get { return hp; } }
     public int MaxHp { get { return maxhp; } }
@@ -94,6 +162,7 @@ public class CompanionObject : BTPoolable, IDamagedObject, IAttackObject
 
     private Collider2D targetCollider;
     public Collider2D TargetCollider { get { return targetCollider; } }
+
     Collider2D[] targets;
     Transform target;
     public bool DetectTarget()
@@ -113,6 +182,8 @@ public class CompanionObject : BTPoolable, IDamagedObject, IAttackObject
 
     public void Attack()
     {
+        // 패트롤 초기화
+        move = false;
         // 우선순위에 따라 적을 선택하는 코드가 들어갈 예정
         target = targets[0].transform;
 

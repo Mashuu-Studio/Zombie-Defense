@@ -131,7 +131,7 @@ public class ShopUI : MonoBehaviour
     {
         foreach (var slot in companionSlots)
         {
-            slot.UpdateDropdown();
+            slot.UpdateDropdowns();
         }
     }
 

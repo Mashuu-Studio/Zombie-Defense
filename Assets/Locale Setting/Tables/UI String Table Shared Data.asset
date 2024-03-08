@@ -95,6 +95,22 @@ MonoBehaviour:
     m_Key: GAME.SHOP.STAT.AMMO
     m_Metadata:
       m_Items: []
+  - m_Id: 11505000542904320
+    m_Key: GAME.SHOP.COMPANION.PATROL.NARROWLY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11505135633047552
+    m_Key: GAME.SHOP.COMPANION.PATROL.WIDELY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11505139256926208
+    m_Key: GAME.SHOP.COMPANION.PATROL.LEAD
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11505145607102464
+    m_Key: GAME.SHOP.COMPANION.PATROL.BACK
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
