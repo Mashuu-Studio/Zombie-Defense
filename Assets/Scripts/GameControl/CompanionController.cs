@@ -17,6 +17,9 @@ public class CompanionController : MonoBehaviour
         instance = this;
     }
 
+    public bool Hirable { get { return companions.Count < MAX_COMPANION; } }
+
+    private static int MAX_COMPANION = 4;
     public List<CompanionObject> Companions { get { return companions; } }
     private List<CompanionObject> companions = new List<CompanionObject>();
 

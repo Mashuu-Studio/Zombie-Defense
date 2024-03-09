@@ -110,14 +110,17 @@ public class ShopUI : MonoBehaviour
         }
         else if (shopItem.Item.key.Contains("COMPANION"))
         {
-            CompanionObject companion = CompanionController.Instance.AddCompanion();
-            foreach (var slot in companionSlots)
+            if (CompanionController.Instance.Hirable)
             {
-                if (slot.Data == null)
+                CompanionObject companion = CompanionController.Instance.AddCompanion();
+                foreach (var slot in companionSlots)
                 {
-                    slot.SetData(companion);
-                    slot.transform.SetAsLastSibling();
-                    break;
+                    if (slot.Data == null)
+                    {
+                        slot.SetData(companion);
+                        slot.transform.SetAsLastSibling();
+                        break;
+                    }
                 }
             }
         }

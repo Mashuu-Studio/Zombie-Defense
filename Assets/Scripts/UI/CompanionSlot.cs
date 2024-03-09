@@ -115,4 +115,9 @@ public class CompanionSlot : MonoBehaviour
         data.Heal();
         UpdateInfo();
     }
+
+    public void Fire()
+    {
+        CompanionController.Instance.RemoveCompanion(data);
+    }
 }
