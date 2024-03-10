@@ -70,15 +70,32 @@ public class CompanionObject : BTPoolable,
 
     #region IMovingObject
 
-    public enum PatrolType { NARROWLY = 0, WIDELY, LEAD, BACK, }
+    public enum PatrolType { NARROWLY = 0, WIDELY, LEAD, BACK, HOLD, }
     private PatrolType patrolType;
     private bool move;
     private Vector2 targetPos;
     public int Speed { get { return speed; } }
 
+    private List<Vector2> holdPatrolPosList;
+    private int patrolIndex;
+    private bool patrolForward;
+
     public void SetPatrolType(PatrolType type)
     {
         patrolType = type;
+        if (type == PatrolType.HOLD)
+            SetHoldPatrol(new List<Vector2>() { transform.position });
+    }
+
+    public void SetHoldPatrol(List<Vector2> list)
+    {
+        patrolType = PatrolType.HOLD;
+
+        move = false;
+        transform.position = list[0];
+        holdPatrolPosList = list;
+        patrolIndex = 0;
+        patrolForward = true;
     }
 
     public bool DetectPath()
@@ -98,6 +115,7 @@ public class CompanionObject : BTPoolable,
 
                 targetPos += new Vector2(x, y);
                 break;
+
             case PatrolType.WIDELY:
                 x = Random.Range(3, 4f);
                 y = Random.Range(3, 4f);
@@ -107,6 +125,7 @@ public class CompanionObject : BTPoolable,
 
                 targetPos += new Vector2(x, y);
                 break;
+
             case PatrolType.LEAD:
                 // 회전각이 0일 때 오른쪽을 바라보고 있음.
                 // 이를 기준으로 y값만 변환시켜 위치를 지정해줌.
@@ -117,10 +136,28 @@ public class CompanionObject : BTPoolable,
                 y = Random.Range(-2.5f, 2.5f);
                 targetPos += (Vector2)(Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles) * new Vector2(x, y));
                 break;
+
             case PatrolType.BACK:
                 x = -2f;
                 y = Random.Range(-2.5f, 2.5f);
                 targetPos += (Vector2)(Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles) * new Vector2(x, y));
+                break;
+
+            case PatrolType.HOLD:
+                if (patrolForward) patrolIndex++;
+                else patrolIndex--;
+
+                if (patrolIndex >= holdPatrolPosList.Count)
+                {
+                    patrolIndex--;
+                    patrolForward = false;
+                }
+                else if (patrolIndex < 0)
+                {
+                    patrolIndex++;
+                    patrolForward = true;
+                }
+                targetPos = holdPatrolPosList[patrolIndex];
                 break;
         }
         move = true;

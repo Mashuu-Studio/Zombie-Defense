@@ -154,7 +154,7 @@ public class TurretController : MonoBehaviour
             && !(MapGenerator.Instance.Map[mapPos.x, mapPos.y] == MapGenerator.WALL);
     }
 
-    private static Vector2Int PosToGrid(Vector2 pos)
+    public static Vector2Int PosToGrid(Vector2 pos)
     {
         int x = Mathf.FloorToInt(pos.x);
         int y = Mathf.FloorToInt(pos.y);

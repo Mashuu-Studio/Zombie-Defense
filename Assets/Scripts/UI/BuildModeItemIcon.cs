@@ -16,17 +16,19 @@ public class BuildModeItemIcon : MonoBehaviour
     {
         this.key = key;
         itemImage.sprite = SpriteManager.GetSprite(key);
-        itemIcon.SetIcon(key);
+        if (!key.Contains("COMPANION.")) itemIcon.SetIcon(key);
+        else itemAmount.text = "";
     }
 
     private void Update()
     {
-        if (Player.Instance != null)
+        if (Player.Instance != null && !key.Contains("COMPANION."))
             itemAmount.text = Player.Instance.ItemAmount(key).ToString();
     }
 
     public void Select()
     {
-        TurretController.Instance.SelectBuildingTurret(key);
+        if (key.Contains("TURRET.")) TurretController.Instance.SelectBuildingTurret(key);
+        else if (key.Contains("COMPANION.")) UIController.Instance.SelectCompanion(this); 
     }
 }

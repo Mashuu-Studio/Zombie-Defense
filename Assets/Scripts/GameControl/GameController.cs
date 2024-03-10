@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Map Boundary"));
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Companion"));
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Companion"), LayerMask.NameToLayer("Companion"));
     }
 
     public bool Pause { get { return pause || levelUpPause; } }

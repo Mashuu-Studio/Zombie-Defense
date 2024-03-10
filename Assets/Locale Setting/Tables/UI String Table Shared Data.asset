@@ -111,6 +111,10 @@ MonoBehaviour:
     m_Key: GAME.SHOP.COMPANION.PATROL.BACK
     m_Metadata:
       m_Items: []
+  - m_Id: 11906787783483392
+    m_Key: GAME.SHOP.COMPANION.PATROL.HOLD
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

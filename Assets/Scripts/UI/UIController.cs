@@ -159,6 +159,11 @@ public class UIController : MonoBehaviour
         TurretController.Instance.ChangeBulidMode(b);
         MapGenerator.Instance.BuildMode(b);
     }
+
+    public void SelectCompanion(BuildModeItemIcon icon)
+    {
+        buildModeUI.SelectCompanion(icon);
+    }
     #endregion
 
     #region Setting

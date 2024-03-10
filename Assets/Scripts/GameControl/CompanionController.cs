@@ -39,4 +39,9 @@ public class CompanionController : MonoBehaviour
         PoolController.Push(companion.name, companion);
         companions.Remove(companion);
     }
+
+    public void SetCompanionPatrol(int index, List<Vector2> list)
+    {
+        companions[index].SetHoldPatrol(list);
+    }
 }
