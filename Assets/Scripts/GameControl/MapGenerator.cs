@@ -211,6 +211,14 @@ public class MapGenerator : MonoBehaviour
         return pos;
     }
 
+    public static bool PosOnWall(Vector2 worldPos)
+    {
+        Vector2Int mapPos = ConvertToMapPos(RoundToInt(worldPos));
+        if (PosOnMap(mapPos) == false) return false;
+
+        return Instance.Map[mapPos.x, mapPos.y] == WALL;
+    }
+
     public static bool PosOnMap(Vector2Int mapPos)
     {
         return mapPos.x >= 0 && mapPos.x < Instance.width

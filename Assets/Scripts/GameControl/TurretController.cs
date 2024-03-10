@@ -64,6 +64,7 @@ public class TurretController : MonoBehaviour
     public void ChangeBulidMode(bool b)
     {
         buildMode = b;
+        turretPointer.gameObject.SetActive(buildMode);
     }
 
     void Update()
@@ -72,7 +73,6 @@ public class TurretController : MonoBehaviour
             || GameController.Instance.Pause
             || RoundController.Instance.Progress) return;
 
-        turretPointer.gameObject.SetActive(buildMode);
         if (BuildMode)
         {
             Vector3 mousePos = CameraController.Instance.Cam.ScreenToWorldPoint(Input.mousePosition);
@@ -147,11 +147,8 @@ public class TurretController : MonoBehaviour
 
     private bool Buildable(Vector2 pos)
     {
-        Vector2Int mapPos = MapGenerator.ConvertToMapPos(MapGenerator.RoundToInt(pos));
-        
         return !turrets.ContainsKey(pos)  
-            && MapGenerator.PosOnMap(mapPos)
-            && !(MapGenerator.Instance.Map[mapPos.x, mapPos.y] == MapGenerator.WALL);
+            && MapGenerator.PosOnWall(pos);
     }
 
     public static Vector2Int PosToGrid(Vector2 pos)

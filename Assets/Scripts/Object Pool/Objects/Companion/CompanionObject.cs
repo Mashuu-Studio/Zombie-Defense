@@ -89,6 +89,12 @@ public class CompanionObject : BTPoolable,
 
     public void SetHoldPatrol(List<Vector2> list)
     {
+        // 벽이랑 겹치는 구간이 있다면 패스
+        foreach (var pos in list)
+        {
+            if (MapGenerator.PosOnWall(pos)) return;
+        }
+
         patrolType = PatrolType.HOLD;
 
         move = false;
@@ -103,7 +109,9 @@ public class CompanionObject : BTPoolable,
         if (move) return true;
 
         targetPos = Player.Instance.transform.position;
+
         float x, y;
+        Vector2 moveAmount;
         switch (patrolType)
         {
             case PatrolType.NARROWLY:
@@ -142,7 +150,6 @@ public class CompanionObject : BTPoolable,
                 y = Random.Range(-2.5f, 2.5f);
                 targetPos += (Vector2)(Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles) * new Vector2(x, y));
                 break;
-
             case PatrolType.HOLD:
                 if (patrolForward) patrolIndex++;
                 else patrolIndex--;
@@ -169,15 +176,23 @@ public class CompanionObject : BTPoolable,
         float moveAmount = Time.deltaTime * speed;
         Vector3 dir = (targetPos - (Vector2)transform.position).normalized;
 
+        // 후에 A*Path를 활용하면 좋을 듯?
         LookAt(targetPos);
         transform.position += dir * moveAmount;
 
         // 이동량 범위 안쪽이면 도착으로 판정
-        if (Vector2.Distance(targetPos, transform.position) < moveAmount)
+        // 혹은 다음 이동 위치가 벽이라면 도착으로 판정
+        if (Vector2.Distance(targetPos, transform.position) < moveAmount
+            || OverlapWall(transform.position + dir * moveAmount))
         {
             // 패트롤 초기화
             move = false;
         }
+    }
+
+    private bool OverlapWall(Vector2 pos)
+    {
+        return Physics2D.OverlapCircle(pos, .5f, 1 << LayerMask.NameToLayer("Wall")) != null;
     }
 
     #endregion
