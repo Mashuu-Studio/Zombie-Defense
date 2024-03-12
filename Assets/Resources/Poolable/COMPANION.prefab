@@ -129,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 11400000, guid: 944c2a9ba28f7f94aa777436814d42ee, type: 2}
   gunSpriteRenderer: {fileID: 6063916045683544993}
+  autoTargetCollider: {fileID: 343459838335913702}
 --- !u!212 &6957823555526543887
 SpriteRenderer:
   m_ObjectHideFlags: 0

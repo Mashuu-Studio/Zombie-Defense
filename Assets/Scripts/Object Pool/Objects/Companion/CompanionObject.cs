@@ -6,6 +6,7 @@ public class CompanionObject : BTPoolable,
     IMovingObject, IDamagedObject, IAttackObject
 {
     [SerializeField] private SpriteRenderer gunSpriteRenderer;
+    [SerializeField] private BoxCollider2D autoTargetCollider;
 
     private int maxhp;
     private int hp;
@@ -50,23 +51,6 @@ public class CompanionObject : BTPoolable,
         }
         return false;
     }
-
-    /*
-    public List<Collider2D> DetectEnemyTargets(float range)
-    {
-        // 위치를 캐릭터 앞으로 세팅
-        // 크기는 range로 세팅
-        autoTargetCollider.offset = new Vector2(range / 2 + .5f, 0);
-        autoTargetCollider.size = Vector2.one * range;
-
-        List<Collider2D> cols = new List<Collider2D>();
-        ContactFilter2D filter = new ContactFilter2D();
-        filter.layerMask = 1 << LayerMask.NameToLayer("Enemy");
-        // 전방 사각형 모양
-        autoTargetCollider.OverlapCollider(filter, cols);
-        return cols;
-    }
-    */
 
     #region IMovingObject
 
@@ -242,6 +226,21 @@ public class CompanionObject : BTPoolable,
         float degree = Mathf.Rad2Deg * Mathf.Atan2(dir.y, dir.x);
         transform.rotation = Quaternion.Euler(0, 0, degree);
     }
+    
+    private List<Collider2D> DetectEnemyTargets(float range)
+    {
+        // 위치를 캐릭터 앞으로 세팅
+        // 크기는 range로 세팅
+        autoTargetCollider.offset = new Vector2(range / 2 + .5f, 0);
+        autoTargetCollider.size = Vector2.one * range;
+
+        List<Collider2D> cols = new List<Collider2D>();
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.layerMask = 1 << LayerMask.NameToLayer("Enemy");
+        // 전방 사각형 모양
+        autoTargetCollider.OverlapCollider(filter, cols);
+        return cols;
+    }
 
     public void Attack()
     {
@@ -257,16 +256,26 @@ public class CompanionObject : BTPoolable,
                 Reload();
                 return;
             }
+
             LookAt(target.transform.position);
+            List<Collider2D> autoTargets = weapon.autotarget ? DetectEnemyTargets(weapon.range) : new List<Collider2D>();
             Vector2 dir = target.position - transform.position;
+            Vector2 pos = transform.position;
             int spread = weapon.bulletspreadangle;
             for (int i = 0; i < weapon.bullets; i++)
             {
                 int angle = Random.Range(-spread / 2, spread / 2 + 1);
                 Vector3 newDir = Quaternion.Euler(0, 0, angle) * dir;
-                ((Bullet)PoolController.Pop("Bullet")).SetBullet(transform.position, target.position, newDir, weapon, weapon.bulletSpeed);
+                // 오토타겟이면 적의 수만큼 자동타겟팅하여 공격.
+                if (weapon.autotarget)
+                {
+                    if (autoTargets.Count > i) pos = autoTargets[i].transform.position;
+                    // 적의 수가 타겟팅 수보다 적다면 스킵
+                    else break;
+                }
+                ((Bullet)PoolController.Pop("Bullet")).SetBullet(pos, target.position, newDir, weapon, weapon.bulletSpeed);
             }
-            SoundController.Instance.PlaySFX(Player.Instance.gameObject, weapon.key);
+            SoundController.Instance.PlaySFX(gameObject, weapon.key);
             weapon.curammo--;
 
             StartCoroutine(AttackTimer());

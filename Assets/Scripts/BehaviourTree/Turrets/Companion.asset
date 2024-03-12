@@ -53,7 +53,6 @@ MonoBehaviour:
   - {fileID: -4773582420713046651}
   - {fileID: 6079464780573530647}
   - {fileID: 2280347977842425516}
-  - {fileID: 8295273238377541380}
 --- !u!114 &2280347977842425516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,20 +105,3 @@ MonoBehaviour:
   guid: f335e4b9f103bae48a11136dba8b9a03
   position: {x: 335.84, y: 79}
   child: {fileID: 2280347977842425516}
---- !u!114 &8295273238377541380
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e62bb0fddb0d1854d9eea2ec4d6a4160, type: 3}
-  m_Name: DebugLogNode
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: b09888a595496f546ac3a76601ed9eb6
-  position: {x: 0, y: 0}
-  message: 
