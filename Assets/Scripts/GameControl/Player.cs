@@ -79,8 +79,9 @@ public class Player : MonoBehaviour, IDamagedObject
         itemAmount.Clear();
         foreach (var weapon in WeaponManager.Weapons)
         {
-            itemAmount.Add(weapon.key, 0);
-            magazines.Add(weapon.key, 0);
+            int amount = weapon.infAmount ? -1 : 0;
+            itemAmount.Add(weapon.key, amount);
+            magazines.Add(weapon.key, amount);
         }
 
         foreach (var turret in TurretManager.Turrets)
@@ -173,8 +174,7 @@ public class Player : MonoBehaviour, IDamagedObject
         int mag = 0;
         if (magazines.ContainsKey(key))
         {
-            if (WeaponManager.GetWeapon(key).infAmount) mag = -1;
-            else mag = magazines[key];
+            mag = magazines[key];
         }
         return mag;
     }

@@ -27,6 +27,7 @@ public class UIController : MonoBehaviour
         setting.Init();
         shop.Init();
         buildModeUI.Init();
+        mountWeaponDropdown.Init();
         InitItemInfo();
         OpenSetting(false);
         OpenShop(false);
@@ -71,7 +72,6 @@ public class UIController : MonoBehaviour
     public static bool PointOverUI()
     {
         if (EventSystem.current == null) return false;
-
         PointerEventData eventData = new PointerEventData(EventSystem.current);
         eventData.position = Input.mousePosition;
         List<RaycastResult> results = new List<RaycastResult>();
@@ -106,8 +106,6 @@ public class UIController : MonoBehaviour
     [SerializeField] private SettingUI setting;
     [SerializeField] private ShopUI shop;
     [SerializeField] private GameObject shopButton;
-    [SerializeField] private BuildModeUI buildModeUI;
-    [SerializeField] private GameObject buildButton;
 
     public void StartGame()
     {
@@ -147,6 +145,9 @@ public class UIController : MonoBehaviour
     #endregion
 
     #region BuildMode
+    [SerializeField] private BuildModeUI buildModeUI;
+    [SerializeField] private GameObject buildButton;
+    [SerializeField] private MountWeaponDropdown mountWeaponDropdown;
     public void OnOffBuildMode()
     {
         bool isOn = !buildModeUI.gameObject.activeSelf;
@@ -156,6 +157,7 @@ public class UIController : MonoBehaviour
     public void BuildMode(bool b)
     {
         buildModeUI.BuildMode(b);
+        if (b == false) mountWeaponDropdown.SetActive(false, Vector2.zero);
         TurretController.Instance.ChangeBulidMode(b);
         MapGenerator.Instance.BuildMode(b);
     }
@@ -163,6 +165,11 @@ public class UIController : MonoBehaviour
     public void SelectCompanion(BuildModeItemIcon icon)
     {
         buildModeUI.SelectCompanion(icon);
+    }
+
+    public void ShowMountWeaponUI(bool b, Vector2 pos)
+    {
+        mountWeaponDropdown.SetActive(b, pos);
     }
     #endregion
 

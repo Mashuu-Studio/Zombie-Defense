@@ -25,6 +25,20 @@ public class WeaponController : MonoBehaviour
         }
     }
 
+    public List<int> UsingWeaponIndexes
+    {
+        get
+        {
+            List<int> list = new List<int>();
+
+            for (int i = 0; i < weapons.Count; i++)
+            {
+                if (weapons[i].usable) list.Add(i);
+            }
+            return list;
+        }
+    }
+
     public string[] PrevCurNextWeaponKeys
     {
         get
@@ -132,6 +146,35 @@ public class WeaponController : MonoBehaviour
             Granade(Player.Instance.transform.position, mouseWorldPos);
     }
 
+    public void Switch(int move)
+    {
+        int index = curIndex;
+        do
+        {
+            if (move > 0) index--;
+            if (move < 0) index++;
+
+            if (index < 0) index = weapons.Count - 1;
+            if (index >= weapons.Count) index = 0;
+        } while (!weapons[index].usable);
+
+        if (move != 0)
+        {
+            if (adelayCoroutine != null)
+            {
+                StopCoroutine(adelayCoroutine);
+                adelayCoroutine = null;
+            }
+            CancelReload();
+            curIndex = index;
+            wait = false;
+            Player.Instance.SwitchWeapon(CurWeapon.key);
+            UIController.Instance.SwitchWeapon();
+        }
+    }
+
+    #region Attack
+
     IEnumerator adelayCoroutine;
     IEnumerator reloadCoroutine;
     IEnumerator AttackDelay()
@@ -183,33 +226,6 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    public void Switch(int move)
-    {
-        int index = curIndex;
-        do
-        {
-            if (move > 0) index--;
-            if (move < 0) index++;
-
-            if (index < 0) index = weapons.Count - 1;
-            if (index >= weapons.Count) index = 0;
-        } while (!weapons[index].usable);
-
-        if (move != 0)
-        {
-            if (adelayCoroutine != null)
-            {
-                StopCoroutine(adelayCoroutine);
-                adelayCoroutine = null;
-            }
-            CancelReload();
-            curIndex = index;
-            wait = false;
-            Player.Instance.SwitchWeapon(CurWeapon.key);
-            UIController.Instance.SwitchWeapon();
-        }
-    }
-
     public void Fire(Vector3 pos, Vector3 dest)
     {
         if (wait) return;
@@ -254,4 +270,5 @@ public class WeaponController : MonoBehaviour
         ((Bullet)PoolController.Pop("Bullet")).SetBullet(start, dest, dir, granade, granade.bulletSpeed);
         Player.Instance.AdjustItemAmount("WEAPON.GRANADE", -1);
     }
+    #endregion
 }

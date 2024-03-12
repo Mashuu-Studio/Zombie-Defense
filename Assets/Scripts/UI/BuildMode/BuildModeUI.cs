@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class BuildModeUI : MonoBehaviour
 {
-    [SerializeField] private RectTransform weaponIconScrollRectTransform;
-    [SerializeField] private BuildModeItemIcon weaponIconPrefab;
-    [SerializeField] private RectTransform selectedWeaponPoint;
-    private List<BuildModeItemIcon> weaponIcons = new List<BuildModeItemIcon>();
-
-    [Space]
     [SerializeField] private RectTransform turretIconScrollRectTransform;
     [SerializeField] private BuildModeItemIcon turretIconPrefab;
     private List<BuildModeItemIcon> turretIcons = new List<BuildModeItemIcon>();
@@ -19,7 +13,6 @@ public class BuildModeUI : MonoBehaviour
 
     private void Awake()
     {
-        weaponIconPrefab.gameObject.SetActive(false);
         turretIconPrefab.gameObject.SetActive(false);
     }
 
@@ -29,17 +22,6 @@ public class BuildModeUI : MonoBehaviour
         turretIcons.Clear();
 
         int count = 0;
-        foreach (var weapon in WeaponManager.Weapons)
-        {
-            if (weapon.consumable) continue;
-            var weaponIcon = Instantiate(weaponIconPrefab, weaponIconScrollRectTransform);
-            weaponIcon.Init(weapon.key);
-            weaponIcon.gameObject.SetActive(true);
-            weaponIcons.Add(weaponIcon);
-            count++;
-        }
-
-        count = 0;
         foreach (var turret in TurretManager.Turrets)
         {
             var turretIcon = Instantiate(turretIconPrefab, turretIconScrollRectTransform);
@@ -50,17 +32,11 @@ public class BuildModeUI : MonoBehaviour
         }
     }
 
-    private int weaponIndex = 0;
-
     public void BuildMode(bool b)
     {
         gameObject.SetActive(b);
         if (b)
         {
-            weaponIndex = 0;
-            TurretController.Instance.SelectWeapon(weaponIcons[weaponIndex].Key);
-            selectedWeaponPoint.anchoredPosition = new Vector2(150 * weaponIndex, 0);
-
             selectedCompanionIndex = -1;
             UpdateCompanions();
         }
@@ -69,6 +45,56 @@ public class BuildModeUI : MonoBehaviour
     private int selectedCompanionIndex;
     private Vector2 companionPatrolStartPos;
     private Vector2 companionPatrolEndPos;
+
+    private void Update()
+    {
+        if (GameController.Instance.GameStarted == false
+            || GameController.Instance.Pause) return;
+
+        float axisX = Input.GetAxis("Horizontal");
+        float axisY = Input.GetAxis("Vertical");
+        Vector3 movePos = CameraController.Instance.Cam.transform.position + new Vector3(axisX, axisY) * Time.deltaTime * 10;
+        CameraController.Instance.MoveCamera(movePos, movePos);
+
+
+        Vector3 mousePos = CameraController.Instance.Cam.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 pos = MapGenerator.PosToGrid(MapGenerator.RoundToInt(mousePos));
+        TurretController.Instance.MoveTurretPointer(pos);
+
+        // 터렛 구매 및 빌드
+        if (Input.GetMouseButton(0) && !UIController.PointOverUI())
+        {
+            TurretController.Instance.BuildTurret(pos);
+        }
+
+        // 터렛 보관
+        if (Input.GetMouseButton(1))
+        {
+            TurretController.Instance.StoreTurret(pos);
+        }
+
+        // 마운트
+        if (Input.GetKeyDown(KeyCode.Q) && TurretController.Instance.SelectTurret(pos))
+        {
+            // 마운트로 바로 넘어가는 게 아닌 Floating Dropdown을 띄움.
+            UIController.Instance.ShowMountWeaponUI(true, pos);
+        }
+
+        // 터렛이랑 겹치지 않도록 해야함.
+        if (selectedCompanionIndex != -1)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                companionPatrolStartPos = pos;
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                companionPatrolEndPos = pos;
+                CompanionController.Instance.SetCompanionPatrol(selectedCompanionIndex, new List<Vector2>() { companionPatrolStartPos, companionPatrolEndPos });
+            }
+        }
+    }
 
     public void SelectCompanion(BuildModeItemIcon icon)
     {
@@ -79,38 +105,6 @@ public class BuildModeUI : MonoBehaviour
             {
                 selectedCompanionIndex = i;
                 break;
-            }
-        }
-    }
-
-    private void Update()
-    {
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-
-        if (scroll != 0)
-        {
-            weaponIndex += (scroll > 0) ? -1 : 1;
-            if (weaponIndex < 0) weaponIndex = weaponIcons.Count - 1;
-            if (weaponIndex >= weaponIcons.Count) weaponIndex = 0;
-            TurretController.Instance.SelectWeapon(weaponIcons[weaponIndex].Key);
-            selectedWeaponPoint.anchoredPosition = new Vector2(150 * weaponIndex, 0);
-        }
-
-        // 터렛이랑 겹치지 않도록 해야함.
-        if (selectedCompanionIndex != -1)
-        {
-            Vector3 mousePos = CameraController.Instance.Cam.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 pos = TurretController.PosToGrid(MapGenerator.RoundToInt(mousePos));
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                companionPatrolStartPos = pos;
-            }
-            
-            if (Input.GetMouseButtonUp(0))
-            {
-                companionPatrolEndPos = pos;
-                CompanionController.Instance.SetCompanionPatrol(selectedCompanionIndex, new List<Vector2>() { companionPatrolStartPos, companionPatrolEndPos });
             }
         }
     }

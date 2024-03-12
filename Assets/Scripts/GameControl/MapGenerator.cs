@@ -224,6 +224,12 @@ public class MapGenerator : MonoBehaviour
         return mapPos.x >= 0 && mapPos.x < Instance.width
             && mapPos.y >= 0 && mapPos.y < Instance.height;
     }
+    public static Vector2Int PosToGrid(Vector2 pos)
+    {
+        int x = Mathf.FloorToInt(pos.x);
+        int y = Mathf.FloorToInt(pos.y);
+        return new Vector2Int(x, y);
+    }
 
     public static Vector2Int RoundToInt(Vector2 v)
     {

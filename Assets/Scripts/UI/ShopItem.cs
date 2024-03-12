@@ -44,12 +44,13 @@ public class ShopItem : MonoBehaviour
         {
             bool b = WeaponController.Instance.HasWeapon(Item.key);
             itemAmount.gameObject.SetActive(b);
-            string magazine = Player.Instance.GetMagazine(Item.key) >= 0 ? Player.Instance.GetMagazine(Item.key).ToString() : "inf";
-            magazinePrice.gameObject.SetActive(b && magazine != "inf");
-            buyMagazineButton.SetActive(b && magazine != "inf");
+            int magazine = Player.Instance.GetMagazine(Item.key);
+            string str = magazine >= 0 ? magazine.ToString() : "inf";
+            magazinePrice.gameObject.SetActive(b && str != "inf");
+            buyMagazineButton.SetActive(b && str != "inf");
             if (b)
             {
-                itemAmount.text = $"{Player.Instance.ItemAmount(Item.key)} : {magazine}";
+                itemAmount.text = $"{Player.Instance.ItemAmount(Item.key)} : {str}";
             }
         }
     }

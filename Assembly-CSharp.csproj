@@ -63,7 +63,6 @@
     <Compile Include="Assets\Scripts\GameControl\ActionController.cs" />
     <Compile Include="Assets\Scripts\GameControl\EnemyController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\SummonNode.cs" />
-    <Compile Include="Assets\Scripts\UI\BuildModeUI.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\ScanTurretObject.cs" />
     <Compile Include="Assets\Scripts\Data\RoundManager.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\TurretObject.cs" />
@@ -86,6 +85,7 @@
     <Compile Include="Assets\Scripts\UI\RoundStartButton.cs" />
     <Compile Include="Assets\Scripts\GameControl\MinimapCamera.cs" />
     <Compile Include="Assets\Scripts\Data\ObjectData.cs" />
+    <Compile Include="Assets\Scripts\UI\BuildMode\MountWeaponDropdown.cs" />
     <Compile Include="Assets\Scripts\GameControl\TurretBuildPointer.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\DebugLogNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTActionNode.cs" />
@@ -101,6 +101,9 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\AttackNode.cs" />
     <Compile Include="Assets\Scripts\Object Pool\BTPoolable.cs" />
     <Compile Include="Assets\Scripts\Data\TurretManager.cs" />
+    <Compile Include="Assets\Scripts\UI\BuildMode\TurretBuildIcon.cs" />
+    <Compile Include="Assets\Scripts\UI\BuildMode\BuildModeUI.cs" />
+    <Compile Include="Assets\Scripts\UI\BuildMode\MountWeaponIcon.cs" />
     <Compile Include="Assets\Scripts\GameControl\TurretController.cs" />
     <Compile Include="Assets\Scripts\Data\WeaponManager.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameSetting.cs" />
@@ -117,12 +120,13 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\DelayNode.cs" />
     <Compile Include="Assets\Scripts\Data\SpriteManager.cs" />
     <Compile Include="Assets\Scripts\Sound\SfxSource.cs" />
-    <Compile Include="Assets\Scripts\UI\BuildModeItemIcon.cs" />
+    <Compile Include="Assets\Scripts\UI\BuildMode\CompanionPatrolIcon.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTRepeatNode.cs" />
     <Compile Include="Assets\Scripts\GameControl\RoundController.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\BuffEnemyObject.cs" />
     <Compile Include="Assets\Scripts\UI\SettingUI.cs" />
     <Compile Include="Assets\Scripts\UI\UIController.cs" />
+    <Compile Include="Assets\Scripts\UI\BuildMode\BuildModeItemIcon.cs" />
     <Compile Include="Assets\Scripts\UI\ShopStatus.cs" />
     <Compile Include="Assets\Scripts\GameControl\CompanionController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\MoveNode.cs" />
