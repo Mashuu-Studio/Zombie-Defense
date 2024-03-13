@@ -106,7 +106,7 @@ public class TurretController : MonoBehaviour
         if (turrets.ContainsKey(pos)) turrets.Remove(pos);
     }
 
-    private bool Buildable(Vector2 pos)
+    public bool Buildable(Vector2 pos)
     {
         return !turrets.ContainsKey(pos)
             && !MapGenerator.PosOnWall(pos);

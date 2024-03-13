@@ -21,7 +21,7 @@ public class AttackTurretObject : TurretObject, IAttackObject
     public int Dmg { get { return dmg; } }
     public float Range { get { return range; } }
     public float ADelay { get { return aDelay; } }
-    public bool WaitAttack { get; set; }
+    public bool WaitAttack { get { return weapon != null ? weapon.Wait : false; } }
 
     public override void SetData(Turret data, Vector2 pos)
     {
@@ -79,60 +79,23 @@ public class AttackTurretObject : TurretObject, IAttackObject
         // 우선순위에 따라 적을 선택하는 코드가 들어갈 예정
         target = targets[0].transform;
 
-        if (!WaitAttack && !reloading)
+        if (!WaitAttack)
         {
             if (weapon.curammo <= 0)
             {
                 Reload();
                 return;
             }
-            Vector2 dir = target.position - transform.position;
-            int spread = weapon.bulletspreadangle;
-            for (int i = 0; i < weapon.bullets; i++)
-            {
-                int angle = Random.Range(-spread / 2, spread / 2 + 1);
-                Vector3 newDir = Quaternion.Euler(0, 0, angle) * dir;
-                ((Bullet)PoolController.Pop("Bullet")).SetBullet(transform.position, target.position, newDir, weapon, weapon.bulletSpeed);
-            }
-            SoundController.Instance.PlaySFX(Player.Instance.gameObject, weapon.key);
-            weapon.curammo--;
-
-            StartCoroutine(AttackTimer());
+            weapon.Fire(transform.position, target.position, transform.rotation.eulerAngles.z);
+            StartCoroutine(weapon.AttackDelay());
         }
-    }
-
-    public IEnumerator AttackTimer()
-    {
-        WaitAttack = true;
-        float time = 0;
-        while (time < ADelay)
-        {
-            if (!GameController.Instance.Pause) time += Time.deltaTime;
-            yield return null;
-        }
-        WaitAttack = false;
     }
 
     public void Reload()
     {
         if (reloading || !Player.Instance.HasMagazine(weapon.key)) return;
-        reloadCoroutine = Reloading();
+        reloadCoroutine = weapon.Reloading();
         StartCoroutine(reloadCoroutine);
-    }
-
-    IEnumerator Reloading()
-    {
-        reloading = true;
-        UIController.Instance.Reloading(true);
-
-        float time = weapon.reload;
-        while (time > 0)
-        {
-            if (!GameController.Instance.Pause) time -= Time.deltaTime;
-            yield return null;
-        }
-        weapon.Reload();
-        reloading = false;
     }
 
     public override void DestroyTurret()
@@ -143,7 +106,6 @@ public class AttackTurretObject : TurretObject, IAttackObject
         // 무기가 있었다면 언마운트
         if (weapon != null) Mount(weapon, false);
         weapon = null;
-        WaitAttack = false;
         reloading = false;
     }
 }

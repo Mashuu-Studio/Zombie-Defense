@@ -66,9 +66,75 @@ public class Weapon : BuyableData
         consumable = w.consumable;
     }
 
-    public void Reload()
+    public Collider2D[] DetectEnemyTargets(Vector2 pos, float angle)
     {
+        if (autotarget == false) return null;
+        // 특정 위치를 기준으로
+        // range만큼 범위 세팅
+        int layerMask = 1 << LayerMask.NameToLayer("Enemy");
+        return Physics2D.OverlapBoxAll(
+            pos + new Vector2(range / 2 + .5f, 0),
+            Vector2.one * range, angle, layerMask);
+    }
+
+    public bool Wait { get; private set; }
+
+    public void Put()
+    {
+        Wait = false;
+    }
+
+    public void Fire(Vector2 pos, Vector2 dest, float angle)
+    {
+        Collider2D[] autoTargets = DetectEnemyTargets(pos, angle);
+        Vector2 dir = dest - pos;
+        int spread = bulletspreadangle;
+        for (int i = 0; i < bullets; i++)
+        {
+            int spreadAngle = Random.Range(-spread / 2, spread / 2 + 1);
+            Vector3 newDir = Quaternion.Euler(0, 0, spreadAngle) * dir;
+            // 오토타겟이면 적의 수만큼 자동타겟팅하여 공격.
+            if (autotarget)
+            {
+                if (autoTargets.Length > i) pos = autoTargets[i].transform.position;
+                // 적의 수가 타겟팅 수보다 적다면 스킵
+                else break;
+            }
+            ((Bullet)PoolController.Pop("Bullet")).SetBullet(pos, dest, newDir, this, bulletSpeed);
+        }
+        SoundController.Instance.PlaySFX(pos, key);
+        curammo--;
+    }
+
+    public IEnumerator AttackDelay()
+    {
+        Wait = true;
+
+        float time = adelay;
+        while (time > 0)
+        {
+            if (!GameController.Instance.Pause) time -= Time.deltaTime;
+            yield return null;
+        }
+        Wait = false;
+    }
+
+    public IEnumerator Reloading(bool player = false)
+    {
+        Wait = true;
+        if (player) UIController.Instance.Reloading(true);
+
+        float pReload = (100 + Player.Instance.ReloadTime) / 100f;
+        float time = reload / pReload;
+        if (player) SoundController.Instance.PlaySFX(Player.Instance.transform.position, "RELOAD");
+        while (time > 0)
+        {
+            if (!GameController.Instance.Pause) time -= Time.deltaTime;
+            yield return null;
+        }
         curammo = ammo;
+        if (player) UIController.Instance.Reloading(false);
+        Wait = false;
     }
 }
 public class Turret : BuyableData

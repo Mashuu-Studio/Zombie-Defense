@@ -15,10 +15,9 @@ public interface IAttackObject
     public int Dmg { get; }
     public float Range { get; }
     public float ADelay { get; }
-    public bool WaitAttack { get; set; }
+    public bool WaitAttack { get; }
     public bool DetectTarget();
     public void Attack();
-    IEnumerator AttackTimer();
 }
 
 public interface IMovingObject

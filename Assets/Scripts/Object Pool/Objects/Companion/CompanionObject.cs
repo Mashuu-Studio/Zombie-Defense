@@ -24,7 +24,6 @@ public class CompanionObject : BTPoolable,
         hp = maxhp = 5;
         def = 0;
         reloading = false;
-        WaitAttack = false;
         SetBasicWeapon();
     }
 
@@ -176,7 +175,7 @@ public class CompanionObject : BTPoolable,
 
     private bool OverlapWall(Vector2 pos)
     {
-        return Physics2D.OverlapCircle(pos, .5f, 1 << LayerMask.NameToLayer("Wall")) != null;
+        return Physics2D.OverlapCircle(pos, .5f, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Turret")) != null;
     }
 
     #endregion
@@ -205,7 +204,7 @@ public class CompanionObject : BTPoolable,
     public int Dmg { get { return (weapon != null) ? weapon.dmg : 0; } }
     public float Range { get { return (weapon != null) ? weapon.range : 0; } }
     public float ADelay { get { return (weapon != null) ? weapon.adelay : 0; } }
-    public bool WaitAttack { get; set; }
+    public bool WaitAttack { get { return weapon != null ? weapon.Wait : false; } }
 
     private Collider2D targetCollider;
     public Collider2D TargetCollider { get { return targetCollider; } }
@@ -226,21 +225,6 @@ public class CompanionObject : BTPoolable,
         float degree = Mathf.Rad2Deg * Mathf.Atan2(dir.y, dir.x);
         transform.rotation = Quaternion.Euler(0, 0, degree);
     }
-    
-    private List<Collider2D> DetectEnemyTargets(float range)
-    {
-        // 위치를 캐릭터 앞으로 세팅
-        // 크기는 range로 세팅
-        autoTargetCollider.offset = new Vector2(range / 2 + .5f, 0);
-        autoTargetCollider.size = Vector2.one * range;
-
-        List<Collider2D> cols = new List<Collider2D>();
-        ContactFilter2D filter = new ContactFilter2D();
-        filter.layerMask = 1 << LayerMask.NameToLayer("Enemy");
-        // 전방 사각형 모양
-        autoTargetCollider.OverlapCollider(filter, cols);
-        return cols;
-    }
 
     public void Attack()
     {
@@ -249,7 +233,7 @@ public class CompanionObject : BTPoolable,
         // 우선순위에 따라 적을 선택하는 코드가 들어갈 예정
         target = targets[0].transform;
 
-        if (!WaitAttack && !reloading)
+        if (!WaitAttack)
         {
             if (weapon.curammo <= 0)
             {
@@ -258,40 +242,10 @@ public class CompanionObject : BTPoolable,
             }
 
             LookAt(target.transform.position);
-            List<Collider2D> autoTargets = weapon.autotarget ? DetectEnemyTargets(weapon.range) : new List<Collider2D>();
-            Vector2 dir = target.position - transform.position;
-            Vector2 pos = transform.position;
-            int spread = weapon.bulletspreadangle;
-            for (int i = 0; i < weapon.bullets; i++)
-            {
-                int angle = Random.Range(-spread / 2, spread / 2 + 1);
-                Vector3 newDir = Quaternion.Euler(0, 0, angle) * dir;
-                // 오토타겟이면 적의 수만큼 자동타겟팅하여 공격.
-                if (weapon.autotarget)
-                {
-                    if (autoTargets.Count > i) pos = autoTargets[i].transform.position;
-                    // 적의 수가 타겟팅 수보다 적다면 스킵
-                    else break;
-                }
-                ((Bullet)PoolController.Pop("Bullet")).SetBullet(pos, target.position, newDir, weapon, weapon.bulletSpeed);
-            }
-            SoundController.Instance.PlaySFX(gameObject, weapon.key);
-            weapon.curammo--;
+            weapon.Fire(transform.position, target.position, transform.rotation.eulerAngles.z);
 
-            StartCoroutine(AttackTimer());
+            StartCoroutine(weapon.AttackDelay());
         }
-    }
-
-    public IEnumerator AttackTimer()
-    {
-        WaitAttack = true;
-        float time = 0;
-        while (time < ADelay)
-        {
-            if (!GameController.Instance.Pause) time += Time.deltaTime;
-            yield return null;
-        }
-        WaitAttack = false;
     }
     #endregion
 
@@ -306,23 +260,8 @@ public class CompanionObject : BTPoolable,
             return;
         }
         if (reloading) return;
-        reloadCoroutine = Reloading();
+        reloadCoroutine = weapon.Reloading();
         StartCoroutine(reloadCoroutine);
-    }
-
-    IEnumerator Reloading()
-    {
-        reloading = true;
-        UIController.Instance.Reloading(true);
-
-        float time = weapon.reload;
-        while (time > 0)
-        {
-            if (!GameController.Instance.Pause) time -= Time.deltaTime;
-            yield return null;
-        }
-        weapon.Reload();
-        reloading = false;
     }
 }
 

@@ -9,7 +9,6 @@ public class WeaponController : MonoBehaviour
 
     private List<Weapon> weapons;
     private int curIndex;
-    private bool wait;
     public Weapon CurWeapon { get { return weapons[curIndex]; } }
 
     private int WeaponAmount
@@ -87,13 +86,15 @@ public class WeaponController : MonoBehaviour
 
     public void StartGame()
     {
-        weapons = WeaponManager.GetWeapons();
-        weapons.ForEach(weapon => weapon.usable = false);
-        weapons[0].usable = true;
-        curIndex = 0;
+        weapons = new List<Weapon>();
+        foreach (var weapon in WeaponManager.GetWeapons())
+            weapons.Add(new Weapon(weapon));
 
-        weapons.ForEach(w => w.Reload());
-        wait = false;
+        foreach (var weapon in weapons)
+        {
+            if (weapon.infAmount) weapon.usable = true;
+        }
+        curIndex = 0;
         Player.Instance.SwitchWeapon(CurWeapon.key);
         UIController.Instance.SwitchWeapon();
     }
@@ -104,7 +105,6 @@ public class WeaponController : MonoBehaviour
         Weapon weapon = FindWeapon(key);
         if (weapon == null || weapon.consumable || HasWeapon(key)) return;
 
-        weapon.Reload();
         weapon.usable = true;
         UIController.Instance.UpdateWeaponImage();
     }
@@ -166,8 +166,8 @@ public class WeaponController : MonoBehaviour
                 adelayCoroutine = null;
             }
             CancelReload();
+            CurWeapon.Put();
             curIndex = index;
-            wait = false;
             Player.Instance.SwitchWeapon(CurWeapon.key);
             UIController.Instance.SwitchWeapon();
         }
@@ -177,43 +177,12 @@ public class WeaponController : MonoBehaviour
 
     IEnumerator adelayCoroutine;
     IEnumerator reloadCoroutine;
-    IEnumerator AttackDelay()
-    {
-        wait = true;
-
-        float time = CurWeapon.adelay;
-        while (time > 0)
-        {
-            if (!GameController.Instance.Pause) time -= Time.deltaTime;
-            yield return null;
-        }
-        wait = false;
-    }
-
     public void Reload()
     {
-        if (wait || !Player.Instance.HasMagazine(CurWeapon.key)) return;
+        if (CurWeapon.Wait || !Player.Instance.HasMagazine(CurWeapon.key)) return;
         CancelReload();
-        reloadCoroutine = Reloading();
+        reloadCoroutine = CurWeapon.Reloading(true);
         StartCoroutine(reloadCoroutine);
-    }
-
-    IEnumerator Reloading()
-    {
-        wait = true;
-        UIController.Instance.Reloading(true);
-
-        float pReload = (100 + Player.Instance.ReloadTime) / 100f;
-        float time = CurWeapon.reload / pReload;
-        SoundController.Instance.PlaySFX(Player.Instance.gameObject, "RELOAD");
-        while (time > 0)
-        {
-            if (!GameController.Instance.Pause) time -= Time.deltaTime;
-            yield return null;
-        }
-        CurWeapon.Reload();
-        UIController.Instance.Reloading(false);
-        wait = false;
     }
 
     public void CancelReload()
@@ -228,35 +197,16 @@ public class WeaponController : MonoBehaviour
 
     public void Fire(Vector3 pos, Vector3 dest)
     {
-        if (wait) return;
+        if (CurWeapon.Wait) return;
         if (CurWeapon.curammo == 0)
         {
             Reload();
             return;
         }
 
-        List<Collider2D> autoTargets = CurWeapon.autotarget ? Player.Instance.DetectEnemyTargets(CurWeapon.range) : new List<Collider2D>();
-        Vector3 dir = dest - pos;
-        int spread = CurWeapon.bulletspreadangle;
-        for (int i = 0; i < CurWeapon.bullets; i++)
-        {
-            // 줌인 상태라면 흔들림 보정
-            // 추후 샷건, 화염방사 등 흔들림 보정을 할 필요가 없는 값들에 대해 추가 조정
-            int angle = Random.Range(-spread / 2, spread / 2 + 1) / (Player.Instance.ZoomIn ? 2 : 1);
-            Vector3 newDir = Quaternion.Euler(0, 0, angle) * dir;
-            // 오토타겟이면 적의 수만큼 자동타겟팅하여 공격.
-            if (CurWeapon.autotarget)
-            {
-                if (autoTargets.Count > i) pos = autoTargets[i].transform.position;
-                // 적의 수가 타겟팅 수보다 적다면 스킵
-                else break;
-            }
-            ((Bullet)PoolController.Pop("Bullet")).SetBullet(pos, dest, newDir, CurWeapon, CurWeapon.bulletSpeed);
-        }
-        SoundController.Instance.PlaySFX(Player.Instance.gameObject, CurWeapon.key);
-        CurWeapon.curammo--;
+        CurWeapon.Fire(pos, dest, transform.rotation.eulerAngles.z);
         UIController.Instance.UpdateAmmo(CurWeapon.curammo);
-        adelayCoroutine = AttackDelay();
+        adelayCoroutine = CurWeapon.AttackDelay();
         StartCoroutine(adelayCoroutine);
     }
 

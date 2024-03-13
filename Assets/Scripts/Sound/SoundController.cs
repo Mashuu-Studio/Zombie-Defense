@@ -44,9 +44,10 @@ public class SoundController : MonoBehaviour
         sfxInfos.ForEach(info => sfxes.Add(info.name.ToUpper(), info.clip));
     }
 
-    public void PlaySFX(GameObject obj, string name)
+    public void PlaySFX(Vector2 pos, string name)
     {
         var source = (SfxSource)sfxPool.Pop();
+        source.transform.position = pos;
         sfxSources.Add(source);
         name = name.ToUpper();
         if (sfxes.ContainsKey(name)) source.PlaySfx(sfxes[name]);
