@@ -94,7 +94,6 @@ public class CompanionObject : BTPoolable,
         targetPos = Player.Instance.transform.position;
 
         float x, y;
-        Vector2 moveAmount;
         switch (patrolType)
         {
             case PatrolType.NARROWLY:
@@ -117,22 +116,21 @@ public class CompanionObject : BTPoolable,
                 targetPos += new Vector2(x, y);
                 break;
 
+            // 회전각이 0일 때 오른쪽을 바라보고 있음.
+            // 이를 기준으로 y값만 변환시켜 위치를 지정해줌.
+            // 이 후 Player를 기준으로 회전시켜 위치를 잡음.
+            // 단, 항상 Player 앞에 존재해야하므로 캐릭터가 각을 변환시키면 빠르게 조정해주어야 함.
             case PatrolType.LEAD:
-                // 회전각이 0일 때 오른쪽을 바라보고 있음.
-                // 이를 기준으로 y값만 변환시켜 위치를 지정해줌.
-                // 이 후 Player를 기준으로 회전시켜 위치를 잡음.
-                // 단, 항상 Player 앞에 존재해야하므로 캐릭터가 각을 변환시키면 빠르게 조정해주어야 함.
-
                 x = 2f;
                 y = Random.Range(-2.5f, 2.5f);
                 targetPos += (Vector2)(Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles) * new Vector2(x, y));
                 break;
-
             case PatrolType.BACK:
                 x = -2f;
                 y = Random.Range(-2.5f, 2.5f);
                 targetPos += (Vector2)(Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles) * new Vector2(x, y));
                 break;
+
             case PatrolType.HOLD:
                 if (patrolForward) patrolIndex++;
                 else patrolIndex--;
@@ -206,8 +204,8 @@ public class CompanionObject : BTPoolable,
     public float ADelay { get { return (weapon != null) ? weapon.adelay : 0; } }
     public bool WaitAttack { get { return weapon != null ? weapon.Wait : false; } }
 
-    private Collider2D targetCollider;
     public Collider2D TargetCollider { get { return targetCollider; } }
+    private Collider2D targetCollider;
 
     Collider2D[] targets;
     Transform target;
@@ -250,7 +248,6 @@ public class CompanionObject : BTPoolable,
     #endregion
 
     private IEnumerator reloadCoroutine;
-
     public void Reload()
     {
         // Magazine이 다 떨어졌다면 권총으로 변환

@@ -36,20 +36,22 @@ public class EnemyController : MonoBehaviour
                 t -= time;
                 if (MapGenerator.Instance.Map == null) yield return null;
 
-                // 후에는 몬스터 이름이 하나의 프리팹이 될 예정. 
-                // 현재는 테스트 용도로 프리팹을 분류해줌.
-                EnemyObject enemyObject = (EnemyObject)PoolController.Pop(GetEnemyPrefabName(enemy));
-                enemyObject.SetData(enemy);
-                AddEnemy(enemyObject, MapGenerator.Instance.GetEnemySpawnPos());
+                AddEnemy(enemy, MapGenerator.Instance.GetEnemySpawnPos());
             }
             yield return null;
         }
     }
 
-    public void AddEnemy(EnemyObject enemyObject, Vector3 pos)
+    public EnemyObject AddEnemy(Enemy enemy, Vector3 pos)
     {
+        // 후에는 몬스터 이름이 하나의 프리팹이 될 예정. 
+        // 현재는 테스트 용도로 프리팹을 분류해줌.
+        EnemyObject enemyObject = (EnemyObject)PoolController.Pop(GetEnemyPrefabName(enemy));
+        enemyObject.SetData(enemy);
         enemyObject.transform.position = pos;
         spawnedEnemies.Add(enemyObject);
+
+        return enemyObject;
     }
 
     public void DeadEnemy(EnemyObject enemy)

@@ -38,12 +38,10 @@ public class SummonEnemy : EnemyObject, ISummonObject
     {
         waitSummonCD = true;
         Enemy enemy = EnemyManager.GetEnemy(summonUnitName);
-        string prefabName = EnemyController.GetEnemyPrefabName(enemy);
 
-        EnemyObject enemyObject = (EnemyObject)PoolController.Pop(prefabName);
-        enemyObject.SetData(enemy);
+        EnemyObject enemyObject = EnemyController.Instance.AddEnemy(enemy,
+            transform.position + Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z) * Vector2.up);
         summonedUnits.Add(enemyObject.gameObject);
-        EnemyController.Instance.AddEnemy(enemyObject, transform.position);
 
         StartCoroutine(SummonTimer());
     }

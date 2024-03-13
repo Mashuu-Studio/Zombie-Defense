@@ -15,9 +15,8 @@ public static class RoundManager
             {
                 enemyInfo = new Dictionary<string, float>()
                 {
-                    { "test1", 1.5f },
-                    { "test2", 4.5f },
-                    { "test3", 2.5f },
+                    { "test_divide", 4.5f },
+                    { "test_summon", 4.5f },
                 },
             },/*
             new Round()

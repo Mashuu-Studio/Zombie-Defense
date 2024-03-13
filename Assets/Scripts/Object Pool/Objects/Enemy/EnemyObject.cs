@@ -137,11 +137,13 @@ public class EnemyObject : BTPoolable,
             {
                 remainSep--;
                 SetData(data, remainSep);
-                string prefabName = EnemyController.GetEnemyPrefabName(data);
 
-                EnemyObject sepObject = (EnemyObject)PoolController.Pop(prefabName);
+                Vector3 sepAmount = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z) * Vector2.right / 2;
+
+                EnemyObject sepObject = EnemyController.Instance.AddEnemy(data, transform.position + sepAmount);
+                transform.position -= sepAmount;
+
                 sepObject.SetData(data, remainSep);
-                EnemyController.Instance.AddEnemy(sepObject, transform.position);
             }
             else
             {
