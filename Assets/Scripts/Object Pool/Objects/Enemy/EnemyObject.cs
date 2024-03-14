@@ -202,7 +202,10 @@ public class EnemyObject : BTPoolable,
         targetCollider = Physics2D.OverlapCircle(transform.position, range, 1 << LayerMask.NameToLayer("Player"));
         if (targetCollider == null)
         {
-            Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, range, 1 << LayerMask.NameToLayer("Turret"));
+            int turretLayer = 1 << LayerMask.NameToLayer("Turret");
+            // 원거리 공격의 경우 Trap을 공격할 수 있음.
+            if (Range >= 3f) turretLayer |= 1 << LayerMask.NameToLayer("Trap");
+            Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, range, turretLayer);
             if (cols != null && cols.Length > 0) targetCollider = cols[0];
         }
 
@@ -234,7 +237,7 @@ public class EnemyObject : BTPoolable,
         transform.rotation = Quaternion.Euler(0, 0, degree - 90);
     }
 
-    public IEnumerator AttackTimer()
+    private IEnumerator AttackTimer()
     {
         WaitAttack = true;
         float time = 0;

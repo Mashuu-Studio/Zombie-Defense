@@ -149,7 +149,7 @@ public static class EnemyManager
                 hp = 40,
                 speed = 2,
                 dmg = 1,
-                range = 3f,
+                range = 1.2f,
                 adelay = 1,
 
                 separate = 3,

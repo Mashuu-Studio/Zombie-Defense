@@ -128,6 +128,7 @@
     <Compile Include="Assets\Scripts\UI\UIController.cs" />
     <Compile Include="Assets\Scripts\UI\BuildMode\BuildModeItemIcon.cs" />
     <Compile Include="Assets\Scripts\UI\ShopStatus.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\TrapTurret.cs" />
     <Compile Include="Assets\Scripts\GameControl\CompanionController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\MoveNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTRootNode.cs" />

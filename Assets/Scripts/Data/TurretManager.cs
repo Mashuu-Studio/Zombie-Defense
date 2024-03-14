@@ -29,7 +29,14 @@ public static class TurretManager
                 key = "TURRET.SCANTOWER",
                 hp = 10,
                 range = 5,
-            }
+            },
+            new Turret()
+            {
+                key = "TURRET.TRAP.TRAP",
+                hp = 10,
+                dmg = 2,
+                adelay = 1,
+            },
         };
     }
 

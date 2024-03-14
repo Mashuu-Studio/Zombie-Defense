@@ -8,28 +8,20 @@ public class AttackTurretObject : TurretObject, IAttackObject
 {
     [SerializeField] private LocalizeStringEvent mountedWeapon;
     private Collider2D targetCollider;
-    private int dmg;
-    private float range;
-    private float aDelay;
-    private int speed;
     private bool reloading;
     private IEnumerator reloadCoroutine;
 
     private Weapon weapon;
 
     public Collider2D TargetCollider { get { return targetCollider; } }
-    public int Dmg { get { return dmg; } }
-    public float Range { get { return range; } }
-    public float ADelay { get { return aDelay; } }
+    public int Dmg { get { return weapon != null ? weapon.dmg : 0; } }
+    public float Range { get { return weapon != null ? weapon.range : 0; } }
+    public float ADelay { get { return weapon != null ?  weapon.adelay : 0; } }
     public bool WaitAttack { get { return weapon != null ? weapon.Wait : false; } }
 
     public override void SetData(Turret data, Vector2 pos)
     {
         base.SetData(data, pos);
-        dmg = data.dmg;
-        range = data.range;
-        aDelay = data.adelay;
-        speed = data.speed;
         weapon = null;
         mountedWeapon.SetEntry("WEAPON.NONE");
     }
@@ -48,9 +40,6 @@ public class AttackTurretObject : TurretObject, IAttackObject
                 Player.Instance.AdjustItemAmount(weapon.key, 1);
             }
             weapon = new Weapon(w);
-            dmg = weapon.dmg;
-            range = weapon.range;
-            aDelay = weapon.adelay;
             mountedWeapon.SetEntry(w.key);
             Player.Instance.AdjustItemAmount(w.key, -1);
         }
@@ -70,7 +59,7 @@ public class AttackTurretObject : TurretObject, IAttackObject
     {
         if (weapon == null || reloading) return false;
 
-        targets = Physics2D.OverlapCircleAll(transform.position, range / 2, 1 << LayerMask.NameToLayer("Enemy"));
+        targets = Physics2D.OverlapCircleAll(transform.position, Range / 2, 1 << LayerMask.NameToLayer("Enemy"));
         return targets != null && targets.Length > 0;
     }
 

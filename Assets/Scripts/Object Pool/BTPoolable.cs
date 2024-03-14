@@ -17,6 +17,6 @@ public class BTPoolable : Poolable
     public virtual void Update()
     {
         if (tree == null) return;
-        tree.Update();
+        if (gameObject.activeSelf) tree.Update();
     }
 }

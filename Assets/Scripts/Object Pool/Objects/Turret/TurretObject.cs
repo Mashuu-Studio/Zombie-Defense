@@ -16,7 +16,7 @@ public class TurretObject : BTPoolable, IDamagedObject
     public int Def { get; }
 
     public Turret Data { get { return data; } }
-    private Turret data;
+    protected Turret data;
 
     public virtual void SetData(Turret data, Vector2 pos)
     {
@@ -28,7 +28,7 @@ public class TurretObject : BTPoolable, IDamagedObject
         this.pos = pos;
     }
 
-    public void Damaged(int dmg)
+    public virtual void Damaged(int dmg)
     {
         hp -= dmg;
         hpBar.UpdateHpBar(hp);
