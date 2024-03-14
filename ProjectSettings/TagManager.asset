@@ -42,6 +42,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Map
+    uniqueID: 3001360183
+    locked: 0
+  - name: Entity
+    uniqueID: 1826987183
+    locked: 0
+  - name: Character
+    uniqueID: 2337102319
+    locked: 0
+  - name: Wall
+    uniqueID: 2589266583
+    locked: 0
   - name: UI
     uniqueID: 34578697
     locked: 0
