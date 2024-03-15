@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrapTurret : TurretObject, IAttackObject
+public class Trap : TurretObject, IAttackObject
 {
     public Collider2D TargetCollider { get; }
 
@@ -39,11 +39,16 @@ public class TrapTurret : TurretObject, IAttackObject
 
     private void ActivateTrap(Collider2D target)
     {
-        // 각종 상태이상에 따라 조건문을 세팅해줄 예정
         if (Dmg > 0)
         {
             IDamagedObject damagedObject = target.transform.parent.GetComponent<IDamagedObject>();
             damagedObject.Damaged(Dmg);
+        }
+
+        if (data.buff != null)
+        {
+            IBuffTargetObject buffTarget = target.transform.parent.GetComponent<IBuffTargetObject>();
+            buffTarget.ActivateBuff(data.buff);
         }
     }
 

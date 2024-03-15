@@ -11,7 +11,7 @@ public class CompanionObject : BTPoolable,
     private int maxhp;
     private int hp;
     private int def;
-    private int speed = 5;
+    private float speed = 5;
 
     private Weapon weapon;
     private bool reloading;
@@ -57,7 +57,7 @@ public class CompanionObject : BTPoolable,
     private PatrolType patrolType;
     private bool move;
     private Vector2 targetPos;
-    public int Speed { get { return speed; } }
+    public float Speed { get { return speed; } }
 
     private List<Vector2> holdPatrolPosList;
     private int patrolIndex;

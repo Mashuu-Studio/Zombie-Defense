@@ -37,6 +37,13 @@ public static class TurretManager
                 dmg = 2,
                 adelay = 1,
             },
+            new Turret()
+            {
+                key = "TURRET.TRAP.SLOW",
+                hp = 10,
+                adelay = 1,
+                buff = new BuffInfo(){time = 5, speed = -.5f},
+            },
         };
     }
 

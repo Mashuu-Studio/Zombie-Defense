@@ -144,6 +144,8 @@ public class Turret : BuyableData
     public int dmg;
     public float adelay;
     public int speed;
+
+    public BuffInfo buff;
 }
 
 public class OtherItem : BuyableData

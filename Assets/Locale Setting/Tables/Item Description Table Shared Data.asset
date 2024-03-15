@@ -67,6 +67,14 @@ MonoBehaviour:
     m_Key: WEAPON.GRANADE
     m_Metadata:
       m_Items: []
+  - m_Id: 9077244462899200
+    m_Key: TURRET.TRAP.TRAP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9077252260110336
+    m_Key: TURRET.TRAP.SLOW
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 [AddComponentMenu("Poolable/Enemy (Poolable)")]
 public class EnemyObject : BTPoolable,
-    IDamagedObject, IAttackObject, IMovingObject, IBuffTargetObject
+    IDamagedObject, IAttackObject, IMovingObject, IBuffTargetObject 
 {
     [Space]
     [SerializeField] private ObjectHpBar hpBar;
@@ -68,7 +69,7 @@ public class EnemyObject : BTPoolable,
         Vector2 spriteSize = new Vector2(spriteRenderer.sprite.rect.width, spriteRenderer.sprite.rect.height) / spriteRenderer.sprite.pixelsPerUnit;
         hpBar.SetHpBar(maxhp, new Vector2(spriteSize.x * 3 / 2, 0.25f), spriteSize.y * 3 / 4);
 
-        aiPath.maxSpeed = speed = data.speed;
+        speed = data.speed;
         dmg = data.dmg;
         range = data.range;
         aDelay = data.adelay;
@@ -77,7 +78,6 @@ public class EnemyObject : BTPoolable,
         money = data.money;
 
         WaitAttack = false;
-        activatedBuff = null;
     }
 
     private Color currentColor;
@@ -113,7 +113,7 @@ public class EnemyObject : BTPoolable,
 
     #region IDamagedObject
     public int Hp { get { return hp; } }
-    public int Def { get { return def + (activatedBuff != null ? activatedBuff.def : 0); } }
+    public int Def { get { return def + ActivatedBuff.def; } }
 
     public void Heal(int amount)
     {
@@ -160,6 +160,7 @@ public class EnemyObject : BTPoolable,
     {
         PoolController.Push(gameObject.name, this);
         //spriteRenderer.color = Color.green;
+        buffs.Clear();
         StopAllCoroutines();
         EnemyController.Instance.DeadEnemy(this);
     }
@@ -174,9 +175,9 @@ public class EnemyObject : BTPoolable,
 
     #region IAttackObject
     public Collider2D TargetCollider { get { return targetCollider; } }
-    public int Dmg { get { return dmg + (activatedBuff != null ? activatedBuff.dmg : 0); } }
+    public int Dmg { get { return dmg + ActivatedBuff.dmg; } }
     public float Range { get { return range; } }
-    public float ADelay { get { return aDelay / (activatedBuff != null ? activatedBuff.aspeed : 1); } }
+    public float ADelay { get { return aDelay * (1 + ActivatedBuff.aspeed); } }
     public bool WaitAttack { get; set; }
 
     public bool DetectTarget()
@@ -251,18 +252,19 @@ public class EnemyObject : BTPoolable,
     #endregion
 
     #region IMovingObject
-    public int Speed { get { return speed; } }
+    public float Speed { get { return speed * ( 1 + ActivatedBuff.speed); } }
     private Vector3 direction;
     private float moveAmount;
     private bool isMove;
     public bool DetectPath()
-    {
+    { 
         // 우선 path를 무조건 찾는다고 가정.
         return true;
     }
 
     public void Move()
     {
+        aiPath.maxSpeed = Speed;
         direction = direction.normalized;
         rigidbody.rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         aiPath.canMove = true;
@@ -272,10 +274,17 @@ public class EnemyObject : BTPoolable,
 
     #region IBuffTargetObject
 
-    public BuffInfo ActivatedBuff { get { return activatedBuff; } }
-    private BuffInfo activatedBuff;
-
-    public bool BuffIsActivated { get { return activatedBuff != null; } }
+    public List<BuffInfo> Buffs { get { return buffs.Keys.ToList(); } }
+    private Dictionary<BuffInfo, IEnumerator> buffs = new Dictionary<BuffInfo, IEnumerator>();
+    public BuffInfo ActivatedBuff
+    {
+        get
+        {
+            BuffInfo buff = new BuffInfo();
+            if (Buffs != null) Buffs.ForEach(b => buff += b);
+            return buff;
+        }
+    }
 
     public void ActivateBuff(BuffInfo buff)
     {
@@ -283,20 +292,26 @@ public class EnemyObject : BTPoolable,
         if (buff.IsHeal) Heal(buff.hp);
         else
         {
-            activatedBuff = buff;
-            StartCoroutine(BuffTimer());
+            if (buffs.ContainsKey(buff))
+            {
+                StopCoroutine(buffs[buff]);
+                buffs[buff] = BuffTimer(buff);
+            }
+            else buffs.Add(buff, BuffTimer(buff));
+
+            StartCoroutine(buffs[buff]);
         }
     }
 
-    public IEnumerator BuffTimer()
+    public IEnumerator BuffTimer(BuffInfo buff)
     {
         float time = 0;
-        while (time < activatedBuff.time)
+        while (time < buff.time)
         {
             if (!GameController.Instance.Pause) time += Time.deltaTime;
             yield return null;
         }
-        activatedBuff = null;
+        buffs.Remove(buff);
     }
     #endregion
 }

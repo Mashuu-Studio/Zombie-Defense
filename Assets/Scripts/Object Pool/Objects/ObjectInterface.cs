@@ -22,7 +22,7 @@ public interface IAttackObject
 
 public interface IMovingObject
 {
-    public int Speed { get; }
+    public float Speed { get; }
     public bool DetectPath();
 
     public void Move();
@@ -39,9 +39,20 @@ public class BuffInfo
     public int dmg;
     public int def;
     public float aspeed;
+    public float speed;
     public int hp;
 
     public bool IsHeal { get { return hp > 0 && dmg == 0 && def == 0 && aspeed == 0; } }
+    public static BuffInfo operator +(BuffInfo a, BuffInfo b)
+    {
+        a.dmg += b.dmg;
+        a.def += b.def;
+        a.aspeed += b.aspeed;
+        a.speed += b.speed;
+        a.hp += b.hp;
+
+        return a;
+    }
 }
 
 public interface IBuffObject
@@ -58,10 +69,19 @@ public interface IBuffObject
 
 public interface IBuffTargetObject
 {
-    public BuffInfo ActivatedBuff { get; }
-    public bool BuffIsActivated { get; }
+    public List<BuffInfo> Buffs { get; }
+    public BuffInfo ActivatedBuff
+    {
+        get
+        {
+            BuffInfo buff = new BuffInfo();
+            if (Buffs != null) Buffs.ForEach(b => buff += b);
+            return buff;
+        }
+    }
+    public bool BuffIsActivated { get { return Buffs == null || Buffs.Count == 0; } }
     public void ActivateBuff(BuffInfo buff);
-    IEnumerator BuffTimer();
+    IEnumerator BuffTimer(BuffInfo buff);
 }
 
 public interface ISummonObject

@@ -78,6 +78,14 @@ MonoBehaviour:
     m_Localized: COMPANION
     m_Metadata:
       m_Items: []
+  - m_Id: 13822765622632448
+    m_Localized: TRAP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13822796262023168
+    m_Localized: SLOW TRAP
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

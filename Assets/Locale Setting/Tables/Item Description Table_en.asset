@@ -70,6 +70,14 @@ MonoBehaviour:
     m_Localized: GRANADE DESCRIPTION
     m_Metadata:
       m_Items: []
+  - m_Id: 9077244462899200
+    m_Localized: DMG 1 HP 10 TRAP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9077252260110336
+    m_Localized: SLOW TRAP
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

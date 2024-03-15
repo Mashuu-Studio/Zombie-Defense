@@ -82,6 +82,7 @@
     <Compile Include="Assets\Scripts\UI\ObjectHpBar.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTNode.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Bullet.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\Trap.cs" />
     <Compile Include="Assets\Scripts\UI\RoundStartButton.cs" />
     <Compile Include="Assets\Scripts\GameControl\MinimapCamera.cs" />
     <Compile Include="Assets\Scripts\Data\ObjectData.cs" />
@@ -128,7 +129,6 @@
     <Compile Include="Assets\Scripts\UI\UIController.cs" />
     <Compile Include="Assets\Scripts\UI\BuildMode\BuildModeItemIcon.cs" />
     <Compile Include="Assets\Scripts\UI\ShopStatus.cs" />
-    <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\TrapTurret.cs" />
     <Compile Include="Assets\Scripts\GameControl\CompanionController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\MoveNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTRootNode.cs" />
