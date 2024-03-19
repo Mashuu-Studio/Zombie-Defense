@@ -57,7 +57,7 @@ MonoBehaviour:
   rigidbody: {fileID: 1910243207678167368}
   spriteRenderer: {fileID: 1321946643927903598}
   aiPath: {fileID: 2297480105457223336}
-  aIDestinationSetter: {fileID: 8976991469376620458}
+  aiDestinationSetter: {fileID: 8976991469376620458}
 --- !u!114 &6807068888439278658
 MonoBehaviour:
   m_ObjectHideFlags: 0

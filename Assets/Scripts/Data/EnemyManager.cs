@@ -157,6 +157,21 @@ public static class EnemyManager
                 exp = 4,
                 money = 10,
             },
+            new Enemy()
+            {
+                key = "test_combine",
+
+                hp = 20,
+                speed = 5,
+                dmg = 0,
+                range = 1.5f,
+                adelay = 1,
+
+                combineHp = 5,
+
+                exp = 4,
+                money = 10,
+            }
         };
     }
 

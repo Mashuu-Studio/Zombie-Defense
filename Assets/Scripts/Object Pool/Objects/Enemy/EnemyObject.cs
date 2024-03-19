@@ -16,10 +16,11 @@ public class EnemyObject : BTPoolable,
     [SerializeField] private SpriteRenderer spriteRenderer;
 
     [Space]
-    [SerializeField] private Pathfinding.AIPath aiPath;
-    [SerializeField] private Pathfinding.AIDestinationSetter aIDestinationSetter;
+    [SerializeField] protected Pathfinding.AIPath aiPath;
+    [SerializeField] protected Pathfinding.AIDestinationSetter aiDestinationSetter;
 
-    Enemy data;
+    public Enemy Data { get { return data; } }
+    protected Enemy data;
 
     private int hp;
     private int maxhp;
@@ -39,11 +40,6 @@ public class EnemyObject : BTPoolable,
     private bool visible;
 
     private int remainSep;
-
-    private void Start()
-    {
-        aIDestinationSetter.target = Player.Instance.transform;
-    }
 
     public void SetSpecialAbility(bool inv, bool fly)
     {
@@ -78,6 +74,8 @@ public class EnemyObject : BTPoolable,
         money = data.money;
 
         WaitAttack = false;
+
+        aiDestinationSetter.target = Player.Instance.transform;
     }
 
     private Color currentColor;
@@ -119,7 +117,7 @@ public class EnemyObject : BTPoolable,
     {
         hp += amount;
         if (hp > maxhp) hp = maxhp;
-        hpBar.UpdateHpBar(hp);
+        hpBar.UpdateHpBar(Hp);
     }
 
     public void Damaged(int dmg)
@@ -129,7 +127,7 @@ public class EnemyObject : BTPoolable,
         if (dmg < 0) dmg = 1;
 
         hp -= dmg;
-        hpBar.UpdateHpBar(hp);
+        hpBar.UpdateHpBar(Hp);
         if (gameObject.activeSelf) StartCoroutine(ChangeColor());
         if (hp <= 0)
         {
@@ -156,7 +154,7 @@ public class EnemyObject : BTPoolable,
         }
     }
 
-    public void Dead()
+    public virtual void Dead()
     {
         PoolController.Push(gameObject.name, this);
         //spriteRenderer.color = Color.green;
@@ -231,7 +229,7 @@ public class EnemyObject : BTPoolable,
         }
     }
 
-    private void LookAt(Vector3 target)
+    public void LookAt(Vector3 target)
     {
         Vector2 dir = target - transform.position;
         float degree = Mathf.Rad2Deg * Mathf.Atan2(dir.y, dir.x);
@@ -256,7 +254,7 @@ public class EnemyObject : BTPoolable,
     private Vector3 direction;
     private float moveAmount;
     private bool isMove;
-    public bool DetectPath()
+    public virtual bool DetectPath()
     { 
         // 우선 path를 무조건 찾는다고 가정.
         return true;
@@ -269,7 +267,6 @@ public class EnemyObject : BTPoolable,
         rigidbody.rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         aiPath.canMove = true;
     }
-
     #endregion
 
     #region IBuffTargetObject

@@ -82,6 +82,7 @@
     <Compile Include="Assets\Scripts\UI\ObjectHpBar.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTNode.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Bullet.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\CombineEnemyObject.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\Trap.cs" />
     <Compile Include="Assets\Scripts\UI\RoundStartButton.cs" />
     <Compile Include="Assets\Scripts\GameControl\MinimapCamera.cs" />
@@ -93,8 +94,8 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Core\Context.cs" />
     <Compile Include="Assets\Scripts\UI\GameStartButton.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Item.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\SummonEnemyObject.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Poolable.cs" />
-    <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\SummonEnemy.cs" />
     <Compile Include="Assets\Scripts\GameControl\Initializer.cs" />
     <Compile Include="Assets\Scripts\UI\ShopItem.cs" />
     <Compile Include="Assets\Scripts\Sound\SoundController.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Assets\Scripts\Data\TurretManager.cs" />
     <Compile Include="Assets\Scripts\UI\BuildMode\TurretBuildIcon.cs" />
     <Compile Include="Assets\Scripts\UI\BuildMode\BuildModeUI.cs" />
+    <Compile Include="Assets\Scripts\BehaviourTree\Nodes\CombineNode.cs" />
     <Compile Include="Assets\Scripts\UI\BuildMode\MountWeaponIcon.cs" />
     <Compile Include="Assets\Scripts\GameControl\TurretController.cs" />
     <Compile Include="Assets\Scripts\Data\WeaponManager.cs" />

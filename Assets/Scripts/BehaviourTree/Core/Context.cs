@@ -11,6 +11,7 @@ public class Context
     public IMovingObject movingObject;
     public IBuffObject buffObject;
     public ISummonObject summonObject;
+    public ICombineObject combineObject;
 
     public static Context CreateContextFromObject(GameObject go)
     {
@@ -22,6 +23,7 @@ public class Context
         context.movingObject = go.GetComponent<IMovingObject>();
         context.buffObject = go.GetComponent<IBuffObject>();
         context.summonObject = go.GetComponent<ISummonObject>();
+        context.combineObject = go.GetComponent<ICombineObject>();
 
         return context;
     }

@@ -17,6 +17,7 @@ public class EnemyController : MonoBehaviour
         instance = this;
     }
 
+    public List<EnemyObject> SpawnEnemies { get { return spawnedEnemies; } }
     private List<EnemyObject> spawnedEnemies = new List<EnemyObject>();
 
     public void EndRound()
@@ -66,6 +67,7 @@ public class EnemyController : MonoBehaviour
         if (enemy.inv) prefabname = "Invisible " + prefabname;
         if (enemy.buff != null) prefabname = "Buff Enemy";
         if (enemy.summonAmount != 0) prefabname = "Summon Enemy";
+        if (enemy.combineHp != 0) prefabname = "Combine Enemy";
 
         return prefabname;
     }

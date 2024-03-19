@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SummonEnemy : EnemyObject, ISummonObject
+public class SummonEnemyObject : EnemyObject, ISummonObject
 {
     public List<GameObject> SummonedUnits { get { return summonedUnits; } }
 

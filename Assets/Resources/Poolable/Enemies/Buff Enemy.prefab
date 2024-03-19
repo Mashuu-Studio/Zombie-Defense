@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2378778970109037663, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
       propertyPath: m_Name
-      value: Area Buff Enemy Variant
+      value: Buff Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 4918210797749075318, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
       propertyPath: m_LocalPosition.x
@@ -115,14 +115,7 @@ MonoBehaviour:
   rigidbody: {fileID: 1442222133374602692}
   spriteRenderer: {fileID: 2078760906919700962}
   aiPath: {fileID: 1252854517434892836}
-  aIDestinationSetter: {fileID: 8220739881527837478}
-  AreaBuff: 1
-  buff:
-    time: 0
-    dmg: 0
-    def: 0
-    aspeed: 0
-    hp: 0
+  aiDestinationSetter: {fileID: 8220739881527837478}
 --- !u!114 &8220739881527837478 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8976991469376620458, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}

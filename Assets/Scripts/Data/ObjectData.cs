@@ -170,6 +170,7 @@ public class Enemy : ObjectData
     public int summonAmount;
 
     public int separate;
+    public int combineHp;
 
     public int exp;
     public int money;

@@ -16,7 +16,8 @@ public class ObjectHpBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.rotation = Quaternion.identity;}
+        transform.rotation = Quaternion.identity;
+    }
 
     public void UpdateHpBar(int hp)
     {

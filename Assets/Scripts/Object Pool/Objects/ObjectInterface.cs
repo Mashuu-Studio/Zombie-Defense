@@ -32,15 +32,15 @@ public interface IMovingObject
 public class BuffInfo
 {
     public bool area;
-    public float time;
+    public float time = 0;
 
     public float delay;
 
-    public int dmg;
-    public int def;
-    public float aspeed;
-    public float speed;
-    public int hp;
+    public int dmg = 0;
+    public int def = 0;
+    public float aspeed = 0;
+    public float speed = 0;
+    public int hp = 0;
 
     public bool IsHeal { get { return hp > 0 && dmg == 0 && def == 0 && aspeed == 0; } }
     public static BuffInfo operator +(BuffInfo a, BuffInfo b)
@@ -93,4 +93,15 @@ public interface ISummonObject
     public bool DetectTarget();
     public void Summon();
     IEnumerator SummonTimer();
+}
+
+public interface ICombineObject
+{
+    public bool IsCombined { get; }
+    public int Hp { get; }
+    public bool CheckHPState { get; }
+    public bool DetectOtherObject();
+    public void Combine();
+    IEnumerator Combining();
+    public void Combined(bool b);
 }
