@@ -137,7 +137,7 @@ public class Player : MonoBehaviour, IDamagedObject
     {
         Vector2 dir = target - transform.position;
         float degree = Mathf.Rad2Deg * Mathf.Atan2(dir.y, dir.x);
-        transform.rotation = Quaternion.Euler(0, 0, degree);
+        transform.rotation = Quaternion.Euler(0, 0, degree - 90);
     }
 
     #endregion

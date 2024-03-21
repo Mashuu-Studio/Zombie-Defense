@@ -27,7 +27,7 @@ public class CompanionController : MonoBehaviour
     {
         CompanionObject companion = (CompanionObject)PoolController.Pop("Companion");
         companion.transform.position = Player.Instance.transform.position;
-        companion.Init();
+        companion.Summon();
         companions.Add(companion);
 
         return companion;

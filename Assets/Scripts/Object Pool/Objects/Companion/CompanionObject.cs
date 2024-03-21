@@ -7,6 +7,8 @@ public class CompanionObject : BTPoolable,
 {
     [SerializeField] private SpriteRenderer gunSpriteRenderer;
     [SerializeField] private BoxCollider2D autoTargetCollider;
+    [SerializeField] private Pathfinding.AIPath aiPath;
+    [SerializeField] private Pathfinding.AIDestinationSetter aiDestinationSetter;
 
     private int maxhp;
     private int hp;
@@ -15,16 +17,22 @@ public class CompanionObject : BTPoolable,
 
     private Weapon weapon;
     private bool reloading;
-
     public Weapon UsingWeapon { get { return weapon; } }
 
     public override void Init()
     {
         base.Init();
+    }
+
+    public void Summon()
+    {
         hp = maxhp = 5;
         def = 0;
         reloading = false;
         SetBasicWeapon();
+
+        movePoint = PoolController.Pop("MOVEPOINT");
+        aiDestinationSetter.target = movePoint.transform;
     }
 
     public void SetBasicWeapon()
@@ -56,7 +64,7 @@ public class CompanionObject : BTPoolable,
     public enum PatrolType { NARROWLY = 0, WIDELY, LEAD, BACK, HOLD, }
     private PatrolType patrolType;
     private bool move;
-    private Vector2 targetPos;
+    private Poolable movePoint;
     public float Speed { get { return speed; } }
 
     private List<Vector2> holdPatrolPosList;
@@ -91,7 +99,7 @@ public class CompanionObject : BTPoolable,
     {
         if (move) return true;
 
-        targetPos = Player.Instance.transform.position;
+        Vector2 targetPos = Player.Instance.transform.position;
 
         float x, y;
         switch (patrolType)
@@ -148,32 +156,45 @@ public class CompanionObject : BTPoolable,
                 targetPos = holdPatrolPosList[patrolIndex];
                 break;
         }
+        movePoint.transform.position = targetPos;
+        aiPath.maxSpeed = speed;
         move = true;
+        aiPath.canMove = true;
+        aiPath.SearchPath();
         return true;
     }
 
     public void Move()
     {
-        float moveAmount = Time.deltaTime * speed;
-        Vector3 dir = (targetPos - (Vector2)transform.position).normalized;
-
-        // 후에 A*Path를 활용하면 좋을 듯?
-        LookAt(targetPos);
-        transform.position += dir * moveAmount;
-
-        // 이동량 범위 안쪽이면 도착으로 판정
-        // 혹은 다음 이동 위치가 벽이라면 도착으로 판정
-        if (Vector2.Distance(targetPos, transform.position) < moveAmount
-            || OverlapWall(transform.position + dir * moveAmount))
+        if (aiPath.canMove && EndOfPath())
         {
             // 패트롤 초기화
-            move = false;
+            aiPath.canMove = false;
+            StartCoroutine(PatrolTimer());
         }
     }
 
-    private bool OverlapWall(Vector2 pos)
+    int pathCount = 0;
+    float lastRemainDistance;
+    public bool EndOfPath()
     {
-        return Physics2D.OverlapCircle(pos, .5f, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Turret")) != null;
+        if (Mathf.Abs(aiPath.remainingDistance - lastRemainDistance) < 0.03f) pathCount++;
+        else pathCount = 0;
+        lastRemainDistance = aiPath.remainingDistance;
+
+        return aiPath.reachedEndOfPath || pathCount > 20;
+    }
+
+    private IEnumerator PatrolTimer()
+    {
+        // 일정 시간 후에 다시 패트롤 진행
+        float time = 0;
+        while (time < 0.2f)
+        {
+            if (!GameController.Instance.Pause) time += Time.deltaTime;
+            yield return null;
+        }
+        move = false;
     }
 
     #endregion
@@ -193,6 +214,7 @@ public class CompanionObject : BTPoolable,
         if (hp < 0)
         {
             StopAllCoroutines();
+            PoolController.Push("MOVEPOINT", movePoint);
             CompanionController.Instance.RemoveCompanion(this);
         }
     }
@@ -221,7 +243,7 @@ public class CompanionObject : BTPoolable,
     {
         Vector2 dir = target - transform.position;
         float degree = Mathf.Rad2Deg * Mathf.Atan2(dir.y, dir.x);
-        transform.rotation = Quaternion.Euler(0, 0, degree);
+        transform.rotation = Quaternion.Euler(0, 0, degree - 90);
     }
 
     public void Attack()

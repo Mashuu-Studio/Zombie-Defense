@@ -96,6 +96,7 @@
     <Compile Include="Assets\Scripts\Object Pool\Objects\Item.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\SummonEnemyObject.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Poolable.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\RestEnemyObject.cs" />
     <Compile Include="Assets\Scripts\GameControl\Initializer.cs" />
     <Compile Include="Assets\Scripts\UI\ShopItem.cs" />
     <Compile Include="Assets\Scripts\Sound\SoundController.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Assets\Scripts\UI\BuildMode\BuildModeUI.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\CombineNode.cs" />
     <Compile Include="Assets\Scripts\UI\BuildMode\MountWeaponIcon.cs" />
+    <Compile Include="Assets\Scripts\BehaviourTree\Nodes\RestNode.cs" />
     <Compile Include="Assets\Scripts\GameControl\TurretController.cs" />
     <Compile Include="Assets\Scripts\Data\WeaponManager.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameSetting.cs" />

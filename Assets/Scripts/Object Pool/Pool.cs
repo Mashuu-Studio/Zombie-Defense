@@ -34,6 +34,7 @@ public class Pool : MonoBehaviour
         if (pool.Count == 0) CreateObject();
         Poolable obj = pool.Pop();
         obj.gameObject.SetActive(true);
+        obj.transform.SetParent(null);
         return obj;
     }
 
