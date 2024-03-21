@@ -182,7 +182,7 @@ public class CompanionObject : BTPoolable,
         else pathCount = 0;
         lastRemainDistance = aiPath.remainingDistance;
 
-        return aiPath.reachedEndOfPath || pathCount > 20;
+        return aiPath.reachedEndOfPath || pathCount > 1 / Time.deltaTime;
     }
 
     private IEnumerator PatrolTimer()

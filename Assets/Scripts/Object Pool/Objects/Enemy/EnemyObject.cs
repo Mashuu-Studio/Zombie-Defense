@@ -86,7 +86,6 @@ public class EnemyObject : BTPoolable,
     public override void Update()
     {
         base.Update();
-
         // 보이지 않는 상태로 세팅.
         Color color = InvisibleColor;
         if (visible)

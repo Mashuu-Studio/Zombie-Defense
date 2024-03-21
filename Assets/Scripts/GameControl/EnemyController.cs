@@ -67,7 +67,8 @@ public class EnemyController : MonoBehaviour
         if (enemy.inv) prefabname = "Invisible " + prefabname;
         if (enemy.buff != null) prefabname = "Buff Enemy";
         if (enemy.summonAmount != 0) prefabname = "Summon Enemy";
-        if (enemy.combineHp != 0) prefabname = "Combine Enemy";
+        if (enemy.restHealAmount != 0) prefabname = "Rest Enemy";
+        else if (enemy.thresholdHp != 0) prefabname = "Combine Enemy";
 
         return prefabname;
     }

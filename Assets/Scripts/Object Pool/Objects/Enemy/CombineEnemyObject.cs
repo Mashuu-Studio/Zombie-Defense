@@ -7,7 +7,7 @@ public class CombineEnemyObject : EnemyObject, ICombineObject
     public bool IsCombined { get { return isCombined; } }
     private bool isCombined;
 
-    public bool CheckHPState { get { return Hp <= data.combineHp; } }
+    public bool CheckHPState { get { return Hp <= data.thresholdHp; } }
 
     CombineEnemyObject combineTarget = null;
     public bool DetectOtherObject()

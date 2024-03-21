@@ -14,7 +14,7 @@ public class CombineNode : BTActionNode
 
     protected override State OnUpdate()
     {
-        if (context.combineObject.IsCombined) return State.Success;
+        if (context.combineObject.IsCombined) return State.Running;
 
         if (context.combineObject.CheckHPState && context.combineObject.DetectOtherObject())
         {

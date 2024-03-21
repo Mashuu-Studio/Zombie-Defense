@@ -105,3 +105,13 @@ public interface ICombineObject
     IEnumerator Combining();
     public void Combined(bool b);
 }
+
+public interface IRestObject
+{
+    public bool CheckHPState { get; }
+    public bool IsHealed { get; }
+    public bool IsRunningAway { get; }
+    public bool IsArrived { get; }
+    public void Runaway();
+    public void Rest();
+}

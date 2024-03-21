@@ -167,11 +167,27 @@ public static class EnemyManager
                 range = 1.5f,
                 adelay = 1,
 
-                combineHp = 5,
+                thresholdHp = 5,
 
                 exp = 4,
                 money = 10,
-            }
+            },
+            new Enemy()
+            {
+                key = "test_rest",
+
+                hp = 20,
+                speed = 5,
+                dmg = 0,
+                range = 1.5f,
+                adelay = 1,
+
+                thresholdHp = 10,
+                restHealAmount = 2,
+
+                exp = 4,
+                money = 10,
+            },
         };
     }
 
