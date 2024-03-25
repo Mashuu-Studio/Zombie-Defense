@@ -69,6 +69,7 @@ public class EnemyController : MonoBehaviour
         if (enemy.summonAmount != 0) prefabname = "Summon Enemy";
         if (enemy.restHealAmount != 0) prefabname = "Rest Enemy";
         else if (enemy.thresholdHp != 0) prefabname = "Combine Enemy";
+        if (enemy.siegeRadius != 0) prefabname = "Siege Enemy";
 
         return prefabname;
     }

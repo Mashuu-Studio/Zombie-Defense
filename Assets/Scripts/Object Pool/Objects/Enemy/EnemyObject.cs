@@ -22,24 +22,23 @@ public class EnemyObject : BTPoolable,
     public Enemy Data { get { return data; } }
     protected Enemy data;
 
-    private int hp;
-    private int maxhp;
-    private Collider2D targetCollider;
-    private int dmg;
-    private int def;
-    private float range;
-    private float aDelay;
-    private bool isAttacking;
-    private int speed;
+    protected int hp;
+    protected int maxhp;
 
-    private int exp;
-    private int money;
+    protected int dmg;
+    protected int def;
+    protected float range;
+    protected float aDelay;
+    protected int speed;
 
-    private bool flight;
-    private bool invisible;
-    private bool visible;
+    protected int exp;
+    protected int money;
 
-    private int remainSep;
+    protected bool flight;
+    protected bool invisible;
+    protected bool visible;
+
+    protected int remainSep;
 
     public void SetSpecialAbility(bool inv, bool fly)
     {
@@ -171,13 +170,16 @@ public class EnemyObject : BTPoolable,
     #endregion
 
     #region IAttackObject
+
+    protected bool isAttacking;
+    protected Collider2D targetCollider;
     public Collider2D TargetCollider { get { return targetCollider; } }
     public int Dmg { get { return dmg + ActivatedBuff.dmg; } }
     public float Range { get { return range; } }
     public float ADelay { get { return aDelay * (1 + ActivatedBuff.aspeed); } }
     public bool WaitAttack { get; set; }
 
-    public bool DetectTarget()
+    public virtual bool DetectTarget()
     {
         // 가는 방향이 막혀있을 때 Failure를 띄워야 함. (예를 들어 벽이나 플레이어)
         // 그 외에 적끼리 붙어있을 때도 이동하는 방식도 고민할 필요가 있음.
@@ -194,7 +196,7 @@ public class EnemyObject : BTPoolable,
         // 공격중이라면 해당 타겟이 실질적 공격 범위로 체크
         // 그게 아니라면 0.75사이즈 안에 있나 체크
 
-        float range = this.range;
+        float range = Range;
         if (!isAttacking) range *= .75f;
 
         targetCollider = Physics2D.OverlapCircle(transform.position, range, 1 << LayerMask.NameToLayer("Player"));
@@ -217,7 +219,7 @@ public class EnemyObject : BTPoolable,
         return targetCollider != null;
     }
 
-    public void Attack()
+    public virtual void Attack()
     {
         isAttacking = true;
         if (!WaitAttack)
@@ -235,7 +237,7 @@ public class EnemyObject : BTPoolable,
         transform.rotation = Quaternion.Euler(0, 0, degree - 90);
     }
 
-    private IEnumerator AttackTimer()
+    protected IEnumerator AttackTimer()
     {
         WaitAttack = true;
         float time = 0;

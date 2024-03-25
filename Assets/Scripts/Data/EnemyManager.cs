@@ -188,6 +188,21 @@ public static class EnemyManager
                 exp = 4,
                 money = 10,
             },
+            new Enemy()
+            {
+                key = "test_siege",
+
+                hp = 10,
+                speed = 5,
+                dmg = 2,
+                range = 5f,
+                adelay = 2,
+
+                siegeRadius = 1f,
+
+                exp = 4,
+                money = 10,
+            },
         };
     }
 

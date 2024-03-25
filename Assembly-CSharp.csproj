@@ -109,6 +109,7 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\CombineNode.cs" />
     <Compile Include="Assets\Scripts\UI\BuildMode\MountWeaponIcon.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\RestNode.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\Projectile.cs" />
     <Compile Include="Assets\Scripts\GameControl\TurretController.cs" />
     <Compile Include="Assets\Scripts\Data\WeaponManager.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameSetting.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Assets\Scripts\GameControl\CameraController.cs" />
     <Compile Include="Assets\Scripts\Data\ItemManager.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTCompositeNode.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\SiegeEnemyObject.cs" />
     <Compile Include="Assets\Scripts\UI\ScriptableButton.cs" />
     <Compile Include="Assets\Scripts\GameControl\WeaponController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTDecoratorNode.cs" />

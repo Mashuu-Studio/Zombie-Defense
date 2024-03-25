@@ -172,6 +172,7 @@ public class Enemy : ObjectData
     public int separate;
     public int thresholdHp;
     public int restHealAmount;
+    public float siegeRadius = 0f;
 
     public int exp;
     public int money;

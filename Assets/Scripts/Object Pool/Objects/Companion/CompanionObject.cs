@@ -31,7 +31,7 @@ public class CompanionObject : BTPoolable,
         reloading = false;
         SetBasicWeapon();
 
-        movePoint = PoolController.Pop("MOVEPOINT");
+        movePoint = PoolController.Pop("Movepoint");
         aiDestinationSetter.target = movePoint.transform;
     }
 
@@ -214,7 +214,7 @@ public class CompanionObject : BTPoolable,
         if (hp < 0)
         {
             StopAllCoroutines();
-            PoolController.Push("MOVEPOINT", movePoint);
+            PoolController.Push("Movepoint", movePoint);
             CompanionController.Instance.RemoveCompanion(this);
         }
     }

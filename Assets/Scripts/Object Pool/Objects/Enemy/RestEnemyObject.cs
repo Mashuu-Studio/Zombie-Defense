@@ -17,7 +17,7 @@ public class RestEnemyObject : EnemyObject, IRestObject
     public override void SetData(Enemy data, int remainSep = -1)
     {
         base.SetData(data, remainSep);
-        runawayPoint = PoolController.Pop("MOVEPOINT");
+        runawayPoint = PoolController.Pop("Movepoint");
         aiDestinationSetter.target = Player.Instance.transform;
     }
 
@@ -74,7 +74,7 @@ public class RestEnemyObject : EnemyObject, IRestObject
     public override void Dead()
     {
         base.Dead();
-        PoolController.Push("MOVEPOINT", runawayPoint);
+        PoolController.Push("Movepoint", runawayPoint);
         isHealed = false;
         isRunningAway = false;
     }
