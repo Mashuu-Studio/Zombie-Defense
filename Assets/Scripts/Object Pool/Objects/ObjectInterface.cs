@@ -97,7 +97,10 @@ public interface ISummonObject
 
 public interface ICombineObject
 {
+    // 합체의 트리거가 되는 필드. 이동을 시작함.
     public bool IsCombined { get; }
+    // 합체를 시작하게 되면 사용되는 필드. 이동을 멈춤.
+    public bool IsCombining { get; }
     public int Hp { get; }
     public bool CheckHPState { get; }
     public bool DetectOtherObject();

@@ -14,7 +14,11 @@ public class CombineNode : BTActionNode
 
     protected override State OnUpdate()
     {
-        if (context.combineObject.IsCombined) return State.Running;
+        if (context.combineObject.IsCombined)
+        {
+            if (!context.combineObject.IsCombining) context.movingObject.Move();
+            return State.Running;
+        }
 
         if (context.combineObject.CheckHPState && context.combineObject.DetectOtherObject())
         {

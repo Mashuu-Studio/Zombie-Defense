@@ -61,17 +61,6 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 613097247025438833}
   m_SourcePrefab: {fileID: 100100000, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
---- !u!114 &1252854517434892836 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2297480105457223336, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
-  m_PrefabInstance: {fileID: 1045188538066093196}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3423403870741170387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6eb1402c17e84a9282a7f0f62eb584f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &1442222133374602692 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 1910243207678167368, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
@@ -114,16 +103,15 @@ MonoBehaviour:
   hpBar: {fileID: 2807593894689327195}
   rigidbody: {fileID: 1442222133374602692}
   spriteRenderer: {fileID: 2078760906919700962}
-  aiPath: {fileID: 1252854517434892836}
-  aiDestinationSetter: {fileID: 8220739881527837478}
---- !u!114 &8220739881527837478 stripped
+  seeker: {fileID: 5834079507026544846}
+--- !u!114 &5834079507026544846 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8976991469376620458, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6807068888439278658, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
   m_PrefabInstance: {fileID: 1045188538066093196}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3423403870741170387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9679e68a0f1144e79c664d9a11ca121, type: 3}
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

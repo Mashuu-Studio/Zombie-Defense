@@ -15,14 +15,14 @@ public class RestNode : BTActionNode
     protected override State OnUpdate()
     {
         // 도착했다면 휴식 시작.
-        if (context.restObject.IsRunningAway && context.restObject.IsArrived)
+        if (context.restObject.IsRunningAway)
         {
-            context.restObject.Rest();
-            return State.Success;
+            if (context.restObject.IsArrived) context.restObject.Rest();
+            else context.movingObject.Move();
+            return State.Running;
         }
 
-        if (context.restObject.IsRunningAway
-            || context.restObject.IsHealed) return State.Running;
+        if (context.restObject.IsHealed) return State.Running;
 
         // 체력을 체크해서 특정 수치 이하가 되면 도망침
         if (context.restObject.CheckHPState)

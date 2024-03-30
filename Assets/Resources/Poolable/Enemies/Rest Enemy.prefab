@@ -72,6 +72,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9679e68a0f1144e79c664d9a11ca121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2947409100604852061 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6807068888439278658, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
+  m_PrefabInstance: {fileID: 8543572450221689631}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6310602174078633792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6310602174078633792 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2378778970109037663, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
@@ -93,6 +104,7 @@ MonoBehaviour:
   hpBar: {fileID: 6838451417476827080}
   rigidbody: {fileID: 7787376810400252503}
   spriteRenderer: {fileID: 7262233169818068593}
+  seeker: {fileID: 2947409100604852061}
   aiPath: {fileID: 7598298365214395831}
   aiDestinationSetter: {fileID: 721829165994658997}
 --- !u!114 &6838451417476827080 stripped

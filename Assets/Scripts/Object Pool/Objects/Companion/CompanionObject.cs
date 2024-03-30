@@ -5,10 +5,10 @@ using UnityEngine;
 public class CompanionObject : BTPoolable,
     IMovingObject, IDamagedObject, IAttackObject
 {
+    [SerializeField] private Rigidbody2D rigidbody;
     [SerializeField] private SpriteRenderer gunSpriteRenderer;
     [SerializeField] private BoxCollider2D autoTargetCollider;
-    [SerializeField] private Pathfinding.AIPath aiPath;
-    [SerializeField] private Pathfinding.AIDestinationSetter aiDestinationSetter;
+    [SerializeField] protected Pathfinding.Seeker seeker;
 
     private int maxhp;
     private int hp;
@@ -32,7 +32,6 @@ public class CompanionObject : BTPoolable,
         SetBasicWeapon();
 
         movePoint = PoolController.Pop("Movepoint");
-        aiDestinationSetter.target = movePoint.transform;
     }
 
     public void SetBasicWeapon()
@@ -70,6 +69,9 @@ public class CompanionObject : BTPoolable,
     private List<Vector2> holdPatrolPosList;
     private int patrolIndex;
     private bool patrolForward;
+
+    protected List<Pathfinding.GraphNode> path;
+    private int pathIndex;
 
     public void SetPatrolType(PatrolType type)
     {
@@ -157,32 +159,44 @@ public class CompanionObject : BTPoolable,
                 break;
         }
         movePoint.transform.position = targetPos;
-        aiPath.maxSpeed = speed;
         move = true;
-        aiPath.canMove = true;
-        aiPath.SearchPath();
+        SetPath();
         return true;
+    }
+
+    private void SetPath()
+    {
+        path = seeker.StartPath(transform.position, movePoint.transform.position).path;
+        pathIndex = 1;
     }
 
     public void Move()
     {
-        if (aiPath.canMove && EndOfPath())
+        if (seeker.IsDone())
         {
-            // 패트롤 초기화
-            aiPath.canMove = false;
-            StartCoroutine(PatrolTimer());
+            // 끝까지 왔다면 타이머 작동.
+            if (path.Count <= pathIndex)
+            {
+                StartCoroutine(PatrolTimer());
+                return;
+            }
+            var next = NextPos();
+            var dir = (next - (Vector2)transform.position).normalized;
+            LookAt(next);
+            // Update에서 호출되기 때문에 deltaTime이용.
+            rigidbody.position += dir * Time.deltaTime * Speed;
+            if (EndOfPath(next)) pathIndex++;
         }
     }
 
-    int pathCount = 0;
-    float lastRemainDistance;
-    public bool EndOfPath()
+    public Vector2 NextPos()
     {
-        if (Mathf.Abs(aiPath.remainingDistance - lastRemainDistance) < 0.03f) pathCount++;
-        else pathCount = 0;
-        lastRemainDistance = aiPath.remainingDistance;
+        return new Vector2(path[pathIndex].position.x / 1000f, path[pathIndex].position.y / 1000f);
+    }
 
-        return aiPath.reachedEndOfPath || pathCount > 1 / Time.deltaTime;
+    public bool EndOfPath(Vector2 next)
+    {
+        return Vector2.Distance(transform.position, next) < 0.1f;
     }
 
     private IEnumerator PatrolTimer()

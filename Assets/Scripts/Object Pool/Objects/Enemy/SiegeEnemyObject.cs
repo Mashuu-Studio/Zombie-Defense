@@ -16,6 +16,9 @@ public class SiegeEnemyObject : EnemyObject
 
         // 공격중이라면 해당 타겟이 실질적 공격 범위로 체크
         // 그게 아니라면 0.8사이즈 안에 있나 체크
+        
+        // 기존 방식과 통합이 가능한지 체크
+        // layer를 조절하는 등의 방식을 사용하면 괜찮게 합칠 수 있을 것 같음.
 
         targetCollider = null;
 
@@ -56,11 +59,7 @@ public class SiegeEnemyObject : EnemyObject
         }
 
         if (targetCollider == null) isAttacking = false;
-        else
-        {
-            LookAt(targetCollider.transform.position);
-            aiPath.canMove = false;
-        }
+        else LookAt(targetCollider.transform.position);
 
         return targetCollider != null;
     }

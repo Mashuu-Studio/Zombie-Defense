@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 [AddComponentMenu("Poolable/Enemy (Poolable)")]
 public class EnemyObject : BTPoolable,
-    IDamagedObject, IAttackObject, IMovingObject, IBuffTargetObject 
+    IDamagedObject, IAttackObject, IMovingObject, IBuffTargetObject
 {
     [Space]
     [SerializeField] private ObjectHpBar hpBar;
@@ -16,8 +16,7 @@ public class EnemyObject : BTPoolable,
     [SerializeField] private SpriteRenderer spriteRenderer;
 
     [Space]
-    [SerializeField] protected Pathfinding.AIPath aiPath;
-    [SerializeField] protected Pathfinding.AIDestinationSetter aiDestinationSetter;
+    [SerializeField] protected Pathfinding.Seeker seeker;
 
     public Enemy Data { get { return data; } }
     protected Enemy data;
@@ -74,7 +73,8 @@ public class EnemyObject : BTPoolable,
 
         WaitAttack = false;
 
-        aiDestinationSetter.target = Player.Instance.transform;
+        moveTarget = Player.Instance.transform;
+        StartCoroutine(DetectingPath());
     }
 
     private Color currentColor;
@@ -95,8 +95,6 @@ public class EnemyObject : BTPoolable,
             else if (!invisible) color = VisibleColor;
         }
         SetColor(color);
-
-        if (GameController.Instance.Pause) aiPath.canMove = false;
     }
 
     private void SetColor(Color color)
@@ -210,11 +208,7 @@ public class EnemyObject : BTPoolable,
         }
 
         if (targetCollider == null) isAttacking = false;
-        else
-        {
-            LookAt(targetCollider.transform.position);
-            aiPath.canMove = false;
-        }
+        else LookAt(targetCollider.transform.position);
 
         return targetCollider != null;
     }
@@ -251,22 +245,55 @@ public class EnemyObject : BTPoolable,
     #endregion
 
     #region IMovingObject
-    public float Speed { get { return speed * ( 1 + ActivatedBuff.speed); } }
-    private Vector3 direction;
-    private float moveAmount;
-    private bool isMove;
+    public float Speed { get { return speed * (1 + ActivatedBuff.speed); } }
+    protected Transform moveTarget;
+    protected List<Pathfinding.GraphNode> path;
+    private int pathIndex;
+
+    private IEnumerator DetectingPath()
+    {
+        while (true)
+        {
+            SetPath();
+            float time = 0;
+            while (time < 1f)
+            {
+                if (!GameController.Instance.Pause) time += Time.deltaTime;
+                yield return null;
+            }
+        }
+    }
+
+    protected void SetPath()
+    {
+        path = seeker.StartPath(transform.position, moveTarget.position).path;
+        pathIndex = 1;
+    }
+
     public virtual bool DetectPath()
-    { 
-        // 우선 path를 무조건 찾는다고 가정.
-        return true;
+    {
+        // 더이상 갈 공간이 없다면 
+        return seeker.IsDone() && path.Count - 1 > pathIndex;
     }
 
     public void Move()
     {
-        aiPath.maxSpeed = Speed;
-        direction = direction.normalized;
-        rigidbody.rotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        aiPath.canMove = true;
+        var next = NextPos();
+        var dir = (next - (Vector2)transform.position).normalized;
+        LookAt(next);
+        // Update에서 호출되기 때문에 deltaTime이용.
+        rigidbody.position += dir * Time.deltaTime * Speed;
+        if (EndOfPath(next)) pathIndex++;
+    }
+
+    public Vector2 NextPos()
+    {
+        return new Vector2(path[pathIndex].position.x / 1000f, path[pathIndex].position.y / 1000f);
+    }
+
+    public bool EndOfPath(Vector2 next)
+    {
+        return Vector2.Distance(transform.position, next) < 0.1f;
     }
     #endregion
 
