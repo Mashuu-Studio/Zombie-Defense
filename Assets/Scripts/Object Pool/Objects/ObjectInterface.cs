@@ -26,6 +26,16 @@ public interface IMovingObject
     public bool DetectPath();
 
     public void Move();
+
+    public static Vector2 GetPos(Pathfinding.Int3 pos)
+    {
+        return new Vector2(pos.x / 1000f, pos.y / 1000f);
+    }
+
+    public static bool EndOfPath(Vector2 pos, Vector2 next)
+    {
+        return Vector2.Distance(pos, next) < 0.1f;
+    }
 }
 
 [System.Serializable]

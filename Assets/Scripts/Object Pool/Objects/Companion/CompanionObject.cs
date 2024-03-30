@@ -180,23 +180,13 @@ public class CompanionObject : BTPoolable,
                 StartCoroutine(PatrolTimer());
                 return;
             }
-            var next = NextPos();
+            var next = IMovingObject.GetPos(path[pathIndex].position);
             var dir = (next - (Vector2)transform.position).normalized;
             LookAt(next);
             // Update에서 호출되기 때문에 deltaTime이용.
             rigidbody.position += dir * Time.deltaTime * Speed;
-            if (EndOfPath(next)) pathIndex++;
+            if (IMovingObject.EndOfPath(transform.position, next)) pathIndex++;
         }
-    }
-
-    public Vector2 NextPos()
-    {
-        return new Vector2(path[pathIndex].position.x / 1000f, path[pathIndex].position.y / 1000f);
-    }
-
-    public bool EndOfPath(Vector2 next)
-    {
-        return Vector2.Distance(transform.position, next) < 0.1f;
     }
 
     private IEnumerator PatrolTimer()

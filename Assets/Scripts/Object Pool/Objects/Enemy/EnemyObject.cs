@@ -272,28 +272,18 @@ public class EnemyObject : BTPoolable,
 
     public virtual bool DetectPath()
     {
-        // 더이상 갈 공간이 없다면 
+        // 길탐색이 됐는지, 더 갈 수 있는 노드가 있는지 확인.
         return seeker.IsDone() && path.Count - 1 > pathIndex;
     }
 
     public void Move()
     {
-        var next = NextPos();
+        var next = IMovingObject.GetPos(path[pathIndex].position);
         var dir = (next - (Vector2)transform.position).normalized;
         LookAt(next);
         // Update에서 호출되기 때문에 deltaTime이용.
         rigidbody.position += dir * Time.deltaTime * Speed;
-        if (EndOfPath(next)) pathIndex++;
-    }
-
-    public Vector2 NextPos()
-    {
-        return new Vector2(path[pathIndex].position.x / 1000f, path[pathIndex].position.y / 1000f);
-    }
-
-    public bool EndOfPath(Vector2 next)
-    {
-        return Vector2.Distance(transform.position, next) < 0.1f;
+        if (IMovingObject.EndOfPath(transform.position, next)) pathIndex++;
     }
     #endregion
 
