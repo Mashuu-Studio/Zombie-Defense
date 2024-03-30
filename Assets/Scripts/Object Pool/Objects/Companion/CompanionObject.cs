@@ -240,7 +240,7 @@ public class CompanionObject : BTPoolable,
         if (weapon == null || reloading) return false;
 
         targets = Physics2D.OverlapCircleAll(transform.position, Range / 2, 1 << LayerMask.NameToLayer("Enemy"));
-        return targets != null && targets.Length > 0;
+        return targets.Length > 0;
     }
 
     public void LookAt(Vector3 target)

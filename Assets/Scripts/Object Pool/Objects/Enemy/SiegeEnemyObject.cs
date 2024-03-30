@@ -16,46 +16,28 @@ public class SiegeEnemyObject : EnemyObject
 
         // 공격중이라면 해당 타겟이 실질적 공격 범위로 체크
         // 그게 아니라면 0.8사이즈 안에 있나 체크
-        
+
         // 기존 방식과 통합이 가능한지 체크
         // layer를 조절하는 등의 방식을 사용하면 괜찮게 합칠 수 있을 것 같음.
 
         targetCollider = null;
-
-        int turretLayer = 1 << LayerMask.NameToLayer("Turret");
         targetIsTurret = true;
-        float range = meleeRange;
-        if (!isAttacking) range *= .8f;
-        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, range, turretLayer);
-        if (cols != null && cols.Length > 0)
+        meleeAttack = true;
+        FindTargets(meleeRange, .8f, 1 << LayerMask.NameToLayer("Turret"));
+
+        // 원거리 공격이 있을 때 근접 공격 대상을 찾지 못했다면
+        // 원거리 기반으로 탐색 시작
+        if (data.siegeRadius > 0 && targetCollider == null
+            && FindTargets(Range, .8f, 1 << LayerMask.NameToLayer("Turret")).Length > 0)
         {
-            targetCollider = cols[0];
-            meleeAttack = true;
+            meleeAttack = false;
         }
 
-        if (data.siegeRadius > 0)
+        // 터렛을 아예 찾지 못했다면 근접 범위에서 플레이어 탐색
+        if (targetCollider == null
+            && FindTargets(meleeRange, .75f, 1 << LayerMask.NameToLayer("Player")).Length > 0)
         {
-            // 밀리 공격을 찾지 못함.
-            if (targetCollider == null)
-            {
-                range = Range;
-                if (!isAttacking) range *= .8f;
-                cols = Physics2D.OverlapCircleAll(transform.position, range, turretLayer);
-                if (cols != null && cols.Length > 0)
-                {
-                    targetCollider = cols[0];
-                    meleeAttack = false;
-                }
-            }
-        }
-
-        // 공성 터렛을 여전히 찾지 못함.
-        if (targetCollider == null)
-        {
-            range = meleeRange;
-            if (!isAttacking) range *= .8f;
-            targetCollider = Physics2D.OverlapCircle(transform.position, range, 1 << LayerMask.NameToLayer("Player"));
-            if (targetCollider != null) targetIsTurret = false;
+            targetIsTurret = false;
         }
 
         if (targetCollider == null) isAttacking = false;

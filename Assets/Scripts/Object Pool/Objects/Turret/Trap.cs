@@ -20,7 +20,7 @@ public class Trap : TurretObject, IAttackObject
         if (WaitAttack) return false;
 
         targets = Physics2D.OverlapBoxAll(transform.position, Vector2.one, 0, 1 << LayerMask.NameToLayer("Enemy"));
-        return targets != null && targets.Length > 0;
+        return targets.Length > 0;
     }
 
     public void Attack()

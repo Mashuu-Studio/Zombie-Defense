@@ -195,22 +195,28 @@ public class EnemyObject : BTPoolable,
         // 그게 아니라면 0.75사이즈 안에 있나 체크
 
         float range = Range;
-        if (!isAttacking) range *= .75f;
-
-        targetCollider = Physics2D.OverlapCircle(transform.position, range, 1 << LayerMask.NameToLayer("Player"));
+        FindTargets(range, 0.75f, 1 << LayerMask.NameToLayer("Player"));
         if (targetCollider == null)
         {
-            int turretLayer = 1 << LayerMask.NameToLayer("Turret");
+            int layerMask = 1 << LayerMask.NameToLayer("Turret");
             // 원거리 공격의 경우 Trap을 공격할 수 있음.
-            if (Range >= 3f) turretLayer |= 1 << LayerMask.NameToLayer("Trap");
-            Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, range, turretLayer);
-            if (cols != null && cols.Length > 0) targetCollider = cols[0];
+            if (Range >= 3f) layerMask |= 1 << LayerMask.NameToLayer("Trap");
+            FindTargets(range, 0.75f, layerMask);
         }
 
         if (targetCollider == null) isAttacking = false;
         else LookAt(targetCollider.transform.position);
 
         return targetCollider != null;
+    }
+
+    protected Collider2D[] FindTargets(float range, float detectRatio, int layerMask)
+    {
+        if (!isAttacking) range *= detectRatio;
+        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, range, layerMask);
+        if (cols.Length > 0) targetCollider = cols[0];
+
+        return cols;
     }
 
     public virtual void Attack()

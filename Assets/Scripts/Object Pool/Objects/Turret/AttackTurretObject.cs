@@ -16,7 +16,7 @@ public class AttackTurretObject : TurretObject, IAttackObject
     public Collider2D TargetCollider { get { return targetCollider; } }
     public int Dmg { get { return weapon != null ? weapon.dmg : 0; } }
     public float Range { get { return weapon != null ? weapon.range : 0; } }
-    public float ADelay { get { return weapon != null ?  weapon.adelay : 0; } }
+    public float ADelay { get { return weapon != null ? weapon.adelay : 0; } }
     public bool WaitAttack { get { return weapon != null ? weapon.Wait : false; } }
 
     public override void SetData(Turret data, Vector2 pos)
@@ -60,7 +60,7 @@ public class AttackTurretObject : TurretObject, IAttackObject
         if (weapon == null || reloading) return false;
 
         targets = Physics2D.OverlapCircleAll(transform.position, Range / 2, 1 << LayerMask.NameToLayer("Enemy"));
-        return targets != null && targets.Length > 0;
+        return targets.Length > 0;
     }
 
     public void Attack()
