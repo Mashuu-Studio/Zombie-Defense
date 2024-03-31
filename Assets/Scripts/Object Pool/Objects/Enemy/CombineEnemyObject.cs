@@ -49,7 +49,8 @@ public class CombineEnemyObject : EnemyObject, ICombineObject
         SetPath();
         isCombined = true;
 
-        combineTarget.Combined(true);
+        // 동시에 합체를 시도할 때 멈추는 현상을 막기 위해 순차적으로 진행.
+        ActionController.AddAction(gameObject, () => combineTarget.Combined(true));
         // 두 유닛 모두 합체상태임을 세팅해주어야 함.
         StartCoroutine(Combining());
     }
@@ -90,8 +91,11 @@ public class CombineEnemyObject : EnemyObject, ICombineObject
 
     public void Combined(bool b)
     {
+        // 만약에 합체하기로 되어있는 유닛이라면 isCombining을 켜지 않음.
+        // isCombining이 켜져있다면 움직이지 않기 때문에 한 쪽은 움직여야 함.
+        if (b && !isCombined) isCombining = true;
+        else isCombining = false;
         isCombined = b;
-        isCombining = b;
     }
 
     public override void Dead()
