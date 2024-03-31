@@ -6,26 +6,17 @@ using UnityEngine.UI;
 public class ObjectHpBar : MonoBehaviour
 {
     [SerializeField] private Slider hpBar;
-    private Transform target;
-
-    private void Start()
-    {
-        target = transform.parent;
-    }
-
+    private IDamagedObject target;
     // Update is called once per frame
     void Update()
     {
         transform.rotation = Quaternion.identity;
+        hpBar.value = target.Hp;
     }
 
-    public void UpdateHpBar(int hp)
+    public void SetHpBar(IDamagedObject target, int hp, Vector2 size, float pos)
     {
-        hpBar.value = hp;
-    }
-
-    public void SetHpBar(int hp, Vector2 size, float pos)
-    {
+        this.target = target;
         hpBar.value = hpBar.maxValue = hp;
         ((RectTransform)hpBar.transform).sizeDelta = size;
         ((RectTransform)hpBar.transform).anchoredPosition = new Vector2(0, pos);

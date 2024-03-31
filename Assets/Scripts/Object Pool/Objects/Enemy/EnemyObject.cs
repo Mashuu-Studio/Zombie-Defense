@@ -61,7 +61,7 @@ public class EnemyObject : BTPoolable,
         // 분리된 수만큼 체력을 divide
         maxhp = hp = (int)(data.hp * GameController.Instance.Difficulty.hp / Mathf.Pow(2, data.separate - this.remainSep));
         Vector2 spriteSize = new Vector2(spriteRenderer.sprite.rect.width, spriteRenderer.sprite.rect.height) / spriteRenderer.sprite.pixelsPerUnit;
-        hpBar.SetHpBar(maxhp, new Vector2(spriteSize.x * 3 / 2, 0.25f), spriteSize.y * 3 / 4);
+        hpBar.SetHpBar(this, maxhp, new Vector2(spriteSize.x * 3 / 2, 0.25f), spriteSize.y * 3 / 4);
 
         speed = data.speed;
         dmg = data.dmg;
@@ -113,7 +113,6 @@ public class EnemyObject : BTPoolable,
     {
         hp += amount;
         if (hp > maxhp) hp = maxhp;
-        hpBar.UpdateHpBar(Hp);
     }
 
     public void Damaged(int dmg)
@@ -123,7 +122,6 @@ public class EnemyObject : BTPoolable,
         if (dmg < 0) dmg = 1;
 
         hp -= dmg;
-        hpBar.UpdateHpBar(Hp);
         if (gameObject.activeSelf) StartCoroutine(ChangeColor());
         if (hp <= 0)
         {

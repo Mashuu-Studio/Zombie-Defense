@@ -23,7 +23,7 @@ public class TurretObject : BTPoolable, IDamagedObject
         this.data = data;
 
         hp = data.hp;
-        hpBar.SetHpBar(hp, new Vector2(0.75f, 0.1f), 0.6f);
+        hpBar.SetHpBar(this, hp, new Vector2(0.75f, 0.1f), 0.6f);
 
         this.pos = pos;
     }
@@ -31,7 +31,6 @@ public class TurretObject : BTPoolable, IDamagedObject
     public virtual void Damaged(int dmg)
     {
         hp -= dmg;
-        hpBar.UpdateHpBar(hp);
         if (hp <= 0)
         {
             DestroyTurret();
