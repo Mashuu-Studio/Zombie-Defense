@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.Localization.Components;
 
 public class UIController : MonoBehaviour
 {
@@ -109,11 +110,17 @@ public class UIController : MonoBehaviour
 
     public void StartGame()
     {
+        difficultyText.SetEntry(GameController.Instance.DifficultyKey);
         foreach (var weapon in WeaponManager.Weapons)
         {
             if (weapon.consumable) continue;
             itemInfos[weapon.key].gameObject.SetActive(WeaponController.Instance.HasWeapon(weapon.key));
         }
+    }
+
+    public void SelectDifficulty(int index)
+    {
+        GameController.Instance.SelectDifficulty(index);
     }
 
     #region Shop
@@ -314,6 +321,7 @@ public class UIController : MonoBehaviour
     [Space]
     [SerializeField] private TextMeshProUGUI roundText;
     [SerializeField] private TextMeshProUGUI roundTimeText;
+    [SerializeField] private LocalizeStringEvent difficultyText;
     [SerializeField] private GameObject startRoundButton;
 
     public void UpdateRoundTime(int time)

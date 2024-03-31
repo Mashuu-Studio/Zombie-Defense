@@ -15,10 +15,6 @@ MonoBehaviour:
   m_TableCollectionName: UI String Table
   m_TableCollectionNameGuidString: 530b1c1b89e9b764bbb3d84fe74639be
   m_Entries:
-  - m_Id: 303105581056
-    m_Key: TITLE.GAMESTART
-    m_Metadata:
-      m_Items: []
   - m_Id: 59144463720448
     m_Key: SETTING.SFX
     m_Metadata:
@@ -113,6 +109,18 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 11906787783483392
     m_Key: GAME.SHOP.COMPANION.PATROL.HOLD
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19929956477837312
+    m_Key: TITLE.DIFFICULT.EASY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19929958092644352
+    m_Key: TITLE.DIFFICULT.NORMAL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19929959308992512
+    m_Key: TITLE.DIFFICULT.HARD
     m_Metadata:
       m_Items: []
   m_Metadata:

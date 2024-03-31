@@ -59,7 +59,7 @@ public class EnemyObject : BTPoolable,
         // remainSep를 이전하는 경우와 아닌 경우로 구분.
         this.remainSep = (remainSep != -1) ? remainSep : data.separate;
         // 분리된 수만큼 체력을 divide
-        maxhp = hp = (int)(data.hp / Mathf.Pow(2, data.separate - this.remainSep));
+        maxhp = hp = (int)(data.hp * GameController.Instance.Difficulty.hp / Mathf.Pow(2, data.separate - this.remainSep));
         Vector2 spriteSize = new Vector2(spriteRenderer.sprite.rect.width, spriteRenderer.sprite.rect.height) / spriteRenderer.sprite.pixelsPerUnit;
         hpBar.SetHpBar(maxhp, new Vector2(spriteSize.x * 3 / 2, 0.25f), spriteSize.y * 3 / 4);
 
@@ -172,7 +172,7 @@ public class EnemyObject : BTPoolable,
     protected bool isAttacking;
     protected Collider2D targetCollider;
     public Collider2D TargetCollider { get { return targetCollider; } }
-    public int Dmg { get { return dmg + ActivatedBuff.dmg; } }
+    public int Dmg { get { return (int)((dmg + ActivatedBuff.dmg) * GameController.Instance.Difficulty.dmg); } }
     public float Range { get { return range; } }
     public float ADelay { get { return aDelay * (1 + ActivatedBuff.aspeed); } }
     public bool WaitAttack { get; set; }
@@ -251,7 +251,7 @@ public class EnemyObject : BTPoolable,
     #endregion
 
     #region IMovingObject
-    public float Speed { get { return speed * (1 + ActivatedBuff.speed); } }
+    public float Speed { get { return speed * (1 + ActivatedBuff.speed) * GameController.Instance.Difficulty.speed; } }
     protected Transform moveTarget;
     protected List<Pathfinding.GraphNode> path;
     private int pathIndex;
@@ -288,7 +288,7 @@ public class EnemyObject : BTPoolable,
         var dir = (next - (Vector2)transform.position).normalized;
         LookAt(next);
         // Update에서 호출되기 때문에 deltaTime이용.
-        rigidbody.position += dir * Time.deltaTime * Speed;
+        rigidbody.position += dir * Speed * Time.deltaTime;
         if (IMovingObject.EndOfPath(transform.position, next)) pathIndex++;
     }
     #endregion

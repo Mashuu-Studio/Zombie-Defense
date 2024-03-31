@@ -18,10 +18,6 @@ MonoBehaviour:
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 303105581056
-    m_Localized: START GAME
-    m_Metadata:
-      m_Items: []
   - m_Id: 59144463720448
     m_Localized: SFX
     m_Metadata:
@@ -120,6 +116,18 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 11906787783483392
     m_Localized: HOLD
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19929956477837312
+    m_Localized: EASY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19929958092644352
+    m_Localized: NORMAL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19929959308992512
+    m_Localized: HARD
     m_Metadata:
       m_Items: []
   references:

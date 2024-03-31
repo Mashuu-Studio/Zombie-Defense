@@ -20,6 +20,13 @@ public class GameController : MonoBehaviour
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Companion"));
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Companion"));
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Companion"), LayerMask.NameToLayer("Companion"));
+
+        difficulties = new DifficultRatio[]
+        {
+            new DifficultRatio(){hp = 1, dmg = 1, speed = 1 },
+            new DifficultRatio(){hp = 1.5f, dmg = 1.5f, speed = 1.5f },
+            new DifficultRatio(){hp = 2, dmg = 2, speed = 2 },
+        };
     }
 
     public bool Pause { get { return pause || levelUpPause; } }
@@ -28,6 +35,25 @@ public class GameController : MonoBehaviour
 
     public bool GameStarted { get { return gameStarted; } }
     private bool gameStarted;
+
+    public DifficultRatio Difficulty { get { return difficulties[difficultyIndex]; } }
+    private static DifficultRatio[] difficulties;
+    public string DifficultyKey
+    {
+        get
+        {
+            string key = "TITLE.DIFFICULT.";
+            switch (difficultyIndex)
+            {
+                case 0: key += "EASY"; break;
+                case 1: key += "NORMAL"; break;
+                case 2: key += "HARD"; break;
+            }
+
+            return key;
+        }
+    }
+    private int difficultyIndex;
 
     private void Update()
     {
@@ -52,6 +78,11 @@ public class GameController : MonoBehaviour
     {
         SceneController.ChangeScene(scene);
         StartCoroutine(ControlGame(scene));
+    }
+
+    public void SelectDifficulty(int index)
+    {
+        difficultyIndex = index;
     }
 
     IEnumerator ControlGame(SceneController.Scene scene)
@@ -90,5 +121,12 @@ public class GameController : MonoBehaviour
     {
         UIController.Instance.EndRound();
         EnemyController.Instance.EndRound();
+    }
+
+    public class DifficultRatio
+    {
+        public float hp;
+        public float dmg;
+        public float speed;
     }
 }
