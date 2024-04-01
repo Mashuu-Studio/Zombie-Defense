@@ -44,6 +44,7 @@ public class RestEnemyObject : EnemyObject, IRestObject
             else break;
         }
         moveTarget = runawayPoint.transform;
+        moveAmount = 0;
         SetPath();
         isRunningAway = true;
     }
@@ -63,6 +64,7 @@ public class RestEnemyObject : EnemyObject, IRestObject
         }
         // 회복이 끝났다면 다시 플레이어를 찾으러 감.
         moveTarget = Player.Instance.transform;
+        moveAmount = 0;
         isHealed = false;
     }
 

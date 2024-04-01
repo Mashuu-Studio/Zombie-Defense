@@ -74,6 +74,7 @@ public class EnemyObject : BTPoolable,
         WaitAttack = false;
 
         moveTarget = Player.Instance.transform;
+        moveAmount = 0;
         StartCoroutine(DetectingPath());
     }
 
@@ -85,6 +86,7 @@ public class EnemyObject : BTPoolable,
     public override void Update()
     {
         base.Update();
+        moveAmount += Time.deltaTime;
         // 보이지 않는 상태로 세팅.
         Color color = InvisibleColor;
         if (visible)
@@ -258,36 +260,38 @@ public class EnemyObject : BTPoolable,
     {
         while (true)
         {
-            SetPath();
             float time = 0;
             while (time < 1f)
             {
                 if (!GameController.Instance.Pause) time += Time.deltaTime;
                 yield return null;
             }
+            SetPath();
         }
     }
 
     protected void SetPath()
     {
-        path = seeker.StartPath(transform.position, moveTarget.position).path;
+        path = seeker.StartPath(rigidbody.position, moveTarget.position).path;
         pathIndex = 1;
     }
 
     public virtual bool DetectPath()
     {
         // 길탐색이 됐는지, 더 갈 수 있는 노드가 있는지 확인.
-        return seeker.IsDone() && path.Count - 1 > pathIndex;
+        return seeker.IsDone() && path != null && path.Count - 1 > pathIndex;
     }
 
+    protected float moveAmount;
     public void Move()
     {
         var next = IMovingObject.GetPos(path[pathIndex].position);
-        var dir = (next - (Vector2)transform.position).normalized;
+        var dir = (next - rigidbody.position).normalized;
         LookAt(next);
         // Update에서 호출되기 때문에 deltaTime이용.
-        rigidbody.position += dir * Speed * Time.deltaTime;
-        if (IMovingObject.EndOfPath(transform.position, next)) pathIndex++;
+        rigidbody.position += dir * Speed * moveAmount;
+        if (IMovingObject.EndOfPath(rigidbody.position, next, dir * Speed * moveAmount)) pathIndex++;
+        moveAmount = 0;
     }
     #endregion
 

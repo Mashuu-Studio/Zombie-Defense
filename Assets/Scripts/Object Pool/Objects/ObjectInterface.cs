@@ -32,9 +32,11 @@ public interface IMovingObject
         return new Vector2(pos.x / 1000f, pos.y / 1000f);
     }
 
-    public static bool EndOfPath(Vector2 pos, Vector2 next)
+    public static bool EndOfPath(Vector2 pos, Vector2 next, Vector2 dir)
     {
-        return Vector2.Distance(pos, next) < 0.1f;
+        float dist1 = Vector2.Distance(pos, next);
+        float dist2 = Vector2.Distance(pos, next + dir);
+        return dist1 < 0.1f || dist1 >= dist2;
     }
 }
 

@@ -19,9 +19,10 @@ public class CompanionObject : BTPoolable,
     private bool reloading;
     public Weapon UsingWeapon { get { return weapon; } }
 
-    public override void Init()
+    public override void Update()
     {
-        base.Init();
+        base.Update();
+        if (move) moveAmount += Time.deltaTime;
     }
 
     public void Summon()
@@ -30,6 +31,7 @@ public class CompanionObject : BTPoolable,
         def = 0;
         reloading = false;
         SetBasicWeapon();
+        moveAmount = 0;
 
         movePoint = PoolController.Pop("Movepoint");
     }
@@ -59,7 +61,6 @@ public class CompanionObject : BTPoolable,
     }
 
     #region IMovingObject
-
     public enum PatrolType { NARROWLY = 0, WIDELY, LEAD, BACK, HOLD, }
     private PatrolType patrolType;
     private bool move;
@@ -99,77 +100,82 @@ public class CompanionObject : BTPoolable,
 
     public bool DetectPath()
     {
-        if (move) return true;
-
-        Vector2 targetPos = Player.Instance.transform.position;
-
-        float x, y;
-        switch (patrolType)
+        if (patrolCoroutine != null) return false;
+        if (!move)
         {
-            case PatrolType.NARROWLY:
-                x = Random.Range(1, 2f);
-                y = Random.Range(1, 2f);
+            Vector2 targetPos = Player.Instance.transform.position;
 
-                x *= (Random.Range(1, 3) % 2 == 0) ? 1 : -1;
-                y *= (Random.Range(1, 3) % 2 == 0) ? 1 : -1;
+            float x, y;
+            switch (patrolType)
+            {
+                case PatrolType.NARROWLY:
+                    x = Random.Range(1, 2f);
+                    y = Random.Range(1, 2f);
 
-                targetPos += new Vector2(x, y);
-                break;
+                    x *= (Random.Range(1, 3) % 2 == 0) ? 1 : -1;
+                    y *= (Random.Range(1, 3) % 2 == 0) ? 1 : -1;
 
-            case PatrolType.WIDELY:
-                x = Random.Range(3, 4f);
-                y = Random.Range(3, 4f);
+                    targetPos += new Vector2(x, y);
+                    break;
 
-                x *= (Random.Range(1, 3) % 2 == 0) ? 1 : -1;
-                y *= (Random.Range(1, 3) % 2 == 0) ? 1 : -1;
+                case PatrolType.WIDELY:
+                    x = Random.Range(3, 4f);
+                    y = Random.Range(3, 4f);
 
-                targetPos += new Vector2(x, y);
-                break;
+                    x *= (Random.Range(1, 3) % 2 == 0) ? 1 : -1;
+                    y *= (Random.Range(1, 3) % 2 == 0) ? 1 : -1;
 
-            // 회전각이 0일 때 오른쪽을 바라보고 있음.
-            // 이를 기준으로 y값만 변환시켜 위치를 지정해줌.
-            // 이 후 Player를 기준으로 회전시켜 위치를 잡음.
-            // 단, 항상 Player 앞에 존재해야하므로 캐릭터가 각을 변환시키면 빠르게 조정해주어야 함.
-            case PatrolType.LEAD:
-                x = 2f;
-                y = Random.Range(-2.5f, 2.5f);
-                targetPos += (Vector2)(Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles) * new Vector2(x, y));
-                break;
-            case PatrolType.BACK:
-                x = -2f;
-                y = Random.Range(-2.5f, 2.5f);
-                targetPos += (Vector2)(Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles) * new Vector2(x, y));
-                break;
+                    targetPos += new Vector2(x, y);
+                    break;
 
-            case PatrolType.HOLD:
-                if (patrolForward) patrolIndex++;
-                else patrolIndex--;
+                // 회전각이 0일 때 오른쪽을 바라보고 있음.
+                // 이를 기준으로 y값만 변환시켜 위치를 지정해줌.
+                // 이 후 Player를 기준으로 회전시켜 위치를 잡음.
+                // 단, 항상 Player 앞에 존재해야하므로 캐릭터가 각을 변환시키면 빠르게 조정해주어야 함.
+                case PatrolType.LEAD:
+                    x = 2f;
+                    y = Random.Range(-2.5f, 2.5f);
+                    targetPos += (Vector2)(Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles) * new Vector2(x, y));
+                    break;
 
-                if (patrolIndex >= holdPatrolPosList.Count)
-                {
-                    patrolIndex--;
-                    patrolForward = false;
-                }
-                else if (patrolIndex < 0)
-                {
-                    patrolIndex++;
-                    patrolForward = true;
-                }
-                targetPos = holdPatrolPosList[patrolIndex];
-                break;
+                case PatrolType.BACK:
+                    x = -2f;
+                    y = Random.Range(-2.5f, 2.5f);
+                    targetPos += (Vector2)(Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles) * new Vector2(x, y));
+                    break;
+
+                case PatrolType.HOLD:
+                    if (patrolForward) patrolIndex++;
+                    else patrolIndex--;
+
+                    if (patrolIndex >= holdPatrolPosList.Count)
+                    {
+                        patrolIndex--;
+                        patrolForward = false;
+                    }
+                    else if (patrolIndex < 0)
+                    {
+                        patrolIndex++;
+                        patrolForward = true;
+                    }
+                    targetPos = holdPatrolPosList[patrolIndex];
+                    break;
+            }
+            movePoint.transform.position = targetPos;
+            move = true;
+            SetPath();
         }
-        movePoint.transform.position = targetPos;
-        move = true;
-        SetPath();
         return true;
     }
 
     private void SetPath()
     {
-        path = seeker.StartPath(transform.position, movePoint.transform.position).path;
+        path = seeker.StartPath(rigidbody.position, movePoint.transform.position).path;
         pathIndex = 1;
     }
 
+    private IEnumerator patrolCoroutine;
+    private float moveAmount;
     public void Move()
     {
         if (seeker.IsDone())
@@ -177,15 +183,18 @@ public class CompanionObject : BTPoolable,
             // 끝까지 왔다면 타이머 작동.
             if (path.Count <= pathIndex)
             {
-                StartCoroutine(PatrolTimer());
+                move = false;
+                patrolCoroutine = PatrolTimer();
+                StartCoroutine(patrolCoroutine);
                 return;
             }
             var next = IMovingObject.GetPos(path[pathIndex].position);
-            var dir = (next - (Vector2)transform.position).normalized;
+            var dir = (next - rigidbody.position).normalized;
             LookAt(next);
             // Update에서 호출되기 때문에 deltaTime이용.
-            rigidbody.position += dir * Time.deltaTime * Speed;
-            if (IMovingObject.EndOfPath(transform.position, next)) pathIndex++;
+            rigidbody.position += dir * Speed * moveAmount;
+            if (IMovingObject.EndOfPath(rigidbody.position, next, dir * Speed * moveAmount)) pathIndex++;
+            moveAmount = 0;
         }
     }
 
@@ -198,7 +207,7 @@ public class CompanionObject : BTPoolable,
             if (!GameController.Instance.Pause) time += Time.deltaTime;
             yield return null;
         }
-        move = false;
+        patrolCoroutine = null;
     }
 
     #endregion
