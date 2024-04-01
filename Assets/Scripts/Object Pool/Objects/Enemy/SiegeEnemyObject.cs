@@ -48,6 +48,7 @@ public class SiegeEnemyObject : EnemyObject
 
     public override void Attack()
     {
+        AdjustMove(false);
         // 원거리 공격과 근거리 공격을 구분하여 작동시킴.
         isAttacking = true;
         // 해당 부분 공격 함수의 위치 조정.

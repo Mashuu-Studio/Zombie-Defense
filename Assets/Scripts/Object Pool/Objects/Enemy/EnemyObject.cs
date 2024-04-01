@@ -74,7 +74,6 @@ public class EnemyObject : BTPoolable,
         WaitAttack = false;
 
         moveTarget = Player.Instance.transform;
-        moveAmount = 0;
         StartCoroutine(DetectingPath());
     }
 
@@ -86,7 +85,6 @@ public class EnemyObject : BTPoolable,
     public override void Update()
     {
         base.Update();
-        moveAmount += Time.deltaTime;
         // 보이지 않는 상태로 세팅.
         Color color = InvisibleColor;
         if (visible)
@@ -97,6 +95,12 @@ public class EnemyObject : BTPoolable,
             else if (!invisible) color = VisibleColor;
         }
         SetColor(color);
+    }
+
+    private void FixedUpdate()
+    {
+        if (!gameObject.activeSelf) return;
+        if (move) Move();
     }
 
     private void SetColor(Color color)
@@ -221,6 +225,7 @@ public class EnemyObject : BTPoolable,
 
     public virtual void Attack()
     {
+        AdjustMove(false);
         isAttacking = true;
         if (!WaitAttack)
         {
@@ -255,6 +260,7 @@ public class EnemyObject : BTPoolable,
     protected Transform moveTarget;
     protected List<Pathfinding.GraphNode> path;
     private int pathIndex;
+    private bool move;
 
     private IEnumerator DetectingPath()
     {
@@ -282,16 +288,21 @@ public class EnemyObject : BTPoolable,
         return seeker.IsDone() && path != null && path.Count - 1 > pathIndex;
     }
 
-    protected float moveAmount;
+    public void AdjustMove(bool b)
+    {
+        move = b;
+    }
+
     public void Move()
     {
-        var next = IMovingObject.GetPos(path[pathIndex].position);
-        var dir = (next - rigidbody.position).normalized;
-        LookAt(next);
-        // Update에서 호출되기 때문에 deltaTime이용.
-        rigidbody.position += dir * Speed * moveAmount;
-        if (IMovingObject.EndOfPath(rigidbody.position, next, dir * Speed * moveAmount)) pathIndex++;
-        moveAmount = 0;
+        if (seeker.IsDone())
+        {
+            var next = IMovingObject.GetPos(path[pathIndex].position);
+            var dir = (next - rigidbody.position).normalized;
+            LookAt(next);
+            rigidbody.position += dir * Speed * Time.fixedDeltaTime;
+            if (IMovingObject.EndOfPath(rigidbody.position, next, dir * Speed * Time.fixedDeltaTime)) pathIndex++;
+        }
     }
     #endregion
 

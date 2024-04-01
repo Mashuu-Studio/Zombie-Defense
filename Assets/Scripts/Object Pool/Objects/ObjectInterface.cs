@@ -25,7 +25,7 @@ public interface IMovingObject
     public float Speed { get; }
     public bool DetectPath();
 
-    public void Move();
+    public void AdjustMove(bool b);
 
     public static Vector2 GetPos(Pathfinding.Int3 pos)
     {

@@ -20,7 +20,7 @@ public class MoveNode : BTActionNode
         // 딜레이가 아니라면 공격 시행 및 성공 리턴
         if (context.movingObject.DetectPath())
         {
-            context.movingObject.Move();
+            context.movingObject.AdjustMove(true);
             return State.Success;
         }
         return State.Failure;

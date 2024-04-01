@@ -18,7 +18,7 @@ public class RestNode : BTActionNode
         if (context.restObject.IsRunningAway)
         {
             if (context.restObject.IsArrived) context.restObject.Rest();
-            else context.movingObject.Move();
+            else context.movingObject.AdjustMove(true);
             return State.Running;
         }
 

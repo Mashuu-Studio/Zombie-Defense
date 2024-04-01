@@ -46,7 +46,6 @@ public class CombineEnemyObject : EnemyObject, ICombineObject
     {
         // 해당 위치까지 우선 이동.
         moveTarget = combineTarget.transform;
-        moveAmount = 0;
         SetPath();
         isCombined = true;
 
@@ -63,6 +62,7 @@ public class CombineEnemyObject : EnemyObject, ICombineObject
         combineTarget.LookAt(transform.position);
         LookAt(combineTarget.transform.position);
         isCombining = true;
+        AdjustMove(false);
         // 만났다면 일정 시간동안 대기
         // 일정 시간 동안은 합체를 준비하는 단계.
         // 이 시간 안에 잡으면 보상을 온전히 받을 수 있음.
@@ -77,7 +77,6 @@ public class CombineEnemyObject : EnemyObject, ICombineObject
                 isCombined = false;
                 combineTarget = null;
                 moveTarget = Player.Instance.transform;
-                moveAmount = 0;
                 SetPath();
             }
             yield return null;
@@ -98,7 +97,6 @@ public class CombineEnemyObject : EnemyObject, ICombineObject
         if (b && !isCombined) isCombining = true;
         else isCombining = false;
         isCombined = b;
-        moveAmount = 0;
     }
 
     public override void Dead()

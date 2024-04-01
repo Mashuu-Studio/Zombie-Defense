@@ -16,7 +16,8 @@ public class CombineNode : BTActionNode
     {
         if (context.combineObject.IsCombined)
         {
-            if (!context.combineObject.IsCombining) context.movingObject.Move();
+            if (!context.combineObject.IsCombining) context.movingObject.AdjustMove(true);
+            else context.movingObject.AdjustMove(false);
             return State.Running;
         }
 

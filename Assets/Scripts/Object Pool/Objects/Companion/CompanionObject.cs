@@ -19,10 +19,10 @@ public class CompanionObject : BTPoolable,
     private bool reloading;
     public Weapon UsingWeapon { get { return weapon; } }
 
-    public override void Update()
+    private void FixedUpdate()
     {
-        base.Update();
-        if (move) moveAmount += Time.deltaTime;
+        if (!gameObject.activeSelf) return;
+        if (move) Move();
     }
 
     public void Summon()
@@ -31,7 +31,6 @@ public class CompanionObject : BTPoolable,
         def = 0;
         reloading = false;
         SetBasicWeapon();
-        moveAmount = 0;
 
         movePoint = PoolController.Pop("Movepoint");
     }
@@ -91,7 +90,7 @@ public class CompanionObject : BTPoolable,
 
         patrolType = PatrolType.HOLD;
 
-        move = false;
+        AdjustMove(false);
         transform.position = list[0];
         holdPatrolPosList = list;
         patrolIndex = 0;
@@ -162,7 +161,6 @@ public class CompanionObject : BTPoolable,
                     break;
             }
             movePoint.transform.position = targetPos;
-            move = true;
             SetPath();
         }
         return true;
@@ -175,7 +173,12 @@ public class CompanionObject : BTPoolable,
     }
 
     private IEnumerator patrolCoroutine;
-    private float moveAmount;
+
+    public void AdjustMove(bool b)
+    {
+        move = b;
+    }
+
     public void Move()
     {
         if (seeker.IsDone())
@@ -183,7 +186,7 @@ public class CompanionObject : BTPoolable,
             // 끝까지 왔다면 타이머 작동.
             if (path.Count <= pathIndex)
             {
-                move = false;
+                AdjustMove(false);
                 patrolCoroutine = PatrolTimer();
                 StartCoroutine(patrolCoroutine);
                 return;
@@ -191,10 +194,8 @@ public class CompanionObject : BTPoolable,
             var next = IMovingObject.GetPos(path[pathIndex].position);
             var dir = (next - rigidbody.position).normalized;
             LookAt(next);
-            // Update에서 호출되기 때문에 deltaTime이용.
-            rigidbody.position += dir * Speed * moveAmount;
-            if (IMovingObject.EndOfPath(rigidbody.position, next, dir * Speed * moveAmount)) pathIndex++;
-            moveAmount = 0;
+            rigidbody.position += dir * Speed * Time.fixedDeltaTime;
+            if (IMovingObject.EndOfPath(rigidbody.position, next, dir * Speed * Time.fixedDeltaTime)) pathIndex++;
         }
     }
 
@@ -262,7 +263,7 @@ public class CompanionObject : BTPoolable,
     public void Attack()
     {
         // 패트롤 초기화
-        move = false;
+        AdjustMove(false);
         // 우선순위에 따라 적을 선택하는 코드가 들어갈 예정
         target = targets[0].transform;
 
