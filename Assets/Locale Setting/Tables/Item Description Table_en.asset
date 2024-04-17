@@ -43,7 +43,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 69232339460096
-    m_Localized: TESLACOIL DESCRIPTION
+    m_Localized: TESLA DESCRIPTION
     m_Metadata:
       m_Items: []
   - m_Id: 69343027142656
@@ -67,7 +67,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 70235847663616
-    m_Localized: GRANADE DESCRIPTION
+    m_Localized: GRENADE DESCRIPTION
     m_Metadata:
       m_Items: []
   - m_Id: 9077244462899200

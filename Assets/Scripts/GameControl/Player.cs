@@ -55,7 +55,7 @@ public class Player : MonoBehaviour, IDamagedObject
     private Rigidbody2D rigidbody;
 
     [SerializeField] private BoxCollider2D autoTargetCollider;
-    [SerializeField] private SpriteRenderer gunSpriteRenderer;
+    [SerializeField] private Animator animator;
 
     private Dictionary<string, int> itemAmount = new Dictionary<string, int>();
     private Dictionary<string, int> magazines = new Dictionary<string, int>();
@@ -137,7 +137,7 @@ public class Player : MonoBehaviour, IDamagedObject
     {
         Vector2 dir = target - transform.position;
         float degree = Mathf.Rad2Deg * Mathf.Atan2(dir.y, dir.x);
-        transform.rotation = Quaternion.Euler(0, 0, degree - 90);
+        transform.rotation = Quaternion.Euler(0, 0, degree + 90);
     }
 
     #endregion
@@ -292,9 +292,14 @@ public class Player : MonoBehaviour, IDamagedObject
     }
 
     #region Weapon
-    public void SwitchWeapon(string name)
+    public void SwitchWeapon(float weapon)
     {
-        gunSpriteRenderer.sprite = SpriteManager.GetSprite(name);
+        animator.SetFloat("weapon", weapon);
+    }
+
+    public void Fire()
+    {
+        animator.SetTrigger("fire");
     }
     #endregion
 }

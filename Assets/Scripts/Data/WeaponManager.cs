@@ -12,7 +12,7 @@ public static class WeaponManager
         {
             new Weapon()
             {
-                key = "WEAPON.GRANADE",
+                key = "WEAPON.GRENADE",
                 price = 100,
 
                 dmg = 30,
@@ -107,7 +107,7 @@ public static class WeaponManager
             },
             new Weapon()
             {
-                key = "WEAPON.LAUNCHER",
+                key = "WEAPON.BAZOOKA",
                 price = 1000,
 
                 dmg = 30,
@@ -126,7 +126,7 @@ public static class WeaponManager
             },
             new Weapon()
             {
-                key = "WEAPON.TESLACOIL",
+                key = "WEAPON.TESLA",
                 price = 1000,
 
                 dmg = 4,

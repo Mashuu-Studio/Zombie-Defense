@@ -211,7 +211,7 @@ public class UIController : MonoBehaviour
         expSlider.maxValue = Player.Instance.MaxExp;
         expSlider.value = Player.Instance.Exp;
         lvText.text = Player.Instance.Lv.ToString();
-        granadeAmount.text = Player.Instance.ItemAmount("WEAPON.GRANADE").ToString();
+        granadeAmount.text = Player.Instance.ItemAmount("WEAPON.GRENADE").ToString();
         moneyText.text = $"$ {Player.Instance.Money}";
 
         UpdateMagazine();

@@ -36,11 +36,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 824105246720
-    m_Key: WEAPON.LAUNCHER
+    m_Key: WEAPON.BAZOOKA
     m_Metadata:
       m_Items: []
   - m_Id: 1667416203264
-    m_Key: WEAPON.TESLACOIL
+    m_Key: WEAPON.TESLA
     m_Metadata:
       m_Items: []
   - m_Id: 1332005581103104
@@ -60,7 +60,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2624507680399360
-    m_Key: WEAPON.GRANADE
+    m_Key: WEAPON.GRENADE
     m_Metadata:
       m_Items: []
   - m_Id: 2654267060002816
