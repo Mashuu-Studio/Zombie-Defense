@@ -6,7 +6,7 @@ public class CompanionObject : BTPoolable,
     IMovingObject, IDamagedObject, IAttackObject
 {
     [SerializeField] private Rigidbody2D rigidbody;
-    [SerializeField] private SpriteRenderer gunSpriteRenderer;
+    [SerializeField] private Animator animator;
     [SerializeField] private BoxCollider2D autoTargetCollider;
     [SerializeField] protected Pathfinding.Seeker seeker;
 
@@ -52,7 +52,18 @@ public class CompanionObject : BTPoolable,
                 Player.Instance.AdjustItemAmount(weapon.key, 1);
             }
             weapon = new Weapon(w);
-            gunSpriteRenderer.sprite = SpriteManager.GetSprite(w.key);
+
+            float weaponParam = 0;
+            List<Weapon> weapons = WeaponManager.GetWeapons();
+            for (int i = 0; i < weapons.Count; i++)
+            {
+                if (weapons[i].key == weapon.key)
+                {
+                    weaponParam = i / weapons.Count - 1;
+                    break;
+                }
+            }
+            animator.SetFloat("weapon", weaponParam);
             if (w.infAmount == false) Player.Instance.AdjustItemAmount(key, -1);
             return true;
         }
@@ -257,7 +268,7 @@ public class CompanionObject : BTPoolable,
     {
         Vector2 dir = target - transform.position;
         float degree = Mathf.Rad2Deg * Mathf.Atan2(dir.y, dir.x);
-        transform.rotation = Quaternion.Euler(0, 0, degree - 90);
+        transform.rotation = Quaternion.Euler(0, 0, degree + 90);
     }
 
     public void Attack()
@@ -276,6 +287,7 @@ public class CompanionObject : BTPoolable,
             }
 
             LookAt(target.transform.position);
+            animator.SetTrigger("fire");
             weapon.Fire(transform.position, target.position, transform.rotation.eulerAngles.z);
 
             StartCoroutine(weapon.AttackDelay());
