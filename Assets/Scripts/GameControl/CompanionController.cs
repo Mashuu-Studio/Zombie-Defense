@@ -19,13 +19,13 @@ public class CompanionController : MonoBehaviour
 
     public bool Hirable { get { return companions.Count < MAX_COMPANION; } }
 
-    private static int MAX_COMPANION = 4;
+    public static int MAX_COMPANION { get; private set; } = 4;
     public List<CompanionObject> Companions { get { return companions; } }
     private List<CompanionObject> companions = new List<CompanionObject>();
 
     public CompanionObject AddCompanion()
     {
-        CompanionObject companion = (CompanionObject)PoolController.Pop("Companion");
+        CompanionObject companion = (CompanionObject)PoolController.Pop("Companion1");
         companion.transform.position = Player.Instance.transform.position;
         companion.Summon();
         companions.Add(companion);

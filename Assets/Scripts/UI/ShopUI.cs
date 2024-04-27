@@ -95,7 +95,8 @@ public class ShopUI : MonoBehaviour
             if (weapon.consumable || WeaponController.Instance.HasWeapon(weapon.key))
             {
                 if (isMagazine) Player.Instance.AddMagazine(weapon.key);
-                else
+                else if (weapon.consumable
+                    || Player.Instance.ItemAmount(weapon.key) < CompanionController.MAX_COMPANION)
                 {
                     Player.Instance.AdjustItemAmount(weapon.key, 1);
                     UpdateCompanionSlots();
