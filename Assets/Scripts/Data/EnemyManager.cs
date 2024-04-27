@@ -46,6 +46,11 @@ public static class EnemyManager
                 range = 1.2f,
                 adelay = 1,
 
+                resistances = new Dictionary<ObjectData.Attribute, float>()
+                {
+                    { ObjectData.Attribute.FIRE, .25f },
+                },
+
                 exp = 5,
                 money = 10,
             },
@@ -59,6 +64,12 @@ public static class EnemyManager
                 range = 1.2f,
                 adelay = 1,
 
+                resistances = new Dictionary<ObjectData.Attribute, float>()
+                {
+                    { ObjectData.Attribute.BULLET, .25f },
+                    { ObjectData.Attribute.EXPLOSION, .25f },
+                },
+
                 exp = 5,
                 money = 10,
             },
@@ -71,6 +82,11 @@ public static class EnemyManager
                 dmg = 0,
                 range = 1.2f,
                 adelay = 1,
+
+                resistances = new Dictionary<ObjectData.Attribute, float>()
+                {
+                    { ObjectData.Attribute.BULLET, .5f },
+                },
 
                 exp = 5,
                 money = 10,

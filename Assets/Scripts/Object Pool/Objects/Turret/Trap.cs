@@ -64,7 +64,7 @@ public class Trap : TurretObject, IAttackObject
         WaitAttack = false;
     }
 
-    public override void Damaged(int dmg)
+    public override void Damaged(int dmg, ObjectData.Attribute attribute = ObjectData.Attribute.NONE)
     {
         // 공격 받을 때에는 무조건 1의 데미지를 받음.
         dmg = 1;

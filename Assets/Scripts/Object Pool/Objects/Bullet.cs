@@ -125,7 +125,7 @@ public class Bullet : Poolable
 
         ActionController.AddAction(gameObject, () =>
         {
-            enemy.Damaged(weapon.dmg);
+            enemy.Damaged(weapon.dmg, weapon.attribute);
             if (weapon.pierce == false && !point)
             {
                 PoolController.Push("Bullet", this);

@@ -6,7 +6,7 @@ public interface IDamagedObject
 {
     public int Hp { get; }
     public int Def { get; }
-    public void Damaged(int dmg);
+    public void Damaged(int dmg, ObjectData.Attribute attribute = ObjectData.Attribute.NONE);
 }
 
 public interface IAttackObject

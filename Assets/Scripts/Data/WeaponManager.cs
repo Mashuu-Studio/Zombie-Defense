@@ -15,6 +15,8 @@ public static class WeaponManager
                 key = "WEAPON.GRENADE",
                 price = 100,
 
+                attribute = ObjectData.Attribute.EXPLOSION,
+
                 dmg = 30,
                 adelay = 0f,
                 dmgdelay = 1.5f,
@@ -29,6 +31,8 @@ public static class WeaponManager
             {
                 key = "WEAPON.PISTOL",
                 price = 0,
+
+                attribute = ObjectData.Attribute.BULLET,
 
                 dmg = 5,
                 adelay = 0.4f,
@@ -46,6 +50,8 @@ public static class WeaponManager
                 key = "WEAPON.SMG",
                 price = 300,
 
+                attribute = ObjectData.Attribute.BULLET,
+
                 dmg = 3,
                 adelay = 0.05f,
                 range = 15,
@@ -60,6 +66,8 @@ public static class WeaponManager
             {
                 key = "WEAPON.AR",
                 price = 1000,
+
+                attribute = ObjectData.Attribute.BULLET,
 
                 dmg = 7,
                 adelay = 0.15f,
@@ -76,6 +84,8 @@ public static class WeaponManager
                 key = "WEAPON.SHOTGUN",
                 price = 1000,
 
+                attribute = ObjectData.Attribute.BULLET,
+
                 dmg = 5,
                 adelay = 2f,
                 range = 8,
@@ -91,6 +101,8 @@ public static class WeaponManager
             {
                 key = "WEAPON.SR",
                 price = 1000,
+
+                attribute = ObjectData.Attribute.BULLET,
 
                 dmg = 30,
                 adelay = 2f,
@@ -109,6 +121,8 @@ public static class WeaponManager
             {
                 key = "WEAPON.BAZOOKA",
                 price = 1000,
+
+                attribute = ObjectData.Attribute.EXPLOSION,
 
                 dmg = 30,
                 adelay = 3f,
@@ -129,6 +143,8 @@ public static class WeaponManager
                 key = "WEAPON.TESLA",
                 price = 1000,
 
+                attribute = ObjectData.Attribute.ELECTRIC,
+
                 dmg = 4,
                 adelay = .5f,
                 range = 5,
@@ -145,6 +161,8 @@ public static class WeaponManager
             {
                 key = "WEAPON.FLAMETHROWER",
                 price = 1000,
+
+                attribute = ObjectData.Attribute.FIRE,
 
                 dmg = 1,
                 adelay = .03f,
@@ -163,6 +181,8 @@ public static class WeaponManager
             {
                 key = "WEAPON.MINIGUN",
                 price = 1000,
+
+                attribute = ObjectData.Attribute.BULLET,
 
                 dmg = 7,
                 adelay = 0.1f,

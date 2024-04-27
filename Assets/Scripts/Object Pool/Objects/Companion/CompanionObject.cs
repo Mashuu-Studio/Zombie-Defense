@@ -233,7 +233,7 @@ public class CompanionObject : BTPoolable,
         hp = maxhp;
     }
 
-    public void Damaged(int dmg)
+    public void Damaged(int dmg, ObjectData.Attribute attribute = ObjectData.Attribute.NONE)
     {
         hp -= dmg;
         if (hp < 0)

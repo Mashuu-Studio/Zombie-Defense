@@ -122,8 +122,12 @@ public class EnemyObject : BTPoolable,
         if (hp > maxhp) hp = maxhp;
     }
 
-    public void Damaged(int dmg)
+    public void Damaged(int dmg, ObjectData.Attribute attribute = ObjectData.Attribute.NONE)
     {
+        // 속성에 따른 저항 수치에 맞게 데미지 감소.
+        if (data.resistances.ContainsKey(attribute))
+            dmg = (int)(dmg * data.resistances[attribute]);
+       
         // 방어력보다 데미지가 높다면 데미지는 1로 고정.
         dmg -= Def;
         if (dmg < 0) dmg = 1;
@@ -240,7 +244,7 @@ public class EnemyObject : BTPoolable,
     {
         Vector2 dir = target - transform.position;
         float degree = Mathf.Rad2Deg * Mathf.Atan2(dir.y, dir.x);
-        transform.rotation = Quaternion.Euler(0, 0, degree - 90);
+        transform.rotation = Quaternion.Euler(0, 0, degree + 90);
     }
 
     protected IEnumerator AttackTimer()
@@ -296,7 +300,7 @@ public class EnemyObject : BTPoolable,
 
     public void Move()
     {
-        if (seeker.IsDone())
+        if (seeker.IsDone() && path.Count > pathIndex)
         {
             var next = IMovingObject.GetPos(path[pathIndex].position);
             var dir = (next - rigidbody.position).normalized;

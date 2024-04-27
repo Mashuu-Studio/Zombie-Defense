@@ -283,7 +283,7 @@ public class Player : MonoBehaviour, IDamagedObject
         }
     }
 
-    public void Damaged(int dmg)
+    public void Damaged(int dmg, ObjectData.Attribute attribute = ObjectData.Attribute.NONE)
     {
         if (invincible) return;
         hp -= dmg;

@@ -28,7 +28,7 @@ public class TurretObject : BTPoolable, IDamagedObject
         this.pos = pos;
     }
 
-    public virtual void Damaged(int dmg)
+    public virtual void Damaged(int dmg, ObjectData.Attribute attribute = ObjectData.Attribute.NONE)
     {
         hp -= dmg;
         if (hp <= 0)

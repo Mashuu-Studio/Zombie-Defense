@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class ObjectData
 {
     public string key;
+    public enum Attribute { NONE = 0, BULLET, EXPLOSION, FIRE, ELECTRIC }
 }
 
 public abstract class BuyableData : ObjectData
@@ -16,6 +17,8 @@ public class Weapon : BuyableData
 {
     public bool infAmount;
     public bool usable;
+
+    public Attribute attribute;
 
     public int dmg;
     public float adelay;
@@ -42,6 +45,8 @@ public class Weapon : BuyableData
     public Weapon(Weapon w)
     {
         infAmount = w.infAmount;
+
+        attribute = w.attribute;
 
         key = w.key;
         price = w.price;
@@ -163,6 +168,8 @@ public class Enemy : ObjectData
     public int speed;
     public float range;
     public float adelay;
+
+    public Dictionary<Attribute, float> resistances = new Dictionary<Attribute, float>();
 
     public BuffInfo buff;
     public string summonUnit;
