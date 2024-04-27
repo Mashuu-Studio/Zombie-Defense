@@ -12,12 +12,12 @@ public static class EnemyManager
         {
             new Enemy()
             {
-                key = "test1",
+                key = "ENEMY.ZOMBIE",
 
                 hp = 15,
-                speed = 5,
+                speed = 3,
                 dmg = 0,
-                range = 3f,
+                range = 1.2f,
                 adelay = 1,
 
                 exp = 5,
@@ -25,26 +25,52 @@ public static class EnemyManager
             },
             new Enemy()
             {
-                key = "test2",
+                key = "ENEMY.DOCTORZOMBIE",
 
-                hp = 20,
-                speed = 2,
-                dmg = 3,
-                range = 0.8f,
-                adelay = 3,
+                hp = 15,
+                speed = 3,
+                dmg = 0,
+                range = 1.2f,
+                adelay = 1,
 
                 exp = 5,
                 money = 10,
             },
             new Enemy()
             {
-                key = "test3",
+                key = "ENEMY.FIREFIGHTERZOMBIE",
 
-                hp = 10,
-                speed = 5,
-                dmg = 2,
+                hp = 15,
+                speed = 3,
+                dmg = 0,
                 range = 1.2f,
-                adelay = .5f,
+                adelay = 1,
+
+                exp = 5,
+                money = 10,
+            },
+            new Enemy()
+            {
+                key = "ENEMY.EODZOMBIE",
+
+                hp = 15,
+                speed = 3,
+                dmg = 0,
+                range = 1.2f,
+                adelay = 1,
+
+                exp = 5,
+                money = 10,
+            },
+            new Enemy()
+            {
+                key = "ENEMY.COMMANDOZOMBIE",
+
+                hp = 15,
+                speed = 3,
+                dmg = 0,
+                range = 1.2f,
+                adelay = 1,
 
                 exp = 5,
                 money = 10,
@@ -55,7 +81,7 @@ public static class EnemyManager
 
                 hp = 30,
                 speed = 4,
-                dmg = 1,
+                dmg = 0,
                 range = 1.2f,
                 adelay = 1f,
 
@@ -70,7 +96,7 @@ public static class EnemyManager
 
                 hp = 30,
                 speed = 4,
-                dmg = 1,
+                dmg = 0,
                 range = 1.2f,
                 adelay = 1f,
 

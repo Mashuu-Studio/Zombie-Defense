@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class RoundManager
 {
-    public static List <Round> Rounds { get { return rounds; } }
+    public static List<Round> Rounds { get { return rounds; } }
     private static List<Round> rounds;
 
     public static void Init()
@@ -15,8 +15,11 @@ public static class RoundManager
             {
                 enemyInfo = new Dictionary<string, float>()
                 {
-                    { "test_combine", 5f },
-                    { "test_rest", 5f },
+                    { "ENEMY.ZOMBIE", 5f },
+                    { "ENEMY.DOCTORZOMBIE", 5f },
+                    { "ENEMY.FIREFIGHTERZOMBIE", 5f },
+                    { "ENEMY.EODZOMBIE", 5f },
+                    { "ENEMY.COMMANDOZOMBIE", 5f },
                 },
             },/*
             new Round()

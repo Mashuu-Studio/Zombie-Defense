@@ -14,6 +14,7 @@ public class EnemyObject : BTPoolable,
     [Space]
     [SerializeField] private Rigidbody2D rigidbody;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Animator animator;
 
     [Space]
     [SerializeField] protected Pathfinding.Seeker seeker;

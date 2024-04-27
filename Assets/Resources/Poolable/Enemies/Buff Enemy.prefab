@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Buff Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2378778970109037663, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4918210797749075318, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.7271779
@@ -66,11 +70,6 @@ Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 1910243207678167368, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
   m_PrefabInstance: {fileID: 1045188538066093196}
   m_PrefabAsset: {fileID: 0}
---- !u!212 &2078760906919700962 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 1321946643927903598, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
-  m_PrefabInstance: {fileID: 1045188538066093196}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2807593894689327195 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2916030960996584663, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
@@ -102,7 +101,8 @@ MonoBehaviour:
   tree: {fileID: 11400000, guid: 0a5fbe57ddb8e0b4ab7f0066f559d5fa, type: 2}
   hpBar: {fileID: 2807593894689327195}
   rigidbody: {fileID: 1442222133374602692}
-  spriteRenderer: {fileID: 2078760906919700962}
+  spriteRenderer: {fileID: 0}
+  animator: {fileID: 0}
   seeker: {fileID: 5834079507026544846}
 --- !u!114 &5834079507026544846 stripped
 MonoBehaviour:

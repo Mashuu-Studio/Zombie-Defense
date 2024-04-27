@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Siege Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2378778970109037663, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4918210797749075318, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -61,11 +65,6 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 2584111740660137026}
   m_SourcePrefab: {fileID: 100100000, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
---- !u!212 &448784992213261168 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 1321946643927903598, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
-  m_PrefabInstance: {fileID: 1468763801950254622}
-  m_PrefabAsset: {fileID: 0}
 --- !u!50 &1072020499731644246 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 1910243207678167368, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
@@ -91,7 +90,8 @@ MonoBehaviour:
   tree: {fileID: 11400000, guid: 402cbe79f16749941bab0618f086a99b, type: 2}
   hpBar: {fileID: 4329589065793698505}
   rigidbody: {fileID: 1072020499731644246}
-  spriteRenderer: {fileID: 448784992213261168}
+  spriteRenderer: {fileID: 0}
+  animator: {fileID: 0}
   seeker: {fileID: 5338324613631523420}
 --- !u!114 &4329589065793698505 stripped
 MonoBehaviour:

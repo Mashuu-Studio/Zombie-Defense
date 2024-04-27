@@ -45,9 +45,7 @@ public class EnemyController : MonoBehaviour
 
     public EnemyObject AddEnemy(Enemy enemy, Vector3 pos)
     {
-        // 후에는 몬스터 이름이 하나의 프리팹이 될 예정. 
-        // 현재는 테스트 용도로 프리팹을 분류해줌.
-        EnemyObject enemyObject = (EnemyObject)PoolController.Pop(GetEnemyPrefabName(enemy));
+        EnemyObject enemyObject = (EnemyObject)PoolController.Pop(enemy.key);
         enemyObject.SetData(enemy);
         enemyObject.transform.position = pos;
         spawnedEnemies.Add(enemyObject);
@@ -58,19 +56,5 @@ public class EnemyController : MonoBehaviour
     public void DeadEnemy(EnemyObject enemy)
     {
         spawnedEnemies.Remove(enemy);
-    }
-
-    public static string GetEnemyPrefabName(Enemy enemy)
-    {
-        string prefabname = "Enemy";
-        if (enemy.fly) prefabname = "Flight " + prefabname;
-        if (enemy.inv) prefabname = "Invisible " + prefabname;
-        if (enemy.buff != null) prefabname = "Buff Enemy";
-        if (enemy.summonAmount != 0) prefabname = "Summon Enemy";
-        if (enemy.restHealAmount != 0) prefabname = "Rest Enemy";
-        else if (enemy.thresholdHp != 0) prefabname = "Combine Enemy";
-        if (enemy.siegeRadius != 0) prefabname = "Siege Enemy";
-
-        return prefabname;
     }
 }

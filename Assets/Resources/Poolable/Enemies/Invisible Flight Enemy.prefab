@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Invisible Flight Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2378778970109037663, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4918210797749075318, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
