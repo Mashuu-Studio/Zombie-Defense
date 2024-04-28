@@ -15,6 +15,7 @@ public class EnemyObject : BTPoolable,
     [SerializeField] private Rigidbody2D rigidbody;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
+    [SerializeField] private EnemyHitBox hitbox;
 
     [Space]
     [SerializeField] protected Pathfinding.Seeker seeker;
@@ -56,6 +57,8 @@ public class EnemyObject : BTPoolable,
     {
         this.data = data;
 
+        hitbox.Init(data);
+
         visible = !invisible;
         // remainSep를 이전하는 경우와 아닌 경우로 구분.
         this.remainSep = (remainSep != -1) ? remainSep : data.separate;
@@ -88,6 +91,7 @@ public class EnemyObject : BTPoolable,
         base.Update();
         // 보이지 않는 상태로 세팅.
         Color color = InvisibleColor;
+        animator.speed = ADelay;
         if (visible)
         {
             // 보이지 않는 유닛이지만 보이는 상태일 때
@@ -127,7 +131,7 @@ public class EnemyObject : BTPoolable,
         // 속성에 따른 저항 수치에 맞게 데미지 감소.
         if (data.resistances.ContainsKey(attribute))
             dmg = (int)(dmg * data.resistances[attribute]);
-       
+
         // 방어력보다 데미지가 높다면 데미지는 1로 고정.
         dmg -= Def;
         if (dmg < 0) dmg = 1;
@@ -204,40 +208,47 @@ public class EnemyObject : BTPoolable,
         // 그게 아니라면 0.75사이즈 안에 있나 체크
 
         float range = Range;
-        FindTargets(range, 0.75f, 1 << LayerMask.NameToLayer("Player"));
+        float ratio = 0.75f;
+        if (animator.GetBool("attack")) ratio = 1f;
+        FindTargets(range, ratio, 1 << LayerMask.NameToLayer("Player"));
         if (targetCollider == null)
         {
             int layerMask = 1 << LayerMask.NameToLayer("Turret");
             // 원거리 공격의 경우 Trap을 공격할 수 있음.
             if (Range >= 3f) layerMask |= 1 << LayerMask.NameToLayer("Trap");
-            FindTargets(range, 0.75f, layerMask);
+            FindTargets(range, ratio, layerMask);
         }
 
-        if (targetCollider == null) isAttacking = false;
-        else LookAt(targetCollider.transform.position);
+        animator.SetBool("attack", targetCollider != null);
 
         return targetCollider != null;
     }
 
     protected Collider2D[] FindTargets(float range, float detectRatio, int layerMask)
     {
-        if (!isAttacking) range *= detectRatio;
+        range *= detectRatio;
         Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, range, layerMask);
         if (cols.Length > 0) targetCollider = cols[0];
+        else targetCollider = null;
 
         return cols;
+    }
+
+    public void Damaging(GameObject target)
+    {
+        IDamagedObject damagedObject = target.transform.parent.GetComponent<IDamagedObject>();
+        damagedObject.Damaged(Dmg);
     }
 
     public virtual void Attack()
     {
         AdjustMove(false);
-        isAttacking = true;
-        if (!WaitAttack)
-        {
-            IDamagedObject damagedObject = targetCollider.transform.parent.GetComponent<IDamagedObject>();
-            damagedObject.Damaged(Dmg);
-            StartCoroutine(AttackTimer());
-        }
+    }
+
+    public void LookAtTarget()
+    {
+        if (targetCollider != null)
+            LookAt(targetCollider.transform.position);
     }
 
     public void LookAt(Vector3 target)
@@ -247,6 +258,7 @@ public class EnemyObject : BTPoolable,
         transform.rotation = Quaternion.Euler(0, 0, degree + 90);
     }
 
+    // 조정되어 사라질 코드
     protected IEnumerator AttackTimer()
     {
         WaitAttack = true;
@@ -289,6 +301,7 @@ public class EnemyObject : BTPoolable,
 
     public virtual bool DetectPath()
     {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("ATTACK")) return false;
         // 길탐색이 됐는지, 더 갈 수 있는 노드가 있는지 확인.
         return seeker.IsDone() && path != null && path.Count - 1 > pathIndex;
     }

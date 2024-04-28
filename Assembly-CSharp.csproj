@@ -93,6 +93,7 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTActionNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\Context.cs" />
     <Compile Include="Assets\Scripts\UI\GameStartButton.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\EnemyHitBox.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Item.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\SummonEnemyObject.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Poolable.cs" />
