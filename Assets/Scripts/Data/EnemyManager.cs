@@ -130,6 +130,8 @@ public static class EnemyManager
                 range = 3f,
                 adelay = 1.2f,
 
+                debuff = new BuffInfo(){ time = 10, speed = -0.5f },
+
                 exp = 5,
                 money = 10,
             },

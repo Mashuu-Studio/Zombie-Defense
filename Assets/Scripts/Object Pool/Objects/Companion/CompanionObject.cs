@@ -1,9 +1,10 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CompanionObject : BTPoolable,
-    IMovingObject, IDamagedObject, IAttackObject
+    IMovingObject, IDamagedObject, IAttackObject, IBuffTargetObject
 {
     [SerializeField] private Rigidbody2D rigidbody;
     [SerializeField] private Animator animator;
@@ -75,7 +76,8 @@ public class CompanionObject : BTPoolable,
     private PatrolType patrolType;
     private bool move;
     private Poolable movePoint;
-    public float Speed { get { return speed; } }
+    public float Speed { get { return speed * (1 + ActivatedBuff.speed); } }
+
 
     private List<Vector2> holdPatrolPosList;
     private int patrolIndex;
@@ -226,7 +228,7 @@ public class CompanionObject : BTPoolable,
     #region IDamagedObject
     public int Hp { get { return hp; } }
     public int MaxHp { get { return maxhp; } }
-    public int Def { get { return def; } }
+    public int Def { get { return def + ActivatedBuff.def; } }
 
     public void Heal()
     {
@@ -244,7 +246,6 @@ public class CompanionObject : BTPoolable,
         }
     }
     #endregion
-
     #region IAttackObject
     public int Dmg { get { return (weapon != null) ? weapon.dmg : 0; } }
     public float Range { get { return (weapon != null) ? weapon.range : 0; } }
@@ -294,7 +295,52 @@ public class CompanionObject : BTPoolable,
         }
     }
     #endregion
+    #region IBuffTargetObject
+    public List<BuffInfo> Buffs { get { return buffs.Keys.ToList(); } }
+    private Dictionary<BuffInfo, IEnumerator> buffs = new Dictionary<BuffInfo, IEnumerator>();
+    public BuffInfo ActivatedBuff
+    {
+        get
+        {
+            BuffInfo buff = new BuffInfo();
+            if (Buffs != null) Buffs.ForEach(b => buff += b);
+            return buff;
+        }
+    }
+    public void Heal(int amount)
+    {
+        hp += amount;
+        if (hp > maxhp) hp = maxhp;
+    }
 
+    public void ActivateBuff(BuffInfo buff)
+    {
+        // 단순 회복일 경우 즉시 발동
+        if (buff.IsHeal) Heal(buff.hp);
+        else
+        {
+            if (buffs.ContainsKey(buff))
+            {
+                StopCoroutine(buffs[buff]);
+                buffs[buff] = BuffTimer(buff);
+            }
+            else buffs.Add(buff, BuffTimer(buff));
+
+            StartCoroutine(buffs[buff]);
+        }
+    }
+
+    public IEnumerator BuffTimer(BuffInfo buff)
+    {
+        float time = 0;
+        while (time < buff.time)
+        {
+            if (!GameController.Instance.Pause) time += Time.deltaTime;
+            yield return null;
+        }
+        buffs.Remove(buff);
+    }
+    #endregion
     private IEnumerator reloadCoroutine;
     public void Reload()
     {

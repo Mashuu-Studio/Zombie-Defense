@@ -154,9 +154,9 @@ public class EnemyObject : BTPoolable,
                 sepObject.SetData(data, remainSep);
             }
             else
-            {
+            {/*
                 int rand = Random.Range(0, 2);
-                if (rand == 0) Item.Drop(transform.position);
+                if (rand == 0) Item.Drop(transform.position);*/
 
                 Player.Instance.GetReward(exp, money);
                 Dead();
@@ -239,13 +239,19 @@ public class EnemyObject : BTPoolable,
     {
         IDamagedObject damagedObject = target.transform.parent.GetComponent<IDamagedObject>();
         damagedObject.Damaged(Dmg);
+
+        if (Data.debuff != null)
+        {
+            IBuffTargetObject buffTargetObject = target.transform.parent.GetComponent<IBuffTargetObject>();
+            if (buffTargetObject != null) buffTargetObject.ActivateBuff(Data.debuff);
+        }
     }
     public void RangeAttack()
     {
         string projName = Data.key.Replace("ENEMY", "PROJECTILE");
         var proj = (Projectile)PoolController.Pop(projName);
         proj.SetProj(transform.position, targetPos, transform.rotation.eulerAngles.z,
-            Data.isSiege, Dmg, 10);
+            Data.isSiege, Dmg, 10, Data.debuff);
     }
 
     public virtual void Attack()

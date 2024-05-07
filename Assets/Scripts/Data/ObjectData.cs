@@ -171,7 +171,9 @@ public class Enemy : ObjectData
 
     public Dictionary<Attribute, float> resistances = new Dictionary<Attribute, float>();
 
-    public BuffInfo buff;
+    public BuffInfo buff = null;
+    public BuffInfo debuff = null;
+
     public string summonUnit;
     public float summonCD;
     public int summonAmount;

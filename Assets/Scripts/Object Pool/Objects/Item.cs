@@ -51,7 +51,7 @@ public class Item : Poolable
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            Player.Instance.Buff(buffType, value);
+            //Player.Instance.Buff(buffType, value);
             PoolController.Push("Item", this);
         }
     }

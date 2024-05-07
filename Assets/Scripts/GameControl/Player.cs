@@ -1,8 +1,9 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IDamagedObject
+public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
 {
     #region Instance
     public static Player Instance { get { return instance; } }
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour, IDamagedObject
     private bool invincible;
 
     private int hp;
+    private int def;
     private int maxhp;
     private int speed;
     private int reload;
@@ -45,8 +47,8 @@ public class Player : MonoBehaviour, IDamagedObject
 
     public int MaxHp { get { return maxhp; } }
     public int Hp { get { return hp; } }
-    public int Def { get; }
-    public int Speed { get { return speed; } }
+    public int Def { get { return def + ActivatedBuff.def; } }
+    public float Speed { get { return speed * (1 + ActivatedBuff.speed); } }
     public int ReloadTime { get { return reload; } }
     public int Reward { get { return reward; } }
 
@@ -129,7 +131,7 @@ public class Player : MonoBehaviour, IDamagedObject
             || GameController.Instance.Pause
             || TurretController.Instance.BuildMode) return;
 
-        rigidbody.position += new Vector2(axisX, axisY) * Time.fixedDeltaTime * speed;
+        rigidbody.position += new Vector2(axisX, axisY) * Time.fixedDeltaTime * Speed;
         CameraController.Instance.MoveCamera(rigidbody.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
     }
 
@@ -142,6 +144,7 @@ public class Player : MonoBehaviour, IDamagedObject
 
     #endregion
 
+    #region Item Management
     public bool BuyItem(BuyableData data)
     {
         // 우선 true로 세팅.
@@ -201,6 +204,8 @@ public class Player : MonoBehaviour, IDamagedObject
             magazines[key]++;
     }
 
+    #endregion
+
     #region Reward
     public void GetReward(int xp, int m)
     {
@@ -252,6 +257,47 @@ public class Player : MonoBehaviour, IDamagedObject
     }
     #endregion
 
+    #region Buff
+    public List<BuffInfo> Buffs { get { return buffs.Keys.ToList(); } }
+    private Dictionary<BuffInfo, IEnumerator> buffs = new Dictionary<BuffInfo, IEnumerator>();
+    public BuffInfo ActivatedBuff
+    {
+        get
+        {
+            BuffInfo buff = new BuffInfo();
+            if (Buffs != null) Buffs.ForEach(b => buff += b);
+            return buff;
+        }
+    }
+
+    public void ActivateBuff(BuffInfo buff)
+    {
+        // 단순 회복일 경우 즉시 발동
+        if (buff.IsHeal) Heal(buff.hp);
+        else
+        {
+            if (buffs.ContainsKey(buff))
+            {
+                StopCoroutine(buffs[buff]);
+                buffs[buff] = BuffTimer(buff);
+            }
+            else buffs.Add(buff, BuffTimer(buff));
+
+            StartCoroutine(buffs[buff]);
+        }
+    }
+
+    public IEnumerator BuffTimer(BuffInfo buff)
+    {
+        float time = 0;
+        while (time < buff.time)
+        {
+            if (!GameController.Instance.Pause) time += Time.deltaTime;
+            yield return null;
+        }
+        buffs.Remove(buff);
+    }
+    /*
     public void Buff(Item.BuffType type, int value = 0)
     {
         if (type == Item.BuffType.HP) hp = maxhp;
@@ -281,6 +327,12 @@ public class Player : MonoBehaviour, IDamagedObject
             case Item.BuffType.RELOAD: reload -= 100; break;
             case Item.BuffType.SPEED: speed -= 5; break;
         }
+    }*/
+    #endregion
+    public void Heal(int amount)
+    {
+        hp += amount;
+        if (hp > maxhp) hp = maxhp;
     }
 
     public void Damaged(int dmg, ObjectData.Attribute attribute = ObjectData.Attribute.NONE)

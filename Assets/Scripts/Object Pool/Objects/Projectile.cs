@@ -15,6 +15,7 @@ public class Projectile : Poolable
     private float remainTime;
     private float speed;
     private bool isSiege;
+    private BuffInfo debuff;
 
     private int dmg;
 
@@ -27,7 +28,7 @@ public class Projectile : Poolable
     }
 
     public void SetProj(Vector2 start, Vector2 dest, float angle, 
-        bool isSiege, int dmg, float speed)
+        bool isSiege, int dmg, float speed, BuffInfo debuff)
     {
         stop = false;
 
@@ -39,6 +40,7 @@ public class Projectile : Poolable
         this.dmg = dmg;
         this.speed = speed;
         this.isSiege = isSiege;
+        this.debuff = debuff;
 
         if (remainTime == 0) remainTime = Time.fixedDeltaTime * 2;
     }
@@ -76,8 +78,7 @@ public class Projectile : Poolable
 
         if ((1 << collision.gameObject.layer & layerMask) > 0)
         {
-            Damage(collision);
-            PoolController.Push(gameObject.name, this);
+            Damage(collision, true);
         }
     }
 
@@ -95,7 +96,7 @@ public class Projectile : Poolable
         PoolController.Push(gameObject.name, this);
     }
 
-    private void Damage(Collider2D collision)
+    private void Damage(Collider2D collision, bool singleTarget = false)
     {
         ActionController.AddAction(gameObject, () =>
         {
@@ -103,8 +104,15 @@ public class Projectile : Poolable
             // Player가 아니라 터렛이라면 1.5배수
             if (isSiege && collision.transform.parent.gameObject != Player.Instance.gameObject) dmg = (int)(this.dmg * 1.5f);
 
+            if (debuff != null)
+            {
+                IBuffTargetObject buffTargetObject = collision.transform.parent.GetComponent<IBuffTargetObject>();
+                if (buffTargetObject != null) buffTargetObject.ActivateBuff(debuff);
+            }
             var target = collision.transform.parent.GetComponent<IDamagedObject>();
             target.Damaged(dmg);
+
+            if (singleTarget) PoolController.Push(gameObject.name, this);
         });
     }
 }
