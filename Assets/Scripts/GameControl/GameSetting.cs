@@ -20,7 +20,7 @@ public class GameSetting : MonoBehaviour
         instance = this;
 
         Application.targetFrameRate = 60;
-        InitResolutions();
+        //InitResolutions();
         LoadSetting();
     }
 
@@ -62,7 +62,7 @@ public class GameSetting : MonoBehaviour
     private FullScreenMode screenMode;
 
     Vector2Int currentMainDisplayResolution;
-
+    /*
     private void Update()
     {
         if (currentMainDisplayResolution.x != Screen.mainWindowDisplayInfo.width
@@ -71,7 +71,7 @@ public class GameSetting : MonoBehaviour
             InitResolutions(true);
         }
     }
-
+    */
     private void InitResolutions(bool mainScreenChanged = false)
     {
         currentMainDisplayResolution = new Vector2Int(Screen.mainWindowDisplayInfo.width, Screen.mainWindowDisplayInfo.height);
@@ -87,7 +87,7 @@ public class GameSetting : MonoBehaviour
             }
         }
 
-        if (mainScreenChanged) UIController.Instance.LoadResolutionInfo();
+        //if (mainScreenChanged) UIController.Instance.LoadResolutionInfo();
     }
 
     public void ChangeResolution(int index, bool fullscreen)

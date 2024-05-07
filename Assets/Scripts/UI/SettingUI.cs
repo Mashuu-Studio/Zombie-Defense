@@ -44,7 +44,7 @@ public class SettingUI : MonoBehaviour
         bgmVolumeSlider.value = GameSetting.Instance.SettingInfo.options["volume"][1];
         sfxVolumeSlider.value = GameSetting.Instance.SettingInfo.options["volume"][2];
 
-        LoadResolutionInfo();
+        //LoadResolutionInfo();
     }
 
     public void LoadResolutionInfo()
@@ -63,6 +63,6 @@ public class SettingUI : MonoBehaviour
     public void ChangeResolution()
     {
         resolDropdown.interactable = !fullscreenToggle.isOn;
-        GameSetting.Instance.ChangeResolution(resolDropdown.value, fullscreenToggle.isOn);
+        //GameSetting.Instance.ChangeResolution(resolDropdown.value, fullscreenToggle.isOn);
     }
 }
