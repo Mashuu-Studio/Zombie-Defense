@@ -16,7 +16,7 @@ public static class EnemyManager
 
                 hp = 15,
                 speed = 3,
-                dmg = 1,
+                dmg = 0,
                 range = .8f,
                 adelay = 1.2f,
 
@@ -29,9 +29,12 @@ public static class EnemyManager
 
                 hp = 15,
                 speed = 3,
-                dmg = 1,
+                dmg = 0,
                 range = .8f,
                 adelay = 1,
+
+                thresholdHp = 10,
+                restHealAmount = 2,
 
                 exp = 5,
                 money = 10,
@@ -42,7 +45,7 @@ public static class EnemyManager
 
                 hp = 15,
                 speed = 3,
-                dmg = 1,
+                dmg = 0,
                 range = .8f,
                 adelay = 1,
 
@@ -60,7 +63,7 @@ public static class EnemyManager
 
                 hp = 15,
                 speed = 3,
-                dmg = 1,
+                dmg = 0,
                 range = .8f,
                 adelay = .75f,
 
@@ -79,7 +82,7 @@ public static class EnemyManager
 
                 hp = 15,
                 speed = 3,
-                dmg = 1,
+                dmg = 0,
                 range = .8f,
                 adelay = 1,
 
@@ -87,6 +90,60 @@ public static class EnemyManager
                 {
                     { ObjectData.Attribute.BULLET, .5f },
                 },
+
+                exp = 5,
+                money = 10,
+            },
+            new Enemy()
+            {
+                key = "ENEMY.ZOMBIEDOG",
+
+                hp = 15,
+                speed = 7,
+                dmg = 0,
+                range = .8f,
+                adelay = 1.5f,
+
+                exp = 5,
+                money = 10,
+            },
+            new Enemy()
+            {
+                key = "ENEMY.SPITTER",
+
+                hp = 15,
+                speed = 3,
+                dmg = 1,
+                range = 5f,
+                adelay = 1.2f,
+
+                exp = 5,
+                money = 10,
+            },
+            new Enemy()
+            {
+                key = "ENEMY.BOOMER",
+
+                hp = 15,
+                speed = 3,
+                dmg = 1,
+                range = 3f,
+                adelay = 1.2f,
+
+                exp = 5,
+                money = 10,
+            },
+            new Enemy()
+            {
+                key = "ENEMY.TANK",
+
+                hp = 20,
+                speed = 5,
+                dmg = 1,
+                range = 5f,
+                adelay = 1,
+
+                isSiege = true,
 
                 exp = 5,
                 money = 10,
@@ -210,37 +267,6 @@ public static class EnemyManager
                 adelay = 1,
 
                 thresholdHp = 5,
-
-                exp = 4,
-                money = 10,
-            },
-            new Enemy()
-            {
-                key = "test_rest",
-
-                hp = 20,
-                speed = 5,
-                dmg = 0,
-                range = 1.5f,
-                adelay = 1,
-
-                thresholdHp = 10,
-                restHealAmount = 2,
-
-                exp = 4,
-                money = 10,
-            },
-            new Enemy()
-            {
-                key = "test_siege",
-
-                hp = 10,
-                speed = 5,
-                dmg = 2,
-                range = 5f,
-                adelay = 2,
-
-                siegeRadius = 1f,
 
                 exp = 4,
                 money = 10,

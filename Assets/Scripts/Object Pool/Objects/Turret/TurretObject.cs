@@ -23,7 +23,7 @@ public class TurretObject : BTPoolable, IDamagedObject
         this.data = data;
 
         hp = data.hp;
-        hpBar.SetHpBar(this, hp, new Vector2(0.75f, 0.1f), 0.6f);
+        hpBar.SetHpBar(this, hp);
 
         this.pos = pos;
     }

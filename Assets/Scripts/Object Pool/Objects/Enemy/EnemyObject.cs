@@ -12,10 +12,10 @@ public class EnemyObject : BTPoolable,
     [SerializeField] private ObjectHpBar hpBar;
 
     [Space]
-    [SerializeField] private Rigidbody2D rigidbody;
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Animator animator;
-    [SerializeField] private EnemyHitBox hitbox;
+    [SerializeField] protected Rigidbody2D rigidbody;
+    [SerializeField] protected SpriteRenderer spriteRenderer;
+    [SerializeField] protected Animator animator;
+    [SerializeField] protected EnemyHitBox hitbox;
 
     [Space]
     [SerializeField] protected Pathfinding.Seeker seeker;
@@ -57,15 +57,14 @@ public class EnemyObject : BTPoolable,
     {
         this.data = data;
 
-        hitbox.Init(data);
+        hitbox.Init(this);
 
         visible = !invisible;
         // remainSep를 이전하는 경우와 아닌 경우로 구분.
         this.remainSep = (remainSep != -1) ? remainSep : data.separate;
         // 분리된 수만큼 체력을 divide
         maxhp = hp = (int)(data.hp * GameController.Instance.Difficulty.hp / Mathf.Pow(2, data.separate - this.remainSep));
-        Vector2 spriteSize = new Vector2(spriteRenderer.sprite.rect.width, spriteRenderer.sprite.rect.height) / spriteRenderer.sprite.pixelsPerUnit;
-        hpBar.SetHpBar(this, maxhp, new Vector2(spriteSize.x * 3 / 2, 0.25f), spriteSize.y * 3 / 4);
+        hpBar.SetHpBar(this, maxhp);
 
         speed = data.speed;
         dmg = data.dmg;
@@ -91,7 +90,9 @@ public class EnemyObject : BTPoolable,
         base.Update();
         // 보이지 않는 상태로 세팅.
         Color color = InvisibleColor;
-        animator.speed = ADelay;
+        if (isAttacking) animator.speed = ADelay;
+        else animator.speed = 1;
+
         if (visible)
         {
             // 보이지 않는 유닛이지만 보이는 상태일 때
@@ -182,13 +183,14 @@ public class EnemyObject : BTPoolable,
 
     #region IAttackObject
 
-    protected bool isAttacking;
+    protected bool isAttacking { get { return animator.GetCurrentAnimatorStateInfo(0).IsTag("ATTACK"); } }
     protected Collider2D targetCollider;
     public Collider2D TargetCollider { get { return targetCollider; } }
     public int Dmg { get { return (int)((dmg + ActivatedBuff.dmg) * GameController.Instance.Difficulty.dmg); } }
     public float Range { get { return range; } }
     public float ADelay { get { return aDelay * (1 + ActivatedBuff.aspeed); } }
     public bool WaitAttack { get; set; }
+    private Vector2 targetPos;
 
     public virtual bool DetectTarget()
     {
@@ -220,7 +222,6 @@ public class EnemyObject : BTPoolable,
         }
 
         animator.SetBool("attack", targetCollider != null);
-
         return targetCollider != null;
     }
 
@@ -234,10 +235,17 @@ public class EnemyObject : BTPoolable,
         return cols;
     }
 
-    public void Damaging(GameObject target)
+    public virtual void Damaging(GameObject target)
     {
         IDamagedObject damagedObject = target.transform.parent.GetComponent<IDamagedObject>();
         damagedObject.Damaged(Dmg);
+    }
+    public void RangeAttack()
+    {
+        string projName = Data.key.Replace("ENEMY", "PROJECTILE");
+        var proj = (Projectile)PoolController.Pop(projName);
+        proj.SetProj(transform.position, targetPos, transform.rotation.eulerAngles.z,
+            Data.isSiege, Dmg, 10);
     }
 
     public virtual void Attack()
@@ -248,7 +256,10 @@ public class EnemyObject : BTPoolable,
     public void LookAtTarget()
     {
         if (targetCollider != null)
-            LookAt(targetCollider.transform.position);
+        {
+            targetPos = targetCollider.transform.position;
+            LookAt(targetPos);
+        }
     }
 
     public void LookAt(Vector3 target)
@@ -256,19 +267,6 @@ public class EnemyObject : BTPoolable,
         Vector2 dir = target - transform.position;
         float degree = Mathf.Rad2Deg * Mathf.Atan2(dir.y, dir.x);
         transform.rotation = Quaternion.Euler(0, 0, degree + 90);
-    }
-
-    // 조정되어 사라질 코드
-    protected IEnumerator AttackTimer()
-    {
-        WaitAttack = true;
-        float time = 0;
-        while (time < ADelay)
-        {
-            if (!GameController.Instance.Pause) time += Time.deltaTime;
-            yield return null;
-        }
-        WaitAttack = false;
     }
     #endregion
 
@@ -301,7 +299,7 @@ public class EnemyObject : BTPoolable,
 
     public virtual bool DetectPath()
     {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("ATTACK")) return false;
+        if (isAttacking) return false;
         // 길탐색이 됐는지, 더 갈 수 있는 노드가 있는지 확인.
         return seeker.IsDone() && path != null && path.Count - 1 > pathIndex;
     }

@@ -127,7 +127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bc450bde46c4d14b93f0076afc5f04c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpBarCanvas: {fileID: 2126068112301425643}
   hpBar: {fileID: 1297294467394384857}
 --- !u!223 &2493030884520734732
 Canvas:
@@ -174,7 +173,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &3616729137379122218
 MonoBehaviour:
   m_ObjectHideFlags: 0

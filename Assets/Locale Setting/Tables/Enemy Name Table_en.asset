@@ -38,6 +38,22 @@ MonoBehaviour:
     m_Localized: Commando Zombie
     m_Metadata:
       m_Items: []
+  - m_Id: 3279102735818752
+    m_Localized: Zombie Dog
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3279104480649216
+    m_Localized: Spitter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3279105751523328
+    m_Localized: Boomer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3279480172847104
+    m_Localized: Tank
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

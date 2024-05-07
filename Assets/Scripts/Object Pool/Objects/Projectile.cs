@@ -2,40 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class Projectile : Poolable
 {
     private Rigidbody2D rigidbody;
+    private BoxCollider2D hitbox;
 
     private Vector2 destination;
     private Vector2 direction;
 
     private float remainTime;
     private float speed;
+    private bool isSiege;
 
     private int dmg;
-    private float radius;
 
     private bool stop;
 
     public override void Init()
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        hitbox = GetComponent<BoxCollider2D>();
     }
 
-    public void SetProj(Vector2 start, Vector2 dest, int dmg, float radius, float speed)
+    public void SetProj(Vector2 start, Vector2 dest, float angle, 
+        bool isSiege, int dmg, float speed)
     {
         stop = false;
 
         transform.position = rigidbody.position = start;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
         destination = dest;
         direction = (dest - start).normalized;
 
         this.dmg = dmg;
-        this.radius = radius;
         this.speed = speed;
+        this.isSiege = isSiege;
 
         if (remainTime == 0) remainTime = Time.fixedDeltaTime * 2;
-        transform.localScale = Vector3.one * radius * 2;
     }
 
     private void FixedUpdate()
@@ -60,16 +65,34 @@ public class Projectile : Poolable
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // 공성유닛의 경우 도착할 때까지 대기.
+        if (isSiege) return;
+
+        int layerMask = 1 << LayerMask.NameToLayer("Player") 
+            | 1 << LayerMask.NameToLayer("Turret")
+            | 1 << LayerMask.NameToLayer("Trap");
+
+        if ((1 << collision.gameObject.layer & layerMask) > 0)
+        {
+            Damage(collision);
+            PoolController.Push(gameObject.name, this);
+        }
+    }
+
     IEnumerator RangeDamage()
     {
         stop = true;
 
         int layerMask = 1 << LayerMask.NameToLayer("Turret") | 1 << LayerMask.NameToLayer("Trap") | 1 << LayerMask.NameToLayer("Player");
-        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, radius, layerMask);
+        Collider2D[] cols = Physics2D.OverlapBoxAll(
+            transform.position, hitbox.size * transform.lossyScale.x,
+            transform.rotation.eulerAngles.z, layerMask);
         foreach (var col in cols) Damage(col);
 
         yield return null;
-        PoolController.Push("Projectile", this);
+        PoolController.Push(gameObject.name, this);
     }
 
     private void Damage(Collider2D collision)
@@ -78,7 +101,7 @@ public class Projectile : Poolable
         {
             int dmg = this.dmg;
             // Player가 아니라 터렛이라면 1.5배수
-            if (collision.transform.parent.gameObject != Player.Instance.gameObject) dmg = (int)(this.dmg * 1.5f);
+            if (isSiege && collision.transform.parent.gameObject != Player.Instance.gameObject) dmg = (int)(this.dmg * 1.5f);
 
             var target = collision.transform.parent.GetComponent<IDamagedObject>();
             target.Damaged(dmg);

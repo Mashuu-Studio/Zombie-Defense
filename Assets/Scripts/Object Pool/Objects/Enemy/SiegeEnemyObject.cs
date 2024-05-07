@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SiegeEnemyObject : EnemyObject
 {
-    private static float meleeRange = 1.5f;
+    private static float meleeRange = 2.5f;
     private bool meleeAttack;
     private bool targetIsTurret;
     public override bool DetectTarget()
@@ -23,50 +23,34 @@ public class SiegeEnemyObject : EnemyObject
         targetCollider = null;
         targetIsTurret = true;
         meleeAttack = true;
-        FindTargets(meleeRange, .8f, 1 << LayerMask.NameToLayer("Turret"));
 
-        // 원거리 공격이 있을 때 근접 공격 대상을 찾지 못했다면
-        // 원거리 기반으로 탐색 시작
-        if (data.siegeRadius > 0 && targetCollider == null
-            && FindTargets(Range, .8f, 1 << LayerMask.NameToLayer("Turret")).Length > 0)
+        float ratio = 0.8f;
+        if (animator.GetBool("attack")) ratio = 1f;
+        FindTargets(meleeRange, ratio, 1 << LayerMask.NameToLayer("Turret"));
+
+        if (targetCollider == null
+            && FindTargets(Range, ratio, 1 << LayerMask.NameToLayer("Turret")).Length > 0)
         {
             meleeAttack = false;
         }
 
         // 터렛을 아예 찾지 못했다면 근접 범위에서 플레이어 탐색
         if (targetCollider == null
-            && FindTargets(meleeRange, .75f, 1 << LayerMask.NameToLayer("Player")).Length > 0)
+            && FindTargets(meleeRange, ratio, 1 << LayerMask.NameToLayer("Player")).Length > 0)
         {
+            meleeAttack = true;
             targetIsTurret = false;
         }
-
-        if (targetCollider == null) isAttacking = false;
-        else LookAt(targetCollider.transform.position);
+        animator.SetBool("melee", meleeAttack);
+        animator.SetBool("attack", targetCollider != null);
 
         return targetCollider != null;
     }
 
-    public override void Attack()
+    public override void Damaging(GameObject target)
     {
-        AdjustMove(false);
-        // 원거리 공격과 근거리 공격을 구분하여 작동시킴.
-        isAttacking = true;
-        // 해당 부분 공격 함수의 위치 조정.
-        if (!WaitAttack)
-        {
-            IDamagedObject damagedObject = targetCollider.transform.parent.GetComponent<IDamagedObject>();
-            if (meleeAttack)
-            {
-                int dmg = (int)(Dmg * (targetIsTurret ? 1.5f : 1f));
-                damagedObject.Damaged(dmg);
-            }
-            else
-            {
-                // 원거리 공격은 범위 공격으로 돌같은 투사체를 던지는 방식.
-                var proj = (Projectile)PoolController.Pop("Projectile");
-                proj.SetProj(transform.position, targetCollider.transform.position, Dmg, data.siegeRadius, 10);
-            }
-            StartCoroutine(AttackTimer());
-        }
+        int dmg = (int)(Dmg * (targetIsTurret ? 1.5f : 1f));
+        IDamagedObject damagedObject = target.transform.parent.GetComponent<IDamagedObject>();
+        damagedObject.Damaged(dmg);
     }
 }
