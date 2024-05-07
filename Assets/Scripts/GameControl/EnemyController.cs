@@ -25,19 +25,30 @@ public class EnemyController : MonoBehaviour
         while (spawnedEnemies.Count > 0) spawnedEnemies[0].Dead();
     }
 
-    public IEnumerator SpawnEnemy(Enemy enemy, float time)
+    public IEnumerator SpawnEnemy(Enemy enemy, float prob)
     {
         float t = 0;
         while (true)
         {
+            // 매 초 확률을 체크하여 소환.
             if (!GameController.Instance.Pause) t += Time.deltaTime;
 
-            if (t >= time)
+            if (t >= 1f)
             {
-                t -= time;
+                t--;
                 if (MapGenerator.Instance.Map == null) yield return null;
 
-                AddEnemy(enemy, MapGenerator.Instance.GetEnemySpawnPos());
+                // 확률이 1이상이라면 확정 소환.
+                float p = prob;
+                while (p >= 1)
+                {
+                    AddEnemy(enemy, MapGenerator.Instance.GetEnemySpawnPos());
+                    p--;
+                }
+
+                // 이 후 남은 확률에 맞춰서 추가소환.
+                float rand = Random.Range(0, 1f);
+                if (rand <= p) AddEnemy(enemy, MapGenerator.Instance.GetEnemySpawnPos());
             }
             yield return null;
         }
