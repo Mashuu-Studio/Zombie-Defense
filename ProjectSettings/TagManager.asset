@@ -45,6 +45,9 @@ TagManager:
   - name: Map
     uniqueID: 3001360183
     locked: 0
+  - name: Minimap Token
+    uniqueID: 1851527335
+    locked: 0
   - name: Entity
     uniqueID: 1826987183
     locked: 0

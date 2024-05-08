@@ -85,6 +85,7 @@
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\CombineEnemyObject.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\Trap.cs" />
     <Compile Include="Assets\Scripts\UI\RoundStartButton.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\ItemObject.cs" />
     <Compile Include="Assets\Scripts\GameControl\MinimapCamera.cs" />
     <Compile Include="Assets\Scripts\Data\ObjectData.cs" />
     <Compile Include="Assets\Scripts\UI\BuildMode\MountWeaponDropdown.cs" />
@@ -94,7 +95,6 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Core\Context.cs" />
     <Compile Include="Assets\Scripts\UI\GameStartButton.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\EnemyHitBox.cs" />
-    <Compile Include="Assets\Scripts\Object Pool\Objects\Item.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\SummonEnemyObject.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Poolable.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\RestEnemyObject.cs" />
@@ -161,7 +161,6 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-    <None Include="Assets\AddressableAssetsData\link.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />

@@ -173,6 +173,7 @@ public class Enemy : ObjectData
 
     public BuffInfo buff = null;
     public BuffInfo debuff = null;
+    public Item dropItem = null;
 
     public string summonUnit;
     public float summonCD;

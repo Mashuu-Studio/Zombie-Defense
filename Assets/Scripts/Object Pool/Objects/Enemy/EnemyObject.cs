@@ -154,9 +154,12 @@ public class EnemyObject : BTPoolable,
                 sepObject.SetData(data, remainSep);
             }
             else
-            {/*
-                int rand = Random.Range(0, 2);
-                if (rand == 0) Item.Drop(transform.position);*/
+            {
+                if (Data.dropItem != null)
+                {
+                    int rand = Random.Range(0, 100) + 1;
+                    if (rand <= Data.dropItem.prob) ItemObject.Drop(transform.position, Data.dropItem);
+                }
 
                 Player.Instance.GetReward(exp, money);
                 Dead();
@@ -239,7 +242,6 @@ public class EnemyObject : BTPoolable,
     {
         IDamagedObject damagedObject = target.transform.parent.GetComponent<IDamagedObject>();
         damagedObject.Damaged(Dmg);
-
         if (Data.debuff != null)
         {
             IBuffTargetObject buffTargetObject = target.transform.parent.GetComponent<IBuffTargetObject>();

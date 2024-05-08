@@ -29,9 +29,16 @@ public static class EnemyManager
 
                 hp = 15,
                 speed = 3,
-                dmg = 0,
+                dmg = 1,
                 range = .8f,
                 adelay = 1,
+
+                dropItem = new Item()
+                {
+                    itemKey = "HEALKIT",
+                    buff = new BuffInfo(){ hp = 5 },
+                    prob = 50,
+                },
 
                 thresholdHp = 10,
                 restHealAmount = 2,
