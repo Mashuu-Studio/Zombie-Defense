@@ -8,6 +8,7 @@ public class CompanionObject : BTPoolable,
 {
     [SerializeField] private Rigidbody2D rigidbody;
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObject shootingPoint;
     [SerializeField] private BoxCollider2D autoTargetCollider;
     [SerializeField] protected Pathfinding.Seeker seeker;
 
@@ -289,7 +290,7 @@ public class CompanionObject : BTPoolable,
 
             LookAt(target.transform.position);
             animator.SetTrigger("fire");
-            weapon.Fire(transform.position, target.position, transform.rotation.eulerAngles.z);
+            weapon.Fire(shootingPoint.transform.position, target.position, transform.rotation.eulerAngles.z);
 
             StartCoroutine(weapon.AttackDelay());
         }

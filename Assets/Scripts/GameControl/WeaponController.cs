@@ -137,7 +137,7 @@ public class WeaponController : MonoBehaviour
 
         if (UIController.PointOverUI()) return;
         if (Input.GetMouseButton(0))
-            Fire(Player.Instance.transform.position, mouseWorldPos);
+            Fire(Player.Instance.FirePoint, mouseWorldPos);
 
         if (Input.GetKeyDown(KeyCode.R))
             Reload();

@@ -114,6 +114,7 @@ Transform:
   - {fileID: 5717748364487329770}
   - {fileID: 2690583676552886063}
   - {fileID: 4696120439747703927}
+  - {fileID: 7170215368957597409}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &954704366081204757
@@ -131,6 +132,7 @@ MonoBehaviour:
   tree: {fileID: 11400000, guid: 944c2a9ba28f7f94aa777436814d42ee, type: 2}
   rigidbody: {fileID: 3357838646673401849}
   animator: {fileID: 4207314999241211767}
+  shootingPoint: {fileID: 4502951027820498836}
   autoTargetCollider: {fileID: 343459838335913702}
   seeker: {fileID: 4544719383774904718}
 --- !u!95 &4207314999241211767
@@ -261,6 +263,37 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: 1
+--- !u!1 &4502951027820498836
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7170215368957597409}
+  m_Layer: 12
+  m_Name: Shooting Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7170215368957597409
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4502951027820498836}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2619193284330807924}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4766841122229998991
 GameObject:
   m_ObjectHideFlags: 0

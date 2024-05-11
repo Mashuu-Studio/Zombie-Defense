@@ -22,6 +22,8 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     }
     #endregion
 
+    [SerializeField] private GameObject shootingPoint;
+    public Vector3 FirePoint { get { return shootingPoint.transform.position; } }
     public enum StatType { HP = 0, SPEED, RELOAD, REWARD, }
 
     private int lv;
