@@ -79,6 +79,7 @@
     <Compile Include="Assets\Scripts\GameControl\Player.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Companion\CompanionObject.cs" />
     <Compile Include="Assets\Scripts\Object Pool\PoolController.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\ParticleObject.cs" />
     <Compile Include="Assets\Scripts\UI\ObjectHpBar.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTNode.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Bullet.cs" />

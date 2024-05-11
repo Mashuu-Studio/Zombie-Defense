@@ -105,7 +105,9 @@ public class Weapon : BuyableData
                 // 적의 수가 타겟팅 수보다 적다면 스킵
                 else break;
             }
-            ((Bullet)PoolController.Pop("Bullet")).SetBullet(pos, dest, newDir, this, bulletSpeed);
+            var bullet = PoolController.Pop(key);
+            if (bullet == null) bullet = PoolController.Pop("Bullet");
+            ((Bullet)bullet).SetBullet(pos, dest, newDir, angle, this, bulletSpeed);
         }
         SoundController.Instance.PlaySFX(pos, key);
         curammo--;

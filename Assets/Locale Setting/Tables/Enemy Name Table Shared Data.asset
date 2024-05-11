@@ -51,6 +51,10 @@ MonoBehaviour:
     m_Key: ENEMY.TANK
     m_Metadata:
       m_Items: []
+  - m_Id: 4440063094038528
+    m_Key: ENEMY.RADIOACTIVEWASTE
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

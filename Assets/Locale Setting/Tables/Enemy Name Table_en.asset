@@ -54,6 +54,10 @@ MonoBehaviour:
     m_Localized: Tank
     m_Metadata:
       m_Items: []
+  - m_Id: 4440063094038528
+    m_Localized: Radioactive Waste
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

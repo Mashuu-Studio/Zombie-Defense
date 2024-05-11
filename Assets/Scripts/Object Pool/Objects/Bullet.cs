@@ -4,9 +4,14 @@ using UnityEngine;
 
 [AddComponentMenu("Poolable/Bullet (Poolable)")]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(CircleCollider2D))]
 public class Bullet : Poolable
 {
+    [SerializeField] TrailRenderer trail;
+    [SerializeField] ParticleSystem particle;
+
     private Rigidbody2D rigidbody;
+    private CircleCollider2D hitbox;
 
     private Weapon weapon;
 
@@ -17,36 +22,53 @@ public class Bullet : Poolable
     private float remainTime;
     private float speed;
 
+    private float originRadius;
     private float radius;
+    private float bulletSize;
 
     private bool stop;
     private bool point;
     private float dmgDelay;
 
+    ParticleSystem.MainModule pmain;
+
     public override void Init()
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        hitbox = GetComponent<CircleCollider2D>();
     }
 
-    public void SetBullet(Vector2 start, Vector2 dest, Vector2 dir, Weapon w, float spd)
+    public void SetBullet(Vector2 start, Vector2 dest, Vector2 dir, float angle,
+        Weapon w, float spd)
     {
         stop = false;
 
         transform.position = rigidbody.position = start;
         destination = dest;
         direction = dir.normalized;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        bulletSize = w.bulletSize;
+        transform.localScale = Vector3.one * bulletSize;
+        if (particle != null)
+        {
+            pmain = particle.main;
+            float lifetime = Vector2.Distance(start, dest) / (Time.fixedDeltaTime * speed);
+            pmain.startSize = new ParticleSystem.MinMaxCurve(pmain.startSize.constant * bulletSize);
+            particle.Play();
+        }
 
         weapon = w;
         dmgDelay = w.dmgdelay;
         distance = weapon.range;
         speed = spd;
 
-        radius = w.radius;
+        originRadius = hitbox.radius;
+        radius = w.radius / 2;
 
         point = w.point;
         if (remainTime == 0) remainTime = Time.fixedDeltaTime * 2;
 
-        transform.localScale = Vector3.one * w.bulletSize;
     }
 
     private void FixedUpdate()
@@ -82,7 +104,7 @@ public class Bullet : Poolable
         else if (MapGenerator.Instance.MapBoundary.Contains(rigidbody.position) == false
                 || distance < 0 || remainTime <= 0)
         {
-            PoolController.Push("Bullet", this);
+            Push();
         }
     }
 
@@ -109,14 +131,13 @@ public class Bullet : Poolable
             yield return null;
         }
 
-        // 폭발 범위를 보기 위한 용도
-        transform.localScale = Vector3.one * radius * 2;
+        hitbox.radius = radius;
 
         Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, radius, 1 << LayerMask.NameToLayer("Enemy"));
         foreach (var col in cols) Damage(col);
 
         yield return null;
-        PoolController.Push("Bullet", this);
+        Push();
     }
 
     private void Damage(Collider2D collision)
@@ -128,9 +149,33 @@ public class Bullet : Poolable
             enemy.Damaged(weapon.dmg, weapon.attribute);
             if (weapon.pierce == false && !point)
             {
-                PoolController.Push("Bullet", this);
+                Push();
                 StopAllCoroutines();
             }
         });
+    }
+
+    private void Push()
+    {
+        PoolController.Push(gameObject.name, this);
+        trail.Clear();
+
+        if (particle != null)
+        {
+            pmain.startSize = new ParticleSystem.MinMaxCurve(pmain.startSize.constant / bulletSize);
+        }
+
+        string particleName = gameObject.name.Replace("WEAPON", "PARTICLE");
+        if (particleName != gameObject.name)
+        {
+            var p = PoolController.Pop(particleName);
+            if (p != null)
+            {
+                p.transform.position = transform.position;
+                ((ParticleObject)p).Play(0, radius / originRadius);
+            }
+        }
+
+        hitbox.radius = originRadius;
     }
 }

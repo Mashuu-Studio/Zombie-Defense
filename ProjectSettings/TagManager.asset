@@ -54,6 +54,9 @@ TagManager:
   - name: Character
     uniqueID: 2337102319
     locked: 0
+  - name: Particle
+    uniqueID: 1176548057
+    locked: 0
   - name: Wall
     uniqueID: 2589266583
     locked: 0

@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &9099267375129802745
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 711397154709424822, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 711397154709424822, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 711397154709424822, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: ShapeModule.m_Texture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 711397154709424822, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 711397154709424822, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 711397154709424822, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 711397154709424822, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 946a85763de9199428378c567034f4d3, type: 3}
+    - target: {fileID: 4559911330809227203, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: m_Name
+      value: PARTICLE.TANK
+      objectReference: {fileID: 0}
+    - target: {fileID: 4559911330809227203, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6149500727196763022, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6149500727196763022, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6149500727196763022, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6149500727196763022, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6149500727196763022, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6149500727196763022, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6149500727196763022, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6149500727196763022, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6149500727196763022, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6149500727196763022, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9184550647344982973, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9184550647344982973, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9184550647344982973, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: ShapeModule.m_Texture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9184550647344982973, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9184550647344982973, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9184550647344982973, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 946a85763de9199428378c567034f4d3, type: 3}
+    m_RemovedComponents:
+    - {fileID: 711397154709424822, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+    - {fileID: 163828046337615560, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f70873552be3f0140b49c1b3c02e9914, type: 3}

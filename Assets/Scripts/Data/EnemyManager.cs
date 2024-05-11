@@ -159,6 +159,21 @@ public static class EnemyManager
             },
             new Enemy()
             {
+                key = "ENEMY.RADIOACTIVEWASTE",
+
+                hp = 40,
+                speed = 2,
+                dmg = 1,
+                range = 1.2f,
+                adelay = 1,
+
+                separate = 3,
+
+                exp = 4,
+                money = 10,
+            },
+            new Enemy()
+            {
                 key = "test_buff1",
 
                 hp = 30,
@@ -248,21 +263,6 @@ public static class EnemyManager
                 summonAmount = 2,
 
                 exp = 5,
-                money = 10,
-            },
-            new Enemy()
-            {
-                key = "test_divide",
-
-                hp = 40,
-                speed = 2,
-                dmg = 1,
-                range = 1.2f,
-                adelay = 1,
-
-                separate = 3,
-
-                exp = 4,
                 money = 10,
             },
             new Enemy()

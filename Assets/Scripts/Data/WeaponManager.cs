@@ -22,7 +22,7 @@ public static class WeaponManager
                 dmgdelay = 1.5f,
 
                 bulletSpeed = 15,
-                radius = 5,
+                radius = 2,
 
                 point = true,
                 consumable = true,
@@ -131,7 +131,7 @@ public static class WeaponManager
 
                 bulletSpeed = 10,
                 bullets = 1,
-                radius = 7,
+                radius = 3,
 
                 ammo = 1,
                 reload = 2,
@@ -169,7 +169,7 @@ public static class WeaponManager
                 range = 8,
                 bulletspreadangle = 30,
 
-                bulletSize = 3.5f,
+                bulletSize = .75f,
                 bulletSpeed = 10,
 
                 ammo = 100,

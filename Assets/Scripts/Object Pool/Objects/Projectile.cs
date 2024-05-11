@@ -27,7 +27,7 @@ public class Projectile : Poolable
         hitbox = GetComponent<BoxCollider2D>();
     }
 
-    public void SetProj(Vector2 start, Vector2 dest, float angle, 
+    public void SetProj(Vector2 start, Vector2 dest, float angle,
         bool isSiege, int dmg, float speed, BuffInfo debuff)
     {
         stop = false;
@@ -72,7 +72,7 @@ public class Projectile : Poolable
         // 공성유닛의 경우 도착할 때까지 대기.
         if (isSiege) return;
 
-        int layerMask = 1 << LayerMask.NameToLayer("Player") 
+        int layerMask = 1 << LayerMask.NameToLayer("Player")
             | 1 << LayerMask.NameToLayer("Turret")
             | 1 << LayerMask.NameToLayer("Trap");
 
@@ -93,7 +93,7 @@ public class Projectile : Poolable
         foreach (var col in cols) Damage(col);
 
         yield return null;
-        PoolController.Push(gameObject.name, this);
+        Push();
     }
 
     private void Damage(Collider2D collision, bool singleTarget = false)
@@ -112,7 +112,22 @@ public class Projectile : Poolable
             var target = collision.transform.parent.GetComponent<IDamagedObject>();
             target.Damaged(dmg);
 
-            if (singleTarget) PoolController.Push(gameObject.name, this);
+            if (singleTarget) Push();
         });
+    }
+    private void Push()
+    {
+        PoolController.Push(gameObject.name, this);
+
+        string particleName = gameObject.name.Replace("PROJECTILE", "PARTICLE");
+        if (particleName != gameObject.name)
+        {
+            var particle = PoolController.Pop(particleName);
+            if (particle != null)
+            {
+                particle.transform.position = transform.position;
+                ((ParticleObject)particle).Play(transform.rotation.eulerAngles.z);
+            }
+        }
     }
 }

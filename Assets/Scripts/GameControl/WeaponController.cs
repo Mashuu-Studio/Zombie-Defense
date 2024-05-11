@@ -143,7 +143,7 @@ public class WeaponController : MonoBehaviour
             Reload();
 
         if (Input.GetKeyDown(KeyCode.G))
-            Granade(Player.Instance.transform.position, mouseWorldPos);
+            Grenade(Player.Instance.transform.position, mouseWorldPos);
     }
 
     public void Switch(int move)
@@ -204,21 +204,21 @@ public class WeaponController : MonoBehaviour
             return;
         }
 
-        CurWeapon.Fire(pos, dest, transform.rotation.eulerAngles.z);
+        CurWeapon.Fire(pos, dest, Player.Instance.transform.rotation.eulerAngles.z);
         Player.Instance.Fire();
         UIController.Instance.UpdateAmmo(CurWeapon.curammo);
         adelayCoroutine = CurWeapon.AttackDelay();
         StartCoroutine(adelayCoroutine);
     }
 
-    public void Granade(Vector2 start, Vector2 dest)
+    public void Grenade(Vector2 start, Vector2 dest)
     {
         if (Player.Instance.ItemAmount("WEAPON.GRENADE") <= 0) return;
 
         Weapon granade = WeaponManager.GetWeapon("WEAPON.GRENADE");
 
         Vector2 dir = (dest - start).normalized;
-        ((Bullet)PoolController.Pop("Bullet")).SetBullet(start, dest, dir, granade, granade.bulletSpeed);
+        ((Bullet)PoolController.Pop("WEAPON.GRENADE")).SetBullet(start, dest, dir, Player.Instance.transform.rotation.eulerAngles.z, granade, granade.bulletSpeed);
         Player.Instance.AdjustItemAmount("WEAPON.GRENADE", -1);
     }
     #endregion
