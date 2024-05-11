@@ -3,30 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [AddComponentMenu("Poolable/Bullet (Poolable)")]
-[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CircleCollider2D))]
-public class Bullet : Poolable
+public class Bullet : Projectile
 {
     [SerializeField] TrailRenderer trail;
     [SerializeField] ParticleSystem particle;
 
-    private Rigidbody2D rigidbody;
     private CircleCollider2D hitbox;
 
     private Weapon weapon;
 
-    private Vector2 destination;
-    private Vector2 direction;
-
     private float distance;
-    private float remainTime;
-    private float speed;
 
     private float originRadius;
     private float radius;
     private float bulletSize;
 
-    private bool stop;
     private bool point;
     private float dmgDelay;
 
@@ -34,7 +26,7 @@ public class Bullet : Poolable
 
     public override void Init()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        base.Init();
         hitbox = GetComponent<CircleCollider2D>();
     }
 
@@ -68,7 +60,6 @@ public class Bullet : Poolable
 
         point = w.point;
         if (remainTime == 0) remainTime = Time.fixedDeltaTime * 2;
-
     }
 
     private void FixedUpdate()
@@ -88,17 +79,7 @@ public class Bullet : Poolable
         // 포인트 공격의 경우에는 특정 위치에 도착했을 경우만 폭발해야함.
         if (point)
         {
-            // 도착한 것은 특정한 방법을 활용하기로 함.
-            // 현재 위치로부터 dest, dest + moveAmount 3가지 경우와의 거리를 책정함.
-            // dest와 가깝다면 아직 도착하지 않은 것이고 dest + moveAmount와 가깝다면 도착한 것임.
-            // 도착했을 때 위치를 dest로 세팅해주고 폭발시켜줌.
-            float dist1 = Vector2.Distance(transform.position, destination);
-            float dist2 = Vector2.Distance(transform.position, destination + direction * Time.fixedDeltaTime);
-            if (dist1 == 0 || dist1 >= dist2)
-            {
-                transform.position = destination;
-                StartCoroutine(RangeDamage());
-            }
+            Move();
         }
         // 그 외의 경우에는 특정 상황이 되면 사라짐.
         else if (MapGenerator.Instance.MapBoundary.Contains(rigidbody.position) == false
@@ -121,7 +102,7 @@ public class Bullet : Poolable
         }
     }
 
-    IEnumerator RangeDamage()
+    protected override IEnumerator RangeDamage()
     {
         stop = true;
 
@@ -155,27 +136,14 @@ public class Bullet : Poolable
         });
     }
 
-    private void Push()
+    protected override void Push()
     {
-        PoolController.Push(gameObject.name, this);
         trail.Clear();
-
         if (particle != null)
-        {
             pmain.startSize = new ParticleSystem.MinMaxCurve(pmain.startSize.constant / bulletSize);
-        }
-
-        string particleName = gameObject.name.Replace("WEAPON", "PARTICLE");
-        if (particleName != gameObject.name)
-        {
-            var p = PoolController.Pop(particleName);
-            if (p != null)
-            {
-                p.transform.position = transform.position;
-                ((ParticleObject)p).Play(0, radius / originRadius);
-            }
-        }
-
+        
         hitbox.radius = originRadius;
+
+        base.Push();
     }
 }

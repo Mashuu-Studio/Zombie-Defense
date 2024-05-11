@@ -251,7 +251,7 @@ public class EnemyObject : BTPoolable,
     public void RangeAttack()
     {
         string projName = Data.key.Replace("ENEMY", "PROJECTILE");
-        var proj = (Projectile)PoolController.Pop(projName);
+        var proj = (EnemyProjectile)PoolController.Pop(projName);
         proj.SetProj(transform.position, targetPos, transform.rotation.eulerAngles.z,
             Data.isSiege, Dmg, 10, Data.debuff);
     }

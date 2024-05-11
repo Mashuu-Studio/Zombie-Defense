@@ -119,6 +119,7 @@
     <Compile Include="Assets\Scripts\UI\CompanionSlot.cs" />
     <Compile Include="Assets\Scripts\GameControl\CameraController.cs" />
     <Compile Include="Assets\Scripts\Data\ItemManager.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\EnemyProjectile.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTCompositeNode.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\SiegeEnemyObject.cs" />
     <Compile Include="Assets\Scripts\UI\ScriptableButton.cs" />
