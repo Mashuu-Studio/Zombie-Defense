@@ -7,6 +7,7 @@ public class CompanionObject : BTPoolable,
     IMovingObject, IDamagedObject, IAttackObject, IBuffTargetObject
 {
     [SerializeField] private Rigidbody2D rigidbody;
+    [SerializeField] private CircleCollider2D collider;
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject shootingPoint;
     [SerializeField] private BoxCollider2D autoTargetCollider;
@@ -209,7 +210,7 @@ public class CompanionObject : BTPoolable,
             var dir = (next - rigidbody.position).normalized;
             LookAt(next);
             rigidbody.position += dir * Speed * Time.fixedDeltaTime;
-            if (IMovingObject.EndOfPath(rigidbody.position, next, dir * Speed * Time.fixedDeltaTime)) pathIndex++;
+            if (IMovingObject.EndOfPath(rigidbody.position, next, dir * Speed * Time.fixedDeltaTime, collider.radius)) pathIndex++;
         }
     }
 

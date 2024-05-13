@@ -58,6 +58,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 4035749872207547326}
   animator: {fileID: 2843993601608207011}
   hitbox: {fileID: 3104871897108484934}
+  collider: {fileID: 1798391775143414374}
   seeker: {fileID: 6807068888439278658}
 --- !u!212 &4035749872207547326
 SpriteRenderer:
