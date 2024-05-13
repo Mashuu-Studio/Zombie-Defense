@@ -20,8 +20,8 @@ public class CameraController : MonoBehaviour
 
     public Camera Cam { get { return cam; } }
     private Camera cam;
-    private const int CAM_ORTHOGRAPHIC_MINSIZE = 4;
-    private const int CAM_ORTHOGRAPHIC_MAXSIZE = 7;
+    private const int CAM_ORTHOGRAPHIC_MINSIZE = 3;
+    private const int CAM_ORTHOGRAPHIC_MAXSIZE = 4;
     private float minX, maxX, minY, maxY;
 
     public void SetCamera(Camera cam)

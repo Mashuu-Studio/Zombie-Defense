@@ -23,7 +23,7 @@ public class CompanionObject : BTPoolable,
 
     private void FixedUpdate()
     {
-        if (!gameObject.activeSelf) return;
+        if (!gameObject.activeSelf || GameController.Instance.Pause) return;
         if (move) Move();
     }
 
