@@ -17,9 +17,19 @@ public class ItemManager
             },
             new OtherItem()
             {
-                key = "COMPANION.COMPANION",
+                key = "COMPANION.COMPANION1",
                 price = 0,
-            }
+            },
+            new OtherItem()
+            {
+                key = "COMPANION.COMPANION2",
+                price = 0,
+            },
+            new OtherItem()
+            {
+                key = "COMPANION.COMPANION3",
+                price = 0,
+            },
         };
     }
 

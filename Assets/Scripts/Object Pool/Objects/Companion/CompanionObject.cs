@@ -13,6 +13,9 @@ public class CompanionObject : BTPoolable,
     [SerializeField] private BoxCollider2D autoTargetCollider;
     [SerializeField] protected Pathfinding.Seeker seeker;
 
+    public string Key { get { return key; } }
+    private string key;
+
     private int maxhp;
     private int hp;
     private int def;
@@ -28,10 +31,13 @@ public class CompanionObject : BTPoolable,
         if (move) Move();
     }
 
-    public void Summon()
+    public void Summon(string key)
     {
-        hp = maxhp = 5;
-        def = 0;
+        this.key = key;
+        var data = CompanionManager.GetCompanion(key);
+        hp = maxhp = data.hp;
+        def = data.def;
+        speed = data.speed;
         reloading = false;
         SetBasicWeapon();
 

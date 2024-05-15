@@ -44,6 +44,7 @@ public class CompanionSlot : MonoBehaviour
     public void SetData(CompanionObject data)
     {
         this.data = data;
+        image.sprite = SpriteManager.GetSprite(data.Key);
         SetActive(true);
     }
 

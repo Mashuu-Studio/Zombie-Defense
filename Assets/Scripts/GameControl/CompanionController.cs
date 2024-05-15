@@ -23,11 +23,11 @@ public class CompanionController : MonoBehaviour
     public List<CompanionObject> Companions { get { return companions; } }
     private List<CompanionObject> companions = new List<CompanionObject>();
 
-    public CompanionObject AddCompanion()
+    public CompanionObject AddCompanion(string key)
     {
-        CompanionObject companion = (CompanionObject)PoolController.Pop("Companion1");
+        CompanionObject companion = (CompanionObject)PoolController.Pop(key);
         companion.transform.position = Player.Instance.transform.position;
-        companion.Summon();
+        companion.Summon(key);
         companions.Add(companion);
 
         return companion;

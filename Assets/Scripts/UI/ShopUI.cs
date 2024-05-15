@@ -113,7 +113,7 @@ public class ShopUI : MonoBehaviour
         {
             if (CompanionController.Instance.Hirable)
             {
-                CompanionObject companion = CompanionController.Instance.AddCompanion();
+                CompanionObject companion = CompanionController.Instance.AddCompanion(shopItem.Item.key);
                 foreach (var slot in companionSlots)
                 {
                     if (slot.Data == null)

@@ -190,3 +190,10 @@ public class Enemy : ObjectData
     public int money;
 }
 
+public class Companion : ObjectData
+{
+    public int hp;
+    public int def;
+    public float speed = 5;
+}
+

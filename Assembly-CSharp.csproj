@@ -125,6 +125,7 @@
     <Compile Include="Assets\Scripts\UI\ScriptableButton.cs" />
     <Compile Include="Assets\Scripts\GameControl\WeaponController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTDecoratorNode.cs" />
+    <Compile Include="Assets\Scripts\Data\CompanionManager.cs" />
     <Compile Include="Assets\Scripts\Data\Round.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTSelectorNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\DelayNode.cs" />
