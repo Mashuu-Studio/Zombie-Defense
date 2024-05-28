@@ -78,8 +78,8 @@ public class Weapon : BuyableData
         // range만큼 범위 세팅
         int layerMask = 1 << LayerMask.NameToLayer("Enemy");
         return Physics2D.OverlapBoxAll(
-            pos + new Vector2(range / 2 + .5f, 0),
-            Vector2.one * range, angle, layerMask);
+            pos + (Vector2)(Quaternion.AngleAxis(angle - 90, Vector3.forward) * new Vector3(range / 2 + 0.3f, 0)),
+            Vector2.one * range, angle - 90, layerMask);
     }
 
     public bool Wait { get; private set; }
@@ -101,7 +101,7 @@ public class Weapon : BuyableData
             // 오토타겟이면 적의 수만큼 자동타겟팅하여 공격.
             if (autotarget)
             {
-                if (autoTargets.Length > i) pos = autoTargets[i].transform.position;
+                if (autoTargets.Length > i) dest = autoTargets[i].transform.position;
                 // 적의 수가 타겟팅 수보다 적다면 스킵
                 else break;
             }

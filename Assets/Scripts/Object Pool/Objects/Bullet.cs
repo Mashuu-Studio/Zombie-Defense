@@ -30,7 +30,7 @@ public class Bullet : Projectile
         hitbox = GetComponent<CircleCollider2D>();
     }
 
-    public void SetBullet(Vector2 start, Vector2 dest, Vector2 dir, float angle,
+    public virtual void SetBullet(Vector2 start, Vector2 dest, Vector2 dir, float angle,
         Weapon w, float spd)
     {
         stop = false;
@@ -141,7 +141,7 @@ public class Bullet : Projectile
         trail.Clear();
         if (particle != null)
             pmain.startSize = new ParticleSystem.MinMaxCurve(pmain.startSize.constant / bulletSize);
-        
+
         hitbox.radius = originRadius;
 
         base.Push();

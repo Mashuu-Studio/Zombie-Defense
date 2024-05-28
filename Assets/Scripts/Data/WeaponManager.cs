@@ -147,7 +147,7 @@ public static class WeaponManager
 
                 dmg = 4,
                 adelay = .5f,
-                range = 5,
+                range = 3,
                 bulletspreadangle = 2,
 
                 bullets = 5,

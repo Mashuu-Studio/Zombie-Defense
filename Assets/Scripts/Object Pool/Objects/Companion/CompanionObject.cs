@@ -65,10 +65,10 @@ public class CompanionObject : BTPoolable,
             float weaponParam = 0;
             List<Weapon> weapons = WeaponManager.GetWeapons();
             for (int i = 0; i < weapons.Count; i++)
-            {
+            { 
                 if (weapons[i].key == weapon.key)
                 {
-                    weaponParam = i / weapons.Count - 1;
+                    weaponParam = (float)i / (weapons.Count - 1);
                     break;
                 }
             }

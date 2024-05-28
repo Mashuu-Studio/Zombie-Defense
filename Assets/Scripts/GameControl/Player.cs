@@ -58,7 +58,6 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
 
     private Rigidbody2D rigidbody;
 
-    [SerializeField] private BoxCollider2D autoTargetCollider;
     [SerializeField] private Animator animator;
 
     private Dictionary<string, int> itemAmount = new Dictionary<string, int>();

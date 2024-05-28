@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\BehaviourTree\NodeView.cs" />
+    <Compile Include="Assets\LightningBolt\Editor\LightningBoltEditor.cs" />
     <Compile Include="Assets\Editor\BehaviourTree\BehaviourTreeEditor.cs" />
     <Compile Include="Assets\Editor\BehaviourTree\BehaviourTreeView.cs" />
     <Compile Include="Assets\Editor\BehaviourTree\SplitView.cs" />
