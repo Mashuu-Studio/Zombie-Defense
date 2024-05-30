@@ -8,6 +8,7 @@ public class CompanionObject : BTPoolable,
 {
     [SerializeField] private Rigidbody2D rigidbody;
     [SerializeField] private CircleCollider2D collider;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject shootingPoint;
     [SerializeField] private BoxCollider2D autoTargetCollider;
@@ -238,6 +239,8 @@ public class CompanionObject : BTPoolable,
     public int MaxHp { get { return maxhp; } }
     public int Def { get { return def + ActivatedBuff.def; } }
 
+
+    IEnumerator changeColorCoroutine;
     public void Heal()
     {
         hp = maxhp;
@@ -246,12 +249,33 @@ public class CompanionObject : BTPoolable,
     public void Damaged(int dmg, ObjectData.Attribute attribute = ObjectData.Attribute.NONE)
     {
         hp -= dmg;
+
+        if (changeColorCoroutine != null) StopCoroutine(changeColorCoroutine);
+        changeColorCoroutine = ChangeColor(Color.red);
+        StartCoroutine(changeColorCoroutine);
+
         if (hp < 0)
         {
             StopAllCoroutines();
             PoolController.Push("Movepoint", movePoint);
             CompanionController.Instance.RemoveCompanion(this);
         }
+    }
+    IEnumerator ChangeColor(Color color)
+    {
+        Color reverse = Color.white - color;
+        float time = 0.2f;
+        while (time > 0)
+        {
+            if (!GameController.Instance.Pause)
+            {
+                spriteRenderer.material.SetColor("_Color", color);
+                time -= Time.deltaTime;
+                color += reverse * Time.deltaTime * 5;
+            }
+            yield return null;
+        }
+        spriteRenderer.material.SetColor("_Color", Color.white);
     }
     #endregion
     #region IAttackObject

@@ -58,6 +58,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
 
     private Rigidbody2D rigidbody;
 
+    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
 
     private Dictionary<string, int> itemAmount = new Dictionary<string, int>();
@@ -330,20 +331,45 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         }
     }*/
     #endregion
+
+    IEnumerator changeColorCoroutine;
     public void Heal(int amount)
     {
         hp += amount;
         if (hp > maxhp) hp = maxhp;
+
+        if (changeColorCoroutine != null) StopCoroutine(changeColorCoroutine);
+        changeColorCoroutine = ChangeColor(Color.green);
+        StartCoroutine(changeColorCoroutine);
     }
 
     public void Damaged(int dmg, ObjectData.Attribute attribute = ObjectData.Attribute.NONE)
     {
         if (invincible) return;
         hp -= dmg;
+        if (changeColorCoroutine != null) StopCoroutine(changeColorCoroutine);
+        changeColorCoroutine = ChangeColor(Color.red);
+        StartCoroutine(changeColorCoroutine);
 
         if (hp <= 0) GameController.Instance.GoTo(SceneController.Scene.TITLE);
     }
 
+    IEnumerator ChangeColor(Color color)
+    {
+        Color reverse = Color.white - color;
+        float time = 0.2f;
+        while (time > 0)
+        {
+            if (!GameController.Instance.Pause)
+            {
+                spriteRenderer.material.SetColor("_Color", color);
+                time -= Time.deltaTime;
+                color += reverse * Time.deltaTime * 5;
+            }
+            yield return null;
+        }
+        spriteRenderer.material.SetColor("_Color", Color.white);
+    }
     #region Weapon
     public void SwitchWeapon(float weapon)
     {

@@ -119,6 +119,7 @@ public class EnemyObject : BTPoolable,
     }
 
     #region IDamagedObject
+    IEnumerator changeColorCoroutine;
     public int Hp { get { return hp; } }
     public int Def { get { return def + ActivatedBuff.def; } }
 
@@ -126,6 +127,10 @@ public class EnemyObject : BTPoolable,
     {
         hp += amount;
         if (hp > maxhp) hp = maxhp;
+
+        if (changeColorCoroutine != null) StopCoroutine(changeColorCoroutine);
+        changeColorCoroutine = ChangeColor(Color.green);
+        StartCoroutine(changeColorCoroutine);
     }
 
     public void Damaged(int dmg, ObjectData.Attribute attribute = ObjectData.Attribute.NONE)
@@ -139,7 +144,13 @@ public class EnemyObject : BTPoolable,
         if (dmg < 0) dmg = 1;
 
         hp -= dmg;
-        if (gameObject.activeSelf) StartCoroutine(ChangeColor());
+        if (gameObject.activeSelf)
+        {
+            if (changeColorCoroutine != null) StopCoroutine(changeColorCoroutine);
+            changeColorCoroutine = ChangeColor(Color.red);
+            StartCoroutine(changeColorCoroutine);
+        }
+
         if (hp <= 0)
         {
             if (remainSep > 0)
@@ -175,13 +186,24 @@ public class EnemyObject : BTPoolable,
         buffs.Clear();
         StopAllCoroutines();
         EnemyController.Instance.DeadEnemy(this);
+        spriteRenderer.material.SetColor("_Color", Color.white);
     }
 
-    IEnumerator ChangeColor()
+    IEnumerator ChangeColor(Color color)
     {
-        //spriteRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        //spriteRenderer.color = Color.green;
+        Color reverse = Color.white - color;
+        float time = 0.2f;
+        while (time > 0)
+        {
+            if (!GameController.Instance.Pause)
+            {
+                spriteRenderer.material.SetColor("_Color", color);
+                time -= Time.deltaTime;
+                color += reverse * Time.deltaTime * 5;
+            }
+            yield return null;
+        }
+        spriteRenderer.material.SetColor("_Color", Color.white);
     }
     #endregion
 

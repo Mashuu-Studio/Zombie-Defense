@@ -132,6 +132,7 @@ MonoBehaviour:
   tree: {fileID: 11400000, guid: 944c2a9ba28f7f94aa777436814d42ee, type: 2}
   rigidbody: {fileID: 3357838646673401849}
   collider: {fileID: 612430523868925506}
+  spriteRenderer: {fileID: 6957823555526543887}
   animator: {fileID: 4207314999241211767}
   shootingPoint: {fileID: 2601119373413100641}
   autoTargetCollider: {fileID: 343459838335913702}
@@ -177,7 +178,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: -876546973899608171, guid: 4e8d909cdf93c894a87ca1396c23d2e3, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
