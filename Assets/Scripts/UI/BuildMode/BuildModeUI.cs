@@ -4,30 +4,30 @@ using UnityEngine;
 
 public class BuildModeUI : MonoBehaviour
 {
-    [SerializeField] private RectTransform turretIconScrollRectTransform;
-    [SerializeField] private BuildModeItemIcon turretIconPrefab;
-    private List<BuildModeItemIcon> turretIcons = new List<BuildModeItemIcon>();
+    [SerializeField] private RectTransform buildingIconScrollRectTransform;
+    [SerializeField] private BuildModeItemIcon buildingIconPrefab;
+    private List<BuildModeItemIcon> buildingIcons = new List<BuildModeItemIcon>();
 
     [Space]
     [SerializeField] private BuildModeItemIcon[] companionIcons;
 
     private void Awake()
     {
-        turretIconPrefab.gameObject.SetActive(false);
+        buildingIconPrefab.gameObject.SetActive(false);
     }
 
     public void Init()
     {
-        turretIcons.ForEach(turretIcon => Destroy(turretIcon.gameObject));
-        turretIcons.Clear();
+        buildingIcons.ForEach(buildingIcon => Destroy(buildingIcon.gameObject));
+        buildingIcons.Clear();
 
         int count = 0;
-        foreach (var turret in TurretManager.Turrets)
+        foreach (var building in BuildingManager.Buildings)
         {
-            var turretIcon = Instantiate(turretIconPrefab, turretIconScrollRectTransform);
-            turretIcon.Init(turret.key);
-            turretIcon.gameObject.SetActive(true);
-            turretIcons.Add(turretIcon);
+            var buildingIcon = Instantiate(buildingIconPrefab, buildingIconScrollRectTransform);
+            buildingIcon.Init(building.key);
+            buildingIcon.gameObject.SetActive(true);
+            buildingIcons.Add(buildingIcon);
             count++;
         }
     }
@@ -59,22 +59,22 @@ public class BuildModeUI : MonoBehaviour
 
         Vector3 mousePos = CameraController.Instance.Cam.ScreenToWorldPoint(Input.mousePosition);
         Vector2 pos = MapGenerator.PosToGrid(MapGenerator.RoundToInt(mousePos));
-        TurretController.Instance.MoveTurretPointer(pos);
+        BuildingController.Instance.MoveBuildingPointer(pos);
 
         // 터렛 구매 및 빌드
         if (Input.GetMouseButton(0) && !UIController.PointOverUI())
         {
-            TurretController.Instance.BuildTurret(pos);
+            BuildingController.Instance.Build(pos);
         }
 
         // 터렛 보관
         if (Input.GetMouseButton(1))
         {
-            TurretController.Instance.StoreTurret(pos);
+            BuildingController.Instance.Store(pos);
         }
 
         // 마운트
-        if (Input.GetKeyDown(KeyCode.Q) && TurretController.Instance.SelectTurret(pos))
+        if (Input.GetKeyDown(KeyCode.Q) && BuildingController.Instance.SelectBuilding(pos))
         {
             // 마운트로 바로 넘어가는 게 아닌 Floating Dropdown을 띄움.
             UIController.Instance.ShowMountWeaponUI(true, pos);

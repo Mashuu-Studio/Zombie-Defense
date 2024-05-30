@@ -144,7 +144,7 @@ public class Weapon : BuyableData
         Wait = false;
     }
 }
-public class Turret : BuyableData
+public class Building : BuyableData
 {
     public int hp;
     public int range;

@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 135347810}
   - component: {fileID: 135347808}
   m_Layer: 0
-  m_Name: Turret Pos
+  m_Name: Build Pointer
   m_TagString: Turret Pos
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -821,7 +821,7 @@ GameObject:
   - component: {fileID: 822753585}
   - component: {fileID: 822753584}
   m_Layer: 0
-  m_Name: '@Turret Controller'
+  m_Name: '@Building Controller'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -839,8 +839,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eec002bc309823448ccdd7e191812e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turretPointer: {fileID: 135347810}
-  selectedTurretPos: {x: 0, y: 0}
+  buildingPointer: {fileID: 135347810}
+  selectedBuildingPos: {x: 0, y: 0}
 --- !u!4 &822753585
 Transform:
   m_ObjectHideFlags: 0

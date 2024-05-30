@@ -126,7 +126,7 @@ public class WeaponController : MonoBehaviour
     {
         if (GameController.Instance.GameStarted == false
             || GameController.Instance.Pause
-            || TurretController.Instance.BuildMode) return;
+            || BuildingController.Instance.BuildMode) return;
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

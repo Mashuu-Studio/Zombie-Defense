@@ -9,7 +9,7 @@ public class EnemyHitBox : MonoBehaviour
     public void Init(EnemyObject enemy)
     {
         this.enemy = enemy;
-        layerMask = 1 << LayerMask.NameToLayer("Player") | 1 << LayerMask.NameToLayer("Turret");
+        layerMask = 1 << LayerMask.NameToLayer("Player") | 1 << LayerMask.NameToLayer("Building");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

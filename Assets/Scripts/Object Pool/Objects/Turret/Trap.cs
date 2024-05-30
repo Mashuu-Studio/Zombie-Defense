@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Trap : TurretObject, IAttackObject
+public class Trap : BuildingObject, IAttackObject
 {
     public Collider2D TargetCollider { get; }
 

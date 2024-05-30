@@ -9,7 +9,7 @@ public class Initializer : MonoBehaviour
         SpriteManager.Init();
         EnemyManager.Init();
         WeaponManager.Init();
-        TurretManager.Init();
+        BuildingManager.Init();
         CompanionManager.Init();
         ItemManager.Init();
         RoundManager.Init();

@@ -52,7 +52,7 @@ public class EnemyProjectile : Projectile
         if (isSiege) return;
 
         int layerMask = 1 << LayerMask.NameToLayer("Player")
-            | 1 << LayerMask.NameToLayer("Turret")
+            | 1 << LayerMask.NameToLayer("Building")
             | 1 << LayerMask.NameToLayer("Trap");
 
         if ((1 << collision.gameObject.layer & layerMask) > 0)
@@ -65,7 +65,7 @@ public class EnemyProjectile : Projectile
     {
         stop = true;
 
-        int layerMask = 1 << LayerMask.NameToLayer("Turret") | 1 << LayerMask.NameToLayer("Trap") | 1 << LayerMask.NameToLayer("Player");
+        int layerMask = 1 << LayerMask.NameToLayer("Building") | 1 << LayerMask.NameToLayer("Trap") | 1 << LayerMask.NameToLayer("Player");
         Collider2D[] cols = Physics2D.OverlapBoxAll(
             transform.position, hitbox.size * transform.lossyScale.x,
             transform.rotation.eulerAngles.z, layerMask);

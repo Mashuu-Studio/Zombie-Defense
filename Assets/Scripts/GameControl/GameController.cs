@@ -101,7 +101,7 @@ public class GameController : MonoBehaviour
                 MapGenerator.Instance.StartGame();
                 RoundController.Instance.EndGame();
                 WeaponController.Instance.StartGame();
-                TurretController.Instance.StartGame();
+                BuildingController.Instance.StartGame();
                 UIController.Instance.StartGame();
 
                 Player.Instance.StartGame();

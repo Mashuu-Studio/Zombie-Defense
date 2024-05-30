@@ -3773,7 +3773,7 @@ GameObject:
   - component: {fileID: 223824545}
   - component: {fileID: 223824544}
   m_Layer: 5
-  m_Name: Turret Icon
+  m_Name: Building Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11727,7 +11727,7 @@ MonoBehaviour:
   - {fileID: 508306545}
   granadeAmount: {fileID: 1732978781}
   weaponInfoParent: {fileID: 740727517}
-  turretInfoParent: {fileID: 1437249306}
+  buildingInfoParent: {fileID: 0}
   itemInfoPrefab: {fileID: 1085265121}
   roundText: {fileID: 669860939}
   roundTimeText: {fileID: 483044093}
@@ -19833,7 +19833,7 @@ GameObject:
   - component: {fileID: 1085265120}
   - component: {fileID: 1085265121}
   m_Layer: 0
-  m_Name: Turret Info
+  m_Name: Item Info
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19855,10 +19855,10 @@ RectTransform:
   - {fileID: 751969366}
   m_Father: {fileID: 1437249306}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -37.5}
-  m_SizeDelta: {x: 75, y: 75}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1085265121
 MonoBehaviour:
@@ -23504,7 +23504,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1325897419}
   m_Layer: 5
-  m_Name: Turrets
+  m_Name: Buildings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24843,12 +24843,12 @@ GameObject:
   - component: {fileID: 1437249306}
   - component: {fileID: 1437249307}
   m_Layer: 0
-  m_Name: Turrets
+  m_Name: Buildings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1437249306
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30027,8 +30027,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c069d7c684f7b514ea6c424265cc9172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turretIconScrollRectTransform: {fileID: 1211156673}
-  turretIconPrefab: {fileID: 223824545}
+  buildingIconScrollRectTransform: {fileID: 1211156673}
+  buildingIconPrefab: {fileID: 223824545}
   companionIcons:
   - {fileID: 294599704}
   - {fileID: 450829197}

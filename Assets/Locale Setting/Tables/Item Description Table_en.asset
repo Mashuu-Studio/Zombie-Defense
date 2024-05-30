@@ -55,7 +55,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 69887036760064
-    m_Localized: BARRICADE DESCRIPTION
+    m_Localized: WOODEN BARRICADE DESCRIPTION
     m_Metadata:
       m_Items: []
   - m_Id: 70065424703488
@@ -75,7 +75,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9077252260110336
-    m_Localized: SLOW TRAP
+    m_Localized: BARBED WIRE DESCRIPTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 36626398177140736
+    m_Localized: IRON BARRICADE DESCRIPTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 36626396298092544
+    m_Localized: CONCRETE BARRICADE DESCRIPTION
     m_Metadata:
       m_Items: []
   references:

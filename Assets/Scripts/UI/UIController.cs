@@ -165,7 +165,7 @@ public class UIController : MonoBehaviour
     {
         buildModeUI.BuildMode(b);
         if (b == false) mountWeaponDropdown.SetActive(false, Vector2.zero);
-        TurretController.Instance.ChangeBulidMode(b);
+        BuildingController.Instance.ChangeBulidMode(b);
         MapGenerator.Instance.BuildMode(b);
     }
 
@@ -277,7 +277,7 @@ public class UIController : MonoBehaviour
 
     [Header("Item")]
     [SerializeField] private Transform weaponInfoParent;
-    [SerializeField] private Transform turretInfoParent;
+    [SerializeField] private Transform buildingInfoParent;
     [SerializeField] private ItemInfoUI itemInfoPrefab;
     private Dictionary<string, ItemInfoUI> itemInfos;
 
@@ -295,12 +295,12 @@ public class UIController : MonoBehaviour
             weaponInfoUI.gameObject.SetActive(false);
         }
 
-        foreach (var turret in TurretManager.Turrets)
+        foreach (var building in BuildingManager.Buildings)
         {
-            var turretInfoUI = Instantiate(itemInfoPrefab, turretInfoParent);
-            turretInfoUI.SetInfo(SpriteManager.GetSprite(turret.key));
-            itemInfos.Add(turret.key, turretInfoUI);
-            turretInfoUI.gameObject.SetActive(true);
+            var buildingInfoUI = Instantiate(itemInfoPrefab, buildingInfoParent);
+            buildingInfoUI.SetInfo(SpriteManager.GetSprite(building.key));
+            itemInfos.Add(building.key, buildingInfoUI);
+            buildingInfoUI.gameObject.SetActive(true);
         }
     }
 

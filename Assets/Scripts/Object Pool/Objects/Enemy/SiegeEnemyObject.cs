@@ -6,7 +6,7 @@ public class SiegeEnemyObject : EnemyObject
 {
     private static float meleeRange = 2.5f;
     private bool meleeAttack;
-    private bool targetIsTurret;
+    private bool targetIsBuilding;
     public override bool DetectTarget()
     {
         // 우선 근거리 범위 내에 공성할 타워가 있는지 체크
@@ -21,15 +21,15 @@ public class SiegeEnemyObject : EnemyObject
         // layer를 조절하는 등의 방식을 사용하면 괜찮게 합칠 수 있을 것 같음.
 
         targetCollider = null;
-        targetIsTurret = true;
+        targetIsBuilding = true;
         meleeAttack = true;
 
         float ratio = 0.8f;
         if (animator.GetBool("attack")) ratio = 1f;
-        FindTargets(meleeRange, ratio, 1 << LayerMask.NameToLayer("Turret"));
+        FindTargets(meleeRange, ratio, 1 << LayerMask.NameToLayer("Building"));
 
         if (targetCollider == null
-            && FindTargets(Range, ratio, 1 << LayerMask.NameToLayer("Turret")).Length > 0)
+            && FindTargets(Range, ratio, 1 << LayerMask.NameToLayer("Building")).Length > 0)
         {
             meleeAttack = false;
         }
@@ -39,7 +39,7 @@ public class SiegeEnemyObject : EnemyObject
             && FindTargets(meleeRange, ratio, 1 << LayerMask.NameToLayer("Player")).Length > 0)
         {
             meleeAttack = true;
-            targetIsTurret = false;
+            targetIsBuilding = false;
         }
         animator.SetBool("melee", meleeAttack);
         animator.SetBool("attack", targetCollider != null);
@@ -49,7 +49,7 @@ public class SiegeEnemyObject : EnemyObject
 
     public override void Damaging(GameObject target)
     {
-        int dmg = (int)(Dmg * (targetIsTurret ? 1.5f : 1f));
+        int dmg = (int)(Dmg * (targetIsBuilding ? 1.5f : 1f));
         IDamagedObject damagedObject = target.transform.parent.GetComponent<IDamagedObject>();
         damagedObject.Damaged(dmg);
     }

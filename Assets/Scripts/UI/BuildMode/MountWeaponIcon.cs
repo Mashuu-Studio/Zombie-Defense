@@ -33,7 +33,7 @@ public class MountWeaponIcon : BuildModeItemIcon
 
     public override void Select()
     {
-        TurretController.Instance.Mount(key);
+        BuildingController.Instance.Mount(key);
         UIController.Instance.ShowMountWeaponUI(false, Vector2.zero);
     }
 }

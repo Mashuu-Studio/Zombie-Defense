@@ -15,80 +15,88 @@ MonoBehaviour:
   m_TableCollectionName: Item Name Table
   m_TableCollectionNameGuidString: 0c561564f8be1c24f97283432dd08184
   m_Entries:
-  - m_Id: 195282608128
-    m_Key: WEAPON.PISTOL
+  - m_Id: 41371774121680896
+    m_Key: BUILDING.CONCRETEBARRICADE
     m_Metadata:
       m_Items: []
-  - m_Id: 279156105216
-    m_Key: WEAPON.SMG
-    m_Metadata:
-      m_Items: []
-  - m_Id: 311242530816
-    m_Key: WEAPON.AR
-    m_Metadata:
-      m_Items: []
-  - m_Id: 713853771776
-    m_Key: WEAPON.SHOTGUN
-    m_Metadata:
-      m_Items: []
-  - m_Id: 760016281600
-    m_Key: WEAPON.SR
-    m_Metadata:
-      m_Items: []
-  - m_Id: 824105246720
-    m_Key: WEAPON.BAZOOKA
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1667416203264
-    m_Key: WEAPON.TESLA
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1332005581103104
-    m_Key: TURRET.BARRICADE
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1332066364956672
-    m_Key: TURRET.TURRET
+  - m_Id: 41371724846997504
+    m_Key: BUILDING.IRONBARRICADE
     m_Metadata:
       m_Items: []
   - m_Id: 1332067925237760
-    m_Key: TURRET.SCANTOWER
+    m_Key: BUILDING.SCANTOWER
     m_Metadata:
       m_Items: []
-  - m_Id: 1451127455358976
-    m_Key: WEAPON.NONE
+  - m_Id: 13822796262023168
+    m_Key: BUILDING.BARBEDWIRE
     m_Metadata:
       m_Items: []
-  - m_Id: 2624507680399360
-    m_Key: WEAPON.GRENADE
+  - m_Id: 13822765622632448
+    m_Key: BUILDING.TRAP
     m_Metadata:
       m_Items: []
-  - m_Id: 2654267060002816
-    m_Key: WEAPON.FLAMETHROWER
+  - m_Id: 1332066364956672
+    m_Key: BUILDING.TURRET
     m_Metadata:
       m_Items: []
-  - m_Id: 2659953537982464
-    m_Key: WEAPON.MINIGUN
+  - m_Id: 1332005581103104
+    m_Key: BUILDING.WOODENBARRICADE
     m_Metadata:
       m_Items: []
   - m_Id: 8725370605936640
     m_Key: COMPANION.COMPANION1
     m_Metadata:
       m_Items: []
-  - m_Id: 13822765622632448
-    m_Key: TURRET.TRAP.TRAP
-    m_Metadata:
-      m_Items: []
-  - m_Id: 13822796262023168
-    m_Key: TURRET.TRAP.SLOW
+  - m_Id: 35902091457208320
+    m_Key: COMPANION.COMPANION2
     m_Metadata:
       m_Items: []
   - m_Id: 35902089653657600
     m_Key: COMPANION.COMPANION3
     m_Metadata:
       m_Items: []
-  - m_Id: 35902091457208320
-    m_Key: COMPANION.COMPANION2
+  - m_Id: 311242530816
+    m_Key: WEAPON.AR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 824105246720
+    m_Key: WEAPON.BAZOOKA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2654267060002816
+    m_Key: WEAPON.FLAMETHROWER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2624507680399360
+    m_Key: WEAPON.GRENADE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2659953537982464
+    m_Key: WEAPON.MINIGUN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1451127455358976
+    m_Key: WEAPON.NONE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 195282608128
+    m_Key: WEAPON.PISTOL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 713853771776
+    m_Key: WEAPON.SHOTGUN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 279156105216
+    m_Key: WEAPON.SMG
+    m_Metadata:
+      m_Items: []
+  - m_Id: 760016281600
+    m_Key: WEAPON.SR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1667416203264
+    m_Key: WEAPON.TESLA
     m_Metadata:
       m_Items: []
   m_Metadata:

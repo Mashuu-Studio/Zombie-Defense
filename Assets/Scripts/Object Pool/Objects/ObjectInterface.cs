@@ -38,7 +38,7 @@ public interface IMovingObject
         float dist1 = Vector2.Distance(pos, next);
         float dist2 = Vector2.Distance(pos, next + dir);
 
-        int layermask = 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Turret");
+        int layermask = 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Building");
         var ray1 = Physics2D.Raycast(pos, dir, radius + 0.2f, layermask);
         var ray2 = Physics2D.Raycast(pos + Vector2.Perpendicular(dir.normalized) * 0.05f, dir, radius + 0.2f, layermask);
         var ray3 = Physics2D.Raycast(pos - Vector2.Perpendicular(dir.normalized) * 0.05f, dir, radius + 0.2f, layermask);

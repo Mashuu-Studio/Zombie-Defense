@@ -207,7 +207,7 @@ public class EnemyObject : BTPoolable,
 
         // 가장 기초 세팅은 먼저 Player가 주변에 있는지 체크
         // 있다면 해당 유닛을 타겟으로 세팅
-        // 없다면 Turret이라도 있는지 체크
+        // 없다면 Building이라도 있는지 체크
         // 있다면 가장 첫 터렛을 타겟으로 세팅.
 
         // 공격중이라면 해당 타겟이 실질적 공격 범위로 체크
@@ -219,7 +219,7 @@ public class EnemyObject : BTPoolable,
         FindTargets(range, ratio, 1 << LayerMask.NameToLayer("Player"));
         if (targetCollider == null)
         {
-            int layerMask = 1 << LayerMask.NameToLayer("Turret");
+            int layerMask = 1 << LayerMask.NameToLayer("Building");
             // 원거리 공격의 경우 Trap을 공격할 수 있음.
             if (Range >= 3f) layerMask |= 1 << LayerMask.NameToLayer("Trap");
             FindTargets(range, ratio, layerMask);

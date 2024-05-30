@@ -87,9 +87,9 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
             magazines.Add(weapon.key, amount);
         }
 
-        foreach (var turret in TurretManager.Turrets)
+        foreach (var building in BuildingManager.Buildings)
         {
-            itemAmount.Add(turret.key, 0);
+            itemAmount.Add(building.key, 0);
         }
     }
 
@@ -108,7 +108,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     {
         if (GameController.Instance.GameStarted == false
             || GameController.Instance.Pause
-            || TurretController.Instance.BuildMode)
+            || BuildingController.Instance.BuildMode)
         {
             axisX = 0;
             axisY = 0;
@@ -130,7 +130,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     {
         if (GameController.Instance.GameStarted == false
             || GameController.Instance.Pause
-            || TurretController.Instance.BuildMode) return;
+            || BuildingController.Instance.BuildMode) return;
 
         rigidbody.position += new Vector2(axisX, axisY) * Time.fixedDeltaTime * Speed;
         CameraController.Instance.MoveCamera(rigidbody.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
