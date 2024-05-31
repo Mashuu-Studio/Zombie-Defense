@@ -32,7 +32,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9077244462899200
-    m_Key: BUILDING.TRAP
+    m_Key: BUILDING.SPIKETRAP
     m_Metadata:
       m_Items: []
   - m_Id: 70064023805952
@@ -81,6 +81,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 69232339460096
     m_Key: WEAPON.TESLA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 36956027110825984
+    m_Key: BUILDING.LANDMINE
     m_Metadata:
       m_Items: []
   m_Metadata:

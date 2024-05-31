@@ -90,6 +90,7 @@
     <Compile Include="Assets\Scripts\Data\ObjectData.cs" />
     <Compile Include="Assets\Scripts\UI\BuildMode\MountWeaponDropdown.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\ScanBuildingObject.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\MountedWeapon.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\DebugLogNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTActionNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\Context.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\EnemyObject.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\AddressableAssetsData\link.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

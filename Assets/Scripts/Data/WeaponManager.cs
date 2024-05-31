@@ -217,4 +217,19 @@ public static class WeaponManager
         }
         return list;
     }
+
+    public static float GetWeaponParameter(string key)
+    {
+        float p = 0;
+        for (int i = 0; i< weapons.Count; i++)
+        {
+            if (weapons[i].key == key)
+            {
+                p = i / (weapons.Count - 1);
+                break;
+            }
+        }
+
+        return p;
+    }
 }

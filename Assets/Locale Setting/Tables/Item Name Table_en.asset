@@ -79,7 +79,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 13822765622632448
-    m_Localized: TRAP
+    m_Localized: SPIKE TRAP
     m_Metadata:
       m_Items: []
   - m_Id: 13822796262023168
@@ -100,6 +100,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 41371774121680896
     m_Localized: CONCRETE BARRICADE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 41701752122122240
+    m_Localized: LAND MINE
     m_Metadata:
       m_Items: []
   references:

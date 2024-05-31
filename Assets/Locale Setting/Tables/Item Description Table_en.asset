@@ -71,7 +71,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 9077244462899200
-    m_Localized: DMG 1 HP 10 TRAP
+    m_Localized: SPIKE TRAP DESCRIPTION
     m_Metadata:
       m_Items: []
   - m_Id: 9077252260110336
@@ -84,6 +84,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 36626396298092544
     m_Localized: CONCRETE BARRICADE DESCRIPTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 36956027110825984
+    m_Localized: LAND MINE DESCRIPTION
     m_Metadata:
       m_Items: []
   references:

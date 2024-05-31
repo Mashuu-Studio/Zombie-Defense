@@ -62,8 +62,8 @@ public class BuildingController : MonoBehaviour
 
     public void Mount(string key)
     {
-        var building = buildings[selectedBuildingPos] as TurretObject;
-        if (building) building.Mount(WeaponManager.GetWeapon(key), true);
+        var turret = buildings[selectedBuildingPos] as TurretObject;
+        if (turret) turret.Mount(WeaponManager.GetWeapon(key), true);
     }
     #endregion
 

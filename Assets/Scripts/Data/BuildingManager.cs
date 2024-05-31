@@ -27,26 +27,33 @@ public static class BuildingManager
             },
             new Building()
             {
-                key = "BUILDING.TURRET",
-                hp = 3,
-                dmg = 1,
-                range = 5,
-                speed = 30,
-                adelay = 1 ,
+                key = "BUILDING.BARBEDWIRE",
+                hp = 10,
+                adelay = 1,
+                buff = new BuffInfo(){time = 5, speed = -.5f},
             },
             new Building()
             {
-                key = "BUILDING.TRAP",
+                key = "BUILDING.SPIKETRAP",
                 hp = 10,
                 dmg = 2,
                 adelay = 1,
             },
             new Building()
             {
-                key = "BUILDING.BARBEDWIRE",
-                hp = 10,
+                key = "BUILDING.LANDMINE",
+                hp = 1,
+                dmg = 2,
+                range = 2,
                 adelay = 1,
-                buff = new BuffInfo(){time = 5, speed = -.5f},
+            },
+            new Building()
+            {
+                key = "BUILDING.TURRET",
+                hp = 10,
+                range = 5,
+                speed = 30,
+                adelay = 1,
             },
         };
     }

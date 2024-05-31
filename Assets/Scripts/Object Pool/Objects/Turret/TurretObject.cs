@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization.Components;
 
-[AddComponentMenu("Poolable/Attacking Building (Poolable)")]
+[AddComponentMenu("Poolable/Turret (Poolable)")]
 public class TurretObject : BuildingObject, IAttackObject
 {
-    [SerializeField] private LocalizeStringEvent mountedWeapon;
+    [SerializeField] private MountedWeapon mountedWeapon;
     private Collider2D targetCollider;
     private bool reloading;
     private IEnumerator reloadCoroutine;
@@ -22,8 +22,8 @@ public class TurretObject : BuildingObject, IAttackObject
     public override void SetData(Building data, Vector2 pos)
     {
         base.SetData(data, pos);
+        mountedWeapon.gameObject.SetActive(false);
         weapon = null;
-        mountedWeapon.SetEntry("WEAPON.NONE");
     }
 
     public void Mount(Weapon w, bool b)
@@ -40,16 +40,17 @@ public class TurretObject : BuildingObject, IAttackObject
                 Player.Instance.AdjustItemAmount(weapon.key, 1);
             }
             weapon = new Weapon(w);
-            mountedWeapon.SetEntry(w.key);
             Player.Instance.AdjustItemAmount(w.key, -1);
+            mountedWeapon.gameObject.SetActive(true);
+            mountedWeapon.Mount(WeaponManager.GetWeaponParameter(weapon.key));
         }
         // 언마운트 하는 경우
         else
         {
             // 기존에 있던 무기는 소지품으로
             Player.Instance.AdjustItemAmount(weapon.key, 1);
+            mountedWeapon.gameObject.SetActive(false);
             weapon = null;
-            mountedWeapon.SetEntry("WEAPON.NONE");
         }
     }
 
@@ -60,6 +61,7 @@ public class TurretObject : BuildingObject, IAttackObject
         if (weapon == null || reloading) return false;
 
         targets = Physics2D.OverlapCircleAll(transform.position, Range / 2, 1 << LayerMask.NameToLayer("Enemy"));
+        mountedWeapon.Detect(targets.Length > 0);
         return targets.Length > 0;
     }
 
@@ -75,6 +77,7 @@ public class TurretObject : BuildingObject, IAttackObject
                 Reload();
                 return;
             }
+            mountedWeapon.Fire(target.position);
             weapon.Fire(transform.position, target.position, transform.rotation.eulerAngles.z);
             StartCoroutine(weapon.AttackDelay());
         }
@@ -96,5 +99,24 @@ public class TurretObject : BuildingObject, IAttackObject
         if (weapon != null) Mount(weapon, false);
         weapon = null;
         reloading = false;
+    }
+
+    protected override IEnumerator ChangeColor(Color color)
+    {
+        Color reverse = Color.white - color;
+        float time = 0.2f;
+        while (time > 0)
+        {
+            if (!GameController.Instance.Pause)
+            {
+                spriteRenderer.material.SetColor("_Color", color);
+                mountedWeapon.ChangeColor(color);
+                time -= Time.deltaTime;
+                color += reverse * Time.deltaTime * 5;
+            }
+            yield return null;
+        }
+        spriteRenderer.material.SetColor("_Color", Color.white);
+        mountedWeapon.ChangeColor(Color.white);
     }
 }

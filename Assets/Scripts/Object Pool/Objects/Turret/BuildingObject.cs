@@ -7,7 +7,7 @@ public class BuildingObject : BTPoolable, IDamagedObject
 {
     [Space]
     [SerializeField] private ObjectHpBar hpBar;
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] protected SpriteRenderer spriteRenderer;
 
     private Vector2 pos;
     private int hp;
@@ -42,7 +42,7 @@ public class BuildingObject : BTPoolable, IDamagedObject
             DestroyBuilding();
         }
     }
-    IEnumerator ChangeColor(Color color)
+    protected virtual IEnumerator ChangeColor(Color color)
     {
         Color reverse = Color.white - color;
         float time = 0.2f;

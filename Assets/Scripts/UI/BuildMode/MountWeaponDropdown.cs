@@ -25,7 +25,7 @@ public class MountWeaponDropdown : MonoBehaviour
 
     public void SetActive(bool b, Vector2 pos)
     {
-        ((RectTransform)transform).anchoredPosition = CameraController.Instance.Cam.WorldToScreenPoint(pos);
+        ((RectTransform)transform).anchoredPosition = UIController.ScalingPos(Camera.main.WorldToScreenPoint(pos));
         UpdateWeaponList();
         transform.SetAsLastSibling();
         gameObject.SetActive(b);

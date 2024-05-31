@@ -15,6 +15,10 @@ MonoBehaviour:
   m_TableCollectionName: Item Name Table
   m_TableCollectionNameGuidString: 0c561564f8be1c24f97283432dd08184
   m_Entries:
+  - m_Id: 13822796262023168
+    m_Key: BUILDING.BARBEDWIRE
+    m_Metadata:
+      m_Items: []
   - m_Id: 41371774121680896
     m_Key: BUILDING.CONCRETEBARRICADE
     m_Metadata:
@@ -23,16 +27,16 @@ MonoBehaviour:
     m_Key: BUILDING.IRONBARRICADE
     m_Metadata:
       m_Items: []
+  - m_Id: 41701752122122240
+    m_Key: BUILDING.LANDMINE
+    m_Metadata:
+      m_Items: []
   - m_Id: 1332067925237760
     m_Key: BUILDING.SCANTOWER
     m_Metadata:
       m_Items: []
-  - m_Id: 13822796262023168
-    m_Key: BUILDING.BARBEDWIRE
-    m_Metadata:
-      m_Items: []
   - m_Id: 13822765622632448
-    m_Key: BUILDING.TRAP
+    m_Key: BUILDING.SPIKETRAP
     m_Metadata:
       m_Items: []
   - m_Id: 1332066364956672

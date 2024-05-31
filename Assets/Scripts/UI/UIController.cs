@@ -190,6 +190,7 @@ public class UIController : MonoBehaviour
     {
         setting.LoadResolutionInfo();
     }
+
     #endregion
     #endregion
 
