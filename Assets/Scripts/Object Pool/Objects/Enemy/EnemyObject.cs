@@ -242,8 +242,6 @@ public class EnemyObject : BTPoolable,
         if (targetCollider == null)
         {
             int layerMask = 1 << LayerMask.NameToLayer("Building");
-            // 원거리 공격의 경우 Trap을 공격할 수 있음.
-            if (Range >= 3f) layerMask |= 1 << LayerMask.NameToLayer("Trap");
             FindTargets(range, ratio, layerMask);
         }
 

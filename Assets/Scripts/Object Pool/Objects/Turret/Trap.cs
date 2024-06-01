@@ -28,12 +28,27 @@ public class Trap : BuildingObject, IAttackObject
         // 공격 시에 내구도 1씩 차감.
         if (!WaitAttack)
         {
+            string particleName = gameObject.name.Replace("BUILDING", "PARTICLE");
+            if (particleName != gameObject.name)
+            {
+                var particle = PoolController.Pop(particleName);
+                if (particle != null)
+                {
+                    particle.transform.position = transform.position;
+                    ((ParticleObject)particle).Play(0, Data.range);
+                }
+            }
+
+            // 범위가 있다면 타겟 재설정 후 공격
+            if (Data.range > 0) targets = Physics2D.OverlapCircleAll(transform.position, Data.range / 2, 1 << LayerMask.NameToLayer("Enemy"));
+
             foreach (var target in targets)
             {
                 ActivateTrap(target);
             }
+
             Damaged(1);
-            StartCoroutine(AttackTimer());
+            if (gameObject.activeSelf) StartCoroutine(AttackTimer());
         }
     }
 

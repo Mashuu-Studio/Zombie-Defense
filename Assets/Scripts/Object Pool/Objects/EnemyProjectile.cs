@@ -52,8 +52,7 @@ public class EnemyProjectile : Projectile
         if (isSiege) return;
 
         int layerMask = 1 << LayerMask.NameToLayer("Player")
-            | 1 << LayerMask.NameToLayer("Building")
-            | 1 << LayerMask.NameToLayer("Trap");
+            | 1 << LayerMask.NameToLayer("Building");
 
         if ((1 << collision.gameObject.layer & layerMask) > 0)
         {

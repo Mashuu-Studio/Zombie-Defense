@@ -142,8 +142,18 @@ public class Bullet : Projectile
         if (particle != null)
             pmain.startSize = new ParticleSystem.MinMaxCurve(pmain.startSize.constant / bulletSize);
 
-        hitbox.radius = originRadius;
+        PoolController.Push(gameObject.name, this);
 
-        base.Push();
+        string particleName = gameObject.name.Replace("WEAPON", "PARTICLE");
+        if (particleName != gameObject.name)
+        {
+            var particle = PoolController.Pop(particleName);
+            if (particle != null)
+            {
+                particle.transform.position = transform.position;
+                ((ParticleObject)particle).Play(0, hitbox.radius * 2);
+            }
+        }
+        hitbox.radius = originRadius;
     }
 }
