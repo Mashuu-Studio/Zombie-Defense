@@ -18,6 +18,16 @@ public class SoundController : MonoBehaviour
         }
         instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    private Dictionary<string, AudioClip> sfxes;
+
+    private AudioSource bgmSource;
+    private List<SfxSource> sfxSources;
+    private Pool sfxPool;
+
+    public void Init()
+    {
         bgmSource = GetComponent<AudioSource>();
         sfxPool = GetComponent<Pool>();
 
@@ -26,22 +36,17 @@ public class SoundController : MonoBehaviour
         go.transform.SetParent(transform);
 
         sfxPool.Init(sfxSource);
-    }
 
-    [SerializeField] private List<SfxInfo> sfxInfos;
-    private Dictionary<string, AudioClip> sfxes;
-
-    private AudioSource bgmSource;
-    private List<SfxSource> sfxSources;
-    private Pool sfxPool;
-
-    private void Start()
-    {
         sfxSources = new List<SfxSource>();
         bgmSource.volume = 1;
 
         sfxes = new Dictionary<string, AudioClip>();
-        sfxInfos.ForEach(info => sfxes.Add(info.name.ToUpper(), info.clip));
+
+        AudioClip[] arr = Resources.LoadAll<AudioClip>("Sounds");
+        foreach (var clip in arr)
+        {
+            sfxes.Add(clip.name.ToUpper(), clip);
+        }
     }
 
     public void PlaySFX(Vector2 pos, string name)
@@ -57,13 +62,5 @@ public class SoundController : MonoBehaviour
     {
         sfxSources.Remove(sfx);
         sfxPool.Push(sfx);
-    }
-
-
-    [System.Serializable]
-    public struct SfxInfo
-    {
-        public string name;
-        public AudioClip clip;
     }
 }

@@ -17,6 +17,7 @@ public class Initializer : MonoBehaviour
 
     private void Start()
     {
+        SoundController.Instance.Init();
         GameController.Instance.GoTo(SceneController.Scene.TITLE);
     }
 }

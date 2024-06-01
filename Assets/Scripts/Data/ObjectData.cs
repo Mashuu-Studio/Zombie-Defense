@@ -109,7 +109,7 @@ public class Weapon : BuyableData
             if (bullet == null) bullet = PoolController.Pop("Bullet");
             ((Bullet)bullet).SetBullet(pos, dest, newDir, angle, this, bulletSpeed);
         }
-        SoundController.Instance.PlaySFX(pos, key);
+        SoundController.Instance.PlaySFX(pos, key + ".SHOT");
         curammo--;
     }
 
@@ -133,7 +133,7 @@ public class Weapon : BuyableData
 
         float pReload = (100 + Player.Instance.ReloadTime) / 100f;
         float time = reload / pReload;
-        if (player) SoundController.Instance.PlaySFX(Player.Instance.transform.position, "RELOAD");
+        if (player) SoundController.Instance.PlaySFX(Player.Instance.transform.position, key + ".RELOAD");
         while (time > 0)
         {
             if (!GameController.Instance.Pause) time -= Time.deltaTime;
