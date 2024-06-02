@@ -33,6 +33,10 @@ public class BuildingObject : BTPoolable, IDamagedObject
     {
         hp -= dmg;
 
+        string damagedSfx = Data.key + ".DAMAGED";
+        if (SoundController.Instance.ContainsSFX(damagedSfx) == false) damagedSfx = "BUILDING.DAMAGED";
+        SoundController.Instance.PlaySFX(transform.position, damagedSfx);
+
         if (changeColorCoroutine != null) StopCoroutine(changeColorCoroutine);
         changeColorCoroutine = ChangeColor(Color.red);
         StartCoroutine(changeColorCoroutine);

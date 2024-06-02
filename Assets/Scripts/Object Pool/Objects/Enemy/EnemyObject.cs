@@ -151,6 +151,7 @@ public class EnemyObject : BTPoolable,
             StartCoroutine(changeColorCoroutine);
         }
 
+        // »ç¸Á
         if (hp <= 0)
         {
             if (remainSep > 0)
@@ -167,6 +168,10 @@ public class EnemyObject : BTPoolable,
             }
             else
             {
+                string deadSfx = Data.key + ".DEAD";
+                if (SoundController.Instance.ContainsSFX(deadSfx) == false) deadSfx = "ENEMY.DEAD";
+                SoundController.Instance.PlaySFX(transform.position, deadSfx);
+                
                 if (Data.dropItem != null)
                 {
                     int rand = Random.Range(0, 100) + 1;
@@ -271,6 +276,10 @@ public class EnemyObject : BTPoolable,
     }
     public void RangeAttack()
     {
+        string attackSfxName = Data.key + ".ATTACK";
+        if (SoundController.Instance.ContainsSFX(attackSfxName) == false) attackSfxName = "ENEMY.ATTACK";
+        SoundController.Instance.PlaySFX(transform.position, attackSfxName);
+
         string projName = Data.key.Replace("ENEMY", "PROJECTILE");
         var proj = (EnemyProjectile)PoolController.Pop(projName);
         proj.SetProj(transform.position, targetPos, transform.rotation.eulerAngles.z,

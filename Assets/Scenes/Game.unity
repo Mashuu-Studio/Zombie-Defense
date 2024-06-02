@@ -454,7 +454,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 362914029}
-  - component: {fileID: 362914033}
   - component: {fileID: 362914032}
   - component: {fileID: 362914035}
   - component: {fileID: 362914028}
@@ -551,14 +550,6 @@ MonoBehaviour:
   shootingPoint: {fileID: 2113034735}
   spriteRenderer: {fileID: 362914028}
   animator: {fileID: 362914035}
---- !u!81 &362914033
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 362914027}
-  m_Enabled: 1
 --- !u!50 &362914034
 Rigidbody2D:
   serializedVersion: 4

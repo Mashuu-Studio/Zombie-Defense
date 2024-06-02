@@ -26,6 +26,13 @@ public class CompanionObject : BTPoolable,
     private bool reloading;
     public Weapon UsingWeapon { get { return weapon; } }
 
+    private float moveSoundTime = Player.MOVE_SOUND_TIME;
+    public override void Update()
+    {
+        base.Update();
+        moveSoundTime += Time.deltaTime;
+    }
+
     private void FixedUpdate()
     {
         if (!gameObject.activeSelf || GameController.Instance.Pause) return;
@@ -217,7 +224,12 @@ public class CompanionObject : BTPoolable,
             var dir = (next - rigidbody.position).normalized;
             LookAt(next);
             rigidbody.position += dir * Speed * Time.fixedDeltaTime;
-            if (IMovingObject.EndOfPath(rigidbody.position, next, dir * Speed * Time.fixedDeltaTime, collider.radius)) pathIndex++;
+            if (moveSoundTime > Player.MOVE_SOUND_TIME)
+            {
+                SoundController.Instance.PlaySFX(transform.position, "CHARACTER.MOVE");
+                moveSoundTime = 0;
+            }
+        if (IMovingObject.EndOfPath(rigidbody.position, next, dir * Speed * Time.fixedDeltaTime, collider.radius)) pathIndex++;
         }
     }
 
@@ -249,6 +261,7 @@ public class CompanionObject : BTPoolable,
     public void Damaged(int dmg, ObjectData.Attribute attribute = ObjectData.Attribute.NONE)
     {
         hp -= dmg;
+        SoundController.Instance.PlaySFX(transform.position, "CHARACTER.DAMAGED");
 
         if (changeColorCoroutine != null) StopCoroutine(changeColorCoroutine);
         changeColorCoroutine = ChangeColor(Color.red);

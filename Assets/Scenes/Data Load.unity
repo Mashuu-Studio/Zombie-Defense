@@ -12343,19 +12343,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94fd99d23ab43b347933c47b1e26bded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sfxInfos:
-  - name: WEAPON.PISTOL
-    clip: {fileID: 8300000, guid: 8f7ed44a2ba3e9c45adc745de685a6fd, type: 3}
-  - name: WEAPON.SMG
-    clip: {fileID: 8300000, guid: 46407240b5a83ac4eb77ba54740262ac, type: 3}
-  - name: WEAPON.AR
-    clip: {fileID: 8300000, guid: e374b67e3b0572f49a3a7e11c896f613, type: 3}
-  - name: WEAPON.SHOTGUN
-    clip: {fileID: 8300000, guid: fde2ea642ba371f428c4aeeaf7f7a343, type: 3}
-  - name: WEAPON.SR
-    clip: {fileID: 8300000, guid: 6679e471bf7d768418477152e467248a, type: 3}
-  - name: RELOAD
-    clip: {fileID: 8300000, guid: e61360ca3b76de044925861377f1c183, type: 3}
 --- !u!82 &704435085
 AudioSource:
   m_ObjectHideFlags: 0
@@ -35286,6 +35273,7 @@ GameObject:
   - component: {fileID: 2121020772}
   - component: {fileID: 2121020771}
   - component: {fileID: 2121020773}
+  - component: {fileID: 2121020774}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -35403,6 +35391,14 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!81 &2121020774
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121020769}
+  m_Enabled: 1
 --- !u!1 &2123947299
 GameObject:
   m_ObjectHideFlags: 0

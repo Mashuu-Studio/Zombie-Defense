@@ -29,6 +29,12 @@ public class SoundController : MonoBehaviour
     public void Init()
     {
         bgmSource = GetComponent<AudioSource>();
+        bgmSource.outputAudioMixerGroup = GameSetting.Instance.GetMixerGroup(GameSetting.BGM_MIXER);
+        bgmSource.clip = Resources.Load<AudioClip>("Sounds/BGM");
+        bgmSource.volume = 1;
+        bgmSource.loop = true;
+        bgmSource.Play();
+
         sfxPool = GetComponent<Pool>();
 
         var go = new GameObject("SFX");
@@ -38,15 +44,19 @@ public class SoundController : MonoBehaviour
         sfxPool.Init(sfxSource);
 
         sfxSources = new List<SfxSource>();
-        bgmSource.volume = 1;
 
         sfxes = new Dictionary<string, AudioClip>();
 
-        AudioClip[] arr = Resources.LoadAll<AudioClip>("Sounds");
+        AudioClip[] arr = Resources.LoadAll<AudioClip>("Sounds/SFX");
         foreach (var clip in arr)
         {
             sfxes.Add(clip.name.ToUpper(), clip);
         }
+    }
+
+    public bool ContainsSFX(string name)
+    {
+        return sfxes.ContainsKey(name);
     }
 
     public void PlaySFX(Vector2 pos, string name)

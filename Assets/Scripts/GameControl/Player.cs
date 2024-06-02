@@ -105,8 +105,12 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     float axisX;
     float axisY;
 
+    public const float MOVE_SOUND_TIME = 0.5f;
+    private float moveSoundTime = MOVE_SOUND_TIME;
+
     private void Update()
     {
+        moveSoundTime += Time.deltaTime;
         if (GameController.Instance.GameStarted == false
             || GameController.Instance.Pause
             || BuildingController.Instance.BuildMode)
@@ -118,6 +122,12 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
 
         axisX = Input.GetAxis("Horizontal");
         axisY = Input.GetAxis("Vertical");
+
+        if (axisX != 0 && axisY != 0 && moveSoundTime > MOVE_SOUND_TIME)
+        {
+            SoundController.Instance.PlaySFX(transform.position, "CHARACTER.MOVE");
+            moveSoundTime = 0;
+        }
 
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         LookAt(mouseWorldPos);
@@ -347,6 +357,8 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     {
         if (invincible) return;
         hp -= dmg;
+        SoundController.Instance.PlaySFX(transform.position, "CHARACTER.DAMAGED");
+
         if (changeColorCoroutine != null) StopCoroutine(changeColorCoroutine);
         changeColorCoroutine = ChangeColor(Color.red);
         StartCoroutine(changeColorCoroutine);
