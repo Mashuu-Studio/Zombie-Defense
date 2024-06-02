@@ -196,26 +196,24 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
 
     public void AddMagazine(string key)
     {
-        if (magazines.ContainsKey(key)) magazines[key]++;
+        if (magazines.ContainsKey(key))
+        {
+            var w = WeaponManager.GetWeapon(key);
+            if (w.singleBulletReload) magazines[key] += w.ammo;
+            else magazines[key]++;
+        }
+    }
+    public void UseMagazine(string key)
+    {
+        if (magazines.ContainsKey(key)) magazines[key]--;
     }
 
     public bool HasMagazine(string key)
     {
         if (WeaponManager.GetWeapon(key).infAmount) return true;
-        if (magazines.ContainsKey(key) && magazines[key] > 0)
-        {
-            magazines[key]--;
-            return true;
-        }
+        if (magazines.ContainsKey(key) && magazines[key] > 0) return true;
         return false;
     }
-
-    public void ReturnMagazine(string key)
-    {
-        if (magazines.ContainsKey(key))
-            magazines[key]++;
-    }
-
     #endregion
 
     #region Reward

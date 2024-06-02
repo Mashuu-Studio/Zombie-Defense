@@ -87,7 +87,7 @@ public static class WeaponManager
                 attribute = ObjectData.Attribute.BULLET,
 
                 dmg = 5,
-                adelay = 2f,
+                adelay = .7f,
                 range = 8,
                 bulletspreadangle = 45,
 
@@ -95,7 +95,8 @@ public static class WeaponManager
                 bullets = 10,
 
                 ammo = 5,
-                reload = 3,
+                reload = .7f,
+                singleBulletReload = true,
             },
             new Weapon()
             {

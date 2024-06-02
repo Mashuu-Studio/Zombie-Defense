@@ -34,6 +34,7 @@ public class Weapon : BuyableData
     public int ammo;
     public int curammo;
     public float reload;
+    public bool singleBulletReload;
 
     public bool pierce = false;
     public bool point = false;
@@ -59,6 +60,7 @@ public class Weapon : BuyableData
 
         ammo = curammo = w.ammo;
         reload = w.reload;
+        singleBulletReload = w.singleBulletReload;
 
         bulletSize = w.bulletSize;
         bulletSpeed = w.bulletSpeed;
@@ -129,19 +131,32 @@ public class Weapon : BuyableData
     public IEnumerator Reloading(bool player = false)
     {
         Wait = true;
-        if (player) UIController.Instance.Reloading(true);
+        if (player && !singleBulletReload) UIController.Instance.Reloading(true);
 
         float pReload = (100 + Player.Instance.ReloadTime) / 100f;
-        float time = reload / pReload;
-        if (player) SoundController.Instance.PlaySFX(Player.Instance.transform.position, key + ".RELOAD");
-        while (time > 0)
+
+        while (curammo < ammo)
         {
-            if (!GameController.Instance.Pause) time -= Time.deltaTime;
-            yield return null;
+            float time = reload / pReload;
+            while (time > 0)
+            {
+                if (!GameController.Instance.Pause) time -= Time.deltaTime;
+                yield return null;
+            }
+            
+            // 장전을 하나 하고 나면 공격 가능
+            Wait = false;
+            SoundController.Instance.PlaySFX(Player.Instance.transform.position, key + ".RELOAD");
+
+            if (singleBulletReload) curammo++;
+            else curammo = ammo;
+
+            if (player) UIController.Instance.UpdateAmmo(curammo);
+
+            if (Player.Instance.HasMagazine(key)) Player.Instance.UseMagazine(key);
+            else break;
         }
-        curammo = ammo;
-        if (player) UIController.Instance.Reloading(false);
-        Wait = false;
+        if (player && !singleBulletReload) UIController.Instance.Reloading(false);
     }
 }
 public class Building : BuyableData

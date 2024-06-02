@@ -189,7 +189,6 @@ public class WeaponController : MonoBehaviour
     {
         if (reloadCoroutine != null)
         {
-            Player.Instance.ReturnMagazine(CurWeapon.key);
             StopCoroutine(reloadCoroutine);
             reloadCoroutine = null;
         }
@@ -203,6 +202,7 @@ public class WeaponController : MonoBehaviour
             Reload();
             return;
         }
+        else CancelReload();
 
         CurWeapon.Fire(pos, dest, Player.Instance.transform.rotation.eulerAngles.z);
         Player.Instance.Fire();

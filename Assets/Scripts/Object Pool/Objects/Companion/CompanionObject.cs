@@ -331,6 +331,11 @@ public class CompanionObject : BTPoolable,
                 Reload();
                 return;
             }
+            else if (reloadCoroutine != null)
+            {
+                StopCoroutine(reloadCoroutine);
+                reloadCoroutine = null;
+            }
 
             LookAt(target.transform.position);
             animator.SetTrigger("fire");

@@ -273,7 +273,6 @@ public class UIController : MonoBehaviour
     {
         if (b) ammoText.text = "RELOAD";
         else ammoText.text = WeaponController.Instance.CurWeapon.curammo.ToString();
-
     }
 
     [Header("Item")]
