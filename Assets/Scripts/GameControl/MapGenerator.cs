@@ -107,7 +107,7 @@ public class MapGenerator : MonoBehaviour
                 if (map[x, y] == WALL)
                 {
                     wallTilemap.SetTile(pos, tiles[WALL]);
-                    if (y > 1 && map[x, y - 1] == GRASS)
+                    if (y < 1 || map[x, y - 1] == GRASS)
                     {
                         pos.y -= 1;
                         wallBottomTilemap.SetTile(pos, wallBottomTile);

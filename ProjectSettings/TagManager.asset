@@ -51,14 +51,14 @@ TagManager:
   - name: Entity
     uniqueID: 1826987183
     locked: 0
-  - name: Character
+  - name: Sorting Objects
     uniqueID: 2337102319
+    locked: 0
+  - name: Wall
+    uniqueID: 3505874203
     locked: 0
   - name: Particle
     uniqueID: 1176548057
-    locked: 0
-  - name: Wall
-    uniqueID: 2589266583
     locked: 0
   - name: UI
     uniqueID: 34578697

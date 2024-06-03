@@ -223,7 +223,7 @@ public class CompanionObject : BTPoolable,
             var next = IMovingObject.GetPos(path[pathIndex].position);
             var dir = (next - rigidbody.position).normalized;
             LookAt(next);
-            rigidbody.position += dir * Speed * Time.fixedDeltaTime;
+            rigidbody.position += dir * Speed * Time.fixedDeltaTime; 
             if (moveSoundTime > Player.MOVE_SOUND_TIME)
             {
                 SoundController.Instance.PlaySFX(transform, "CHARACTER.MOVE");
