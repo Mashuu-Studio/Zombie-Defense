@@ -123,6 +123,7 @@ public class ShopUI : MonoBehaviour
                         break;
                     }
                 }
+                UIController.Instance.UpdateBuildmodeCompanions();
             }
         }
         else
@@ -149,6 +150,7 @@ public class ShopUI : MonoBehaviour
                 return;
             }
         }
+        UIController.Instance.UpdateBuildmodeCompanions();
     }
 
     #region Status

@@ -33,18 +33,22 @@ public interface IMovingObject
         return new Vector2(pos.x / 1000f, pos.y / 1000f);
     }
 
-    public static bool EndOfPath(Vector2 pos, Vector2 next, Vector2 dir, float radius)
+    // -1: false, 0: µµÂø, 1: ¸·Èû.
+    public static int EndOfPath(Vector2 pos, Vector2 next, Vector2 dir, float radius)
     {
         float dist1 = Vector2.Distance(pos, next);
         float dist2 = Vector2.Distance(pos, next + dir);
 
-        int layermask = 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Building");
+        int layermask = 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Building") | 1 << LayerMask.NameToLayer("Map Boundary");
         var ray1 = Physics2D.Raycast(pos, dir, radius + 0.2f, layermask);
         var ray2 = Physics2D.Raycast(pos + Vector2.Perpendicular(dir.normalized) * 0.05f, dir, radius + 0.2f, layermask);
         var ray3 = Physics2D.Raycast(pos - Vector2.Perpendicular(dir.normalized) * 0.05f, dir, radius + 0.2f, layermask);
 
-        return dist1 < 0.1f || dist1 >= dist2 
-            || (ray1.collider != null || ray2.collider != null || ray3.collider != null);
+        int result = -1;
+        if (dist1 < 0.1f || dist1 >= dist2) result = 0;
+        else if ((ray1.collider != null || ray2.collider != null || ray3.collider != null)) result = 1;
+        
+        return result;
     }
 }
 

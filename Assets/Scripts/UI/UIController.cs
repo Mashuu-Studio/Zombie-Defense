@@ -174,6 +174,11 @@ public class UIController : MonoBehaviour
         buildModeUI.SelectCompanion(icon);
     }
 
+    public void UpdateBuildmodeCompanions()
+    {
+        buildModeUI.UpdateCompanions();
+    }
+
     public void ShowMountWeaponUI(bool b, Vector2 pos)
     {
         mountWeaponDropdown.SetActive(b, pos);

@@ -64,16 +64,6 @@ public class MapGenerator : MonoBehaviour
         buildModeGridTilemap.gameObject.SetActive(b);
     }
 
-    // Tilemap Collider의 세팅이 전부 끝난 뒤에 Scan을 해야하기 때문에 Scan을 LateUpdate에 배치.
-    private void LateUpdate()
-    {
-        if (updateCol == false)
-        {
-            astar.Scan();
-            updateCol = true;
-        }
-    }
-
     private void GenerateMap()
     {
         map = new int[width, height];
@@ -151,12 +141,18 @@ public class MapGenerator : MonoBehaviour
             Player.Instance.transform.position = spawnPoint;
         }
 
-        foreach (var grid in astar.graphs)
+        foreach (var graph in astar.graphs)
         {
-            ((Pathfinding.GridGraph)grid).SetDimensions((width + 2) * 2, (height + 2) * 2, .5f);
-            ((Pathfinding.GridGraph)grid).center = new Vector3(-.5f, 0);
+            ((Pathfinding.GridGraph)graph).SetDimensions((width + 2) * 2, (height + 2) * 2, .5f);
+            ((Pathfinding.GridGraph)graph).center = new Vector3(-.5f, 0);
         }
-        updateCol = false;
+        /*
+        ((Pathfinding.GridGraph)astar.graphs[0]).SetDimensions((width + 2) * 2, (height + 2) * 2, .5f);
+        ((Pathfinding.GridGraph)astar.graphs[0]).center = new Vector3(-.5f, 0);
+        ((Pathfinding.GridGraph)astar.graphs[1]).SetDimensions(width + 2, height + 2, 1);
+        ((Pathfinding.GridGraph)astar.graphs[1]).center = new Vector3(-.5f, 0);*/
+        astar.graphs[0].Scan();
+        StartCoroutine(UpdatingAstar());
     }
 
     public Vector2 GetEnemySpawnPos()
@@ -184,6 +180,25 @@ public class MapGenerator : MonoBehaviour
         return ConvertToWorldPos(x, y);
     }
 
+    IEnumerator UpdatingAstar()
+    {
+        while (true)
+        {
+            if (updateCol == false)
+            {
+                astar.graphs[1].Scan();
+                updateCol = true;
+                yield return new WaitForSeconds(2);
+            }
+            yield return null;
+        }
+    }
+    public void UpdateAstar()
+    {
+        updateCol = false;
+    }
+
+    #region Utils
     public static bool ObjectOnBoundary(Vector2 pos)
     {
         Vector2Int mapPos = ConvertToMapPos(RoundToInt(pos));
@@ -250,7 +265,7 @@ public class MapGenerator : MonoBehaviour
     {
         return new Vector2Int(worldPos.x + Instance.map.GetLength(0) / 2, worldPos.y + Instance.map.GetLength(1) / 2) * Instance.squareSize;
     }
-
+    #endregion
     private void RandomFillMap()
     {
         if (!useSeed) seed = Time.time.ToString();

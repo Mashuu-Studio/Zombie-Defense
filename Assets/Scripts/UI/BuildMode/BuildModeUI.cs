@@ -61,26 +61,6 @@ public class BuildModeUI : MonoBehaviour
         Vector2 pos = MapGenerator.PosToGrid(MapGenerator.RoundToInt(mousePos));
         BuildingController.Instance.MoveBuildingPointer(pos);
 
-        // 터렛 구매 및 빌드
-        if (Input.GetMouseButton(0) && !UIController.PointOverUI())
-        {
-            BuildingController.Instance.Build(pos);
-        }
-
-        // 터렛 보관
-        if (Input.GetMouseButton(1))
-        {
-            BuildingController.Instance.Store(pos);
-        }
-
-        // 마운트
-        if (Input.GetKeyDown(KeyCode.Q) && BuildingController.Instance.SelectBuilding(pos))
-        {
-            // 마운트로 바로 넘어가는 게 아닌 Floating Dropdown을 띄움.
-            UIController.Instance.ShowMountWeaponUI(true, pos);
-        }
-
-        // 터렛이랑 겹치지 않도록 해야함.
         if (selectedCompanionIndex != -1)
         {
             if (Input.GetMouseButtonDown(0))
@@ -88,10 +68,34 @@ public class BuildModeUI : MonoBehaviour
                 companionPatrolStartPos = pos;
             }
 
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) && !UIController.PointOverUI())
             {
                 companionPatrolEndPos = pos;
                 CompanionController.Instance.SetCompanionPatrol(selectedCompanionIndex, new List<Vector2>() { companionPatrolStartPos, companionPatrolEndPos });
+                selectedCompanionIndex = -1;
+                BuildingController.Instance.SelectBuildingOnBuildMode("");
+            }
+        }
+        // 패트롤 세팅 중에는 터렛 빌드가 안 되도록
+        else
+        {
+            // 터렛 구매 및 빌드
+            if (Input.GetMouseButton(0) && !UIController.PointOverUI())
+            {
+                BuildingController.Instance.Build(pos);
+            }
+
+            // 터렛 보관
+            if (Input.GetMouseButton(1))
+            {
+                BuildingController.Instance.Store(pos);
+            }
+
+            // 마운트
+            if (Input.GetKeyDown(KeyCode.Q) && BuildingController.Instance.SelectBuilding(pos))
+            {
+                // 마운트로 바로 넘어가는 게 아닌 Floating Dropdown을 띄움.
+                UIController.Instance.ShowMountWeaponUI(true, pos);
             }
         }
     }
@@ -104,12 +108,16 @@ public class BuildModeUI : MonoBehaviour
             if (companionIcons[i] == icon)
             {
                 selectedCompanionIndex = i;
+                CompanionController.Instance.SetCompanionPatrol(selectedCompanionIndex, new List<Vector2>() { companionPatrolStartPos, companionPatrolEndPos });
+                BuildingController.Instance.SelectBuildingOnBuildMode(CompanionController.Instance.Companions[selectedCompanionIndex].Key);
+                // 빌드 아이콘 이미지 바꿈
+                // 빌드 컨트롤러에서 변경해야함
                 break;
             }
         }
     }
 
-    private void UpdateCompanions()
+    public void UpdateCompanions()
     {
         foreach (var icon in companionIcons) icon.gameObject.SetActive(false);
 
@@ -117,7 +125,7 @@ public class BuildModeUI : MonoBehaviour
         {
             var data = CompanionController.Instance.Companions[i];
             companionIcons[i].gameObject.SetActive(true);
-            companionIcons[i].Init("COMPANION.COMPANION");
+            companionIcons[i].Init(data.Key);
         }
     }
 }

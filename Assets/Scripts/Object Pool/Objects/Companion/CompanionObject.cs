@@ -97,7 +97,6 @@ public class CompanionObject : BTPoolable,
 
     private List<Vector2> holdPatrolPosList;
     private int patrolIndex;
-    private bool patrolForward;
 
     protected List<Pathfinding.GraphNode> path;
     private int pathIndex;
@@ -123,7 +122,6 @@ public class CompanionObject : BTPoolable,
         transform.position = list[0];
         holdPatrolPosList = list;
         patrolIndex = 0;
-        patrolForward = true;
     }
 
     public bool DetectPath()
@@ -173,19 +171,7 @@ public class CompanionObject : BTPoolable,
                     break;
 
                 case PatrolType.HOLD:
-                    if (patrolForward) patrolIndex++;
-                    else patrolIndex--;
-
-                    if (patrolIndex >= holdPatrolPosList.Count)
-                    {
-                        patrolIndex--;
-                        patrolForward = false;
-                    }
-                    else if (patrolIndex < 0)
-                    {
-                        patrolIndex++;
-                        patrolForward = true;
-                    }
+                    patrolIndex = (patrolIndex + 1) % 2;
                     targetPos = holdPatrolPosList[patrolIndex];
                     break;
             }
@@ -229,7 +215,18 @@ public class CompanionObject : BTPoolable,
                 SoundController.Instance.PlaySFX(transform, "CHARACTER.MOVE");
                 moveSoundTime = 0;
             }
-        if (IMovingObject.EndOfPath(rigidbody.position, next, dir * Speed * Time.fixedDeltaTime, collider.radius)) pathIndex++;
+            int end = IMovingObject.EndOfPath(rigidbody.position, next, dir * Speed * Time.fixedDeltaTime, collider.radius);
+            if (end != -1)
+            {
+                // 벽에 막혔다면 방향 전환
+                if (patrolType == PatrolType.HOLD && end == 1)
+                {
+                    patrolIndex = (patrolIndex + 1) % 2;
+                    movePoint.transform.position = holdPatrolPosList[patrolIndex];
+                    SetPath();
+                }
+                else pathIndex++;
+            }
         }
     }
 

@@ -88,6 +88,8 @@ public class BuildingController : MonoBehaviour
         building.transform.parent = transform;
         building.transform.position = pos;
         buildings.Add(pos, building);
+
+        MapGenerator.Instance.UpdateAstar();
     }
 
     public void Store(Vector2 pos)
@@ -103,7 +105,11 @@ public class BuildingController : MonoBehaviour
 
     public void RemoveBuilding(Vector2 pos)
     {
-        if (buildings.ContainsKey(pos)) buildings.Remove(pos);
+        if (buildings.ContainsKey(pos))
+        {
+            buildings.Remove(pos);
+            MapGenerator.Instance.UpdateAstar();
+        }
     }
 
     public bool Buildable(Vector2 pos)

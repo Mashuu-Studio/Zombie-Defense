@@ -355,7 +355,7 @@ public class EnemyObject : BTPoolable,
             var dir = (next - rigidbody.position).normalized;
             LookAt(next);
             rigidbody.position += dir * Speed * Time.fixedDeltaTime;
-            if (IMovingObject.EndOfPath(rigidbody.position, next, dir * Speed * Time.fixedDeltaTime, collider.radius)) pathIndex++;
+            if (IMovingObject.EndOfPath(rigidbody.position, next, dir * Speed * Time.fixedDeltaTime, collider.radius) != -1) pathIndex++;
         }
     }
     #endregion
