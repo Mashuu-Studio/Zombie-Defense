@@ -20,6 +20,7 @@ public class SoundController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    [SerializeField] private SfxSource sfxSourcePrefab;
     private Dictionary<string, AudioClip> sfxes;
 
     private AudioSource bgmSource;
@@ -35,16 +36,12 @@ public class SoundController : MonoBehaviour
         bgmSource.loop = true;
         bgmSource.Play();
 
+        sfxSourcePrefab.gameObject.SetActive(false);
+
         sfxPool = GetComponent<Pool>();
-
-        var go = new GameObject("SFX");
-        var sfxSource = go.AddComponent<SfxSource>();
-        go.transform.SetParent(transform);
-
-        sfxPool.Init(sfxSource);
+        sfxPool.Init(sfxSourcePrefab);
 
         sfxSources = new List<SfxSource>();
-
         sfxes = new Dictionary<string, AudioClip>();
 
         AudioClip[] arr = Resources.LoadAll<AudioClip>("Sounds/SFX");
@@ -59,13 +56,18 @@ public class SoundController : MonoBehaviour
         return sfxes.ContainsKey(name);
     }
 
-    public void PlaySFX(Vector2 pos, string name)
+    public void PlaySFX(Transform source, string name, bool separate = false)
     {
-        var source = (SfxSource)sfxPool.Pop();
-        source.transform.position = pos;
-        sfxSources.Add(source);
+        var sfx = (SfxSource)sfxPool.Pop();
+        if (separate) sfx.transform.position = source.position;
+        else
+        {
+            sfx.transform.SetParent(source);
+            sfx.transform.localPosition = Vector3.zero;
+        }
+        sfxSources.Add(sfx);
         name = name.ToUpper();
-        if (sfxes.ContainsKey(name)) source.PlaySfx(sfxes[name]);
+        if (sfxes.ContainsKey(name)) sfx.PlaySfx(sfxes[name]);
     }
 
     public void Push(SfxSource sfx)

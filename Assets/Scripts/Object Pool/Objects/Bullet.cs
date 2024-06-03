@@ -128,7 +128,7 @@ public class Bullet : Projectile
         ActionController.AddAction(gameObject, () =>
         {
             if (weapon.attribute == ObjectData.Attribute.BULLET) 
-                SoundController.Instance.PlaySFX(collision.transform.position, "BULLET.DAMAGED");
+                SoundController.Instance.PlaySFX(collision.transform, "BULLET.DAMAGED", true);
             
             
             enemy.Damaged(weapon.dmg, weapon.attribute);

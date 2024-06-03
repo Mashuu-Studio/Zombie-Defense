@@ -205,6 +205,7 @@ public class WeaponController : MonoBehaviour
         else CancelReload();
 
         CurWeapon.Fire(pos, dest, Player.Instance.transform.rotation.eulerAngles.z);
+        SoundController.Instance.PlaySFX(Player.Instance.transform, CurWeapon.key + ".SHOT");
         Player.Instance.Fire();
         UIController.Instance.UpdateAmmo(CurWeapon.curammo);
         adelayCoroutine = CurWeapon.AttackDelay();

@@ -226,7 +226,7 @@ public class CompanionObject : BTPoolable,
             rigidbody.position += dir * Speed * Time.fixedDeltaTime;
             if (moveSoundTime > Player.MOVE_SOUND_TIME)
             {
-                SoundController.Instance.PlaySFX(transform.position, "CHARACTER.MOVE");
+                SoundController.Instance.PlaySFX(transform, "CHARACTER.MOVE");
                 moveSoundTime = 0;
             }
         if (IMovingObject.EndOfPath(rigidbody.position, next, dir * Speed * Time.fixedDeltaTime, collider.radius)) pathIndex++;
@@ -261,7 +261,7 @@ public class CompanionObject : BTPoolable,
     public void Damaged(int dmg, ObjectData.Attribute attribute = ObjectData.Attribute.NONE)
     {
         hp -= dmg;
-        SoundController.Instance.PlaySFX(transform.position, "CHARACTER.DAMAGED");
+        SoundController.Instance.PlaySFX(transform, "CHARACTER.DAMAGED", true);
 
         if (changeColorCoroutine != null) StopCoroutine(changeColorCoroutine);
         changeColorCoroutine = ChangeColor(Color.red);

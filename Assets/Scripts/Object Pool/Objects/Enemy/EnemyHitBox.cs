@@ -27,6 +27,6 @@ public class EnemyHitBox : MonoBehaviour
     // 공격할 때 켜지게 되어있음.
     private void OnEnable()
     {
-        SoundController.Instance.PlaySFX(enemy.transform.position, attackSfxName);
+        SoundController.Instance.PlaySFX(enemy.transform, attackSfxName, true);
     }
 }

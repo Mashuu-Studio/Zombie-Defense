@@ -22,6 +22,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     }
     #endregion
 
+    [SerializeField] private AudioListener lisnter;
     [SerializeField] private GameObject shootingPoint;
     public Vector3 FirePoint { get { return shootingPoint.transform.position; } }
     public enum StatType { HP = 0, SPEED, RELOAD, REWARD, }
@@ -125,7 +126,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
 
         if (axisX != 0 && axisY != 0 && moveSoundTime > MOVE_SOUND_TIME)
         {
-            SoundController.Instance.PlaySFX(transform.position, "CHARACTER.MOVE");
+            SoundController.Instance.PlaySFX(transform, "CHARACTER.MOVE");
             moveSoundTime = 0;
         }
 
@@ -152,6 +153,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         Vector2 dir = target - transform.position;
         float degree = Mathf.Rad2Deg * Mathf.Atan2(dir.y, dir.x);
         transform.rotation = Quaternion.Euler(0, 0, degree + 90);
+        lisnter.transform.localEulerAngles = new Vector3(0, 0, -(degree + 90));
     }
 
     #endregion
@@ -205,7 +207,10 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     }
     public void UseMagazine(string key)
     {
-        if (magazines.ContainsKey(key)) magazines[key]--;
+        if (!WeaponManager.GetWeapon(key).infAmount && magazines.ContainsKey(key))
+        {
+            magazines[key]--;
+        }
     }
 
     public bool HasMagazine(string key)
@@ -355,7 +360,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     {
         if (invincible) return;
         hp -= dmg;
-        SoundController.Instance.PlaySFX(transform.position, "CHARACTER.DAMAGED");
+        SoundController.Instance.PlaySFX(transform, "CHARACTER.DAMAGED");
 
         if (changeColorCoroutine != null) StopCoroutine(changeColorCoroutine);
         changeColorCoroutine = ChangeColor(Color.red);

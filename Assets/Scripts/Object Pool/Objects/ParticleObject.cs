@@ -27,7 +27,7 @@ public class ParticleObject : Poolable
             pmain.startSize = new ParticleSystem.MinMaxCurve(originSize * ratio);
         }
         pmain.startRotation = new ParticleSystem.MinMaxCurve(angle);
-        SoundController.Instance.PlaySFX(transform.position, name);
+        SoundController.Instance.PlaySFX(transform, name, true);
         particle.Play();
     }
 }

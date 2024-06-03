@@ -170,7 +170,7 @@ public class EnemyObject : BTPoolable,
             {
                 string deadSfx = Data.key + ".DEAD";
                 if (SoundController.Instance.ContainsSFX(deadSfx) == false) deadSfx = "ENEMY.DEAD";
-                SoundController.Instance.PlaySFX(transform.position, deadSfx);
+                SoundController.Instance.PlaySFX(transform, deadSfx, true);
                 
                 if (Data.dropItem != null)
                 {
@@ -278,7 +278,7 @@ public class EnemyObject : BTPoolable,
     {
         string attackSfxName = Data.key + ".ATTACK";
         if (SoundController.Instance.ContainsSFX(attackSfxName) == false) attackSfxName = "ENEMY.ATTACK";
-        SoundController.Instance.PlaySFX(transform.position, attackSfxName);
+        SoundController.Instance.PlaySFX(transform, attackSfxName, true);
 
         string projName = Data.key.Replace("ENEMY", "PROJECTILE");
         var proj = (EnemyProjectile)PoolController.Pop(projName);

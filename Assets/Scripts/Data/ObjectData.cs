@@ -111,7 +111,6 @@ public class Weapon : BuyableData
             if (bullet == null) bullet = PoolController.Pop("Bullet");
             ((Bullet)bullet).SetBullet(pos, dest, newDir, angle, this, bulletSpeed);
         }
-        SoundController.Instance.PlaySFX(pos, key + ".SHOT");
         curammo--;
     }
 
@@ -146,7 +145,7 @@ public class Weapon : BuyableData
             
             // 장전을 하나 하고 나면 공격 가능
             Wait = false;
-            SoundController.Instance.PlaySFX(Player.Instance.transform.position, key + ".RELOAD");
+            SoundController.Instance.PlaySFX(Player.Instance.transform, key + ".RELOAD");
 
             if (singleBulletReload) curammo++;
             else curammo = ammo;
