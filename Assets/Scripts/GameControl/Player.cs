@@ -27,26 +27,17 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     public Vector3 FirePoint { get { return shootingPoint.transform.position; } }
     public enum StatType { HP = 0, SPEED, RELOAD, REWARD, }
 
-    private int lv;
-    private int exp;
-    private int maxexp;
-    private int bonusStat;
-
     private bool invincible;
 
     private int hp;
     private int def;
     private int maxhp;
+    private int maxdef;
     private int speed;
     private int reload;
     private int reward;
 
     private int money;
-
-    public int Lv { get { return lv; } }
-    public int MaxExp { get { return maxexp; } }
-    public int Exp { get { return exp; } }
-    public int BonusStat { get { return bonusStat; } }
 
     public int MaxHp { get { return maxhp; } }
     public int Hp { get { return hp; } }
@@ -68,14 +59,10 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
 
     public void StartGame()
     {
-        lv = 1;
-        exp = 0;
-        maxexp = 10;
-        bonusStat = 0;
-
         invincible = false;
 
-        hp = maxhp = 10;
+        hp = maxhp = 100;
+        def = maxdef = 0;
         speed = 5;
         reload = 0;
         reward = 0;
@@ -173,7 +160,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
 
     public void AdjustItemAmount(string key, int amount)
     {
-        if (itemAmount.ContainsKey(key))
+        if (itemAmount.ContainsKey(key) && WeaponManager.GetWeapon(key).infAmount == false)
         {
             itemAmount[key] += amount;
             UIController.Instance.UpdateItemAmount(key, itemAmount[key]);
@@ -201,16 +188,25 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         if (magazines.ContainsKey(key))
         {
             var w = WeaponManager.GetWeapon(key);
-            if (w.singleBulletReload) magazines[key] += w.ammo;
-            else magazines[key]++;
+            magazines[key] += w.ammo;
         }
     }
-    public void UseMagazine(string key)
+    public int UseMagazine(string key, int curammo)
     {
-        if (!WeaponManager.GetWeapon(key).infAmount && magazines.ContainsKey(key))
+        int refillAmmo = 0;
+        var w = WeaponManager.GetWeapon(key);
+        if (HasMagazine(key))
         {
-            magazines[key]--;
+            if (w.infAmount) refillAmmo = w.ammo;
+            else if (w.singleBulletReload) refillAmmo = 1;
+            else
+            {
+                refillAmmo = w.ammo - curammo;
+                if (refillAmmo > magazines[key]) refillAmmo = magazines[key];
+            }
         }
+        if (w.infAmount == false) magazines[key] -= refillAmmo;
+        return refillAmmo;
     }
 
     public bool HasMagazine(string key)
@@ -222,53 +218,10 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     #endregion
 
     #region Reward
-    public void GetReward(int xp, int m)
+    public void GetReward(int m)
     {
         float percentage = (100 + reward) / 100f;
-        exp += (int)(xp * percentage);
         money += (int)(m * percentage);
-
-        if (exp >= maxexp) StartCoroutine(LevelUp());
-    }
-
-    IEnumerator LevelUp()
-    {
-        // 한 번에 여러번 레벨업 할 수 있으므로 반복문 활용
-        while (exp >= maxexp)
-        {
-            if (!GameController.Instance.Pause)
-            {
-                lv += 1;
-                exp -= maxexp;
-                maxexp += 10;
-                bonusStat++;
-                //UIController.Instance.LevelUp();
-            }
-            yield return null;
-        }
-    }
-
-    public void Upgrade(StatType type)
-    {
-        if (bonusStat <= 0) return;
-
-        bonusStat--;
-        switch (type)
-        {
-            case StatType.HP:
-                hp += 5;
-                maxhp += 5;
-                break;
-            case StatType.SPEED:
-                speed += 1;
-                break;
-            case StatType.RELOAD:
-                reload += 25;
-                break;
-            case StatType.REWARD:
-                reward += 25;
-                break;
-        }
     }
     #endregion
 
@@ -312,37 +265,6 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         }
         buffs.Remove(buff);
     }
-    /*
-    public void Buff(Item.BuffType type, int value = 0)
-    {
-        if (type == Item.BuffType.HP) hp = maxhp;
-        else if (type == Item.BuffType.MONEY) money += value;
-        else StartCoroutine(ActiveBuff(type));
-    }
-
-    IEnumerator ActiveBuff(Item.BuffType type)
-    {
-        float time = 3;
-        switch (type)
-        {
-            case Item.BuffType.INVINCIBLE: invincible = true; time = 3; break;
-            case Item.BuffType.RELOAD: reload += 100; time = 10; break;
-            case Item.BuffType.SPEED: speed += 5; time = 10; break;
-        }
-
-        while (time > 0)
-        {
-            if (!GameController.Instance.Pause) time -= Time.deltaTime;
-            yield return null;
-        }
-
-        switch (type)
-        {
-            case Item.BuffType.INVINCIBLE: invincible = false; break;
-            case Item.BuffType.RELOAD: reload -= 100; break;
-            case Item.BuffType.SPEED: speed -= 5; break;
-        }
-    }*/
     #endregion
 
     IEnumerator changeColorCoroutine;

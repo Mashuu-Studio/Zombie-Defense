@@ -6,6 +6,12 @@ using TMPro;
 public class MountWeaponIcon : BuildModeItemIcon
 {
     [SerializeField] private TextMeshProUGUI amountText;
+    private MountWeaponDropdown dropdown;
+    public void SetDropdown(MountWeaponDropdown dropdown)
+    {
+        this.dropdown = dropdown;
+    }
+
     public override void Init(string key)
     {
         this.key = key;
@@ -33,7 +39,6 @@ public class MountWeaponIcon : BuildModeItemIcon
 
     public override void Select()
     {
-        BuildingController.Instance.Mount(key);
-        UIController.Instance.ShowMountWeaponUI(false, Vector2.zero);
+        dropdown.Select(key);
     }
 }

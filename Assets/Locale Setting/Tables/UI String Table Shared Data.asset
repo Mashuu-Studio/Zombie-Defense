@@ -123,6 +123,10 @@ MonoBehaviour:
     m_Key: TITLE.DIFFICULT.HARD
     m_Metadata:
       m_Items: []
+  - m_Id: 43882048208773120
+    m_Key: SETTING.TITLE
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

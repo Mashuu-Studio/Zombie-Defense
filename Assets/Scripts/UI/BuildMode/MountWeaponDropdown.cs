@@ -8,9 +8,11 @@ public class MountWeaponDropdown : MonoBehaviour
 
     public static int ITEM_IMAGE_MAX_WIDTH = 150;
     public static int ITEM_IMAGE_MAX_HEIGHT = 50;
-    // Start is called before the first frame update
-    public void Init()
+
+    private CompanionSlot companionSlot;
+    public void Init(CompanionSlot slot = null)
     {
+        companionSlot = slot;
         weaponIconPrefab.gameObject.SetActive(false);
 
         foreach (var weapon in WeaponManager.Weapons)
@@ -18,6 +20,7 @@ public class MountWeaponDropdown : MonoBehaviour
             if (weapon.consumable) continue;
             var weaponIcon = Instantiate(weaponIconPrefab, transform);
             weaponIcon.Init(weapon.key);
+            weaponIcon.SetDropdown(this);
             weaponIcon.gameObject.SetActive(false);
             weaponIcons.Add(weaponIcon);
         }
@@ -25,8 +28,8 @@ public class MountWeaponDropdown : MonoBehaviour
 
     public void SetActive(bool b, Vector2 pos)
     {
-        ((RectTransform)transform).anchoredPosition = UIController.ScalingPos(Camera.main.WorldToScreenPoint(pos));
-        UpdateWeaponList();
+        ((RectTransform)transform).anchoredPosition = pos;
+        if (b) UpdateWeaponList();
         transform.SetAsLastSibling();
         gameObject.SetActive(b);
     }
@@ -42,6 +45,20 @@ public class MountWeaponDropdown : MonoBehaviour
         {
             weaponIcons[index].UpdateAmount();
             weaponIcons[index].gameObject.SetActive(true);
+        }
+    }
+
+    public void Select(string key)
+    {
+        if (companionSlot == null)
+        {
+            BuildingController.Instance.Mount(key);
+            UIController.Instance.ShowMountWeaponUI(false, Vector2.zero);
+        }
+        else
+        {
+            companionSlot.ChangeWeapon(key);
+            SetActive(false, ((RectTransform)transform).anchoredPosition);
         }
     }
 }

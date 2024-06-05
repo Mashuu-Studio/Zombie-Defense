@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Localization.Components;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
@@ -34,7 +33,6 @@ public class UIController : MonoBehaviour
         OpenShop(false);
         buildModeUI.gameObject.SetActive(false);
     }
-
     [Header("Scene")]
     [SerializeField] private GameObject[] scenes;
     [SerializeField] private Canvas canvas;
@@ -53,6 +51,16 @@ public class UIController : MonoBehaviour
     [Header("UI")]
     [SerializeField] private CanvasScaler scaler;
     [SerializeField] private FloatingDescription floatingDescription;
+    public bool UIisRemains { get { return openedUIs.Count > 0; } }
+    private List<GameObject> openedUIs = new List<GameObject>();
+
+    public void OffOpenedUI()
+    {
+        if (!UIisRemains) return;
+        var ui = openedUIs[openedUIs.Count - 1];
+        if (ui == shop.gameObject) OpenShop(false);
+        else if (ui == buildModeUI.gameObject) BuildMode(false);
+    }
 
     public void SetDescription(Vector3 pos, string key)
     {
@@ -100,6 +108,11 @@ public class UIController : MonoBehaviour
         }
         return false;
     }
+
+    public void Title(bool b)
+    {
+        setting.Title(b);
+    }
     #endregion
 
     #region Game
@@ -133,6 +146,8 @@ public class UIController : MonoBehaviour
     public void OpenShop(bool b)
     {
         shop.Open(b);
+        if (b) openedUIs.Add(shop.gameObject);
+        else openedUIs.Remove(shop.gameObject);
     }
 
     public void BuyItem(ShopItem shopItem, bool isMagazine = false)
@@ -140,14 +155,14 @@ public class UIController : MonoBehaviour
         shop.BuyItem(shopItem, isMagazine);
     }
 
+    public void UpdateCompanionInfo()
+    {
+        shop.UpdateCompanionInfo();
+    }
+
     public void RemoveCompanion(CompanionObject companion)
     {
         shop.RemoveCompanion(companion);
-    }
-
-    public void UpdateCompanions()
-    {
-        shop.UpdateCompanionSlots();
     }
     #endregion
 
@@ -164,7 +179,9 @@ public class UIController : MonoBehaviour
     public void BuildMode(bool b)
     {
         buildModeUI.BuildMode(b);
-        if (b == false) mountWeaponDropdown.SetActive(false, Vector2.zero);
+        if (b) openedUIs.Add(buildModeUI.gameObject);
+        else openedUIs.Remove(buildModeUI.gameObject);
+        if (b == false) mountWeaponDropdown.SetActive(false, UIController.ScalingPos(Camera.main.WorldToScreenPoint(Vector2.zero)));
         BuildingController.Instance.ChangeBulidMode(b);
         MapGenerator.Instance.BuildMode(b);
     }
@@ -181,7 +198,7 @@ public class UIController : MonoBehaviour
 
     public void ShowMountWeaponUI(bool b, Vector2 pos)
     {
-        mountWeaponDropdown.SetActive(b, pos);
+        mountWeaponDropdown.SetActive(b, ScalingPos(Camera.main.WorldToScreenPoint(pos)));
     }
     #endregion
 
@@ -190,33 +207,23 @@ public class UIController : MonoBehaviour
     {
         setting.gameObject.SetActive(b);
     }
-
-    public void LoadResolutionInfo()
-    {
-        setting.LoadResolutionInfo();
-    }
-
     #endregion
     #endregion
 
     #region Status
     [Header("Status")]
     [SerializeField] private TextMeshProUGUI hpText;
+    [SerializeField] private TextMeshProUGUI armorText;
     [SerializeField] private TextMeshProUGUI ammoText;
-    [SerializeField] private TextMeshProUGUI maxAmmoText;
     [SerializeField] private TextMeshProUGUI magazineText;
-    [SerializeField] private Slider expSlider;
-    [SerializeField] private TextMeshProUGUI lvText;
     [SerializeField] private TextMeshProUGUI moneyText;
 
     void Update()
     {
         if (GameController.Instance.GameStarted == false) return;
 
-        hpText.text = $"{Player.Instance.Hp}/{Player.Instance.MaxHp}";
-        expSlider.maxValue = Player.Instance.MaxExp;
-        expSlider.value = Player.Instance.Exp;
-        lvText.text = Player.Instance.Lv.ToString();
+        hpText.text = $"{Player.Instance.Hp}";
+        armorText.text = $"{Player.Instance.Def}";
         granadeAmount.text = Player.Instance.ItemAmount("WEAPON.GRENADE").ToString();
         moneyText.text = $"$ {Player.Instance.Money}";
 
@@ -258,7 +265,6 @@ public class UIController : MonoBehaviour
     {
         Weapon weapon = WeaponController.Instance.CurWeapon;
         ammoText.text = weapon.curammo.ToString();
-        maxAmmoText.text = weapon.ammo.ToString();
         UpdateWeaponImage();
         Reloading(false);
     }
@@ -327,7 +333,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI roundText;
     [SerializeField] private TextMeshProUGUI roundTimeText;
     [SerializeField] private LocalizeStringEvent difficultyText;
-    [SerializeField] private GameObject startRoundButton;
+    [SerializeField] private GameObject startRoundObject;
 
     public void UpdateRoundTime(int time)
     {
@@ -339,18 +345,18 @@ public class UIController : MonoBehaviour
     {
         roundText.text = $"ROUND {RoundController.Instance.Round}";
         roundTimeText.gameObject.SetActive(true);
-        startRoundButton.SetActive(false);
+        startRoundObject.SetActive(false);
         shopButton.SetActive(false);
-        OpenShop(false);
-        BuildMode(false);
         buildButton.SetActive(false);
+
+        while (UIisRemains) OffOpenedUI();
     }
 
     public void EndRound()
     {
         roundText.text = $"ROUND {RoundController.Instance.Round}";
         roundTimeText.gameObject.SetActive(false);
-        startRoundButton.SetActive(true);
+        startRoundObject.SetActive(true);
         shopButton.SetActive(true);
         buildButton.SetActive(true);
     }

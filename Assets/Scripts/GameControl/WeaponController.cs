@@ -131,19 +131,19 @@ public class WeaponController : MonoBehaviour
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        int move = (scroll > 0) ? 1 : -1;
-        if (scroll == 0) move = 0;
-        Switch(move);
-
-        if (UIController.PointOverUI()) return;
-        if (Input.GetMouseButton(0))
-            Fire(Player.Instance.FirePoint, mouseWorldPos);
-
         if (Input.GetKeyDown(KeyCode.R))
             Reload();
 
         if (Input.GetKeyDown(KeyCode.G))
             Grenade(Player.Instance.transform.position, mouseWorldPos);
+
+        if (UIController.PointOverUI()) return;
+        int move = (scroll > 0) ? 1 : -1;
+        if (scroll == 0) move = 0;
+        Switch(move);
+
+        if (Input.GetMouseButton(0))
+            Fire(Player.Instance.FirePoint, mouseWorldPos);
     }
 
     public void Switch(int move)

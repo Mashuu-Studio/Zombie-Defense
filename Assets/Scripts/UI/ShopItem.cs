@@ -12,6 +12,7 @@ public class ShopItem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemAmount;
     [SerializeField] private TextMeshProUGUI itemPrice;
     [SerializeField] private TextMeshProUGUI magazinePrice;
+    [SerializeField] private Image buyButtomImage;
     [SerializeField] private GameObject buyMagazineButton;
 
     public BuyableData Item { get; private set; }
@@ -36,6 +37,11 @@ public class ShopItem : MonoBehaviour
         magazinePrice.text = $"${0}";
 
         Item = data;
+    }
+
+    public void ChangeBuyButtonImage(Sprite sprite)
+    {
+        buyButtomImage.sprite = sprite;
     }
 
     private void Update()

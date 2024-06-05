@@ -10,13 +10,11 @@ public class ShopUI : MonoBehaviour
     [SerializeField] private RectTransform weaponScrollRectTransform;
     [SerializeField] private RectTransform otherItemScrollRectTransform;
     [SerializeField] private ShopItem itemPrefab;
+    [SerializeField] private Sprite buyItemSprite;
+    [SerializeField] private Sprite hireSprite;
 
     [Header("Units")]
     [SerializeField] private List<CompanionSlot> companionSlots;
-
-    [Header("Status")]
-    [SerializeField] private TextMeshProUGUI bonusStat;
-    [SerializeField] private TextMeshProUGUI[] statUpgradeInfos;
 
     [Header("Info")]
     [SerializeField] private LocalizeStringEvent description;
@@ -57,6 +55,8 @@ public class ShopUI : MonoBehaviour
         {
             var item = Instantiate(itemPrefab, otherItemScrollRectTransform);
             item.Init(other);
+            if (other.key.Contains("COMPANION")) item.ChangeBuyButtonImage(hireSprite);
+            else item.ChangeBuyButtonImage(buyItemSprite);
             item.gameObject.SetActive(true);
             items.Add(item);
             count++;
@@ -75,6 +75,15 @@ public class ShopUI : MonoBehaviour
     public void Open(bool b)
     {
         gameObject.SetActive(b);
+        if (b) UpdateCompanionInfo();
+    }
+
+    public void UpdateCompanionInfo()
+    {
+        companionSlots.ForEach(slot =>
+        {
+            if (slot.gameObject.activeSelf) slot.UpdateInfo();
+        });
     }
 
     public void ChangePanel(int index)
@@ -83,7 +92,6 @@ public class ShopUI : MonoBehaviour
         {
             panels[i].SetActive(i == index);
         }
-        if (index == 2) UpdateStatus();
     }
 
     public void BuyItem(ShopItem shopItem, bool isMagazine)
@@ -99,7 +107,6 @@ public class ShopUI : MonoBehaviour
                     || Player.Instance.ItemAmount(weapon.key) < CompanionController.MAX_COMPANION)
                 {
                     Player.Instance.AdjustItemAmount(weapon.key, 1);
-                    UpdateCompanionSlots();
                 }
             }
             // 소모품이 아닌데 무기가 없고 탄창이 아니라면 새롭게 획득
@@ -132,14 +139,6 @@ public class ShopUI : MonoBehaviour
         }
     }
 
-    public void UpdateCompanionSlots()
-    {
-        foreach (var slot in companionSlots)
-        {
-            slot.UpdateDropdowns();
-        }
-    }
-
     public void RemoveCompanion(CompanionObject companion)
     {
         foreach (var slot in companionSlots)
@@ -152,23 +151,6 @@ public class ShopUI : MonoBehaviour
         }
         UIController.Instance.UpdateBuildmodeCompanions();
     }
-
-    #region Status
-    public void UpdateStatus()
-    {
-        bonusStat.text = $"BONUS: {Player.Instance.BonusStat}";
-        statUpgradeInfos[0].text = $"{Player.Instance.MaxHp} → {Player.Instance.MaxHp + 5}";
-        statUpgradeInfos[1].text = $"{Player.Instance.Speed} → {Player.Instance.Speed + 1}";
-        statUpgradeInfos[2].text = $"{Player.Instance.ReloadTime}% → {Player.Instance.ReloadTime + 25}%";
-        statUpgradeInfos[3].text = $"{Player.Instance.Reward}% → {Player.Instance.Reward + 25}%";
-    }
-
-    public void UpgradeStat(int index)
-    {
-        Player.Instance.Upgrade((Player.StatType)index);
-        UpdateStatus();
-    }
-    #endregion
 
     #region Info
     public void UpdateInfo(ShopItem shopItem)

@@ -147,12 +147,12 @@ public class Weapon : BuyableData
             Wait = false;
             SoundController.Instance.PlaySFX(Player.Instance.transform, key + ".RELOAD");
 
-            if (singleBulletReload) curammo++;
-            else curammo = ammo;
-
-            if (player) UIController.Instance.UpdateAmmo(curammo);
-
-            if (Player.Instance.HasMagazine(key)) Player.Instance.UseMagazine(key);
+            int refillAmmo = Player.Instance.UseMagazine(key, curammo);
+            if (refillAmmo > 0)
+            {
+                curammo += refillAmmo;
+                if (player) UIController.Instance.UpdateAmmo(curammo);
+            }
             else break;
         }
         if (player && !singleBulletReload) UIController.Instance.Reloading(false);

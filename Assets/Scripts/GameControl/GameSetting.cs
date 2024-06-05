@@ -20,7 +20,6 @@ public class GameSetting : MonoBehaviour
         instance = this;
 
         Application.targetFrameRate = 60;
-        //InitResolutions();
         LoadSetting();
     }
 
@@ -53,58 +52,6 @@ public class GameSetting : MonoBehaviour
         SaveSetting();
     }
     #endregion
-
-    #region Graphic
-    public List<Resolution> Resolutions { get { return resolutions; } }
-    public int CurrentResolutionIndex { get { return currentResolutionIndex; } }
-    private List<Resolution> resolutions;
-    private int currentResolutionIndex;
-    private FullScreenMode screenMode;
-
-    Vector2Int currentMainDisplayResolution;
-    /*
-    private void Update()
-    {
-        if (currentMainDisplayResolution.x != Screen.mainWindowDisplayInfo.width
-            || currentMainDisplayResolution.y != Screen.mainWindowDisplayInfo.height)
-        {
-            InitResolutions(true);
-        }
-    }
-    */
-    private void InitResolutions(bool mainScreenChanged = false)
-    {
-        currentMainDisplayResolution = new Vector2Int(Screen.mainWindowDisplayInfo.width, Screen.mainWindowDisplayInfo.height);
-        resolutions = new List<Resolution>();
-        foreach (var resol in Screen.resolutions)
-        {
-            // 16 : 9 면서 resolutions안에 없을 때
-            if (resol.width / 16 == resol.height / 9
-                && resolutions.FindIndex(r => r.width == resol.width) == -1)
-            {
-                if (Screen.width == resol.width) currentResolutionIndex = resolutions.Count;
-                resolutions.Add(resol);
-            }
-        }
-
-        //if (mainScreenChanged) UIController.Instance.LoadResolutionInfo();
-    }
-
-    public void ChangeResolution(int index, bool fullscreen)
-    {
-        FullScreenMode screen = fullscreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
-
-        if (!(currentResolutionIndex == index && screenMode == screen))
-        {
-            currentResolutionIndex = index;
-            screenMode = screen;
-            int width = fullscreen ? Screen.mainWindowDisplayInfo.width : resolutions[currentResolutionIndex].width;
-            int height = fullscreen ? Screen.mainWindowDisplayInfo.height : resolutions[currentResolutionIndex].height;
-            Screen.SetResolution(width, height, screenMode);
-        }
-    }
-    #endregion
-
     #region Data
     public Setting SettingInfo { get { return setting; } }
     private Setting setting;

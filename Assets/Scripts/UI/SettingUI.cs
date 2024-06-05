@@ -12,10 +12,7 @@ public class SettingUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI masterVolumeText;
     [SerializeField] private TextMeshProUGUI bgmVolumeText;
     [SerializeField] private TextMeshProUGUI sfxVolumeText;
-
-    [Space]
-    [SerializeField] private TMP_Dropdown resolDropdown;
-    [SerializeField] private Toggle fullscreenToggle;
+    [SerializeField] private GameObject goToTitle;
     public void Init()
     {
         masterVolumeSlider.minValue = bgmVolumeSlider.minValue = sfxVolumeSlider.minValue = 1;
@@ -43,26 +40,15 @@ public class SettingUI : MonoBehaviour
         masterVolumeSlider.value = GameSetting.Instance.SettingInfo.options["volume"][0];
         bgmVolumeSlider.value = GameSetting.Instance.SettingInfo.options["volume"][1];
         sfxVolumeSlider.value = GameSetting.Instance.SettingInfo.options["volume"][2];
-
-        //LoadResolutionInfo();
     }
 
-    public void LoadResolutionInfo()
+    public void Title(bool b)
     {
-        resolDropdown.ClearOptions();
-        List<string> resolList = new List<string>();
-        GameSetting.Instance.Resolutions.ForEach(resol =>
-        {
-            resolList.Add($"{resol.width} x {resol.height}");
-        });
-        resolDropdown.AddOptions(resolList);
-        resolDropdown.value = GameSetting.Instance.CurrentResolutionIndex;
-        fullscreenToggle.isOn = Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
+        goToTitle.SetActive(!b);
     }
 
-    public void ChangeResolution()
+    public void GoToTitle()
     {
-        resolDropdown.interactable = !fullscreenToggle.isOn;
-        //GameSetting.Instance.ChangeResolution(resolDropdown.value, fullscreenToggle.isOn);
+        GameController.Instance.GoTo(SceneController.Scene.TITLE);
     }
 }

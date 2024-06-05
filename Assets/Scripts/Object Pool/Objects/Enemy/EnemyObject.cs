@@ -171,14 +171,14 @@ public class EnemyObject : BTPoolable,
                 string deadSfx = Data.key + ".DEAD";
                 if (SoundController.Instance.ContainsSFX(deadSfx) == false) deadSfx = "ENEMY.DEAD";
                 SoundController.Instance.PlaySFX(transform, deadSfx, true);
-                
+
                 if (Data.dropItem != null)
                 {
                     int rand = Random.Range(0, 100) + 1;
                     if (rand <= Data.dropItem.prob) ItemObject.Drop(transform.position, Data.dropItem);
                 }
 
-                Player.Instance.GetReward(exp, money);
+                Player.Instance.GetReward(money);
                 Dead();
             }
         }
@@ -320,7 +320,7 @@ public class EnemyObject : BTPoolable,
         while (true)
         {
             float time = 0;
-            while (time < 1f)
+            while (time < .5f)
             {
                 if (!GameController.Instance.Pause) time += Time.deltaTime;
                 yield return null;

@@ -59,14 +59,42 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            PauseGame(!pause);
-            UIController.Instance.OpenSetting(pause);
+            if (UIController.Instance.UIisRemains)
+            {
+                UIController.Instance.OffOpenedUI();
+            }
+            else
+            {
+                PauseGame(!pause);
+            }
         }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            UIController.Instance.OnOffShop();
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            UIController.Instance.OnOffBuildMode();
+        }
+
+        if (RoundController.Instance != null && !RoundController.Instance.Progress 
+            && Input.GetKeyDown(KeyCode.Space))
+        {
+            StartRound();
+        }
+    }
+
+    public void OnOffPause()
+    {
+        PauseGame(!pause);
     }
 
     public void PauseGame(bool b)
     {
         pause = b;
+        UIController.Instance.OpenSetting(pause);
     }
 
     public void LevelUpPause(bool b)
@@ -76,6 +104,7 @@ public class GameController : MonoBehaviour
 
     public void GoTo(SceneController.Scene scene)
     {
+        UIController.Instance.Title(scene == SceneController.Scene.TITLE);
         SceneController.ChangeScene(scene);
         StartCoroutine(ControlGame(scene));
     }
@@ -92,11 +121,15 @@ public class GameController : MonoBehaviour
         switch (scene)
         {
             case SceneController.Scene.TITLE:
+                CursorController.Instance.SetCursor(false);
+                PauseGame(false);
                 gameStarted = false;
                 UIController.Instance.ChangeScene(1);
                 break;
 
             case SceneController.Scene.GAME:
+                CursorController.Instance.SetCursor(true);
+                PauseGame(false);
                 UIController.Instance.ChangeScene(2);
                 MapGenerator.Instance.StartGame();
                 RoundController.Instance.EndGame();

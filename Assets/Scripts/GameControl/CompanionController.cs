@@ -43,5 +43,6 @@ public class CompanionController : MonoBehaviour
     public void SetCompanionPatrol(int index, List<Vector2> list)
     {
         companions[index].SetHoldPatrol(list);
+        UIController.Instance.UpdateCompanionInfo();
     }
 }

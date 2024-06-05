@@ -17,9 +17,10 @@ public class CompanionObject : BTPoolable,
     public string Key { get { return key; } }
     private string key;
 
-    private int maxhp;
     private int hp;
+    private int maxhp;
     private int def;
+    private int maxdef;
     private float speed = 5;
 
     private Weapon weapon;
@@ -44,7 +45,7 @@ public class CompanionObject : BTPoolable,
         this.key = key;
         var data = CompanionManager.GetCompanion(key);
         hp = maxhp = data.hp;
-        def = data.def;
+        def = maxdef = data.def;
         speed = data.speed;
         reloading = false;
         SetBasicWeapon();
@@ -59,6 +60,9 @@ public class CompanionObject : BTPoolable,
 
     public bool ChangeWeapon(string key)
     {
+        // 기존 무기와 같다면 스킵
+        if (weapon != null && weapon.key == key) return false;
+
         Weapon w = WeaponManager.GetWeapon(key);
         if (w.infAmount || Player.Instance.ItemAmount(key) > 0)
         {
@@ -73,7 +77,7 @@ public class CompanionObject : BTPoolable,
             float weaponParam = 0;
             List<Weapon> weapons = WeaponManager.GetWeapons();
             for (int i = 0; i < weapons.Count; i++)
-            { 
+            {
                 if (weapons[i].key == weapon.key)
                 {
                     weaponParam = (float)i / (weapons.Count - 1);
@@ -89,6 +93,7 @@ public class CompanionObject : BTPoolable,
 
     #region IMovingObject
     public enum PatrolType { NARROWLY = 0, WIDELY, LEAD, BACK, HOLD, }
+    public PatrolType PType { get { return patrolType; } }
     private PatrolType patrolType;
     private bool move;
     private Poolable movePoint;
@@ -161,13 +166,19 @@ public class CompanionObject : BTPoolable,
                 case PatrolType.LEAD:
                     x = 2f;
                     y = Random.Range(-2.5f, 2.5f);
-                    targetPos += (Vector2)(Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles) * new Vector2(x, y));
+                    targetPos += 
+                        (Vector2)(Quaternion.Euler(                        
+                            new Vector3(0,0,Player.Instance.transform.rotation.eulerAngles.z - 90))
+                        * new Vector2(x, y));
                     break;
 
                 case PatrolType.BACK:
                     x = -2f;
                     y = Random.Range(-2.5f, 2.5f);
-                    targetPos += (Vector2)(Quaternion.Euler(Player.Instance.transform.rotation.eulerAngles) * new Vector2(x, y));
+                    targetPos +=
+                        (Vector2)(Quaternion.Euler(
+                            new Vector3(0, 0, Player.Instance.transform.rotation.eulerAngles.z - 90))
+                        * new Vector2(x, y)); 
                     break;
 
                 case PatrolType.HOLD:
@@ -209,7 +220,7 @@ public class CompanionObject : BTPoolable,
             var next = IMovingObject.GetPos(path[pathIndex].position);
             var dir = (next - rigidbody.position).normalized;
             LookAt(next);
-            rigidbody.position += dir * Speed * Time.fixedDeltaTime; 
+            rigidbody.position += dir * Speed * Time.fixedDeltaTime;
             if (moveSoundTime > Player.MOVE_SOUND_TIME)
             {
                 SoundController.Instance.PlaySFX(transform, "CHARACTER.MOVE");
@@ -253,6 +264,11 @@ public class CompanionObject : BTPoolable,
     public void Heal()
     {
         hp = maxhp;
+    }
+
+    public void FillArmor()
+    {
+        def = maxdef;
     }
 
     public void Damaged(int dmg, ObjectData.Attribute attribute = ObjectData.Attribute.NONE)
@@ -354,6 +370,7 @@ public class CompanionObject : BTPoolable,
             return buff;
         }
     }
+
     public void Heal(int amount)
     {
         hp += amount;

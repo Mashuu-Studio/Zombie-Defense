@@ -8,14 +8,15 @@ using TMPro;
 public class CompanionSlot : MonoBehaviour
 {
     [SerializeField] private Image image;
+    [SerializeField] private TextMeshProUGUI armorText;
     [SerializeField] private TextMeshProUGUI hpText;
-    [SerializeField] private TMP_Dropdown weaponDropdown;
-    [SerializeField] private TMP_Dropdown patrolDropdown;
+    [SerializeField] private Image weaponImage;
+    [SerializeField] private MountWeaponDropdown weaponDropdown;
+    [SerializeField] private List<CustomToggle> patrolTypes;
 
     private static List<string> weaponKeys;
     private static List<string> patrolKeys;
-    private int keyIndex;
-    private int language;
+    private string weaponKey;
     public CompanionObject Data { get { return data; } }
     private CompanionObject data;
 
@@ -36,9 +37,7 @@ public class CompanionSlot : MonoBehaviour
                 patrolKeys.Add("GAME.SHOP.COMPANION.PATROL." + type.ToString().ToUpper());
             }
         }
-
-        weaponDropdown.AddOptions(weaponKeys);
-        patrolDropdown.AddOptions(patrolKeys);
+        weaponDropdown.Init(this);
         SetActive(false);
     }
     public void SetData(CompanionObject data)
@@ -51,64 +50,61 @@ public class CompanionSlot : MonoBehaviour
     public void SetActive(bool b)
     {
         gameObject.SetActive(b);
-        if (b)
-        {
-            UpdateInfo();
-            UpdateDropdowns();
-        }
+        weaponDropdown.gameObject.SetActive(false);
+        if (b) UpdateInfo();
         else data = null;
     }
 
-
-    public void ChangeWeapon(int index)
+    public void OpenDropdown()
     {
-        // 재고가 없다면 false 리턴. 원래대로 드랍다운 변경
-        if (data.ChangeWeapon(weaponKeys[index]))
+        transform.SetAsLastSibling();
+        weaponDropdown.SetActive(!weaponDropdown.gameObject.activeSelf, Vector2.zero);
+    }
+
+    public void ChangeWeapon(string key)
+    {
+        if (data.ChangeWeapon(key))
         {
-            keyIndex = index;
-            UIController.Instance.UpdateCompanions();
+            ChangeWeaponKey(key);
         }
-        else weaponDropdown.value = keyIndex;
+    }
+
+    public void ChangeWeaponKey(string key)
+    {
+        weaponKey = key;
+        weaponImage.sprite = SpriteManager.GetSprite(key.Replace("WEAPON.", "UI.")); if (weaponImage.sprite != null) weaponImage.rectTransform.sizeDelta = new Vector2(weaponImage.sprite.rect.width / weaponImage.sprite.rect.height * 50, 50);
+        float wRatio = weaponImage.rectTransform.sizeDelta.x / MountWeaponDropdown.ITEM_IMAGE_MAX_WIDTH;
+        float hRatio = weaponImage.rectTransform.sizeDelta.y / MountWeaponDropdown.ITEM_IMAGE_MAX_HEIGHT;
+        // 이미지가 지정한 크기를 벗어났을 경우 크기를 맞춰줌.
+        if (wRatio > 1 || hRatio > 1)
+        {
+            if (wRatio > hRatio) weaponImage.rectTransform.sizeDelta /= wRatio;
+            else weaponImage.rectTransform.sizeDelta /= hRatio;
+        }
     }
 
     public void ChangePatrolType(int index)
     {
-        data.SetPatrolType((CompanionObject.PatrolType)index);
+        if (index != 4 && patrolTypes[index].isOn) data.SetPatrolType((CompanionObject.PatrolType)index);
     }
 
-    private void Update()
+    public void UpdateInfo()
     {
+        armorText.text = $"{data.Def}";
+        hpText.text = $"{data.Hp}";
+        if (data.UsingWeapon != null
+            && weaponKey != data.UsingWeapon.key)
+        {
+            weaponKey = data.UsingWeapon.key;
+            ChangeWeaponKey(data.UsingWeapon.key);
+        }
+        patrolTypes[(int)data.PType].isOn = true;
+    }
+
+    public void FillArmor()
+    {
+        data.FillArmor();
         UpdateInfo();
-        if (language != GameSetting.Instance.CurrentLanguage)
-        {
-            UpdateDropdowns();
-            language = GameSetting.Instance.CurrentLanguage;
-        }
-    }
-    private void UpdateInfo()
-    {
-        hpText.text = $"HP: {Data.Hp} / {Data.MaxHp}";
-        if (data.UsingWeapon != null) weaponDropdown.value = keyIndex;
-    }
-
-    public void UpdateDropdowns()
-    {
-        for (int i = 0; i < weaponKeys.Count; i++)
-        {
-            string key = weaponKeys[i];
-            string amount = WeaponManager.GetWeapon(key).infAmount ? "INF" : Player.Instance.ItemAmount(key).ToString();
-            LocalizedString localizedString = new LocalizedString("Item Name Table", key);
-            weaponDropdown.options[i].text = $"{localizedString.GetLocalizedString()} : {amount}";
-        }
-        weaponDropdown.captionText.text = weaponDropdown.options[weaponDropdown.value].text;
-
-        for (int i = 0; i < patrolKeys.Count; i++)
-        {
-            string key = patrolKeys[i];
-            LocalizedString localizedString = new LocalizedString("UI String Table", key);
-            patrolDropdown.options[i].text = localizedString.GetLocalizedString();
-        }
-        patrolDropdown.captionText.text = patrolDropdown.options[patrolDropdown.value].text;
     }
 
     public void Heal()
