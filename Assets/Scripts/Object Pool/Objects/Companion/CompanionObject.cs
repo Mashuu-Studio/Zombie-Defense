@@ -257,7 +257,7 @@ public class CompanionObject : BTPoolable,
     #region IDamagedObject
     public int Hp { get { return hp; } }
     public int MaxHp { get { return maxhp; } }
-    public int Def { get { return def + ActivatedBuff.def; } }
+    public int Def { get { return def; } }
 
 
     IEnumerator changeColorCoroutine;
@@ -273,6 +273,7 @@ public class CompanionObject : BTPoolable,
 
     public void Damaged(int dmg, ObjectData.Attribute attribute = ObjectData.Attribute.NONE)
     {
+        dmg = IDamagedObject.Armoring(dmg, ref def);
         hp -= dmg;
         SoundController.Instance.PlaySFX(transform, "CHARACTER.DAMAGED", true);
 

@@ -87,6 +87,14 @@ MonoBehaviour:
     m_Key: BUILDING.LANDMINE
     m_Metadata:
       m_Items: []
+  - m_Id: 39229640971132928
+    m_Key: HEAL.HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39229655244349440
+    m_Key: HEAL.ARMOR
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

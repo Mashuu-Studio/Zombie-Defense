@@ -69,20 +69,22 @@ public class GameController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.V))
+        if (RoundController.Instance != null && !RoundController.Instance.Progress)
         {
-            UIController.Instance.OnOffShop();
-        }
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                UIController.Instance.OnOffShop();
+            }
 
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            UIController.Instance.OnOffBuildMode();
-        }
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                UIController.Instance.OnOffBuildMode();
+            }
 
-        if (RoundController.Instance != null && !RoundController.Instance.Progress 
-            && Input.GetKeyDown(KeyCode.Space))
-        {
-            StartRound();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                StartRound();
+            }
         }
     }
 

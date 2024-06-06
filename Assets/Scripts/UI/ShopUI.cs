@@ -133,6 +133,17 @@ public class ShopUI : MonoBehaviour
                 UIController.Instance.UpdateBuildmodeCompanions();
             }
         }
+        else if (shopItem.Item.key.Contains("HEAL"))
+        {
+            if (shopItem.Item.key.Contains("HP"))
+            {
+                Player.Instance.Heal(100);
+            }
+            else if (shopItem.Item.key.Contains("ARMOR"))
+            {
+                Player.Instance.RefillArmor(100);
+            }
+        }
         else
         {
             Player.Instance.AdjustItemAmount(shopItem.Item.key, 1);

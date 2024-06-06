@@ -106,6 +106,14 @@ MonoBehaviour:
     m_Localized: LAND MINE
     m_Metadata:
       m_Items: []
+  - m_Id: 43975371447607296
+    m_Localized: HEAL HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43975375570608128
+    m_Localized: REFILL ARMOR
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

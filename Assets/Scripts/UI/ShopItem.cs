@@ -46,17 +46,32 @@ public class ShopItem : MonoBehaviour
 
     private void Update()
     {
-        if (GameController.Instance.GameStarted && Item != null)
+        if (!GameController.Instance.GameStarted) return;
+
+        if (Item != null)
         {
             bool b = WeaponController.Instance.HasWeapon(Item.key);
             itemAmount.gameObject.SetActive(b);
-            int magazine = Player.Instance.GetMagazine(Item.key);
-            string str = magazine >= 0 ? magazine.ToString() : "inf";
-            magazinePrice.gameObject.SetActive(b && str != "inf");
-            buyMagazineButton.SetActive(b && str != "inf");
-            if (b)
+            if (Item.key == "HEAL.HP")
             {
-                itemAmount.text = $"{Player.Instance.ItemAmount(Item.key)} : {str}";
+                int price = (Player.Instance.MaxHp - Player.Instance.Hp) * Item.price / Player.Instance.MaxHp;
+                itemPrice.text = price.ToString();
+            }
+            else if (Item.key == "HEAL.ARMOR")
+            {
+                int price = (Player.Instance.MaxDef - Player.Instance.Def) * Item.price / Player.Instance.MaxDef;
+                itemPrice.text = price.ToString();
+            }
+            else if (Item.key.Contains("WEAPON"))
+            {
+                int magazine = Player.Instance.GetMagazine(Item.key);
+                string str = magazine >= 0 ? magazine.ToString() : "inf";
+                magazinePrice.gameObject.SetActive(b && str != "inf");
+                buyMagazineButton.SetActive(b && str != "inf");
+                if (b)
+                {
+                    itemAmount.text = $"{Player.Instance.ItemAmount(Item.key)} : {str}";
+                }
             }
         }
     }

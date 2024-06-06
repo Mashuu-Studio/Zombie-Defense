@@ -40,8 +40,9 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     private int money;
 
     public int MaxHp { get { return maxhp; } }
+    public int MaxDef { get { return maxdef; } }
     public int Hp { get { return hp; } }
-    public int Def { get { return def + ActivatedBuff.def; } }
+    public int Def { get { return def; } }
     public float Speed { get { return speed * (1 + ActivatedBuff.speed); } }
     public int ReloadTime { get { return reload; } }
     public int Reward { get { return reward; } }
@@ -62,11 +63,14 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         invincible = false;
 
         hp = maxhp = 100;
-        def = maxdef = 0;
+        def = maxdef = 100;
         speed = 5;
         reload = 0;
         reward = 0;
         money = 0;
+
+        hp = 37;
+        def = 24;
 
         itemAmount.Clear();
         foreach (var weapon in WeaponManager.Weapons)
@@ -278,9 +282,17 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         StartCoroutine(changeColorCoroutine);
     }
 
+    public void RefillArmor(int amount)
+    {
+        def += amount;
+        if (def > maxdef) def = maxdef;
+    }
+
     public void Damaged(int dmg, ObjectData.Attribute attribute = ObjectData.Attribute.NONE)
     {
         if (invincible) return;
+
+        dmg = IDamagedObject.Armoring(dmg, ref def);
         hp -= dmg;
         SoundController.Instance.PlaySFX(transform, "CHARACTER.DAMAGED");
 

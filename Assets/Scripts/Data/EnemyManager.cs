@@ -16,7 +16,7 @@ public static class EnemyManager
 
                 hp = 15,
                 speed = 3,
-                dmg = 0,
+                dmg = 1,
                 range = .8f,
                 adelay = 1.2f,
 
@@ -52,7 +52,7 @@ public static class EnemyManager
 
                 hp = 15,
                 speed = 3,
-                dmg = 0,
+                dmg = 1,
                 range = .8f,
                 adelay = 1,
 
@@ -70,7 +70,7 @@ public static class EnemyManager
 
                 hp = 15,
                 speed = 3,
-                dmg = 0,
+                dmg = 2,
                 range = .8f,
                 adelay = .75f,
 
@@ -89,7 +89,7 @@ public static class EnemyManager
 
                 hp = 15,
                 speed = 3,
-                dmg = 0,
+                dmg = 2,
                 range = .8f,
                 adelay = 1,
 
@@ -107,7 +107,7 @@ public static class EnemyManager
 
                 hp = 15,
                 speed = 7,
-                dmg = 0,
+                dmg = 2,
                 range = .8f,
                 adelay = 1.5f,
 
@@ -120,7 +120,7 @@ public static class EnemyManager
 
                 hp = 15,
                 speed = 3,
-                dmg = 1,
+                dmg = 5,
                 range = 5f,
                 adelay = 1.2f,
 
@@ -133,7 +133,7 @@ public static class EnemyManager
 
                 hp = 15,
                 speed = 3,
-                dmg = 1,
+                dmg = 5,
                 range = 3f,
                 adelay = 1.2f,
 
@@ -148,7 +148,7 @@ public static class EnemyManager
 
                 hp = 20,
                 speed = 5,
-                dmg = 1,
+                dmg = 6,
                 range = 5f,
                 adelay = 1,
 

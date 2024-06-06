@@ -8,6 +8,23 @@ public interface IDamagedObject
     public int Hp { get; }
     public int Def { get; }
     public void Damaged(int dmg, ObjectData.Attribute attribute = ObjectData.Attribute.NONE);
+    
+    public static int Armoring(int dmg, ref int def)
+    {
+        // 데미지의 절반은 방어구가 대신 받아줌.
+        // 막지 못한 데미지는 고스란히 체력으로 받음
+        int defense = dmg / 2 + (dmg % 2 == 0 ? 0 : 1);
+        int remain = dmg / 2;
+
+        def -= defense;
+        if (def < 0)
+        {
+            remain += -def;
+            def = 0;
+        }
+
+        return remain;
+    }
 }
 
 public interface IAttackObject

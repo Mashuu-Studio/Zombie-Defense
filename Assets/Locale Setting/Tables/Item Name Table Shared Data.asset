@@ -103,6 +103,14 @@ MonoBehaviour:
     m_Key: WEAPON.TESLA
     m_Metadata:
       m_Items: []
+  - m_Id: 43975371447607296
+    m_Key: HEAL.HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43975375570608128
+    m_Key: HEAL.ARMOR
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

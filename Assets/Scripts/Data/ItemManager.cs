@@ -17,6 +17,16 @@ public class ItemManager
             },
             new OtherItem()
             {
+                key = "HEAL.HP",
+                price = 100,
+            },
+            new OtherItem()
+            {
+                key = "HEAL.ARMOR",
+                price = 100,
+            },
+            new OtherItem()
+            {
                 key = "COMPANION.COMPANION1",
                 price = 0,
             },
