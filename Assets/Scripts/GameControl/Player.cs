@@ -164,8 +164,10 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
 
     public void AdjustItemAmount(string key, int amount)
     {
-        if (itemAmount.ContainsKey(key) && WeaponManager.GetWeapon(key).infAmount == false)
+        if (itemAmount.ContainsKey(key))
         {
+            var w = WeaponManager.GetWeapon(key);
+            if (w != null && w.infAmount) return;
             itemAmount[key] += amount;
             UIController.Instance.UpdateItemAmount(key, itemAmount[key]);
         }

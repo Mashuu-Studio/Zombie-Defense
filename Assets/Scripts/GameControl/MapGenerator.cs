@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -21,6 +22,7 @@ public class MapGenerator : MonoBehaviour
 
     public const int WALL = 0;
     public const int GRASS = 1;
+    public const int PLANT = 2;
 
     [SerializeField] private AstarPath astar;
     private bool updateCol;
@@ -30,9 +32,11 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private Tilemap wallTilemap;
     [SerializeField] private Tilemap wallBottomTilemap;
     [SerializeField] private Tilemap grassTilemap;
+    [SerializeField] private Tilemap plantTilemap;
     [SerializeField] private Tilemap buildModeGridTilemap;
-    [SerializeField] private Tile[] tiles;
-    [SerializeField] private Tile wallBottomTile;
+    [SerializeField] private RuleTile[] tiles;
+    [SerializeField] private RuleTile wallBottomTile;
+    [SerializeField] private RuleTile boundaryTile;
 
     [Header("MapInfo")]
     [SerializeField] private int width;
@@ -67,25 +71,38 @@ public class MapGenerator : MonoBehaviour
     private void GenerateMap()
     {
         map = new int[width, height];
-        RandomFillMap();
+        if (!useSeed) seed = Time.time.ToString();
+        RandomFillMap(ref map, seed, randomFillPercent);
+
         for (int i = 0; i < smoothing; i++)
-            SmoothMap();
+            SmoothMap(ref map);
 
         // 타일 세팅
         boundaryTilemap.ClearAllTiles();
         grassTilemap.ClearAllTiles();
+        plantTilemap.ClearAllTiles();
         wallTilemap.ClearAllTiles();
         wallBottomTilemap.ClearAllTiles();
 
         for (int x = -1; x <= width; x++)
         {
-            boundaryTilemap.SetTile((Vector3Int)ConvertToWorldPos(x, -1), tiles[GRASS]);
-            boundaryTilemap.SetTile((Vector3Int)ConvertToWorldPos(x, height), tiles[GRASS]);
+            boundaryTilemap.SetTile((Vector3Int)ConvertToWorldPos(x, -1), boundaryTile);
+            boundaryTilemap.SetTile((Vector3Int)ConvertToWorldPos(x, height), boundaryTile);
         }
         for (int y = -1; y <= height; y++)
         {
-            boundaryTilemap.SetTile((Vector3Int)ConvertToWorldPos(-1, y), tiles[GRASS]);
-            boundaryTilemap.SetTile((Vector3Int)ConvertToWorldPos(width, y), tiles[GRASS]);
+            boundaryTilemap.SetTile((Vector3Int)ConvertToWorldPos(-1, y), boundaryTile);
+            boundaryTilemap.SetTile((Vector3Int)ConvertToWorldPos(width, y), boundaryTile);
+        }
+
+        // 미니맵 밖 영역이 이상하게 보이지 않도록
+        for (int x = -10; x < width + 10; x++)
+        {
+            for (int y = -10; y < height + 10; y++)
+            {
+                Vector3Int pos = (Vector3Int)ConvertToWorldPos(x, y);
+                grassTilemap.SetTile(pos, tiles[GRASS]);
+            }
         }
 
         for (int x = 0; x < width; x++)
@@ -93,18 +110,35 @@ public class MapGenerator : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 Vector3Int pos = (Vector3Int)ConvertToWorldPos(x, y);
-                grassTilemap.SetTile(pos, tiles[GRASS]);
-                if (map[x, y] == WALL)
+                if (y > 0 && map[x, y] == WALL)
                 {
                     wallTilemap.SetTile(pos, tiles[WALL]);
-                    if (y < 1 || map[x, y - 1] == GRASS)
+                    if (map[x, y - 1] == GRASS)
                     {
+                        // 기본적으로 위치는 바로 아래
                         pos.y -= 1;
                         wallBottomTilemap.SetTile(pos, wallBottomTile);
+                        map[x, y - 1] = WALL;
+
+                        // 양쪽에 절벽 아래부분을 가려줄 공간이 있다면 생성
+                        // 룰타일이기 때문에 정확한 모양을 위해서는 양옆에 무언가가 있어야 함.
+                        pos.x -= 1;
+                        if (x > 1 && map[x - 1, y - 1] == WALL)
+                        {
+                            wallBottomTilemap.SetTile(pos, wallBottomTile);
+                            map[x - 1, y - 1] = WALL;
+                        }
+                        pos.x += 2;
+                        if (x < width - 1 && map[x + 1, y - 1] == WALL)
+                        {
+                            wallBottomTilemap.SetTile(pos, wallBottomTile);
+                            map[x + 1, y - 1] = WALL;
+                        }
                     }
                 }
             }
         }
+        CreatePlant();
 
         // 캐릭터 스폰
         // 가장 중심점을 기준으로 조금씩 퍼져나가는 방식을 활용.
@@ -153,6 +187,29 @@ public class MapGenerator : MonoBehaviour
         ((Pathfinding.GridGraph)astar.graphs[1]).center = new Vector3(-.5f, 0);*/
         astar.graphs[0].Scan();
         StartCoroutine(UpdatingAstar());
+    }
+
+    public void CreatePlant()
+    {
+        // 같은 동굴이 나오지 않도록 시드 변경
+        seed = (Time.time * 2).ToString();
+        int fill = 92;
+        int[,] map = new int[width, height];
+
+        // WALL을 PLANT로 변경할 예정.
+        RandomFillMap(ref map, seed, fill);
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (map[x, y] == WALL)
+                {
+                    Vector3Int pos = (Vector3Int)ConvertToWorldPos(x, y);
+                    plantTilemap.SetTile(pos, tiles[PLANT]);
+                }
+            }
+        }
     }
 
     public Vector2 GetEnemySpawnPos()
@@ -266,31 +323,29 @@ public class MapGenerator : MonoBehaviour
         return new Vector2Int(worldPos.x + Instance.map.GetLength(0) / 2, worldPos.y + Instance.map.GetLength(1) / 2) * Instance.squareSize;
     }
     #endregion
-    private void RandomFillMap()
+    private void RandomFillMap(ref int [,] map, string seed, int randomFillPercent)
     {
-        if (!useSeed) seed = Time.time.ToString();
-
         System.Random rand = new System.Random(seed.GetHashCode());
-
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
                 // terrain 0: wall, 1: grass
                 int terrain = WALL;
-                if (rand.Next() % 100 <= randomFillPercent) terrain = GRASS;
+                int res = rand.Next();
+                if (res % 100 <= randomFillPercent) terrain = GRASS;
                 map[x, y] = terrain;
             }
         }
     }
 
-    private void SmoothMap()
+    private void SmoothMap(ref int[,] map)
     {
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                int surroundWallAmount = GetSurroundGrassCount(x, y);
+                int surroundWallAmount = GetSurroundGrassCount(ref map, x, y);
 
                 if (surroundWallAmount > 4) map[x, y] = GRASS;
                 else if (surroundWallAmount < 4) map[x, y] = WALL;
@@ -298,7 +353,7 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    private int GetSurroundGrassCount(int gridX, int gridY)
+    private int GetSurroundGrassCount(ref int[,] map, int gridX, int gridY)
     {
         int grassCount = 0;
         for (int x = gridX - 1; x <= gridX + 1; x++)
