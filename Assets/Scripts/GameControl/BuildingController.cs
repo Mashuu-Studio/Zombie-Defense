@@ -97,8 +97,8 @@ public class BuildingController : MonoBehaviour
         if (buildings.ContainsKey(pos))
         {
             var building = buildings[pos];
-            Building data = building.Data;
-            Player.Instance.AdjustItemAmount(data.key, 1);
+            // 사용한 적 없는 경우에만 회수. 아니면 파괴
+            if (!building.AlreadyUsed) Player.Instance.AdjustItemAmount(building.Data.key, 1);
             building.DestroyBuilding();
         }
     }

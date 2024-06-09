@@ -12,6 +12,7 @@ public class BuildingObject : BTPoolable, IDamagedObject
     private Vector2 pos;
     private int hp;
 
+    public bool AlreadyUsed { get { return hp < data.hp; } }
     public int Hp { get { return hp; } }
     public int Def { get; }
 
@@ -65,8 +66,8 @@ public class BuildingObject : BTPoolable, IDamagedObject
 
     public virtual void DestroyBuilding()
     {
+        StopAllCoroutines();
         BuildingController.Instance.RemoveBuilding(pos);
         PoolController.Push(gameObject.name, this);
-        StopAllCoroutines();
     }
 }
