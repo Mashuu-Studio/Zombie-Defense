@@ -69,9 +69,6 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         reward = 0;
         money = 0;
 
-        hp = 37;
-        def = 24;
-
         itemAmount.Clear();
         foreach (var weapon in WeaponManager.Weapons)
         {
@@ -203,12 +200,11 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         var w = WeaponManager.GetWeapon(key);
         if (HasMagazine(key))
         {
-            if (w.infAmount) refillAmmo = w.ammo;
-            else if (w.singleBulletReload) refillAmmo = 1;
+            if (w.singleBulletReload) refillAmmo = 1;
             else
             {
                 refillAmmo = w.ammo - curammo;
-                if (refillAmmo > magazines[key]) refillAmmo = magazines[key];
+                if (w.infAmount == false && refillAmmo > magazines[key]) refillAmmo = magazines[key];
             }
         }
         if (w.infAmount == false) magazines[key] -= refillAmmo;
@@ -247,7 +243,11 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     public void ActivateBuff(BuffInfo buff)
     {
         // 단순 회복일 경우 즉시 발동
-        if (buff.IsHeal) Heal(buff.hp);
+        if (buff.IsHeal)
+        {
+            if (buff.hp > 0) Heal(buff.hp);
+            if (buff.def > 0) RefillArmor(buff.def);
+        }
         else
         {
             if (buffs.ContainsKey(buff))

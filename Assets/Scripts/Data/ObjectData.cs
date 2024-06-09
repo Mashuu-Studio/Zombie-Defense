@@ -36,7 +36,7 @@ public class Weapon : BuyableData
     public float reload;
     public bool singleBulletReload;
 
-    public bool pierce = false;
+    public int pierce = 0;
     public bool point = false;
     public bool autotarget = false;
     public bool consumable = false;
@@ -155,6 +155,7 @@ public class Weapon : BuyableData
             }
             else break;
         }
+        Wait = false;
         if (player && !singleBulletReload) UIController.Instance.Reloading(false);
     }
 }
@@ -181,8 +182,9 @@ public class Enemy : ObjectData
 
     public int hp;
     public int dmg;
-    public int speed;
+    public float speed;
     public float range;
+    public float projSpeed = 0;
     public float adelay;
 
     public Dictionary<Attribute, float> resistances = new Dictionary<Attribute, float>();
@@ -191,6 +193,8 @@ public class Enemy : ObjectData
     public BuffInfo debuff = null;
     public Item dropItem = null;
 
+    public bool projSummon;
+    public int summonProb = 100;
     public string summonUnit;
     public float summonCD;
     public int summonAmount;
@@ -200,7 +204,6 @@ public class Enemy : ObjectData
     public int restHealAmount;
     public bool isSiege = false;
 
-    public int exp;
     public int money;
 }
 

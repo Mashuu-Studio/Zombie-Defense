@@ -14,20 +14,20 @@ public static class CompanionManager
             new Companion()
             {
                 key = "COMPANION.COMPANION1",
-                hp = 5,
-                def = 0,
+                hp = 50,
+                def = 30,
             },
             new Companion()
             {
                 key = "COMPANION.COMPANION2",
-                hp = 10,
-                def = 0,
+                hp = 70,
+                def = 50,
             },
             new Companion()
             {
                 key = "COMPANION.COMPANION3",
-                hp = 15,
-                def = 1,
+                hp = 100,
+                def = 100,
             },
         };
     }

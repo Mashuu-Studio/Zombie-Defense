@@ -19,6 +19,7 @@ public class Bullet : Projectile
     private float radius;
     private float bulletSize;
 
+    private int pierce;
     private bool point;
     private float dmgDelay;
 
@@ -58,6 +59,7 @@ public class Bullet : Projectile
         originRadius = hitbox.radius;
         radius = w.radius / 2;
 
+        pierce = w.pierce;
         point = w.point;
         if (remainTime == 0) remainTime = Time.fixedDeltaTime * 2;
     }
@@ -127,12 +129,13 @@ public class Bullet : Projectile
 
         ActionController.AddAction(gameObject, () =>
         {
-            if (weapon.attribute == ObjectData.Attribute.BULLET) 
+            if (weapon.attribute == ObjectData.Attribute.BULLET)
                 SoundController.Instance.PlaySFX(collision.transform, "BULLET.DAMAGED", true);
-            
-            
+
             enemy.Damaged(weapon.dmg, weapon.attribute);
-            if (weapon.pierce == false && !point)
+            pierce--;
+
+            if (pierce < 0 && !point)
             {
                 Push();
                 StopAllCoroutines();

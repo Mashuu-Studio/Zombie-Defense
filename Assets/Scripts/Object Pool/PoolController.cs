@@ -16,7 +16,7 @@ public class PoolController : MonoBehaviour
         }
 
         instance = this;
-        Instance.Init();
+        DontDestroyOnLoad(gameObject);
     }
 
     private static string path = "Poolable";

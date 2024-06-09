@@ -14,16 +14,16 @@ public static class RoundManager
             new Round()
             {
                 enemyInfo = new Dictionary<string, float>()
-                {
+                {/*
                     { "ENEMY.ZOMBIE", .3f },
                     { "ENEMY.DOCTORZOMBIE", .05f },
                     { "ENEMY.FIREFIGHTERZOMBIE", .05f },
                     { "ENEMY.EODZOMBIE", .05f },
                     { "ENEMY.COMMANDOZOMBIE", .05f },
                     { "ENEMY.ZOMBIEDOG", .2f },
-                    { "ENEMY.SPITTER", .1f },
-                    { "ENEMY.BOOMER", .05f },
-                    { "ENEMY.TANK", .05f },
+                    { "ENEMY.SPITTER", .1f },*/
+                    { "ENEMY.BOOMER", .5f },
+                    //{ "ENEMY.TANK", .05f },
                 },
             },/*
             new Round()

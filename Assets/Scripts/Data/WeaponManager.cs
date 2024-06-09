@@ -17,7 +17,7 @@ public static class WeaponManager
 
                 attribute = ObjectData.Attribute.EXPLOSION,
 
-                dmg = 30,
+                dmg = 100,
                 adelay = 0f,
                 dmgdelay = 1.5f,
 
@@ -34,14 +34,14 @@ public static class WeaponManager
 
                 attribute = ObjectData.Attribute.BULLET,
 
-                dmg = 5,
-                adelay = 0.4f,
-                range = 15,
-                bulletspreadangle = 10,
+                dmg = 30,
+                adelay = .34f,
+                range = 10,
+                bulletspreadangle = 7,
 
                 bulletSpeed = 30,
 
-                ammo = 7,
+                ammo = 15,
                 reload = 1,
                 infAmount = true,
             },
@@ -52,9 +52,9 @@ public static class WeaponManager
 
                 attribute = ObjectData.Attribute.BULLET,
 
-                dmg = 3,
+                dmg = 20,
                 adelay = 0.05f,
-                range = 15,
+                range = 10,
                 bulletspreadangle = 10,
 
                 bulletSpeed = 30,
@@ -69,15 +69,16 @@ public static class WeaponManager
 
                 attribute = ObjectData.Attribute.BULLET,
 
-                dmg = 7,
+                dmg = 35,
                 adelay = 0.15f,
-                range = 25,
-                bulletspreadangle = 2,
+                range = 15,
+                bulletspreadangle = 3,
 
                 bulletSpeed = 40,
 
-                ammo = 30,
+                ammo = 40,
                 reload = 2,
+                pierce = 1,
             },
             new Weapon()
             {
@@ -86,16 +87,16 @@ public static class WeaponManager
 
                 attribute = ObjectData.Attribute.BULLET,
 
-                dmg = 5,
-                adelay = .7f,
-                range = 8,
+                dmg = 25,
+                adelay = .8f,
+                range = 4,
                 bulletspreadangle = 45,
 
                 bulletSpeed = 25,
                 bullets = 10,
 
-                ammo = 5,
-                reload = .7f,
+                ammo = 7,
+                reload = .5f,
                 singleBulletReload = true,
             },
             new Weapon()
@@ -105,18 +106,17 @@ public static class WeaponManager
 
                 attribute = ObjectData.Attribute.BULLET,
 
-                dmg = 30,
-                adelay = 2f,
+                dmg = 100,
+                adelay = 1f,
                 range = 40,
-                bulletspreadangle = 2,
+                bulletspreadangle = 1,
 
                 bulletSpeed = 50,
-                bullets = 1,
 
-                ammo = 7,
+                ammo = 10,
                 reload = 2,
 
-                pierce = true,
+                pierce = 10,
             },
             new Weapon()
             {
@@ -125,10 +125,10 @@ public static class WeaponManager
 
                 attribute = ObjectData.Attribute.EXPLOSION,
 
-                dmg = 30,
-                adelay = 3f,
+                dmg = 200,
+                adelay = 2f,
                 range = 40,
-                bulletspreadangle = 0,
+                bulletspreadangle = 3,
 
                 bulletSpeed = 10,
                 bullets = 1,
@@ -146,15 +146,15 @@ public static class WeaponManager
 
                 attribute = ObjectData.Attribute.ELECTRIC,
 
-                dmg = 4,
+                dmg = 25,
                 adelay = .5f,
                 range = 3,
-                bulletspreadangle = 2,
+                bulletspreadangle = 0,
 
                 bullets = 5,
 
-                ammo = 30,
-                reload = 2,
+                ammo = 20,
+                reload = 1,
 
                 autotarget = true,
             },
@@ -165,18 +165,18 @@ public static class WeaponManager
 
                 attribute = ObjectData.Attribute.FIRE,
 
-                dmg = 1,
-                adelay = .03f,
-                range = 8,
+                dmg = 10,
+                adelay = .05f,
+                range = 6,
                 bulletspreadangle = 30,
 
                 bulletSize = .75f,
                 bulletSpeed = 10,
 
                 ammo = 100,
-                reload = 3,
+                reload = 2,
 
-                pierce = true,
+                pierce = 50,
             },
             new Weapon()
             {
@@ -185,14 +185,14 @@ public static class WeaponManager
 
                 attribute = ObjectData.Attribute.BULLET,
 
-                dmg = 7,
-                adelay = 0.1f,
+                dmg = 60,
+                adelay = 0.2f,
                 range = 25,
                 bulletspreadangle = 10,
 
                 bulletSpeed = 30,
 
-                ammo = 200,
+                ammo = 100,
                 reload = 4f,
             },
         };

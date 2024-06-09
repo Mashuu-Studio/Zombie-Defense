@@ -381,7 +381,11 @@ public class CompanionObject : BTPoolable,
     public void ActivateBuff(BuffInfo buff)
     {
         // 단순 회복일 경우 즉시 발동
-        if (buff.IsHeal) Heal(buff.hp);
+        if (buff.IsHeal)
+        {
+            if (buff.hp > 0) Heal(buff.hp);
+            //if (buff.def > 0) RefillArmor(buff.def);
+        }
         else
         {
             if (buffs.ContainsKey(buff))

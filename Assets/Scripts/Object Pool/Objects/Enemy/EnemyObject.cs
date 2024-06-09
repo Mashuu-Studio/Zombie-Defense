@@ -31,9 +31,8 @@ public class EnemyObject : BTPoolable,
     protected int def;
     protected float range;
     protected float aDelay;
-    protected int speed;
+    protected float speed;
 
-    protected int exp;
     protected int money;
 
     protected bool flight;
@@ -72,7 +71,6 @@ public class EnemyObject : BTPoolable,
         range = data.range;
         aDelay = data.adelay;
 
-        exp = data.exp;
         money = data.money;
 
         WaitAttack = false;
@@ -282,8 +280,9 @@ public class EnemyObject : BTPoolable,
 
         string projName = Data.key.Replace("ENEMY", "PROJECTILE");
         var proj = (EnemyProjectile)PoolController.Pop(projName);
+        var summonUnit = data.projSummon ? data.summonUnit : "";
         proj.SetProj(transform.position, targetPos, transform.rotation.eulerAngles.z,
-            Data.isSiege, Dmg, 10, Data.debuff);
+            Data.isSiege, Dmg, data.projSpeed, Data.debuff, summonUnit, Data.summonProb);
     }
 
     public virtual void Attack()
@@ -377,7 +376,11 @@ public class EnemyObject : BTPoolable,
     public void ActivateBuff(BuffInfo buff)
     {
         // 단순 회복일 경우 즉시 발동
-        if (buff.IsHeal) Heal(buff.hp);
+        if (buff.IsHeal)
+        {
+            if (buff.hp > 0) Heal(buff.hp);
+            //if (buff.def > 0) RefillArmor(buff.def);
+        }
         else
         {
             if (buffs.ContainsKey(buff))

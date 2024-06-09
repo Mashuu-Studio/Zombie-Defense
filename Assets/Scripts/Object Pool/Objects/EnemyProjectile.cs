@@ -11,6 +11,8 @@ public class EnemyProjectile : Projectile
     private BuffInfo debuff;
 
     private int dmg;
+    private string summonUnit;
+    private int summonProb;
 
     public override void Init()
     {
@@ -19,7 +21,7 @@ public class EnemyProjectile : Projectile
     }
 
     public void SetProj(Vector2 start, Vector2 dest, float angle,
-        bool isSiege, int dmg, float speed, BuffInfo debuff)
+        bool isSiege, int dmg, float speed, BuffInfo debuff, string summonUnit, int summonProb)
     {
         stop = false;
 
@@ -32,6 +34,9 @@ public class EnemyProjectile : Projectile
         this.speed = speed;
         this.isSiege = isSiege;
         this.debuff = debuff;
+
+        this.summonUnit = summonUnit;
+        this.summonProb = summonProb;
 
         if (remainTime == 0) remainTime = Time.fixedDeltaTime * 2;
     }
@@ -87,10 +92,22 @@ public class EnemyProjectile : Projectile
                 IBuffTargetObject buffTargetObject = collision.transform.parent.GetComponent<IBuffTargetObject>();
                 if (buffTargetObject != null) buffTargetObject.ActivateBuff(debuff);
             }
+
             var target = collision.transform.parent.GetComponent<IDamagedObject>();
             target.Damaged(dmg);
 
             if (singleTarget) Push();
         });
+    }
+
+    protected override void Push()
+    {
+        base.Push();
+        if (summonUnit != "" && Random.Range(0, 100) < summonProb)
+        {
+            Enemy enemy = EnemyManager.GetEnemy(summonUnit);
+
+            EnemyController.Instance.AddEnemy(enemy, transform.position);
+        }
     }
 }

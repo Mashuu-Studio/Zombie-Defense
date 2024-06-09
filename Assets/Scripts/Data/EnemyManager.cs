@@ -14,82 +14,78 @@ public static class EnemyManager
             {
                 key = "ENEMY.ZOMBIE",
 
-                hp = 15,
+                hp = 50,
                 speed = 3,
-                dmg = 1,
+                dmg = 2,
                 range = .8f,
-                adelay = 1.2f,
+                adelay = 1f,
 
-                exp = 5,
                 money = 10,
             },
             new Enemy()
             {
                 key = "ENEMY.DOCTORZOMBIE",
 
-                hp = 15,
+                hp = 50,
                 speed = 3,
-                dmg = 1,
+                dmg = 2,
                 range = .8f,
-                adelay = 1,
+                adelay = 1.5f,
 
                 dropItem = new Item()
                 {
                     itemKey = "HEALKIT",
-                    buff = new BuffInfo(){ hp = 5 },
+                    buff = new BuffInfo(){ hp = 30 },
                     prob = 50,
                 },
 
-                thresholdHp = 10,
-                restHealAmount = 2,
+                thresholdHp = 30,
+                restHealAmount = 10,
 
-                exp = 5,
                 money = 10,
             },
             new Enemy()
             {
                 key = "ENEMY.FIREFIGHTERZOMBIE",
 
-                hp = 15,
-                speed = 3,
-                dmg = 1,
+                hp = 70,
+                speed = 3.5f,
+                dmg = 4,
                 range = .8f,
-                adelay = 1,
+                adelay = .8f,
 
                 resistances = new Dictionary<ObjectData.Attribute, float>()
                 {
                     { ObjectData.Attribute.FIRE, .25f },
                 },
 
-                exp = 5,
                 money = 10,
             },
             new Enemy()
             {
                 key = "ENEMY.EODZOMBIE",
 
-                hp = 15,
-                speed = 3,
-                dmg = 2,
+                hp = 100,
+                speed = 2,
+                dmg = 5,
                 range = .8f,
-                adelay = .75f,
+                adelay = .8f,
 
                 resistances = new Dictionary<ObjectData.Attribute, float>()
                 {
-                    { ObjectData.Attribute.BULLET, .25f },
+                    { ObjectData.Attribute.BULLET, .5f },
                     { ObjectData.Attribute.EXPLOSION, .25f },
                 },
 
-                exp = 5,
                 money = 10,
             },
             new Enemy()
             {
                 key = "ENEMY.COMMANDOZOMBIE",
 
-                hp = 15,
-                speed = 3,
-                dmg = 2,
+                hp = 70,
+                speed = 4,
+                dmg = 5,
                 range = .8f,
                 adelay = 1,
 
@@ -98,80 +94,81 @@ public static class EnemyManager
                     { ObjectData.Attribute.BULLET, .5f },
                 },
 
-                exp = 5,
                 money = 10,
             },
             new Enemy()
             {
                 key = "ENEMY.ZOMBIEDOG",
 
-                hp = 15,
-                speed = 7,
-                dmg = 2,
+                hp = 30,
+                speed = 8,
+                dmg = 4,
                 range = .8f,
-                adelay = 1.5f,
+                adelay = 2f,
 
-                exp = 5,
                 money = 10,
             },
             new Enemy()
             {
                 key = "ENEMY.SPITTER",
 
-                hp = 15,
-                speed = 3,
+                hp = 100,
+                speed = 4.5f,
                 dmg = 5,
                 range = 5f,
-                adelay = 1.2f,
+                adelay = 1f,
+                projSpeed = 15,
+                debuff = new BuffInfo(){ time = 5, speed = -0.4f },
 
-                exp = 5,
                 money = 10,
             },
             new Enemy()
             {
                 key = "ENEMY.BOOMER",
 
-                hp = 15,
-                speed = 3,
+                hp = 70,
+                speed = 2,
                 dmg = 5,
-                range = 3f,
-                adelay = 1.2f,
+                range = 3.5f,
+                adelay = .5f,
+                projSpeed = 6,
 
-                debuff = new BuffInfo(){ time = 10, speed = -0.5f },
+                projSummon = true,
+                summonProb = 50,
+                summonUnit = "ENEMY.ZOMBIE",
 
-                exp = 5,
                 money = 10,
             },
             new Enemy()
             {
                 key = "ENEMY.TANK",
 
-                hp = 20,
-                speed = 5,
-                dmg = 6,
-                range = 5f,
-                adelay = 1,
+                hp = 450,
+                speed = 2.5f,
+                dmg = 10,
+                range = 6f,
+                adelay = .6f,
+                projSpeed = 8,
 
                 isSiege = true,
 
-                exp = 5,
                 money = 10,
             },
             new Enemy()
             {
                 key = "ENEMY.RADIOACTIVEWASTE",
 
-                hp = 40,
-                speed = 2,
+                hp = 30,
+                speed = 3,
                 dmg = 1,
-                range = 1.2f,
+                range = 0.8f,
                 adelay = 1,
 
-                separate = 3,
+                thresholdHp = 10,
 
-                exp = 4,
                 money = 10,
-            },
+            }
+            /*
             new Enemy()
             {
                 key = "test_buff1",
@@ -279,7 +276,7 @@ public static class EnemyManager
 
                 exp = 4,
                 money = 10,
-            },
+            },*/
         };
     }
 

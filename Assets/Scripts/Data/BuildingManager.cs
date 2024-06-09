@@ -13,17 +13,17 @@ public static class BuildingManager
             new Building()
             {
                 key = "BUILDING.WOODENBARRICADE",
-                hp = 10,
+                hp = 100,
             },
             new Building()
             {
                 key = "BUILDING.IRONBARRICADE",
-                hp = 20,
+                hp = 100,
             },
             new Building()
             {
                 key = "BUILDING.CONCRETEBARRICADE",
-                hp = 30,
+                hp = 150,
             },
             new Building()
             {
@@ -50,7 +50,7 @@ public static class BuildingManager
             new Building()
             {
                 key = "BUILDING.TURRET",
-                hp = 10,
+                hp = 50,
                 range = 5,
                 speed = 30,
                 adelay = 1,
