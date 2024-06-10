@@ -96,6 +96,8 @@ public class ShopUI : MonoBehaviour
 
     public void BuyItem(ShopItem shopItem, bool isMagazine)
     {
+        if (Player.Instance.BuyItem(shopItem.Item, isMagazine) == false) return;
+
         Weapon weapon = shopItem.Item as Weapon;
         if (weapon != null)
         {
@@ -103,11 +105,7 @@ public class ShopUI : MonoBehaviour
             if (weapon.consumable || WeaponController.Instance.HasWeapon(weapon.key))
             {
                 if (isMagazine) Player.Instance.AddMagazine(weapon.key);
-                else if (weapon.consumable
-                    || Player.Instance.ItemAmount(weapon.key) < CompanionController.MAX_COMPANION)
-                {
-                    Player.Instance.AdjustItemAmount(weapon.key, 1);
-                }
+                else if (!isMagazine) Player.Instance.AdjustItemAmount(weapon.key, 1);
             }
             // 소모품이 아닌데 무기가 없고 탄창이 아니라면 새롭게 획득
             else if (!isMagazine)

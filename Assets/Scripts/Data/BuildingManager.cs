@@ -13,47 +13,55 @@ public static class BuildingManager
             new Building()
             {
                 key = "BUILDING.WOODENBARRICADE",
-                hp = 100,
+                hp = 50,
+                price = 100,
             },
             new Building()
             {
                 key = "BUILDING.IRONBARRICADE",
                 hp = 100,
+                price = 300,
             },
             new Building()
             {
                 key = "BUILDING.CONCRETEBARRICADE",
                 hp = 150,
+                price = 500,
             },
             new Building()
             {
                 key = "BUILDING.BARBEDWIRE",
                 hp = 10,
+                dmg = 10,
                 adelay = 1,
-                buff = new BuffInfo(){time = 5, speed = -.5f},
+                buff = new BuffInfo(){time = 5, speed = -.75f},
+                price = 1000,
             },
             new Building()
             {
                 key = "BUILDING.SPIKETRAP",
                 hp = 10,
-                dmg = 2,
+                dmg = 30,
                 adelay = 1,
+                price = 1000,
             },
             new Building()
             {
                 key = "BUILDING.LANDMINE",
                 hp = 1,
-                dmg = 2,
+                dmg = 100,
                 range = 2,
                 adelay = 1,
+                price = 500,
             },
             new Building()
             {
                 key = "BUILDING.TURRET",
-                hp = 50,
+                hp = 30,
                 range = 5,
                 speed = 30,
                 adelay = 1,
+                price = 1500,
             },
         };
     }

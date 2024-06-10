@@ -307,7 +307,7 @@ public class EnemyObject : BTPoolable,
     #endregion
 
     #region IMovingObject
-    public float Speed { get { return speed * (1 + ActivatedBuff.speed) * GameController.Instance.Difficulty.speed; } }
+    public float Speed { get { return speed * (1 + ActivatedBuff.speed); } }
     protected Transform moveTarget;
     protected List<Pathfinding.GraphNode> path;
     private int pathIndex;

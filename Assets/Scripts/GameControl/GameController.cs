@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
         }
         instance = this;
         DontDestroyOnLoad(gameObject);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Enemy"));
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Map Boundary"));
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Companion"));
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Companion"));
@@ -23,9 +24,9 @@ public class GameController : MonoBehaviour
 
         difficulties = new DifficultRatio[]
         {
-            new DifficultRatio(){hp = 1, dmg = 1, speed = 1 },
-            new DifficultRatio(){hp = 1.5f, dmg = 1.5f, speed = 1.5f },
-            new DifficultRatio(){hp = 2, dmg = 2, speed = 2 },
+            new DifficultRatio(){ hp = 1, dmg = 1, reward = 1 },
+            new DifficultRatio(){ hp = 1.5f, dmg = 1.5f, reward = 1.2f },
+            new DifficultRatio(){ hp = 2, dmg = 2, reward = 1.5f },
         };
     }
 
@@ -162,6 +163,6 @@ public class GameController : MonoBehaviour
     {
         public float hp;
         public float dmg;
-        public float speed;
+        public float reward;
     }
 }

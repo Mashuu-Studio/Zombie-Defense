@@ -43,12 +43,13 @@ public class RoundController : MonoBehaviour
         else GameController.Instance.GoTo(SceneController.Scene.TITLE);
     }
 
+    private const float AmountRatio = 1.25f;
     private IEnumerator ProgressRound(Round roundInfo, float time)
     {
         progress = true;
         foreach (var info in roundInfo.enemyInfo)
         {
-            spawnEnemyCoroutines.Add(EnemyController.Instance.SpawnEnemy(EnemyManager.GetEnemy(info.Key), info.Value));
+            spawnEnemyCoroutines.Add(EnemyController.Instance.SpawnEnemy(EnemyManager.GetEnemy(info.Key), info.Value * AmountRatio / time));
         }
         spawnEnemyCoroutines.ForEach(coroutine => StartCoroutine(coroutine));
 

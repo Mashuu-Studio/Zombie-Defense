@@ -71,8 +71,12 @@ public class BuildingController : MonoBehaviour
     {
         Building data = BuildingManager.GetBuilding(selectedBuildingKey);
         if (data == null || !Buildable(pos)) return;
-        if (Player.Instance.ItemAmount(data.key) <= 0
-            && !Player.Instance.BuyItem(data)) return;
+        if (Player.Instance.ItemAmount(data.key) <= 0)
+        {
+            // 없다면 구매. 구매할 수 없다면 짓지 않음.
+            if (Player.Instance.BuyItem(data)) Player.Instance.AdjustItemAmount(data.key, 1);
+            else return;
+        }
 
         Poolable obj = PoolController.Pop(selectedBuildingKey);
         BuildingObject building = obj.GetComponent<BuildingObject>();

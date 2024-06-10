@@ -15,19 +15,19 @@ public static class EnemyManager
                 key = "ENEMY.ZOMBIE",
 
                 hp = 50,
-                speed = 3,
+                speed = 4,
                 dmg = 2,
                 range = .8f,
                 adelay = 1f,
 
-                money = 10,
+                money = 20,
             },
             new Enemy()
             {
                 key = "ENEMY.DOCTORZOMBIE",
 
                 hp = 50,
-                speed = 3,
+                speed = 4,
                 dmg = 2,
                 range = .8f,
                 adelay = 1.5f,
@@ -36,20 +36,20 @@ public static class EnemyManager
                 {
                     itemKey = "HEALKIT",
                     buff = new BuffInfo(){ hp = 30 },
-                    prob = 50,
+                    prob = 30,
                 },
 
                 thresholdHp = 30,
                 restHealAmount = 10,
 
-                money = 10,
+                money = 20,
             },
             new Enemy()
             {
                 key = "ENEMY.FIREFIGHTERZOMBIE",
 
                 hp = 70,
-                speed = 3.5f,
+                speed = 4.5f,
                 dmg = 4,
                 range = .8f,
                 adelay = .8f,
@@ -59,14 +59,14 @@ public static class EnemyManager
                     { ObjectData.Attribute.FIRE, .25f },
                 },
 
-                money = 10,
+                money = 20,
             },
             new Enemy()
             {
                 key = "ENEMY.EODZOMBIE",
 
                 hp = 100,
-                speed = 2,
+                speed = 3,
                 dmg = 5,
                 range = .8f,
                 adelay = .8f,
@@ -77,14 +77,14 @@ public static class EnemyManager
                     { ObjectData.Attribute.EXPLOSION, .25f },
                 },
 
-                money = 10,
+                money = 50,
             },
             new Enemy()
             {
                 key = "ENEMY.COMMANDOZOMBIE",
 
                 hp = 70,
-                speed = 4,
+                speed = 5,
                 dmg = 5,
                 range = .8f,
                 adelay = 1,
@@ -94,14 +94,14 @@ public static class EnemyManager
                     { ObjectData.Attribute.BULLET, .5f },
                 },
 
-                money = 10,
+                money = 20,
             },
             new Enemy()
             {
                 key = "ENEMY.ZOMBIEDOG",
 
                 hp = 30,
-                speed = 8,
+                speed = 9,
                 dmg = 4,
                 range = .8f,
                 adelay = 2f,
@@ -113,21 +113,21 @@ public static class EnemyManager
                 key = "ENEMY.SPITTER",
 
                 hp = 100,
-                speed = 4.5f,
+                speed = 5.5f,
                 dmg = 5,
                 range = 5f,
                 adelay = 1f,
                 projSpeed = 15,
                 debuff = new BuffInfo(){ time = 5, speed = -0.4f },
 
-                money = 10,
+                money = 30,
             },
             new Enemy()
             {
                 key = "ENEMY.BOOMER",
 
                 hp = 70,
-                speed = 2,
+                speed = 2.5f,
                 dmg = 5,
                 range = 3.5f,
                 adelay = .5f,
@@ -137,14 +137,14 @@ public static class EnemyManager
                 summonProb = 50,
                 summonUnit = "ENEMY.ZOMBIE",
 
-                money = 10,
+                money = 30,
             },
             new Enemy()
             {
                 key = "ENEMY.TANK",
 
                 hp = 450,
-                speed = 2.5f,
+                speed = 3.5f,
                 dmg = 10,
                 range = 6f,
                 adelay = .6f,
@@ -152,7 +152,7 @@ public static class EnemyManager
 
                 isSiege = true,
 
-                money = 10,
+                money = 100,
             },
             new Enemy()
             {
@@ -166,7 +166,7 @@ public static class EnemyManager
 
                 thresholdHp = 10,
 
-                money = 10,
+                money = 0,
             }
             /*
             new Enemy()

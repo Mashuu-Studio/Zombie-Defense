@@ -18,27 +18,27 @@ public class ItemManager
             new OtherItem()
             {
                 key = "HEAL.HP",
-                price = 100,
+                price = 250,
             },
             new OtherItem()
             {
                 key = "HEAL.ARMOR",
-                price = 100,
+                price = 250,
             },
             new OtherItem()
             {
                 key = "COMPANION.COMPANION1",
-                price = 0,
+                price = 1000,
             },
             new OtherItem()
             {
                 key = "COMPANION.COMPANION2",
-                price = 0,
+                price = 2000,
             },
             new OtherItem()
             {
                 key = "COMPANION.COMPANION3",
-                price = 0,
+                price = 3000,
             },
         };
     }

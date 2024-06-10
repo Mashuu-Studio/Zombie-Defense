@@ -17,7 +17,7 @@ public static class WeaponManager
 
                 attribute = ObjectData.Attribute.EXPLOSION,
 
-                dmg = 100,
+                dmg = 50,
                 adelay = 0f,
                 dmgdelay = 1.5f,
 
@@ -49,11 +49,12 @@ public static class WeaponManager
             {
                 key = "WEAPON.SMG",
                 price = 300,
+                magprice = 100,
 
                 attribute = ObjectData.Attribute.BULLET,
 
-                dmg = 20,
-                adelay = 0.05f,
+                dmg = 15,
+                adelay = 0.033f,
                 range = 10,
                 bulletspreadangle = 10,
 
@@ -65,7 +66,8 @@ public static class WeaponManager
             new Weapon()
             {
                 key = "WEAPON.AR",
-                price = 1000,
+                price = 1500,
+                magprice = 500,
 
                 attribute = ObjectData.Attribute.BULLET,
 
@@ -84,6 +86,7 @@ public static class WeaponManager
             {
                 key = "WEAPON.SHOTGUN",
                 price = 1000,
+                magprice = 250,
 
                 attribute = ObjectData.Attribute.BULLET,
 
@@ -102,13 +105,14 @@ public static class WeaponManager
             new Weapon()
             {
                 key = "WEAPON.SR",
-                price = 1000,
+                price = 3000,
+                magprice = 1500,
 
                 attribute = ObjectData.Attribute.BULLET,
 
                 dmg = 100,
                 adelay = 1f,
-                range = 40,
+                range = 20,
                 bulletspreadangle = 1,
 
                 bulletSpeed = 50,
@@ -116,18 +120,19 @@ public static class WeaponManager
                 ammo = 10,
                 reload = 2,
 
-                pierce = 10,
+                pierce = 6,
             },
             new Weapon()
             {
                 key = "WEAPON.BAZOOKA",
-                price = 1000,
+                price = 5000,
+                magprice = 750,
 
                 attribute = ObjectData.Attribute.EXPLOSION,
 
                 dmg = 200,
                 adelay = 2f,
-                range = 40,
+                range = 10,
                 bulletspreadangle = 3,
 
                 bulletSpeed = 10,
@@ -142,7 +147,8 @@ public static class WeaponManager
             new Weapon()
             {
                 key = "WEAPON.TESLA",
-                price = 1000,
+                price = 3000,
+                magprice = 1500,
 
                 attribute = ObjectData.Attribute.ELECTRIC,
 
@@ -161,11 +167,12 @@ public static class WeaponManager
             new Weapon()
             {
                 key = "WEAPON.FLAMETHROWER",
-                price = 1000,
+                price = 3000,
+                magprice = 1500,
 
                 attribute = ObjectData.Attribute.FIRE,
 
-                dmg = 10,
+                dmg = 5,
                 adelay = .05f,
                 range = 6,
                 bulletspreadangle = 30,
@@ -181,13 +188,14 @@ public static class WeaponManager
             new Weapon()
             {
                 key = "WEAPON.MINIGUN",
-                price = 1000,
+                price = 7500,
+                magprice = 2500,
 
                 attribute = ObjectData.Attribute.BULLET,
 
                 dmg = 60,
                 adelay = 0.2f,
-                range = 25,
+                range = 15,
                 bulletspreadangle = 10,
 
                 bulletSpeed = 30,

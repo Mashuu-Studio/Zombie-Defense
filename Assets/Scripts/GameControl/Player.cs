@@ -67,7 +67,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         speed = 5;
         reload = 0;
         reward = 0;
-        money = 0;
+        money = 500;
 
         itemAmount.Clear();
         foreach (var weapon in WeaponManager.Weapons)
@@ -147,13 +147,22 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     #endregion
 
     #region Item Management
-    public bool BuyItem(BuyableData data)
+    public bool BuyItem(BuyableData data, bool isMagazine = false)
     {
-        // 우선 true로 세팅.
-        if (itemAmount.ContainsKey(data.key))// Money >= data.price )
+        int price = isMagazine ? data.magprice : data.price;
+        if (Money >= price)
         {
-            //money -= data.price;
-            itemAmount[data.key]++;
+            money -= price;
+            return true;
+        }
+        return false;
+    }
+
+    public bool BuyMagazine(Weapon data)
+    {
+        if (itemAmount.ContainsKey(data.key) && Money >= data.magprice)
+        {
+            money -= data.magprice;
             return true;
         }
         return false;
@@ -164,7 +173,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         if (itemAmount.ContainsKey(key))
         {
             var w = WeaponManager.GetWeapon(key);
-            if (w != null && w.infAmount) return;
+            if (w != null && w.infAmount) return; // 무기인데 무한무기면 스킵.
             itemAmount[key] += amount;
             UIController.Instance.UpdateItemAmount(key, itemAmount[key]);
         }
@@ -194,6 +203,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
             magazines[key] += w.ammo;
         }
     }
+
     public int UseMagazine(string key, int curammo)
     {
         int refillAmmo = 0;
@@ -223,7 +233,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     public void GetReward(int m)
     {
         float percentage = (100 + reward) / 100f;
-        money += (int)(m * percentage);
+        money += (int)(m * percentage * GameController.Instance.Difficulty.reward);
     }
     #endregion
 

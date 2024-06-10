@@ -34,7 +34,7 @@ public class ShopItem : MonoBehaviour
 
         itemName.SetEntry(data.key);
         itemPrice.text = $"${data.price}";
-        magazinePrice.text = $"${0}";
+        magazinePrice.text = $"${data.magprice}";
 
         Item = data;
     }

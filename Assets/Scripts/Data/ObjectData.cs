@@ -11,6 +11,7 @@ public abstract class ObjectData
 public abstract class BuyableData : ObjectData
 {
     public int price;
+    public int magprice;
 }
 
 public class Weapon : BuyableData
