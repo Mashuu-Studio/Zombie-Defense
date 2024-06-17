@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Pool : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class Pool : MonoBehaviour
         if (pool.Count == 0) CreateObject();
         Poolable obj = pool.Pop();
         obj.gameObject.SetActive(true);
-        obj.transform.SetParent(null);
+        SceneManager.MoveGameObjectToScene(obj.gameObject, SceneManager.GetActiveScene());
         return obj;
     }
 

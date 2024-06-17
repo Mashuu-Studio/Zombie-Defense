@@ -89,7 +89,7 @@ public class BuildingController : MonoBehaviour
 
         building.SetData(data, pos);
         building.gameObject.name = selectedBuildingKey;
-        building.transform.parent = transform;
+        building.transform.SetParent(transform);
         building.transform.position = pos;
         buildings.Add(pos, building);
 
