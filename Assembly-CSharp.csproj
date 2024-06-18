@@ -83,6 +83,7 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTNode.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Bullet.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\CombineEnemyObject.cs" />
+    <Compile Include="Assets\Scripts\UI\ShopItemStat.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\Trap.cs" />
     <Compile Include="Assets\Scripts\UI\RoundStartButton.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\ItemObject.cs" />
@@ -159,6 +160,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\AddressableAssetsData\link.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\LightningBolt\Readme.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />

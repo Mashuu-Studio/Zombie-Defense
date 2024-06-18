@@ -10,15 +10,11 @@ public class ShopStatus : MonoBehaviour
     [SerializeField] private Image itemImage;
     // 무기, 동료 등 상황에 따라 다른 능력이 표기될 수 있도록 세팅
     // 우선은 무기에만 한정적으로 사용
-    [SerializeField] private LocalizeStringEvent[] statusNames;
+    [SerializeField] private ShopItemStat[] stats;
 
-    // 능력치 수치도 후에 슬라이더로 직관적으로 표기
-    [SerializeField] private Slider[] sliders;
-    [SerializeField] private TextMeshProUGUI[] stats;
-
-    public void UpdateStatus(Weapon weapon)
+    public void UpdateStatus(string key)
     {
-        string uiKey = weapon.key.Replace("WEAPON.", "UI.");
+        string uiKey = key.Replace("WEAPON.", "UI.");
         itemImage.sprite = SpriteManager.GetSprite(uiKey);
         if (itemImage.sprite != null)
             itemImage.rectTransform.sizeDelta = new Vector2(itemImage.sprite.rect.width / itemImage.sprite.rect.height * 100, 100);
@@ -32,18 +28,116 @@ public class ShopStatus : MonoBehaviour
             else itemImage.rectTransform.sizeDelta /= hRatio;
         }
 
-        // 먼저 가장 기초적인 능력치만
-        string dmg = weapon.bullets > 1 ? $"{weapon.dmg}x{weapon.bullets}" : $"{weapon.dmg}";
-        string aspeed = $"{string.Format("{0:0.0}", 1 / weapon.adelay)}/s";
-        string ammo = $"{weapon.ammo}";
+        foreach (var stat in stats)
+            stat.gameObject.SetActive(false);
+        Weapon weapon = WeaponManager.GetWeapon(key);
+        if (weapon != null)
+        {
+            /* 슬라이더는 기본적으로 0 to 1
+             * 데미지 최대치 = 250. slider = dmg / 200
+             * 공속 1 / adelay. 제일 높은 공속 = 0.033. 30 으로 두면 될 듯. sldier = aspeed / 30.
+             * 관통력 or 범위
+             *    제일 높은 관통력 = 6, 예외로 25 slider = pierce / 10.
+             *    제일 높은 범위 = 3. slider = radius / 3;
+             * 정확도 100 - spread 0 to 45 slider = accurancy - 50 / 50
+             * 장탄 수 ammo 제일 많은 장탄 = 100 sldier = ammo / 100
+             * 장전 속도 reload 제일빠른 장전 속도 = 0.5f slider = 0.5f / reload;
+             * 무기타입은 Description 부분에 표기. 혹은 이미지?
+             */
+            int dmg = weapon.autotarget ? weapon.dmg : weapon.dmg * weapon.bullets;
+            float aspeed = 1 / weapon.adelay;
+            int pierce = weapon.pierce;
+            float radius = weapon.radius;
+            int accuracy = 100 - weapon.bulletspreadangle;
+            int ammo = weapon.ammo;
+            float reload = weapon.reload;
 
-        statusNames[0].SetEntry("GAME.SHOP.STAT.DMG");
-        statusNames[1].SetEntry("GAME.SHOP.STAT.ASPEED");
-        statusNames[2].SetEntry("GAME.SHOP.STAT.AMMO");
+            string[] names = new string[6]
+            {
+                "GAME.SHOP.STAT.DMG",
+                "GAME.SHOP.STAT.ASPEED",
+                "GAME.SHOP.STAT.PIERCE",
+                "GAME.SHOP.STAT.ACCURACY",
+                "GAME.SHOP.STAT.AMMO",
+                "GAME.SHOP.STAT.RELOAD",
+            };
 
-        // 추후 특수능력 추가 표기
-        stats[0].text = dmg;
-        stats[1].text = aspeed;
-        stats[2].text = ammo;
+            float[] values = new float[6]
+            {
+                dmg / 250f,
+                aspeed / 30,
+                pierce / 10f,
+                (accuracy - 50) / 50f,
+                ammo / 100f,
+                0.5f / reload,
+            };
+
+            string[] status = new string[6]
+            {
+                weapon.bullets > 1 && !weapon.autotarget ? $"{weapon.dmg}x{weapon.bullets}" : $"{weapon.dmg}",
+                $"{string.Format("{0:0.0}", aspeed)}/s",
+                $"{pierce}",
+                $"{accuracy}",
+                $"{ammo}",
+                $"{string.Format("{0:0.0}", reload)}s",
+            };
+
+            // 범위를 표기해야하는 경우
+            if (radius > 0)
+            {
+                values[2] = radius / 3;
+                names[2] = "GAME.SHOP.STAT.RADIUS";
+                status[2] = $"{radius}";
+            }
+
+            // 오토타겟의 경우에도 범위로 표기
+            if (weapon.autotarget)
+            {
+                values[2] = weapon.range / 3;
+                names[2] = "GAME.SHOP.STAT.RADIUS";
+                status[2] = $"{weapon.range}";
+            }
+
+            for (int i = 0; i < 6; i++)
+            {
+                // 수류탄의 경우에는 데미지와 범위만 표기.
+                if (weapon.consumable && (i != 0 && i != 2)) continue;
+
+                stats[i].SetStatus(names[i], values[i], status[i]);
+                stats[i].gameObject.SetActive(true);
+            }
+        }
+
+        Companion companion = CompanionManager.GetCompanion(key);
+        if (companion != null)
+        {
+            /* 동료는 체력과 방어력 두 종류
+             * 체력의 최대치는 100
+             * 방어력의 최대치는 100
+             */
+            string[] names = new string[2]
+            {
+                "GAME.SHOP.STAT.HP",
+                "GAME.SHOP.STAT.ARMOR",
+            };
+
+            float[] values = new float[2]
+            {
+                companion.hp / 100f,
+                companion.def / 100f,
+            };
+
+            string[] status = new string[2]
+            {
+                $"{companion.hp}",
+                $"{companion.def}",
+            };
+
+            for (int i = 0; i < 2; i++)
+            {
+                stats[i].SetStatus(names[i], values[i], status[i]);
+                stats[i].gameObject.SetActive(true);
+            }
+        }
     }
 }

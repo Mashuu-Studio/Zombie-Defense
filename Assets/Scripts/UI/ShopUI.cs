@@ -165,9 +165,7 @@ public class ShopUI : MonoBehaviour
     public void UpdateInfo(ShopItem shopItem)
     {
         description.SetEntry(shopItem.Item.key);
-        Weapon weapon = shopItem.Item as Weapon;
-        if (weapon != null) itemStatus.UpdateStatus(weapon);
-        itemStatus.gameObject.SetActive(weapon != null);
+        itemStatus.UpdateStatus(shopItem.Item.key);
     }
     #endregion
 }

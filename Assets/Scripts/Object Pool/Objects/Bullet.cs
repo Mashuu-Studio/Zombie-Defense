@@ -132,7 +132,7 @@ public class Bullet : Projectile
             if (weapon.attribute == ObjectData.Attribute.BULLET)
                 SoundController.Instance.PlaySFX(collision.transform, "BULLET.DAMAGED", true);
 
-            enemy.Damaged(weapon.dmg, weapon.attribute);
+            if (pierce >= 0 || point) enemy.Damaged(weapon.dmg, weapon.attribute);
             pierce--;
 
             if (pierce < 0 && !point)

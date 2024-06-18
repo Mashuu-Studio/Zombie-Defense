@@ -35,7 +35,7 @@ public class Pool : MonoBehaviour
         if (pool.Count == 0) CreateObject();
         Poolable obj = pool.Pop();
         obj.gameObject.SetActive(true);
-        SceneManager.MoveGameObjectToScene(obj.gameObject, SceneManager.GetActiveScene());
+        //SceneManager.MoveGameObjectToScene(obj.gameObject, SceneManager.GetActiveScene());
         return obj;
     }
 

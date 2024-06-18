@@ -323,6 +323,7 @@ public class EnemyObject : BTPoolable,
                 if (!GameController.Instance.Pause) time += Time.deltaTime;
                 yield return null;
             }
+            while (!seeker.IsDone()) yield return null;
             SetPath();
         }
     }

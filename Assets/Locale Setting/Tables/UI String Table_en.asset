@@ -87,11 +87,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 8068943524667392
-    m_Localized: DAMAGE
+    m_Localized: DMG
     m_Metadata:
       m_Items: []
   - m_Id: 8068986524672000
-    m_Localized: ASPEED
+    m_Localized: ASPD
     m_Metadata:
       m_Items: []
   - m_Id: 8069004228829184
@@ -132,6 +132,30 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 43882048208773120
     m_Localized: GO TO TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48626935000997888
+    m_Localized: PEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48627021512712192
+    m_Localized: ACC
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48626936485781504
+    m_Localized: RAD
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48626937706323968
+    m_Localized: RELOAD
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48647645694009344
+    m_Localized: HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48647691399340032
+    m_Localized: ARMOR
     m_Metadata:
       m_Items: []
   references:

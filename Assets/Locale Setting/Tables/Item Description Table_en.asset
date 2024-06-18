@@ -98,6 +98,18 @@ MonoBehaviour:
     m_Localized: REFILL ARMOR
     m_Metadata:
       m_Items: []
+  - m_Id: 43598708125736960
+    m_Localized: COMPANION1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43598740237328384
+    m_Localized: COMPANION2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43598756720943104
+    m_Localized: COMPANION3
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

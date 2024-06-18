@@ -157,7 +157,7 @@ public static class WeaponManager
                 range = 3,
                 bulletspreadangle = 0,
 
-                bullets = 5,
+                bullets = 25,
 
                 ammo = 20,
                 reload = 1,
@@ -183,7 +183,7 @@ public static class WeaponManager
                 ammo = 100,
                 reload = 2,
 
-                pierce = 50,
+                pierce = 25,
             },
             new Weapon()
             {
@@ -202,6 +202,8 @@ public static class WeaponManager
 
                 ammo = 100,
                 reload = 4f,
+
+                pierce = 1,
             },
         };
     }
@@ -230,7 +232,7 @@ public static class WeaponManager
     public static float GetWeaponParameter(string key)
     {
         float p = 0;
-        for (int i = 0; i< weapons.Count; i++)
+        for (int i = 0; i < weapons.Count; i++)
         {
             if (weapons[i].key == key)
             {

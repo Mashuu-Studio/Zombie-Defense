@@ -95,6 +95,18 @@ MonoBehaviour:
     m_Key: HEAL.ARMOR
     m_Metadata:
       m_Items: []
+  - m_Id: 43598708125736960
+    m_Key: COMPANION.COMPANION1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43598740237328384
+    m_Key: COMPANION.COMPANION2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43598756720943104
+    m_Key: COMPANION.COMPANION3
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

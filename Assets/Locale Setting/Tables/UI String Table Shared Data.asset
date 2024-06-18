@@ -15,92 +15,20 @@ MonoBehaviour:
   m_TableCollectionName: UI String Table
   m_TableCollectionNameGuidString: 530b1c1b89e9b764bbb3d84fe74639be
   m_Entries:
-  - m_Id: 59144463720448
-    m_Key: SETTING.SFX
-    m_Metadata:
-      m_Items: []
-  - m_Id: 59143629053952
-    m_Key: SETTING.RESOLUTION
-    m_Metadata:
-      m_Items: []
-  - m_Id: 59145076088832
-    m_Key: SETTING.MASTER
-    m_Metadata:
-      m_Items: []
-  - m_Id: 59088603979776
-    m_Key: SETTING.LANGUAGE
-    m_Metadata:
-      m_Items: []
-  - m_Id: 59141104082944
-    m_Key: SETTING.FULLSCREEN
-    m_Metadata:
-      m_Items: []
-  - m_Id: 59939968000000
-    m_Key: SETTING.BGM
-    m_Metadata:
-      m_Items: []
-  - m_Id: 60262413508608
-    m_Key: SETTING.SETTING
-    m_Metadata:
-      m_Items: []
-  - m_Id: 304389734539264
-    m_Key: GAME.SHOP.WEAPON
-    m_Metadata:
-      m_Items: []
-  - m_Id: 311279940018176
-    m_Key: GAME.HP
-    m_Metadata:
-      m_Items: []
   - m_Id: 311296197140480
     m_Key: GAME.AMMO
-    m_Metadata:
-      m_Items: []
-  - m_Id: 312037217411072
-    m_Key: GAME.STARTROUND
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1633941140283392
-    m_Key: GAME.SHOP.TURRET
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4810010227908608
-    m_Key: GAME.SHOP.OTHER
-    m_Metadata:
-      m_Items: []
-  - m_Id: 4833988023689216
-    m_Key: GAME.SHOP
-    m_Metadata:
-      m_Items: []
-  - m_Id: 5129299237543936
-    m_Key: GAME.SHOP.STATDESCRIPTION
     m_Metadata:
       m_Items: []
   - m_Id: 5399108437155840
     m_Key: GAME.BUILDMODE
     m_Metadata:
       m_Items: []
-  - m_Id: 8068943524667392
-    m_Key: GAME.SHOP.STAT.DMG
+  - m_Id: 311279940018176
+    m_Key: GAME.HP
     m_Metadata:
       m_Items: []
-  - m_Id: 8068986524672000
-    m_Key: GAME.SHOP.STAT.ASPEED
-    m_Metadata:
-      m_Items: []
-  - m_Id: 8069004228829184
-    m_Key: GAME.SHOP.STAT.AMMO
-    m_Metadata:
-      m_Items: []
-  - m_Id: 11505000542904320
-    m_Key: GAME.SHOP.COMPANION.PATROL.NARROWLY
-    m_Metadata:
-      m_Items: []
-  - m_Id: 11505135633047552
-    m_Key: GAME.SHOP.COMPANION.PATROL.WIDELY
-    m_Metadata:
-      m_Items: []
-  - m_Id: 11505139256926208
-    m_Key: GAME.SHOP.COMPANION.PATROL.LEAD
+  - m_Id: 4833988023689216
+    m_Key: GAME.SHOP
     m_Metadata:
       m_Items: []
   - m_Id: 11505145607102464
@@ -111,20 +39,116 @@ MonoBehaviour:
     m_Key: GAME.SHOP.COMPANION.PATROL.HOLD
     m_Metadata:
       m_Items: []
-  - m_Id: 19929956477837312
-    m_Key: TITLE.DIFFICULT.EASY
+  - m_Id: 11505139256926208
+    m_Key: GAME.SHOP.COMPANION.PATROL.LEAD
     m_Metadata:
       m_Items: []
-  - m_Id: 19929958092644352
-    m_Key: TITLE.DIFFICULT.NORMAL
+  - m_Id: 11505000542904320
+    m_Key: GAME.SHOP.COMPANION.PATROL.NARROWLY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11505135633047552
+    m_Key: GAME.SHOP.COMPANION.PATROL.WIDELY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4810010227908608
+    m_Key: GAME.SHOP.OTHER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48627021512712192
+    m_Key: GAME.SHOP.STAT.ACCURACY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8069004228829184
+    m_Key: GAME.SHOP.STAT.AMMO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8068986524672000
+    m_Key: GAME.SHOP.STAT.ASPEED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8068943524667392
+    m_Key: GAME.SHOP.STAT.DMG
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48626935000997888
+    m_Key: GAME.SHOP.STAT.PIERCE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48626936485781504
+    m_Key: GAME.SHOP.STAT.RADIUS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48626937706323968
+    m_Key: GAME.SHOP.STAT.RELOAD
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5129299237543936
+    m_Key: GAME.SHOP.STATDESCRIPTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1633941140283392
+    m_Key: GAME.SHOP.TURRET
+    m_Metadata:
+      m_Items: []
+  - m_Id: 304389734539264
+    m_Key: GAME.SHOP.WEAPON
+    m_Metadata:
+      m_Items: []
+  - m_Id: 312037217411072
+    m_Key: GAME.STARTROUND
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59939968000000
+    m_Key: SETTING.BGM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59141104082944
+    m_Key: SETTING.FULLSCREEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59088603979776
+    m_Key: SETTING.LANGUAGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59145076088832
+    m_Key: SETTING.MASTER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59143629053952
+    m_Key: SETTING.RESOLUTION
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60262413508608
+    m_Key: SETTING.SETTING
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59144463720448
+    m_Key: SETTING.SFX
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43882048208773120
+    m_Key: SETTING.TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19929956477837312
+    m_Key: TITLE.DIFFICULT.EASY
     m_Metadata:
       m_Items: []
   - m_Id: 19929959308992512
     m_Key: TITLE.DIFFICULT.HARD
     m_Metadata:
       m_Items: []
-  - m_Id: 43882048208773120
-    m_Key: SETTING.TITLE
+  - m_Id: 19929958092644352
+    m_Key: TITLE.DIFFICULT.NORMAL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48647645694009344
+    m_Key: GAME.SHOP.STAT.HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 48647691399340032
+    m_Key: GAME.SHOP.STAT.ARMOR
     m_Metadata:
       m_Items: []
   m_Metadata:
