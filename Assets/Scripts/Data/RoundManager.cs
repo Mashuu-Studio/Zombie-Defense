@@ -334,4 +334,12 @@ public static class RoundManager
         if (rounds.Count > round) return rounds[round];
         return null;
     }
+
+    public static Round EndRound
+    {
+        get
+        {
+            return rounds[rounds.Count - 1];
+        }
+    }
 }

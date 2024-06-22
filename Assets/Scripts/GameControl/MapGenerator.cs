@@ -56,6 +56,8 @@ public class MapGenerator : MonoBehaviour
 
     public void StartGame()
     {
+        StopAllCoroutines();
+
         GenerateMap();
         BuildMode(false);
 
@@ -185,6 +187,7 @@ public class MapGenerator : MonoBehaviour
         ((Pathfinding.GridGraph)astar.graphs[0]).center = new Vector3(-.5f, 0);
         ((Pathfinding.GridGraph)astar.graphs[1]).SetDimensions(width + 2, height + 2, 1);
         ((Pathfinding.GridGraph)astar.graphs[1]).center = new Vector3(-.5f, 0);*/        
+        
         StartCoroutine(UpdatingAstar());
     }
 
@@ -240,7 +243,8 @@ public class MapGenerator : MonoBehaviour
     {
         // 지형에 대한 첫번째 스캔은 지형생성이 끝난 ㅔ한 프레임 이후에
         yield return null;
-        astar.graphs[0].Scan();
+        astar.Scan();
+        updateCol = true;
 
         while (true)
         {

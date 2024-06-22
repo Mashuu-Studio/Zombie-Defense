@@ -32,6 +32,7 @@ public class EnemyController : MonoBehaviour
         {
             // 매 초 확률을 체크하여 소환.
             if (!GameController.Instance.Pause) t += Time.deltaTime;
+            yield return null;
 
             if (t >= 1f)
             {
@@ -50,7 +51,6 @@ public class EnemyController : MonoBehaviour
                 float rand = Random.Range(0, 1f);
                 if (rand <= p) AddEnemy(enemy, MapGenerator.Instance.GetEnemySpawnPos());
             }
-            yield return null;
         }
     }
 

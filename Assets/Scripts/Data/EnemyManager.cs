@@ -17,7 +17,7 @@ public static class EnemyManager
                 hp = 50,
                 speed = 4,
                 dmg = 2,
-                range = .8f,
+                range = .75f,
                 adelay = 1f,
 
                 money = 20,
@@ -29,7 +29,7 @@ public static class EnemyManager
                 hp = 50,
                 speed = 4,
                 dmg = 2,
-                range = .8f,
+                range = .75f,
                 adelay = 1.5f,
 
                 dropItem = new Item()
@@ -51,7 +51,7 @@ public static class EnemyManager
                 hp = 70,
                 speed = 4.5f,
                 dmg = 4,
-                range = .8f,
+                range = .75f,
                 adelay = .8f,
 
                 resistances = new Dictionary<ObjectData.Attribute, float>()
@@ -68,7 +68,7 @@ public static class EnemyManager
                 hp = 100,
                 speed = 3,
                 dmg = 5,
-                range = .8f,
+                range = .75f,
                 adelay = .8f,
 
                 resistances = new Dictionary<ObjectData.Attribute, float>()
@@ -86,7 +86,7 @@ public static class EnemyManager
                 hp = 70,
                 speed = 5,
                 dmg = 5,
-                range = .8f,
+                range = .75f,
                 adelay = 1,
 
                 resistances = new Dictionary<ObjectData.Attribute, float>()
@@ -103,7 +103,7 @@ public static class EnemyManager
                 hp = 30,
                 speed = 9,
                 dmg = 4,
-                range = .8f,
+                range = .75f,
                 adelay = 2f,
 
                 money = 10,
@@ -161,7 +161,7 @@ public static class EnemyManager
                 hp = 30,
                 speed = 3,
                 dmg = 1,
-                range = 0.8f,
+                range = 0.75f,
                 adelay = 1,
 
                 thresholdHp = 10,

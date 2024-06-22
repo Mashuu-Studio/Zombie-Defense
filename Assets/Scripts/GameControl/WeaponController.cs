@@ -124,7 +124,7 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        if (GameController.Instance.GameStarted == false
+        if (GameController.Instance.GameProgress == false
             || GameController.Instance.Pause
             || BuildingController.Instance.BuildMode) return;
 

@@ -56,10 +56,15 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
 
     private Dictionary<string, int> itemAmount = new Dictionary<string, int>();
     private Dictionary<string, int> magazines = new Dictionary<string, int>();
+
+    public int KillCount { get { return killCount; } }
+    private int killCount;
     #region Init & Update
 
     public void StartGame()
     {
+        killCount = 0;
+
         invincible = false;
 
         hp = maxhp = 100;
@@ -70,6 +75,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         money = 500;
 
         itemAmount.Clear();
+        magazines.Clear();
         foreach (var weapon in WeaponManager.Weapons)
         {
             int amount = weapon.infAmount ? -1 : 0;
@@ -100,7 +106,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     private void Update()
     {
         moveSoundTime += Time.deltaTime;
-        if (GameController.Instance.GameStarted == false
+        if (GameController.Instance.GameProgress == false
             || GameController.Instance.Pause
             || BuildingController.Instance.BuildMode)
         {
@@ -128,12 +134,13 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (GameController.Instance.GameStarted == false
-            || GameController.Instance.Pause
-            || BuildingController.Instance.BuildMode) return;
+        if (BuildingController.Instance.BuildMode) return;
+        CameraController.Instance.MoveCamera(rigidbody.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+        if (GameController.Instance.GameProgress == false
+            || GameController.Instance.Pause) return;
 
         rigidbody.position += new Vector2(axisX, axisY) * Time.fixedDeltaTime * Speed;
-        CameraController.Instance.MoveCamera(rigidbody.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
     }
 
     public void LookAt(Vector3 target)
@@ -232,6 +239,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     #region Reward
     public void GetReward(int m)
     {
+        killCount++;
         float percentage = (100 + reward) / 100f;
         money += (int)(m * percentage * GameController.Instance.Difficulty.reward);
     }
@@ -312,7 +320,12 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         changeColorCoroutine = ChangeColor(Color.red);
         StartCoroutine(changeColorCoroutine);
 
-        if (hp <= 0) GameController.Instance.GoTo(SceneController.Scene.TITLE);
+        // 게임오버
+        if (hp <= 0)
+        {
+            hp = 0;
+            GameController.Instance.Lose();
+        }
     }
 
     IEnumerator ChangeColor(Color color)

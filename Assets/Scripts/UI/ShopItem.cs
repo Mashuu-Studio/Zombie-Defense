@@ -46,7 +46,7 @@ public class ShopItem : MonoBehaviour
 
     private void Update()
     {
-        if (!GameController.Instance.GameStarted) return;
+        if (!GameController.Instance.GameProgress) return;
 
         if (Item != null)
         {

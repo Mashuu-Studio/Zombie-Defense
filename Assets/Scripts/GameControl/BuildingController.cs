@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BuildingController : MonoBehaviour
@@ -23,9 +24,11 @@ public class BuildingController : MonoBehaviour
 
     public void StartGame()
     {
-        foreach (var building in buildings.Values)
+        List<BuildingObject> list = buildings.Values.ToList();
+        while (list.Count > 0)
         {
-            building.DestroyBuilding();
+            list[0].DestroyBuilding();
+            list.RemoveAt(0);
         }
         buildings.Clear();
     }

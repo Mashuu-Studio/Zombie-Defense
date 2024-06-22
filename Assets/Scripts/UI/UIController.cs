@@ -118,17 +118,53 @@ public class UIController : MonoBehaviour
     #region Game
     [Header("Game")]
     [SerializeField] private SettingUI setting;
+    [SerializeField] private GameObject winUI;
+    [SerializeField] private GameObject loseUI;
+    [SerializeField] private LocalizeStringEvent loseStringEvent;
+
+    [Space]
     [SerializeField] private ShopUI shop;
     [SerializeField] private GameObject shopButton;
 
+
     public void StartGame()
     {
+        winUI.SetActive(false);
+        loseUI.SetActive(false);
+
         difficultyText.SetEntry(GameController.Instance.DifficultyKey);
         foreach (var weapon in WeaponManager.Weapons)
         {
             if (weapon.consumable) continue;
             itemInfos[weapon.key].gameObject.SetActive(WeaponController.Instance.HasWeapon(weapon.key));
         }
+    }
+
+    public void Endless()
+    {
+        winUI.SetActive(false);
+    }
+
+    public void GameOver(bool isWin)
+    {
+        if (!isWin)
+        {
+            int kill = Player.Instance.KillCount;
+            string difficult = difficultyText.StringReference.GetLocalizedString();
+            if (RoundController.Instance.Endless)
+            {
+                loseStringEvent.SetEntry("GAME.OVER.ENDLESS");
+                loseStringEvent.StringReference.Arguments = new object[] { time, kill, difficult };
+            }
+            else
+            {
+                int round = RoundController.Instance.Round;
+                loseStringEvent.SetEntry("GAME.OVER.LOSE");
+                loseStringEvent.StringReference.Arguments = new object[] { round, kill, difficult };
+            }
+        }
+        winUI.SetActive(isWin);
+        loseUI.SetActive(!isWin);
     }
 
     public void SelectDifficulty(int index)
@@ -167,6 +203,7 @@ public class UIController : MonoBehaviour
     #endregion
 
     #region BuildMode
+    [Space]
     [SerializeField] private BuildModeUI buildModeUI;
     [SerializeField] private GameObject buildButton;
     [SerializeField] private MountWeaponDropdown mountWeaponDropdown;
@@ -220,7 +257,7 @@ public class UIController : MonoBehaviour
 
     void Update()
     {
-        if (GameController.Instance.GameStarted == false) return;
+        if (GameController.Instance.GameProgress == false) return;
 
         hpText.text = $"{Player.Instance.Hp}";
         armorText.text = $"{Player.Instance.Def}";
@@ -335,15 +372,17 @@ public class UIController : MonoBehaviour
     [SerializeField] private LocalizeStringEvent difficultyText;
     [SerializeField] private GameObject startRoundObject;
 
+    private int time;
     public void UpdateRoundTime(int time)
     {
+        this.time = time;
         TimeSpan res = TimeSpan.FromSeconds(time);
         roundTimeText.text = res.ToString("mm':'ss");
     }
 
     public void StartRound()
     {
-        roundText.text = $"ROUND {RoundController.Instance.Round}";
+        roundText.text = RoundController.Instance.Endless ? "ENDLESS" : $"ROUND {RoundController.Instance.Round}";
         roundTimeText.gameObject.SetActive(true);
         startRoundObject.SetActive(false);
         shopButton.SetActive(false);

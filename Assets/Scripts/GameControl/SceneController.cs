@@ -33,7 +33,7 @@ public class SceneController : MonoBehaviour
 
     private static IEnumerator LoadScene(Scene scene)
     {
-        UIController.Instance.ChangeScene((int)Scene.LOADING);
+        //UIController.Instance.ChangeScene((int)Scene.LOADING);
         var async = SceneManager.LoadSceneAsync(sceneName[(int)scene]);
         while (!async.isDone) yield return null;
         isLoad = true;

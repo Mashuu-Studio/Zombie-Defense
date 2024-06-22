@@ -158,6 +158,40 @@ MonoBehaviour:
     m_Localized: ARMOR
     m_Metadata:
       m_Items: []
+  - m_Id: 49798280338481152
+    m_Localized: 'You died in Round {0}
+
+      Zombies killed: {1}
+
+      Difficulty:
+      {2}
+
+
+      Press space to return to the title.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49803913590743040
+    m_Localized: 'You survived {0}seconds in Endless mode
+
+      Zombies killed:
+      {1}
+
+      Difficulty: {2}
+
+
+      Press space to return to the title.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49798336655400960
+    m_Localized: 'Next comes Endless Mode.
+
+      This is the last store, so be prepared.
+
+
+      Press
+      space to proceed.'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -34,8 +34,10 @@ public class GameController : MonoBehaviour
     private bool pause;
     private bool levelUpPause;
 
-    public bool GameStarted { get { return gameStarted; } }
+    public bool GameProgress { get { return gameStarted && !gameOver; } }
     private bool gameStarted;
+    private bool gameOver;
+    private bool win;
 
     public DifficultRatio Difficulty { get { return difficulties[difficultyIndex]; } }
     private static DifficultRatio[] difficulties;
@@ -58,7 +60,12 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        bool esc = Input.GetKeyDown(KeyCode.Escape);
+        bool v = Input.GetKeyDown(KeyCode.V);
+        bool b = Input.GetKeyDown(KeyCode.B);
+        bool space = Input.GetKeyDown(KeyCode.Space);
+
+        if (esc)
         {
             if (UIController.Instance.UIisRemains)
             {
@@ -70,22 +77,18 @@ public class GameController : MonoBehaviour
             }
         }
 
-        if (RoundController.Instance != null && !RoundController.Instance.Progress)
+        if (!win && RoundController.Instance != null && !RoundController.Instance.Progress)
         {
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                UIController.Instance.OnOffShop();
-            }
+            if (v) UIController.Instance.OnOffShop();
+            if (b) UIController.Instance.OnOffBuildMode();
+            if (space) StartRound();
+        }
 
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                UIController.Instance.OnOffBuildMode();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                StartRound();
-            }
+        if (gameOver && space) GoTo(SceneController.Scene.TITLE);
+        if (win && space)
+        {
+            UIController.Instance.Endless();
+            win = false;
         }
     }
 
@@ -107,9 +110,8 @@ public class GameController : MonoBehaviour
 
     public void GoTo(SceneController.Scene scene)
     {
-        UIController.Instance.Title(scene == SceneController.Scene.TITLE);
-        SceneController.ChangeScene(scene);
-        StartCoroutine(ControlGame(scene));
+        // SceneController.ChangeScene(scene);
+        ControlGame(scene);
     }
 
     public void SelectDifficulty(int index)
@@ -117,25 +119,31 @@ public class GameController : MonoBehaviour
         difficultyIndex = index;
     }
 
-    IEnumerator ControlGame(SceneController.Scene scene)
+    private void ControlGame(SceneController.Scene scene)
     {
-        while (!SceneController.isLoad) yield return null;
+        // while (!SceneController.isLoad) yield return null;
 
+        UIController.Instance.Title(scene == SceneController.Scene.TITLE);
         switch (scene)
         {
             case SceneController.Scene.TITLE:
+                win = false;
+                gameOver = false;
                 CursorController.Instance.SetCursor(false);
+                if (gameStarted) RoundController.Instance.EndGame();
                 PauseGame(false);
                 gameStarted = false;
                 UIController.Instance.ChangeScene(1);
                 break;
 
             case SceneController.Scene.GAME:
+                win = false;
+                gameOver = false;
                 CursorController.Instance.SetCursor(true);
                 PauseGame(false);
                 UIController.Instance.ChangeScene(2);
                 MapGenerator.Instance.StartGame();
-                RoundController.Instance.EndGame();
+                RoundController.Instance.StartGame();
                 WeaponController.Instance.StartGame();
                 BuildingController.Instance.StartGame();
                 UIController.Instance.StartGame();
@@ -157,6 +165,19 @@ public class GameController : MonoBehaviour
     {
         UIController.Instance.EndRound();
         EnemyController.Instance.EndRound();
+    }
+
+    public void Win()
+    {
+        win = true;
+        UIController.Instance.GameOver(true);
+    }
+
+    public void Lose()
+    {
+        UIController.Instance.GameOver(false);
+        RoundController.Instance.GameOver();
+        gameOver = true;
     }
 
     public class DifficultRatio

@@ -151,6 +151,18 @@ MonoBehaviour:
     m_Key: GAME.SHOP.STAT.ARMOR
     m_Metadata:
       m_Items: []
+  - m_Id: 49798280338481152
+    m_Key: GAME.OVER.LOSE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49798336655400960
+    m_Key: GAME.OVER.WIN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 49803913590743040
+    m_Key: GAME.OVER.ENDLESS
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
