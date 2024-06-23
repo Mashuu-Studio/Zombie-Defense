@@ -37,6 +37,11 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 73cdf1e21457c3b4d84afafd6bf5313f
+    m_Address: Assets/Locale Setting/Tables/Enemy Desc Table Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: bc8e900937dc6924f85cc8ba49460643, type: 2}
   m_SchemaSet:

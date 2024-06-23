@@ -26,6 +26,7 @@ public class UIController : MonoBehaviour
     {
         setting.Init();
         shop.Init();
+        library.Init();
         buildModeUI.Init();
         mountWeaponDropdown.Init();
         InitItemInfo();
@@ -33,6 +34,7 @@ public class UIController : MonoBehaviour
         OpenShop(false);
         buildModeUI.gameObject.SetActive(false);
     }
+
     [Header("Scene")]
     [SerializeField] private GameObject[] scenes;
     [SerializeField] private Canvas canvas;
@@ -51,6 +53,7 @@ public class UIController : MonoBehaviour
     [Header("UI")]
     [SerializeField] private CanvasScaler scaler;
     [SerializeField] private FloatingDescription floatingDescription;
+    [SerializeField] private LibraryUI library;
     public bool UIisRemains { get { return openedUIs.Count > 0; } }
     private List<GameObject> openedUIs = new List<GameObject>();
 
@@ -60,6 +63,7 @@ public class UIController : MonoBehaviour
         var ui = openedUIs[openedUIs.Count - 1];
         if (ui == shop.gameObject) OpenShop(false);
         else if (ui == buildModeUI.gameObject) BuildMode(false);
+        else if (ui == library.gameObject) Libary(false);
     }
 
     public void SetDescription(Vector3 pos, string key)
@@ -71,6 +75,26 @@ public class UIController : MonoBehaviour
     {
         floatingDescription.MoveDescription(ScalingPos(pos));
     }
+
+    #region Library
+    public void OnOffLibary()
+    {
+        Libary(!library.gameObject.activeSelf);
+    }
+
+    public void Libary(bool b)
+    {
+        library.SetActive(b);
+
+        if (b) openedUIs.Add(library.gameObject);
+        else openedUIs.Remove(library.gameObject);
+    }
+
+    public void UpdateLibraryDescription(string key)
+    {
+        library.UpdateDescription(key);
+    }
+    #endregion
 
     public static Vector2 ScalingPos(Vector2 pos)
     {
@@ -129,6 +153,7 @@ public class UIController : MonoBehaviour
 
     public void StartGame()
     {
+        while (UIisRemains) OffOpenedUI();
         winUI.SetActive(false);
         loseUI.SetActive(false);
 

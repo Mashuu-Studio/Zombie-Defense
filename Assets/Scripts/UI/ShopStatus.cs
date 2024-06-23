@@ -75,11 +75,11 @@ public class ShopStatus : MonoBehaviour
             string[] status = new string[6]
             {
                 weapon.bullets > 1 && !weapon.autotarget ? $"{weapon.dmg}x{weapon.bullets}" : $"{weapon.dmg}",
-                $"{string.Format("{0:0.0}", aspeed)}/s",
+                string.Format("{0:0.0}/s", aspeed),
                 $"{pierce}",
                 $"{accuracy}",
                 $"{ammo}",
-                $"{string.Format("{0:0.0}", reload)}s",
+                string.Format("{0:0.0}s", reload),
             };
 
             // 범위를 표기해야하는 경우

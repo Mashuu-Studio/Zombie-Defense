@@ -41,6 +41,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ko
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 723f62e451522454fb4cf5d904de4092
+    m_Address: Enemy Desc Table_ko
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: bc8e900937dc6924f85cc8ba49460643, type: 2}
   m_SchemaSet:
