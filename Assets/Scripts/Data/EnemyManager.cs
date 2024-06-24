@@ -17,7 +17,7 @@ public static class EnemyManager
                 hp = 50,
                 speed = 4,
                 dmg = 2,
-                range = .75f,
+                range = .7f,
                 adelay = 1f,
 
                 money = 20,
@@ -29,7 +29,7 @@ public static class EnemyManager
                 hp = 50,
                 speed = 4,
                 dmg = 2,
-                range = .75f,
+                range = .7f,
                 adelay = 1.5f,
 
                 dropItem = new Item()
@@ -51,7 +51,7 @@ public static class EnemyManager
                 hp = 70,
                 speed = 4.5f,
                 dmg = 4,
-                range = .75f,
+                range = .7f,
                 adelay = .8f,
 
                 resistances = new Dictionary<ObjectData.Attribute, float>()
@@ -68,7 +68,7 @@ public static class EnemyManager
                 hp = 100,
                 speed = 3,
                 dmg = 5,
-                range = .75f,
+                range = .7f,
                 adelay = .8f,
 
                 resistances = new Dictionary<ObjectData.Attribute, float>()
@@ -86,7 +86,7 @@ public static class EnemyManager
                 hp = 70,
                 speed = 5,
                 dmg = 5,
-                range = .75f,
+                range = .7f,
                 adelay = 1,
 
                 resistances = new Dictionary<ObjectData.Attribute, float>()
@@ -103,8 +103,9 @@ public static class EnemyManager
                 hp = 30,
                 speed = 9,
                 dmg = 4,
-                range = .75f,
+                range = .7f,
                 adelay = 2f,
+                debuff = new BuffInfo(){ hp = 1, delay = 1, time = 5 },
 
                 money = 10,
             },
@@ -135,7 +136,7 @@ public static class EnemyManager
 
                 projSummon = true,
                 summonProb = 50,
-                summonUnit = "ENEMY.ZOMBIE",
+                summonUnit = "ENEMY.RADIOACTIVEWASTE",
 
                 money = 30,
             },
@@ -158,13 +159,13 @@ public static class EnemyManager
             {
                 key = "ENEMY.RADIOACTIVEWASTE",
 
-                hp = 30,
+                hp = 20,
                 speed = 3,
                 dmg = 1,
-                range = 0.75f,
+                range = 0.5f,
                 adelay = 1,
 
-                thresholdHp = 10,
+                separate = 2,
 
                 money = 0,
             }

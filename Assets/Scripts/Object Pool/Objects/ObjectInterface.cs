@@ -83,7 +83,8 @@ public class BuffInfo
     public float speed = 0;
     public int hp = 0;
 
-    public bool IsHeal { get { return dmg == 0 && def == 0 && aspeed == 0; } }
+    public bool IsHeal { get { return delay == 0 && dmg == 0 && def == 0 && aspeed == 0; } }
+    public bool IsDotDamage { get { return hp != 0 && delay != 0; } }
     public static BuffInfo operator +(BuffInfo a, BuffInfo b)
     {
         a.dmg += b.dmg;

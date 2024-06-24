@@ -282,9 +282,15 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     public IEnumerator BuffTimer(BuffInfo buff)
     {
         float time = 0;
+        int count = 1;
         while (time < buff.time)
         {
             if (!GameController.Instance.Pause) time += Time.deltaTime;
+            if (buff.IsDotDamage && time >= count * buff.delay)
+            {
+                count++;
+                Damaged(buff.hp);
+            }
             yield return null;
         }
         buffs.Remove(buff);
