@@ -166,9 +166,9 @@ public class CompanionObject : BTPoolable,
                 case PatrolType.LEAD:
                     x = 2f;
                     y = Random.Range(-2.5f, 2.5f);
-                    targetPos += 
-                        (Vector2)(Quaternion.Euler(                        
-                            new Vector3(0,0,Player.Instance.transform.rotation.eulerAngles.z - 90))
+                    targetPos +=
+                        (Vector2)(Quaternion.Euler(
+                            new Vector3(0, 0, Player.Instance.transform.rotation.eulerAngles.z - 90))
                         * new Vector2(x, y));
                     break;
 
@@ -178,7 +178,7 @@ public class CompanionObject : BTPoolable,
                     targetPos +=
                         (Vector2)(Quaternion.Euler(
                             new Vector3(0, 0, Player.Instance.transform.rotation.eulerAngles.z - 90))
-                        * new Vector2(x, y)); 
+                        * new Vector2(x, y));
                     break;
 
                 case PatrolType.HOLD:
@@ -258,6 +258,7 @@ public class CompanionObject : BTPoolable,
     public int Hp { get { return hp; } }
     public int MaxHp { get { return maxhp; } }
     public int Def { get { return def; } }
+    public int MaxDef { get { return maxdef; } }
 
 
     IEnumerator changeColorCoroutine;

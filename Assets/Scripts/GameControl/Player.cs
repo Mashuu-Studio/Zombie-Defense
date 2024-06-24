@@ -157,6 +157,12 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
     public bool BuyItem(BuyableData data, bool isMagazine = false)
     {
         int price = isMagazine ? data.magprice : data.price;
+        if (Buy(price)) return true;
+        return false;
+    }
+
+    public bool Buy(int price)
+    {
         if (Money >= price)
         {
             money -= price;
@@ -167,11 +173,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
 
     public bool BuyMagazine(Weapon data)
     {
-        if (itemAmount.ContainsKey(data.key) && Money >= data.magprice)
-        {
-            money -= data.magprice;
-            return true;
-        }
+        if (itemAmount.ContainsKey(data.key) && Buy(data.magprice)) return true;
         return false;
     }
 

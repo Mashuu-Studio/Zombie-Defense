@@ -10,6 +10,8 @@ public class CompanionSlot : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI armorText;
     [SerializeField] private TextMeshProUGUI hpText;
+    [SerializeField] private TextMeshProUGUI refillArmorPriceText;
+    [SerializeField] private TextMeshProUGUI healPriceText;
     [SerializeField] private Image weaponImage;
     [SerializeField] private MountWeaponDropdown weaponDropdown;
     [SerializeField] private List<CustomToggle> patrolTypes;
@@ -17,6 +19,8 @@ public class CompanionSlot : MonoBehaviour
     private static List<string> weaponKeys;
     private static List<string> patrolKeys;
     private string weaponKey;
+    private int healPrice;
+    private int refillArmorPrice;
     public CompanionObject Data { get { return data; } }
     private CompanionObject data;
 
@@ -92,6 +96,13 @@ public class CompanionSlot : MonoBehaviour
     {
         armorText.text = $"{data.Def}";
         hpText.text = $"{data.Hp}";
+
+        healPrice = (data.MaxHp - data.Hp) * ItemManager.GetItem("HEAL.HP").price / data.MaxHp;
+        refillArmorPrice = (data.MaxDef - data.Def) * ItemManager.GetItem("HEAL.ARMOR").price / data.MaxDef;
+
+        healPriceText.text = healPrice.ToString();
+        refillArmorPriceText.text = refillArmorPrice.ToString();
+
         if (data.UsingWeapon != null
             && weaponKey != data.UsingWeapon.key)
         {
@@ -103,12 +114,14 @@ public class CompanionSlot : MonoBehaviour
 
     public void FillArmor()
     {
+        if (!Player.Instance.Buy(refillArmorPrice)) return;
         data.FillArmor();
         UpdateInfo();
     }
 
     public void Heal()
     {
+        if (!Player.Instance.Buy(healPrice)) return;
         data.Heal();
         UpdateInfo();
     }
