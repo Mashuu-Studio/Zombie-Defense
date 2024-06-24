@@ -15,6 +15,10 @@ MonoBehaviour:
   m_TableCollectionName: Item Description Table
   m_TableCollectionNameGuidString: f279306ff74d5e142a49a7f4dcd24d47
   m_Entries:
+  - m_Id: 9077252260110336
+    m_Key: BUILDING.BARBEDWIRE
+    m_Metadata:
+      m_Items: []
   - m_Id: 36626396298092544
     m_Key: BUILDING.CONCRETEBARRICADE
     m_Metadata:
@@ -23,12 +27,8 @@ MonoBehaviour:
     m_Key: BUILDING.IRONBARRICADE
     m_Metadata:
       m_Items: []
-  - m_Id: 70065424703488
-    m_Key: BUILDING.SCANTOWER
-    m_Metadata:
-      m_Items: []
-  - m_Id: 9077252260110336
-    m_Key: BUILDING.BARBEDWIRE
+  - m_Id: 36956027110825984
+    m_Key: BUILDING.LANDMINE
     m_Metadata:
       m_Items: []
   - m_Id: 9077244462899200
@@ -41,6 +41,26 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 69887036760064
     m_Key: BUILDING.WOODENBARRICADE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43598708125736960
+    m_Key: COMPANION.COMPANION1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43598740237328384
+    m_Key: COMPANION.COMPANION2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43598756720943104
+    m_Key: COMPANION.COMPANION3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39229655244349440
+    m_Key: HEAL.ARMOR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 39229640971132928
+    m_Key: HEAL.HP
     m_Metadata:
       m_Items: []
   - m_Id: 69227050442752
@@ -79,32 +99,8 @@ MonoBehaviour:
     m_Key: WEAPON.SR
     m_Metadata:
       m_Items: []
-  - m_Id: 69232339460096
+  - m_Id: 45641876195254272
     m_Key: WEAPON.TESLA
-    m_Metadata:
-      m_Items: []
-  - m_Id: 36956027110825984
-    m_Key: BUILDING.LANDMINE
-    m_Metadata:
-      m_Items: []
-  - m_Id: 39229640971132928
-    m_Key: HEAL.HP
-    m_Metadata:
-      m_Items: []
-  - m_Id: 39229655244349440
-    m_Key: HEAL.ARMOR
-    m_Metadata:
-      m_Items: []
-  - m_Id: 43598708125736960
-    m_Key: COMPANION.COMPANION1
-    m_Metadata:
-      m_Items: []
-  - m_Id: 43598740237328384
-    m_Key: COMPANION.COMPANION2
-    m_Metadata:
-      m_Items: []
-  - m_Id: 43598756720943104
-    m_Key: COMPANION.COMPANION3
     m_Metadata:
       m_Items: []
   m_Metadata:

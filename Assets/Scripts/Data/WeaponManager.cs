@@ -13,7 +13,7 @@ public static class WeaponManager
             new Weapon()
             {
                 key = "WEAPON.GRENADE",
-                price = 100,
+                price = 250,
 
                 attribute = ObjectData.Attribute.EXPLOSION,
 

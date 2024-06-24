@@ -75,7 +75,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 8725370605936640
-    m_Localized: COMPANION1
+    m_Localized: Tyler
     m_Metadata:
       m_Items: []
   - m_Id: 13822765622632448
@@ -87,11 +87,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 35902089653657600
-    m_Localized: COMPANION3
+    m_Localized: Drex
     m_Metadata:
       m_Items: []
   - m_Id: 35902091457208320
-    m_Localized: COMPANION2
+    m_Localized: Carson
     m_Metadata:
       m_Items: []
   - m_Id: 41371724846997504
@@ -107,11 +107,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 43975371447607296
-    m_Localized: HEAL HP
+    m_Localized: MEDKIT
     m_Metadata:
       m_Items: []
   - m_Id: 43975375570608128
-    m_Localized: REFILL ARMOR
+    m_Localized: BODY ARMOR
     m_Metadata:
       m_Items: []
   references:

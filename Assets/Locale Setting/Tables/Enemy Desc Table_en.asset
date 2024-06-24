@@ -23,7 +23,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 74939637760
-    m_Localized: ' '
+    m_Localized: Drop the healkit with a 30% chance. They run away and recover when
+      hp gets low.
     m_Metadata:
       m_Items: []
   - m_Id: 107432910848
@@ -39,23 +40,23 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 177507147776
-    m_Localized: ' '
+    m_Localized: They cause you to bleed for 5 seconds.
     m_Metadata:
       m_Items: []
   - m_Id: 202836549632
-    m_Localized: ' '
+    m_Localized: They cause you to slow for 5 seconds.
     m_Metadata:
       m_Items: []
   - m_Id: 221715111936
-    m_Localized: ' '
+    m_Localized: Deals 50% additional damage to buildings.
     m_Metadata:
       m_Items: []
   - m_Id: 236219015168
-    m_Localized: '  '
+    m_Localized: They divide up to twice even if they die.
     m_Metadata:
       m_Items: []
   - m_Id: 4142445633536
-    m_Localized: ' '
+    m_Localized: Summon 'Radioactive waste' with a 50% chance.
     m_Metadata:
       m_Items: []
   references:

@@ -14,7 +14,7 @@ public class FloatingDescription : MonoBehaviour
     [SerializeField] private LocalizeStringEvent nameLocalizeStringEvent;
     [SerializeField] private LocalizeStringEvent descLocalizeStringEvent;
     [SerializeField] private LocalizeStringEvent statLocalizeStringEvent;
-    private const int width = 300;
+    private const int width = 500;
     private RectTransform rect;
     private bool isWeapon;
     private void Awake()

@@ -19,95 +19,110 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 68956689801216
-    m_Localized: PISTOL DESCRIPTION
+    m_Localized: ' '
     m_Metadata:
       m_Items: []
   - m_Id: 69179302486016
-    m_Localized: SMG DESCRIPTION
+    m_Localized: The fast and personal way to say hello to your enemies! No time
+      to say, 'Hi, I'm a bullet!'
     m_Metadata:
       m_Items: []
   - m_Id: 69227050442752
-    m_Localized: ASSAULT RIFLE DESCRIPTION
+    m_Localized: The all-purpose weapon that can handle enemies near and far! Shout,
+      'It's all over now!'
     m_Metadata:
       m_Items: []
   - m_Id: 69230485577728
-    m_Localized: SHOTGUN DESCRIPTION
+    m_Localized: The essential item for the zombie apocalypse. Blow away a horde
+      of zombies at close range! 'Can someone pick up these zombie heads?'
     m_Metadata:
       m_Items: []
   - m_Id: 69231093751808
-    m_Localized: SNIPER RIFLE DESCRIPTION
+    m_Localized: Perfect for social distancing with your enemies. Wave 'hello' while
+      lining up a shot that can pierce through multiple targets!
     m_Metadata:
       m_Items: []
   - m_Id: 69231836143616
-    m_Localized: LAUNCHER DESCRIPTION
-    m_Metadata:
-      m_Items: []
-  - m_Id: 69232339460096
-    m_Localized: TESLA DESCRIPTION
+    m_Localized: Clear any path by blasting everything away! Enemies included, free
+      of charge.
     m_Metadata:
       m_Items: []
   - m_Id: 69343027142656
-    m_Localized: FLAMETHROWER DESCRIPTION
+    m_Localized: "The ideal weapon for a BBQ party! Roast your enemies until they\u2019re
+      crispy. 'Anyone smell something burning?'"
     m_Metadata:
       m_Items: []
   - m_Id: 69373968523264
-    m_Localized: MINIGUN DESCRIPTION
+    m_Localized: If one bullet at a time is too slow, this is your answer. Say a
+      quick goodbye with hundreds of bullets!
     m_Metadata:
       m_Items: []
   - m_Id: 69887036760064
-    m_Localized: WOODEN BARRICADE DESCRIPTION
-    m_Metadata:
-      m_Items: []
-  - m_Id: 70065424703488
-    m_Localized: SCAN TOWER DESCRIPTION
+    m_Localized: A temporary defense made of wood! "I've got your back."
     m_Metadata:
       m_Items: []
   - m_Id: 70064023805952
-    m_Localized: TURRET DESCRIPTION
+    m_Localized: An effective defense weapon that automatically suppresses zombies!
+      "Sit back and relax, I got this."
     m_Metadata:
       m_Items: []
   - m_Id: 70235847663616
-    m_Localized: GRENADE DESCRIPTION
+    m_Localized: The magic bomb that solves everything when you throw and run! 'Well,
+      nothing more to see here!'
     m_Metadata:
       m_Items: []
   - m_Id: 9077244462899200
-    m_Localized: SPIKE TRAP DESCRIPTION
+    m_Localized: Automatically activates when zombies approach, pushing out spikes
+      to ensnare them! "Your turn now, taste the prick of the spikes!"
     m_Metadata:
       m_Items: []
   - m_Id: 9077252260110336
-    m_Localized: BARBED WIRE DESCRIPTION
+    m_Localized: Slows down zombies and makes it hard for them to escape! "Don't
+      come back here again."
     m_Metadata:
       m_Items: []
   - m_Id: 36626398177140736
-    m_Localized: IRON BARRICADE DESCRIPTION
+    m_Localized: A strong defense that keeps zombies at bay! "My defense is strong."
     m_Metadata:
       m_Items: []
   - m_Id: 36626396298092544
-    m_Localized: CONCRETE BARRICADE DESCRIPTION
+    m_Localized: A sturdy defense against zombie charges! "This is not the path you're
+      looking for."
     m_Metadata:
       m_Items: []
   - m_Id: 36956027110825984
-    m_Localized: LAND MINE DESCRIPTION
+    m_Localized: A dangerous trap that explodes powerfully when zombies step on it!
+      "This is a real bait."
     m_Metadata:
       m_Items: []
   - m_Id: 39229640971132928
-    m_Localized: HEAL HP
+    m_Localized: Medical supplies that heal wounds caused by zombie battles! "Quick
+      patch up and get ready for the next battle."
     m_Metadata:
       m_Items: []
   - m_Id: 39229655244349440
-    m_Localized: REFILL ARMOR
+    m_Localized: A powerful armor that protects you from zombie attacks! "No matter
+      what the zombies do, I'm here to stay. Until I break."
     m_Metadata:
       m_Items: []
   - m_Id: 43598708125736960
-    m_Localized: COMPANION1
+    m_Localized: Is there something mysterious inside his hat? His hat is his secret
+      weapon. Even zombies would say, 'I want to eat that hat!'
     m_Metadata:
       m_Items: []
   - m_Id: 43598740237328384
-    m_Localized: COMPANION2
+    m_Localized: Carson is a beloved cutie to zombies. He's such a popular character
+      that zombies might think, 'Why don't you become my friend too?
     m_Metadata:
       m_Items: []
   - m_Id: 43598756720943104
-    m_Localized: COMPANION3
+    m_Localized: Bald-headed Drex is the 'shining genius' in battle, but during rest,
+      he's the 'flawless-headed friend.' His head shines light for zombies!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 45641876195254272
+    m_Localized: "The ultimate way to shock your enemies! Tell them, 'I\u2019ll cover
+      the electric bill!' and zap them away."
     m_Metadata:
       m_Items: []
   references:
