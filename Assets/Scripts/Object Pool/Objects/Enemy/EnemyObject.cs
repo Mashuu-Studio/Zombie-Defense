@@ -188,7 +188,7 @@ public class EnemyObject : BTPoolable,
         StopAllCoroutines();
         EnemyController.Instance.DeadEnemy(this);
         spriteRenderer.material.SetColor("_Color", Color.white);
-        PoolController.Push(gameObject.name, this);
+        PoolController.Push(data.key, this);
     }
 
     IEnumerator ChangeColor(Color color)

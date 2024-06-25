@@ -65,7 +65,7 @@ public class EnemyProjectile : Projectile
         }
     }
 
-    protected override IEnumerator RangeDamage()
+    protected override IEnumerator RangeDamaging()
     {
         stop = true;
 

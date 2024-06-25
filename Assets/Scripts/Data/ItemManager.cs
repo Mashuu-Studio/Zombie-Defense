@@ -13,7 +13,7 @@ public class ItemManager
             new OtherItem()
             {
                 key = "WEAPON.GRENADE",
-                price = 250,
+                price = 350,
             },
             new OtherItem()
             {

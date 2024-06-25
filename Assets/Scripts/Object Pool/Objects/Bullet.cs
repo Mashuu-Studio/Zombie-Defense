@@ -98,13 +98,13 @@ public class Bullet : Projectile
             if (point)
             {
                 dmgDelay = 0;
-                StartCoroutine(RangeDamage());
+                RangeDamage();
             }
             else Damage(collision);
         }
     }
 
-    protected override IEnumerator RangeDamage()
+    protected override IEnumerator RangeDamaging()
     {
         stop = true;
 
@@ -145,6 +145,8 @@ public class Bullet : Projectile
 
     protected override void Push()
     {
+        rangeDamageCoroutine = null;
+
         trail.Clear();
         if (particle != null)
             pmain.startSize = new ParticleSystem.MinMaxCurve(pmain.startSize.constant / bulletSize);

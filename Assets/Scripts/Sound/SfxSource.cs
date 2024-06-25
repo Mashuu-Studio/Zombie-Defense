@@ -7,6 +7,7 @@ public class SfxSource : Poolable
 {
     private AudioSource source;
     public bool isPlaying { get { return source.isPlaying; } }
+    public string clipName { get { return source.clip.name; } }
     public override void Init()
     {
         source = GetComponent<AudioSource>();

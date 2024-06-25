@@ -15,6 +15,7 @@ public abstract class Projectile : Poolable
 
     protected bool stop;
 
+    protected IEnumerator rangeDamageCoroutine;
     public override void Init()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -43,14 +44,25 @@ public abstract class Projectile : Poolable
         if (dist1 == 0 || dist1 >= dist2)
         {
             transform.position = destination;
-            StartCoroutine(RangeDamage());
+            RangeDamage();
         }
     }
 
-    protected abstract IEnumerator RangeDamage();
+    protected void RangeDamage()
+    {
+        // 이미 진행중이라면 진행하지 않음.
+        if (rangeDamageCoroutine == null)
+        {
+            rangeDamageCoroutine = RangeDamaging();
+            StartCoroutine(rangeDamageCoroutine);
+        }
+    }
+
+    protected abstract IEnumerator RangeDamaging();
 
     protected virtual void Push()
     {
+        rangeDamageCoroutine = null;
         PoolController.Push(gameObject.name, this);
 
         string particleName = gameObject.name.Replace("PROJECTILE", "PARTICLE");
