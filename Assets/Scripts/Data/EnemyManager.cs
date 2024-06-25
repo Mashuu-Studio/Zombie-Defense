@@ -151,6 +151,12 @@ public static class EnemyManager
                 adelay = .6f,
                 projSpeed = 8,
 
+                resistances = new Dictionary<ObjectData.Attribute, float>()
+                {
+                    { ObjectData.Attribute.EXPLOSION, .5f },
+                    { ObjectData.Attribute.FIRE, .5f },
+                    { ObjectData.Attribute.ELECTRIC, .5f },
+                },
                 isSiege = true,
 
                 money = 100,

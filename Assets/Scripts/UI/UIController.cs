@@ -248,6 +248,11 @@ public class UIController : MonoBehaviour
         MapGenerator.Instance.BuildMode(b);
     }
 
+    public void UnselectCompanion()
+    {
+        buildModeUI.UnselectCompanion();
+    }
+
     public void SelectCompanion(BuildModeItemIcon icon)
     {
         buildModeUI.SelectCompanion(icon);

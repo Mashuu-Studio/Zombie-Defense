@@ -22,6 +22,7 @@ public class BuildIcon : BuildModeItemIcon
 
     public override void Select()
     {
+        UIController.Instance.UnselectCompanion();
         BuildingController.Instance.SelectBuildingOnBuildMode(key);
     }
 }

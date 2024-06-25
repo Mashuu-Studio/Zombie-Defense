@@ -34,6 +34,11 @@ public class CompanionController : MonoBehaviour
         return companion;
     }
 
+    public void StartGame()
+    {
+        while (companions.Count > 0) RemoveCompanion(companions[0]);
+    }
+
     public void RemoveCompanion(CompanionObject companion)
     {
         UIController.Instance.RemoveCompanion(companion);

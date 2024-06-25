@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Data Load.unity
     guid: 70d4a51e8b5ae4b42972a68dbd9bf3d9
   - enabled: 1
-    path: Assets/Scenes/Title.unity
-    guid: 4a6e2c2fe720dd54d96befc886015e22
-  - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 9757e2127c788b5458f596c7054cb586
   m_configObjects:

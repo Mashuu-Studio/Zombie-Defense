@@ -139,17 +139,18 @@ public class GameController : MonoBehaviour
             case SceneController.Scene.GAME:
                 win = false;
                 gameOver = false;
-                CursorController.Instance.SetCursor(true);
                 PauseGame(false);
-                UIController.Instance.ChangeScene(2);
                 MapGenerator.Instance.StartGame();
                 RoundController.Instance.StartGame();
                 WeaponController.Instance.StartGame();
                 BuildingController.Instance.StartGame();
+                CompanionController.Instance.StartGame();
+                Player.Instance.StartGame();
+                UIController.Instance.ChangeScene(2);
+                CursorController.Instance.SetCursor(true);
+                CameraController.Instance.SetCamera(Camera.main);
                 UIController.Instance.StartGame();
 
-                Player.Instance.StartGame();
-                CameraController.Instance.SetCamera(Camera.main);
                 gameStarted = true;
                 break;
         }

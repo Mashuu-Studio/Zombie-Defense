@@ -124,6 +124,12 @@ public class CompanionObject : BTPoolable,
         patrolType = PatrolType.HOLD;
 
         AdjustMove(false);
+        if (patrolCoroutine != null)
+        {
+            StopCoroutine(patrolCoroutine);
+            patrolCoroutine = null;
+        }
+
         transform.position = list[0];
         holdPatrolPosList = list;
         patrolIndex = 0;

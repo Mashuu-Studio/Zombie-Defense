@@ -37,7 +37,7 @@ public class BuildModeUI : MonoBehaviour
         gameObject.SetActive(b);
         if (b)
         {
-            selectedCompanionIndex = -1;
+            UnselectCompanion();
             UpdateCompanions();
         }
     }
@@ -56,7 +56,6 @@ public class BuildModeUI : MonoBehaviour
         Vector3 movePos = CameraController.Instance.Cam.transform.position + new Vector3(axisX, axisY) * Time.deltaTime * 10;
         CameraController.Instance.MoveCamera(movePos, movePos);
 
-
         Vector3 mousePos = CameraController.Instance.Cam.ScreenToWorldPoint(Input.mousePosition);
         Vector2 pos = MapGenerator.PosToGrid(MapGenerator.RoundToInt(mousePos));
         BuildingController.Instance.MoveBuildingPointer(pos);
@@ -72,7 +71,7 @@ public class BuildModeUI : MonoBehaviour
             {
                 companionPatrolEndPos = pos;
                 CompanionController.Instance.SetCompanionPatrol(selectedCompanionIndex, new List<Vector2>() { companionPatrolStartPos, companionPatrolEndPos });
-                selectedCompanionIndex = -1;
+                UnselectCompanion();
                 BuildingController.Instance.SelectBuildingOnBuildMode("");
             }
         }
@@ -85,12 +84,6 @@ public class BuildModeUI : MonoBehaviour
                 BuildingController.Instance.Build(pos);
             }
 
-            // 터렛 보관
-            if (Input.GetMouseButton(1))
-            {
-                BuildingController.Instance.Store(pos);
-            }
-
             // 마운트
             if (Input.GetKeyDown(KeyCode.Q) && BuildingController.Instance.SelectBuilding(pos))
             {
@@ -98,6 +91,17 @@ public class BuildModeUI : MonoBehaviour
                 UIController.Instance.ShowMountWeaponUI(true, pos);
             }
         }
+
+        // 터렛 보관
+        if (Input.GetMouseButton(1))
+        {
+            BuildingController.Instance.Store(pos);
+        }
+    }
+
+    public void UnselectCompanion()
+    {
+        selectedCompanionIndex = -1;
     }
 
     public void SelectCompanion(BuildModeItemIcon icon)
@@ -107,11 +111,10 @@ public class BuildModeUI : MonoBehaviour
         {
             if (companionIcons[i] == icon)
             {
-                selectedCompanionIndex = i;
-                CompanionController.Instance.SetCompanionPatrol(selectedCompanionIndex, new List<Vector2>() { companionPatrolStartPos, companionPatrolEndPos });
-                BuildingController.Instance.SelectBuildingOnBuildMode(CompanionController.Instance.Companions[selectedCompanionIndex].Key);
                 // 빌드 아이콘 이미지 바꿈
                 // 빌드 컨트롤러에서 변경해야함
+                selectedCompanionIndex = i;
+                BuildingController.Instance.SelectBuildingOnBuildMode(CompanionController.Instance.Companions[selectedCompanionIndex].Key);
                 break;
             }
         }
