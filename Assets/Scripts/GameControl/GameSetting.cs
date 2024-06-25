@@ -66,13 +66,44 @@ public class GameSetting : MonoBehaviour
     public class Setting
     {
         public Dictionary<string, int[]> options;
+        public int[] Volume { get { return options["volume"]; } }
 
         public void Init()
         {
             options = new Dictionary<string, int[]>();
-            options.Add("volume", new int[] { 100, 100, 100 });
+            options.Add("volume", new int[] { 50, 100, 100 });
         }
 
+#if UNITY_WEBGL
+
+        public void LoadData(int[] volumes)
+        {
+            Init();
+
+            for (int i = 0; i < 3; i++)
+                options["volume"][i] = volumes[i];
+        }
+    }
+
+    public void SaveSetting()
+    {
+        PlayerPrefs.SetInt("MASTER", setting.Volume[0]);
+        PlayerPrefs.SetInt("BGM", setting.Volume[1]);
+        PlayerPrefs.SetInt("SFX", setting.Volume[2]);
+    }
+
+    public void LoadSetting()
+    {
+        int[] volumes = new int[3]
+        {
+            PlayerPrefs.GetInt("MASTER", 50),
+            PlayerPrefs.GetInt("BGM", 100),
+            PlayerPrefs.GetInt("SFX", 100)
+        };
+        setting = new Setting();
+        setting.LoadData(volumes);
+    }
+#else
         public new string ToString()
         {
             string str = "";
@@ -146,5 +177,6 @@ public class GameSetting : MonoBehaviour
         setting = new Setting();
         setting.LoadData(data);
     }
+#endif
     #endregion
 }
