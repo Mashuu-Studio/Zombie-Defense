@@ -192,6 +192,10 @@ MonoBehaviour:
       space to proceed.'
     m_Metadata:
       m_Items: []
+  - m_Id: 51519671752466432
+    m_Localized: TUTORIAL
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

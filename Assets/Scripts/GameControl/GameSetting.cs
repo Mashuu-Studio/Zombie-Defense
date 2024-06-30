@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-
+using UnityEngine.Localization.Settings;
 using System.IO;
 
 public class GameSetting : MonoBehaviour
@@ -55,41 +55,83 @@ public class GameSetting : MonoBehaviour
     #region Data
     public Setting SettingInfo { get { return setting; } }
     private Setting setting;
-    public int CurrentLanguage { get { return currentLanguage; } }
-    private int currentLanguage;
 
-    public void SetLanguage(int index)
+    public static int CurrentLanguage { get { return Instance.setting.language; } }
+
+    private bool changingLang;
+    public void ChangeLanguage(int index)
     {
-        currentLanguage = index;
+        if (!changingLang) StartCoroutine(SetLanguage(index));
+    }
+
+    IEnumerator SetLanguage(int index)
+    {
+        changingLang = true;
+        yield return LocalizationSettings.InitializationOperation;
+        LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[index];
+        setting.language = index;
+        SaveSetting();
+        changingLang = false;
     }
 
     public class Setting
     {
+        public int language;
+        public bool[] readTutorial;
         public Dictionary<string, int[]> options;
         public int[] Volume { get { return options["volume"]; } }
 
+        public int TutorialProgress
+        {
+            get
+            {
+                int progress = 0;
+                for (int i = 0; i < readTutorial.Length; i++)
+                    progress += (readTutorial[i] ? 1 : 0) * (int)Mathf.Pow(10, i);
+
+                return progress;
+            }
+        }
+
         public void Init()
         {
+            language = 0;
+            readTutorial = new bool[4];
             options = new Dictionary<string, int[]>();
             options.Add("volume", new int[] { 50, 100, 100 });
         }
 
 #if UNITY_WEBGL
 
-        public void LoadData(int[] volumes)
+        public void LoadData(int lang, int[] volumes, int tutorialProgress)
         {
             Init();
 
+            language = lang;
+            Instance.ChangeLanguage(language);
+
             for (int i = 0; i < 3; i++)
                 options["volume"][i] = volumes[i];
+
+            for (int i = 0; i < readTutorial.Length; i++)
+            {
+                readTutorial[i] = tutorialProgress % 10 == 1;
+                tutorialProgress /= 10;
+            }
         }
     }
 
     public void SaveSetting()
     {
+        PlayerPrefs.SetInt("LANGUAGE", setting.language);
+
         PlayerPrefs.SetInt("MASTER", setting.Volume[0]);
         PlayerPrefs.SetInt("BGM", setting.Volume[1]);
         PlayerPrefs.SetInt("SFX", setting.Volume[2]);
+
+        PlayerPrefs.SetInt("TUTORIAL", setting.TutorialProgress);
+
+        PlayerPrefs.Save();
     }
 
     public void LoadSetting()
@@ -100,8 +142,12 @@ public class GameSetting : MonoBehaviour
             PlayerPrefs.GetInt("BGM", 100),
             PlayerPrefs.GetInt("SFX", 100)
         };
+
+        int tutorialProgress = PlayerPrefs.GetInt("TUTORIAL", 0000);
+
+        int lang = PlayerPrefs.GetInt("LANGUAGE", 0);
         setting = new Setting();
-        setting.LoadData(volumes);
+        setting.LoadData(lang, volumes, tutorialProgress);
     }
 #else
         public new string ToString()

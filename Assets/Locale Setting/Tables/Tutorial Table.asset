@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
+  m_Name: Tutorial Table
+  m_EditorClassIdentifier: 
+  m_SharedTableData: {fileID: 11400000, guid: ae45922aac24b204daeaccd9aa7b8691, type: 2}
+  m_Tables:
+  - {fileID: 11400000, guid: 6016e4941ff1b3349aacd5cd5874d486, type: 2}
+  - {fileID: 11400000, guid: f06384cbc23e94042a2ba01704823c6f, type: 2}
+  m_Extensions: []
+  m_Group: String Table
+  references:
+    version: 2
+    RefIds: []

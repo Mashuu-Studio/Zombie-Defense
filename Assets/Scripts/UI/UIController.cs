@@ -24,11 +24,12 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
-        setting.Init();
+        tutorialUI.Init();
         shop.Init();
         library.Init();
         buildModeUI.Init();
         mountWeaponDropdown.Init();
+        setting.Init();
         InitItemInfo();
         OpenSetting(false);
         OpenShop(false);
@@ -86,7 +87,11 @@ public class UIController : MonoBehaviour
     {
         library.SetActive(b);
 
-        if (b) openedUIs.Add(library.gameObject);
+        if (b)
+        {
+            tutorialUI.ShowTutorial(TutorialUI.TutorialStep.LIBRARY);
+            openedUIs.Add(library.gameObject);
+        }
         else openedUIs.Remove(library.gameObject);
     }
 
@@ -163,6 +168,9 @@ public class UIController : MonoBehaviour
             if (weapon.consumable) continue;
             itemInfos[weapon.key].gameObject.SetActive(WeaponController.Instance.HasWeapon(weapon.key));
         }
+
+        // 튜토리얼을 안 봤다면 오픈
+        tutorialUI.ShowTutorial(TutorialUI.TutorialStep.GAME);
     }
 
     public void Endless()
@@ -207,7 +215,11 @@ public class UIController : MonoBehaviour
     public void OpenShop(bool b)
     {
         shop.Open(b);
-        if (b) openedUIs.Add(shop.gameObject);
+        if (b)
+        {
+            tutorialUI.ShowTutorial(TutorialUI.TutorialStep.SHOP);
+            openedUIs.Add(shop.gameObject);
+        }
         else openedUIs.Remove(shop.gameObject);
     }
 
@@ -241,9 +253,16 @@ public class UIController : MonoBehaviour
     public void BuildMode(bool b)
     {
         buildModeUI.BuildMode(b);
-        if (b) openedUIs.Add(buildModeUI.gameObject);
-        else openedUIs.Remove(buildModeUI.gameObject);
-        if (b == false) mountWeaponDropdown.SetActive(false, UIController.ScalingPos(Camera.main.WorldToScreenPoint(Vector2.zero)));
+        if (b)
+        {
+            tutorialUI.ShowTutorial(TutorialUI.TutorialStep.BUILDMODE);
+            openedUIs.Add(buildModeUI.gameObject);
+        }
+        else
+        {
+            openedUIs.Remove(buildModeUI.gameObject);
+            mountWeaponDropdown.SetActive(false, ScalingPos(Camera.main.WorldToScreenPoint(Vector2.zero)));
+        }
         BuildingController.Instance.ChangeBulidMode(b);
         MapGenerator.Instance.BuildMode(b);
     }
@@ -267,6 +286,35 @@ public class UIController : MonoBehaviour
     {
         mountWeaponDropdown.SetActive(b, ScalingPos(Camera.main.WorldToScreenPoint(pos)));
     }
+    #endregion
+
+    #region Tutorial
+    [SerializeField] private TutorialUI tutorialUI;
+
+    // 게임 설정에서 세이브 기능 연동.
+    public void ChangeTutorialProgress(bool b)
+    {
+        for (int i = 0; i < GameSetting.Instance.SettingInfo.readTutorial.Length; i++)
+        {
+            GameSetting.Instance.SettingInfo.readTutorial[i] = !b;
+        }
+        GameSetting.Instance.SaveSetting();
+    }
+    
+    public void SetTutorialProgress()
+    {
+        bool isOn = false;
+        for (int i = 0; i < GameSetting.Instance.SettingInfo.readTutorial.Length; i++)
+        {
+            if (!GameSetting.Instance.SettingInfo.readTutorial[i])
+            {
+                isOn = true;
+                break;
+            }
+        }
+        setting.SetTutorialProgress(isOn);
+    }
+
     #endregion
 
     #region Setting

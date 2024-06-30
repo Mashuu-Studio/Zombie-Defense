@@ -163,6 +163,10 @@ MonoBehaviour:
     m_Key: GAME.OVER.ENDLESS
     m_Metadata:
       m_Items: []
+  - m_Id: 51519671752466432
+    m_Key: SETTING.TUTORIAL
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

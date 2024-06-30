@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Tutorial Table_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: ae45922aac24b204daeaccd9aa7b8691, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 8036294656
+    m_Localized: Damage by weapon attribute-
+    m_Metadata:
+      m_Items: []
+  - m_Id: 284080218112
+    m_Localized: -Special Ability
+    m_Metadata:
+      m_Items: []
+  - m_Id: 450187239424
+    m_Localized: Stats-
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3504626212864
+    m_Localized: 'The information for the current round is displayed.
+
+      There
+      are up to 30 rounds, after which it will be in Endless mode.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3572494245888
+    m_Localized: 'Information about the weapon in use and the number of grenades
+      are displayed.
+
+      You can change weapons with the wheel up and down and
+      use grenades with the G key.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6598726524928
+    m_Localized: The number of weapons and bullets you have is displayed. You can
+      give as many weapons to your companions and turrets as you have.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7173975318528
+    m_Localized: Companions you hired will be displayed.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1002223840534528
+    m_Localized: You can fire the companions you hired. No money will be returned.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7230866857984
+    m_Localized: You can restore your companion's hp and armor.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7307324825600
+    m_Localized: 'You can change your companions''s patrol type.
+
+      Narrowly,
+      Widely, Front, Back, Regional.
+
+      Reginal can only be set in build mode.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7266652659712
+    m_Localized: You can change your companion's weapon. You should have extra weapon.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 273021004685312
+    m_Localized: 'Click to select and build the building.
+
+      You can demolish
+      a building by right-clicking. You will receive 100% of your money back. At
+      this time, buildings with reduced hp  cannot receive their money back.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 273187917012992
+    m_Localized: "The turret requires weapons to be mounted.\nPress Q to see a list
+      of weapons you have. \nSelect a weapon from among them and mount it."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 273062444408832
+    m_Localized: Move the camera with WASD.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 273231302893568
+    m_Localized: 'You can set up Regional Patrol for your companions.
+
+      Select
+      a companion and drag to set the first and last points of where you want to
+      patrol.'
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

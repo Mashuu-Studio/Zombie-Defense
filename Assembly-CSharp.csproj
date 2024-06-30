@@ -67,9 +67,9 @@
     <Compile Include="Assets\Scripts\UI\CursorController.cs" />
     <Compile Include="Assets\Scripts\Data\RoundManager.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Turret\TurretObject.cs" />
-    <Compile Include="Assets\Scripts\GameControl\LocaleSelector.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\ObjectInterface.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTSequencerNode.cs" />
+    <Compile Include="Assets\Scripts\UI\TutorialStep.cs" />
     <Compile Include="Assets\Scripts\GameControl\SceneController.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\BuffNode.cs" />
     <Compile Include="Assets\Scripts\UI\FloatingDescription.cs" />
@@ -111,6 +111,7 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\AttackNode.cs" />
     <Compile Include="Assets\Scripts\UI\CustomToggle.cs" />
     <Compile Include="Assets\Scripts\Object Pool\BTPoolable.cs" />
+    <Compile Include="Assets\Scripts\UI\TutorialUI.cs" />
     <Compile Include="Assets\Scripts\UI\BuildMode\BuildModeUI.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\CombineNode.cs" />
     <Compile Include="Assets\Scripts\UI\BuildMode\MountWeaponIcon.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Assets\Scripts\BehaviourTree\Nodes\MoveNode.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTRootNode.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Pool.cs" />
+    <Compile Include="Assets\Scripts\UI\TutorialView.cs" />
     <Compile Include="Assets\Scripts\UI\ShopUI.cs" />
     <Compile Include="Assets\Scripts\UI\DescriptionIcon.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BehaviourTree.cs" />
@@ -166,6 +168,7 @@
     <None Include="Assets\LightningBolt\Readme.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+    <None Include="Assets\AddressableAssetsData\link.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
@@ -178,7 +181,6 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
-    <None Include="Assets\AddressableAssetsData\link.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>
   <ItemGroup>

@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour
         };
     }
 
-    public bool Pause { get { return pause || levelUpPause; } }
+    public bool Pause { get { return pause || levelUpPause || TutorialUI.IsTutorial; } }
     private bool pause;
     private bool levelUpPause;
 
@@ -77,7 +77,7 @@ public class GameController : MonoBehaviour
             }
         }
 
-        if (!win && RoundController.Instance != null && !RoundController.Instance.Progress)
+        if (!win && GameProgress && !RoundController.Instance.Progress && !TutorialUI.IsTutorial)
         {
             if (v) UIController.Instance.OnOffShop();
             if (b) UIController.Instance.OnOffBuildMode();
