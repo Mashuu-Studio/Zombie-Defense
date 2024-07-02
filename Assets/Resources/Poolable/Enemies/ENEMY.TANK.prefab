@@ -147,6 +147,17 @@ Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 1910243207678167368, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
   m_PrefabInstance: {fileID: 1468763801950254622}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2028786705973720831 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 596069614281769185, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
+  m_PrefabInstance: {fileID: 1468763801950254622}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cafbf8fdf31fce4c8df2a04e3e5656e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &3198617611293179296 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 4035749872207547326, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
@@ -174,12 +185,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74bde4d9f5b8e5f47b7d3ffd39815ef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amount: 5
   tree: {fileID: 11400000, guid: 402cbe79f16749941bab0618f086a99b, type: 2}
   hpBar: {fileID: 4329589065793698505}
   rigidbody: {fileID: 1072020499731644246}
   spriteRenderer: {fileID: 3198617611293179296}
   animator: {fileID: 3681127519243025597}
   hitbox: {fileID: 4572455920928089432}
+  targetDetector: {fileID: 2028786705973720831}
   collider: {fileID: 907250130893814904}
   seeker: {fileID: 5338324613631523420}
 --- !u!114 &4329589065793698505 stripped

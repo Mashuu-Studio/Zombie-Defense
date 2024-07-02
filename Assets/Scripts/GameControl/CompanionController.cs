@@ -36,7 +36,10 @@ public class CompanionController : MonoBehaviour
 
     public void StartGame()
     {
-        while (companions.Count > 0) RemoveCompanion(companions[0]);
+        while (companions.Count > 0)
+        {
+            companions[0].Dead();
+        }
     }
 
     public void RemoveCompanion(CompanionObject companion)

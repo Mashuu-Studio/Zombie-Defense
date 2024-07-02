@@ -125,6 +125,7 @@
     <Compile Include="Assets\Scripts\GameControl\CameraController.cs" />
     <Compile Include="Assets\Scripts\Data\ItemManager.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\EnemyProjectile.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\CircleTargetDetector.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BTCompositeNode.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\SiegeEnemyObject.cs" />
     <Compile Include="Assets\Scripts\UI\ScriptableButton.cs" />
@@ -155,7 +156,9 @@
     <Compile Include="Assets\Scripts\UI\TutorialView.cs" />
     <Compile Include="Assets\Scripts\UI\ShopUI.cs" />
     <Compile Include="Assets\Scripts\UI\DescriptionIcon.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\BoxTargetDetector.cs" />
     <Compile Include="Assets\Scripts\BehaviourTree\Core\BehaviourTree.cs" />
+    <Compile Include="Assets\Scripts\Object Pool\Objects\TargetDetector.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\Enemy\EnemyObject.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -168,7 +171,6 @@
     <None Include="Assets\LightningBolt\Readme.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-    <None Include="Assets\AddressableAssetsData\link.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />

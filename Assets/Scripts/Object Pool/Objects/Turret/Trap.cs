@@ -54,17 +54,18 @@ public class Trap : BuildingObject, IAttackObject
 
     private void ActivateTrap(Collider2D target)
     {
+        if (data.buff != null)
+        {
+            IBuffTargetObject buffTarget = target.transform.parent.GetComponent<IBuffTargetObject>();
+            buffTarget.ActivateBuff(data.buff);
+        }
+
         if (Dmg > 0)
         {
             IDamagedObject damagedObject = target.transform.parent.GetComponent<IDamagedObject>();
             damagedObject.Damaged(Dmg);
         }
 
-        if (data.buff != null)
-        {
-            IBuffTargetObject buffTarget = target.transform.parent.GetComponent<IBuffTargetObject>();
-            buffTarget.ActivateBuff(data.buff);
-        }
     }
 
     private IEnumerator AttackTimer()

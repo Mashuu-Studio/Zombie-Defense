@@ -15,7 +15,7 @@ public class Pool : MonoBehaviour
         pool = new Stack<Poolable>();
 
         prefab.gameObject.SetActive(false);
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < prefab.amount; i++)
         {
             CreateObject();
         }

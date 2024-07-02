@@ -52,6 +52,7 @@ public class UIController : MonoBehaviour
 
     #region UI
     [Header("UI")]
+    [SerializeField] private TextMeshProUGUI frameText;
     [SerializeField] private CanvasScaler scaler;
     [SerializeField] private FloatingDescription floatingDescription;
     [SerializeField] private LibraryUI library;
@@ -335,6 +336,8 @@ public class UIController : MonoBehaviour
 
     void Update()
     {
+        frameText.text = string.Format("{0:N1}", (1.0f / Time.deltaTime));
+
         if (GameController.Instance.GameProgress == false) return;
 
         hpText.text = $"{Player.Instance.Hp}";

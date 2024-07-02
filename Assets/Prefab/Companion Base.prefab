@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2690583676552886063}
   - component: {fileID: 343459838335913702}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Auto Target Weapon Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2619193284330807924
 Transform:
   m_ObjectHideFlags: 0
@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40e88c77be981594f809f44327c2493e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amount: 5
   tree: {fileID: 11400000, guid: 944c2a9ba28f7f94aa777436814d42ee, type: 2}
   rigidbody: {fileID: 3357838646673401849}
   collider: {fileID: 612430523868925506}
@@ -218,9 +219,9 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2266888630813343484}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 1
+  m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0

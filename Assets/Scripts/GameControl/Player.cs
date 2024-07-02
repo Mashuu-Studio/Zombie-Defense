@@ -51,6 +51,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
 
     private Rigidbody2D rigidbody;
 
+    [SerializeField] private CircleCollider2D collider;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
 
@@ -76,6 +77,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
 
         itemAmount.Clear();
         magazines.Clear();
+        ClearBuff();
         foreach (var weapon in WeaponManager.Weapons)
         {
             int amount = weapon.infAmount ? -1 : 0;
@@ -87,6 +89,14 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         {
             itemAmount.Add(building.key, 0);
         }
+    }
+
+    public void EndGame()
+    {
+        spriteRenderer.material.SetColor("_Color", Color.white);
+        itemAmount.Clear();
+        magazines.Clear();
+        ClearBuff();
     }
 
     // 사격 시 흔들림 보정을 위한 값
@@ -140,7 +150,22 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         if (GameController.Instance.GameProgress == false
             || GameController.Instance.Pause) return;
 
-        rigidbody.position += new Vector2(axisX, axisY) * Time.fixedDeltaTime * Speed;
+        // 이동 방향에 막히는 충돌체가 없다면 이동 가능.
+        // 이동할 위치에 OverlapCircleAll을 진행시켜 충돌체가 있는지 체크.
+        var dir = new Vector2(axisX, axisY);
+        var amount = Time.fixedDeltaTime * Speed;
+        int layermask = ~(1 << LayerMask.NameToLayer("Player") | 1 << LayerMask.NameToLayer("Companion"));
+        var hits = Physics2D.OverlapCircleAll(rigidbody.position + dir * amount, collider.radius, layermask);
+        bool movable = true;
+        foreach (var hit in hits)
+        {
+            if (hit != null && hit.isTrigger == false)
+            {
+                movable = false;
+                break;
+            }
+        }
+        if (movable) rigidbody.MovePosition(rigidbody.position + dir * amount);
     }
 
     public void LookAt(Vector3 target)
@@ -297,6 +322,15 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         }
         buffs.Remove(buff);
     }
+
+    public void ClearBuff()
+    {
+        foreach(var buff in buffs)
+        {
+            StopCoroutine(buff.Value);
+        }
+        buffs.Clear();
+    }
     #endregion
 
     IEnumerator changeColorCoroutine;
@@ -321,7 +355,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         if (invincible) return;
 
         dmg = IDamagedObject.Armoring(dmg, ref def);
-        hp -= dmg;
+        //hp -= dmg;
         SoundController.Instance.PlaySFX(transform, "CHARACTER.DAMAGED");
 
         if (changeColorCoroutine != null) StopCoroutine(changeColorCoroutine);

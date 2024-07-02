@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Enemy"));
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Enemy Hitbox"));
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Map Boundary"));
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Enemy"), LayerMask.NameToLayer("Companion"));
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Companion"));
@@ -130,7 +131,11 @@ public class GameController : MonoBehaviour
                 win = false;
                 gameOver = false;
                 CursorController.Instance.SetCursor(false);
-                if (gameStarted) RoundController.Instance.EndGame();
+                if (gameStarted)
+                {
+                    RoundController.Instance.EndGame();
+                    Player.Instance.EndGame();
+                }
                 PauseGame(false);
                 gameStarted = false;
                 UIController.Instance.ChangeScene(1);

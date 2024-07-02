@@ -26,17 +26,19 @@ public class SiegeEnemyObject : EnemyObject
 
         float ratio = 0.8f;
         if (animator.GetBool("attack")) ratio = 1f;
-        FindTargets(meleeRange, ratio, 1 << LayerMask.NameToLayer("Building"));
+
+        int layerMask = 1 << LayerMask.NameToLayer("Building");
+        FindTarget(meleeRange, ratio, layerMask);
 
         if (targetCollider == null
-            && FindTargets(Range, ratio, 1 << LayerMask.NameToLayer("Building")).Length > 0)
+            && FindTarget(Range, ratio, layerMask))
         {
             meleeAttack = false;
         }
 
         // 터렛을 아예 찾지 못했다면 근접 범위에서 플레이어 탐색
-        if (targetCollider == null
-            && FindTargets(meleeRange, ratio, 1 << LayerMask.NameToLayer("Player")).Length > 0)
+        layerMask = 1 << LayerMask.NameToLayer("Player") | 1 << LayerMask.NameToLayer("Companion");
+        if (targetCollider == null && FindTarget(meleeRange, ratio, layerMask))
         {
             meleeAttack = true;
             targetIsBuilding = false;

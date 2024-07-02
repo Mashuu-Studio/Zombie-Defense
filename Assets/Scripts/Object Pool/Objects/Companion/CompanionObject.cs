@@ -226,7 +226,23 @@ public class CompanionObject : BTPoolable,
             var next = IMovingObject.GetPos(path[pathIndex].position);
             var dir = (next - rigidbody.position).normalized;
             LookAt(next);
-            rigidbody.position += dir * Speed * Time.fixedDeltaTime;
+
+            // 이동 방향에 막히는 충돌체가 없다면 이동 가능.
+            // 이동할 위치에 OverlapCircleAll을 진행시켜 충돌체가 있는지 체크.
+            var amount = Time.fixedDeltaTime * Speed;
+            int layermask = ~(1 << LayerMask.NameToLayer("Player") | 1 << LayerMask.NameToLayer("Companion"));
+            var hits = Physics2D.OverlapCircleAll(rigidbody.position + dir * amount, collider.radius, layermask);
+            bool movable = true;
+            foreach (var hit in hits)
+            {
+                if (hit != null && hit.isTrigger == false)
+                {
+                    movable = false;
+                    break;
+                }
+            }
+            if (movable) rigidbody.MovePosition(rigidbody.position + dir * amount);
+
             if (moveSoundTime > Player.MOVE_SOUND_TIME)
             {
                 SoundController.Instance.PlaySFX(transform, "CHARACTER.MOVE");
@@ -286,15 +302,20 @@ public class CompanionObject : BTPoolable,
 
         if (changeColorCoroutine != null) StopCoroutine(changeColorCoroutine);
         changeColorCoroutine = ChangeColor(Color.red);
-        StartCoroutine(changeColorCoroutine);
+        if (gameObject.activeSelf) StartCoroutine(changeColorCoroutine);
 
-        if (hp < 0)
-        {
-            StopAllCoroutines();
-            PoolController.Push("Movepoint", movePoint);
-            CompanionController.Instance.RemoveCompanion(this);
-        }
+        if (hp < 0) Dead();
     }
+
+    public void Dead()
+    {
+        spriteRenderer.material.SetColor("_Color", Color.white);
+        StopAllCoroutines();
+        ClearBuff();
+        PoolController.Push("Movepoint", movePoint);
+        CompanionController.Instance.RemoveCompanion(this);
+    }
+
     IEnumerator ChangeColor(Color color)
     {
         Color reverse = Color.white - color;
@@ -402,7 +423,7 @@ public class CompanionObject : BTPoolable,
             }
             else buffs.Add(buff, BuffTimer(buff));
 
-            StartCoroutine(buffs[buff]);
+            if (gameObject.activeSelf) StartCoroutine(buffs[buff]);
         }
     }
 
@@ -421,6 +442,14 @@ public class CompanionObject : BTPoolable,
             yield return null;
         }
         buffs.Remove(buff);
+    }
+    public void ClearBuff()
+    {
+        foreach (var buff in buffs)
+        {
+            StopCoroutine(buff.Value);
+        }
+        buffs.Clear();
     }
     #endregion
     private IEnumerator reloadCoroutine;

@@ -50,7 +50,7 @@ public class EnemyProjectile : Projectile
             Move();
         }
     }
-
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // 공성유닛의 경우 도착할 때까지 대기.
@@ -106,7 +106,6 @@ public class EnemyProjectile : Projectile
         if (summonUnit != "" && Random.Range(0, 100) < summonProb)
         {
             Enemy enemy = EnemyManager.GetEnemy(summonUnit);
-
             EnemyController.Instance.AddEnemy(enemy, transform.position);
         }
     }

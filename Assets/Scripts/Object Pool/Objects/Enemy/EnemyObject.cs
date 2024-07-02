@@ -184,7 +184,7 @@ public class EnemyObject : BTPoolable,
 
     public virtual void Dead()
     {
-        buffs.Clear();
+        ClearBuff();
         StopAllCoroutines();
         EnemyController.Instance.DeadEnemy(this);
         spriteRenderer.material.SetColor("_Color", Color.white);
@@ -237,39 +237,41 @@ public class EnemyObject : BTPoolable,
         // 공격중이라면 해당 타겟이 실질적 공격 범위로 체크
         // 그게 아니라면 0.75사이즈 안에 있나 체크
 
+        // 공격중일 때 아직 애니메이션이 한창 진행중이라면 스킵.
+        if (isAttacking
+            && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.95f) return true;
+
         float range = Range;
         float ratio = 0.75f;
         if (animator.GetBool("attack")) ratio = 1f;
-        FindTargets(range, ratio, 1 << LayerMask.NameToLayer("Player"));
+        FindTarget(range, ratio, 1 << LayerMask.NameToLayer("Player") | 1 << LayerMask.NameToLayer("Companion"));
         if (targetCollider == null)
         {
             int layerMask = 1 << LayerMask.NameToLayer("Building");
-            FindTargets(range, ratio, layerMask);
+            FindTarget(range, ratio, layerMask);
         }
 
         animator.SetBool("attack", targetCollider != null);
         return targetCollider != null;
     }
 
-    protected Collider2D[] FindTargets(float range, float detectRatio, int layerMask)
+    protected bool FindTarget(float range, float detectRatio, int layerMask)
     {
         range *= detectRatio;
-        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, range, layerMask);
-        if (cols.Length > 0) targetCollider = cols[0];
-        else targetCollider = null;
+        targetCollider = Physics2D.OverlapCircle(transform.position, range, layerMask);
 
-        return cols;
+        return targetCollider != null;
     }
 
     public virtual void Damaging(GameObject target)
     {
-        IDamagedObject damagedObject = target.transform.parent.GetComponent<IDamagedObject>();
-        damagedObject.Damaged(Dmg);
         if (Data.debuff != null)
         {
             IBuffTargetObject buffTargetObject = target.transform.parent.GetComponent<IBuffTargetObject>();
             if (buffTargetObject != null) buffTargetObject.ActivateBuff(Data.debuff);
         }
+        IDamagedObject damagedObject = target.transform.parent.GetComponent<IDamagedObject>();
+        damagedObject.Damaged(Dmg);
     }
     public void RangeAttack()
     {
@@ -346,14 +348,16 @@ public class EnemyObject : BTPoolable,
         move = b;
     }
 
+    private Vector2 next;
+    private Vector2 dir;
     public void Move()
     {
         if (seeker.IsDone() && path.Count > pathIndex)
         {
-            var next = IMovingObject.GetPos(path[pathIndex].position);
-            var dir = (next - rigidbody.position).normalized;
+            next = IMovingObject.GetPos(path[pathIndex].position);
+            dir = (next - rigidbody.position).normalized;
             LookAt(next);
-            rigidbody.position += dir * Speed * Time.fixedDeltaTime;
+            rigidbody.MovePosition(rigidbody.position + dir * Speed * Time.fixedDeltaTime);
             if (IMovingObject.EndOfPath(rigidbody.position, next, dir * Speed * Time.fixedDeltaTime, collider.radius) != -1) pathIndex++;
         }
     }
@@ -390,7 +394,7 @@ public class EnemyObject : BTPoolable,
             }
             else buffs.Add(buff, BuffTimer(buff));
 
-            StartCoroutine(buffs[buff]);
+            if (gameObject.activeSelf) StartCoroutine(buffs[buff]);
         }
     }
 
@@ -403,6 +407,14 @@ public class EnemyObject : BTPoolable,
             yield return null;
         }
         buffs.Remove(buff);
+    }
+    public void ClearBuff()
+    {
+        foreach (var buff in buffs)
+        {
+            StopCoroutine(buff.Value);
+        }
+        buffs.Clear();
     }
     #endregion
 }

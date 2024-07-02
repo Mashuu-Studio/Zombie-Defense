@@ -59,7 +59,7 @@ public class EnemyController : MonoBehaviour
         EnemyObject enemyObject = (EnemyObject)PoolController.Pop(enemy.key);
         enemyObject.SetData(enemy);
         enemyObject.transform.position = pos;
-        enemyObject.transform.SetParent(transform);
+        //enemyObject.transform.SetParent(transform);
         spawnedEnemies.Add(enemyObject);
 
         return enemyObject;

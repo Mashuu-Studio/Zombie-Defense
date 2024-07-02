@@ -16,7 +16,8 @@ public class PoolController : MonoBehaviour
         }
 
         instance = this;
-        DontDestroyOnLoad(gameObject);
+        Init();
+        //DontDestroyOnLoad(gameObject);
     }
 
     private static string path = "Poolable";

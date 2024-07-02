@@ -96,7 +96,8 @@ public class BuildingController : MonoBehaviour
         building.transform.position = pos;
         buildings.Add(pos, building);
 
-        MapGenerator.Instance.UpdateAstar();
+        // Trap의 경우에는 이동이 가능하므로 업데이트 할 필요가 없음.
+        if (!(building as Trap)) MapGenerator.Instance.UpdateAstar();
     }
 
     public void Store(Vector2 pos)

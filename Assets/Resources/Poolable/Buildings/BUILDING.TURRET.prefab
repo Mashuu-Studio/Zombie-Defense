@@ -256,6 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8566f493fb7b3d146a18c66bdcc56e6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amount: 5
   tree: {fileID: 11400000, guid: e4a822f4bf1f0ff4093e9c947e444b13, type: 2}
   hpBar: {fileID: 7613138625663391934}
   spriteRenderer: {fileID: 5244812401386431806}

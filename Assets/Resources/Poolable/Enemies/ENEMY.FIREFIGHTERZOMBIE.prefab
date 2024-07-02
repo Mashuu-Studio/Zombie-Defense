@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1690635070587840714, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
+      propertyPath: amount
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 2378778970109037663, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
       propertyPath: m_Name
       value: ENEMY.FIREFIGHTERZOMBIE
@@ -34,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: e75e276907b316d468163c792d249af9, type: 3}
     - target: {fileID: 4035749872207547326, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4035749872207547326, guid: cc160a6b980bace4baf8ff54a3e17c05, type: 3}
       propertyPath: m_SortingLayerID

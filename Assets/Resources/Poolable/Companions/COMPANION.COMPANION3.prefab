@@ -10,7 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2266888630813343484, guid: 3063d48f90beca64ca6a99b3d7dd286e, type: 3}
       propertyPath: m_Name
-      value: Companion3
+      value: COMPANION.COMPANION3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2266888630813343484, guid: 3063d48f90beca64ca6a99b3d7dd286e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2619193284330807924, guid: 3063d48f90beca64ca6a99b3d7dd286e, type: 3}
       propertyPath: m_LocalPosition.x
