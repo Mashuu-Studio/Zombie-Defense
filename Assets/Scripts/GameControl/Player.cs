@@ -355,7 +355,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         if (invincible) return;
 
         dmg = IDamagedObject.Armoring(dmg, ref def);
-        //hp -= dmg;
+        hp -= dmg;
         SoundController.Instance.PlaySFX(transform, "CHARACTER.DAMAGED");
 
         if (changeColorCoroutine != null) StopCoroutine(changeColorCoroutine);
@@ -366,6 +366,7 @@ public class Player : MonoBehaviour, IDamagedObject, IBuffTargetObject
         if (hp <= 0)
         {
             hp = 0;
+            UIController.Instance.UpdatePlayerInfo();
             GameController.Instance.Lose();
         }
     }

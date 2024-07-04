@@ -16,6 +16,7 @@ public class CameraController : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
         cam = Camera.main;
+        cam.allowDynamicResolution = false;
     }
 
     public Camera Cam { get { return cam; } }

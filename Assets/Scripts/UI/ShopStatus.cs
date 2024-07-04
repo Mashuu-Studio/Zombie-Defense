@@ -76,9 +76,9 @@ public class ShopStatus : MonoBehaviour
             {
                 weapon.bullets > 1 && !weapon.autotarget ? $"{weapon.dmg}x{weapon.bullets}" : $"{weapon.dmg}",
                 string.Format("{0:0.0}/s", aspeed),
-                $"{pierce}",
-                $"{accuracy}",
-                $"{ammo}",
+                pierce.ToString(),
+                accuracy.ToString(),
+                ammo.ToString(),
                 string.Format("{0:0.0}s", reload),
             };
 
@@ -87,7 +87,7 @@ public class ShopStatus : MonoBehaviour
             {
                 values[2] = radius / 3;
                 names[2] = "GAME.SHOP.STAT.RADIUS";
-                status[2] = $"{radius}";
+                status[2] = radius.ToString();
             }
 
             // 오토타겟의 경우에도 범위로 표기
@@ -95,7 +95,7 @@ public class ShopStatus : MonoBehaviour
             {
                 values[2] = weapon.range / 3;
                 names[2] = "GAME.SHOP.STAT.RADIUS";
-                status[2] = $"{weapon.range}";
+                status[2] = weapon.range.ToString();
             }
 
             for (int i = 0; i < 6; i++)
@@ -129,8 +129,8 @@ public class ShopStatus : MonoBehaviour
 
             string[] status = new string[2]
             {
-                $"{companion.hp}",
-                $"{companion.def}",
+                companion.hp.ToString(),
+                companion.def.ToString()
             };
 
             for (int i = 0; i < 2; i++)

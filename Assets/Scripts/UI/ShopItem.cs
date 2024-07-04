@@ -33,8 +33,8 @@ public class ShopItem : MonoBehaviour
         }
 
         itemName.SetEntry(data.key);
-        itemPrice.text = $"${data.price}";
-        magazinePrice.text = $"${data.magprice}";
+        itemPrice.text = data.price.ToString();
+        magazinePrice.text = data.magprice.ToString();
 
         Item = data;
     }
@@ -70,7 +70,7 @@ public class ShopItem : MonoBehaviour
                 buyMagazineButton.SetActive(b && str != "inf");
                 if (b)
                 {
-                    itemAmount.text = $"{Player.Instance.ItemAmount(Item.key)} : {str}";
+                    itemAmount.text = Player.Instance.ItemAmount(Item.key) + " : " + str;
                 }
             }
         }

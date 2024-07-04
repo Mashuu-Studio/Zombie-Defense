@@ -9,9 +9,6 @@ public class EnemyObject : BTPoolable,
     IDamagedObject, IAttackObject, IMovingObject, IBuffTargetObject
 {
     [Space]
-    [SerializeField] private ObjectHpBar hpBar;
-
-    [Space]
     [SerializeField] protected Rigidbody2D rigidbody;
     [SerializeField] protected SpriteRenderer spriteRenderer;
     [SerializeField] protected Animator animator;
@@ -64,7 +61,6 @@ public class EnemyObject : BTPoolable,
         this.remainSep = (remainSep != -1) ? remainSep : data.separate;
         // 분리된 수만큼 체력을 divide
         maxhp = hp = (int)(data.hp * GameController.Instance.Difficulty.hp / Mathf.Pow(2, data.separate - this.remainSep));
-        hpBar.SetHpBar(this, maxhp);
 
         speed = data.speed;
         dmg = data.dmg;
@@ -88,10 +84,10 @@ public class EnemyObject : BTPoolable,
     {
         base.Update();
         // 보이지 않는 상태로 세팅.
-        Color color = InvisibleColor;
+        // Color color = InvisibleColor;
         if (isAttacking) animator.speed = ADelay;
         else animator.speed = 1;
-
+        /*
         if (visible)
         {
             // 보이지 않는 유닛이지만 보이는 상태일 때
@@ -99,7 +95,7 @@ public class EnemyObject : BTPoolable,
             // 그냥 보이는 유닛일 때
             else if (!invisible) color = VisibleColor;
         }
-        SetColor(color);
+        SetColor(color);*/
     }
 
     private void FixedUpdate()
@@ -113,7 +109,6 @@ public class EnemyObject : BTPoolable,
         if (currentColor == color) return;
         currentColor = color;
         spriteRenderer.color = color;
-        hpBar.gameObject.SetActive(visible);
     }
 
     #region IDamagedObject

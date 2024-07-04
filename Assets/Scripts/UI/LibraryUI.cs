@@ -70,7 +70,7 @@ public class LibraryUI : MonoBehaviour
 
         foreach (var res in data.resistances)
         {
-            string val = $"{(int)(res.Value * 100)}%";
+            string val = ((int)(res.Value * 100)).ToString() + "%";
             switch(res.Key)
             {
                 case ObjectData.Attribute.BULLET: bulletResText.text = val; break;

@@ -94,8 +94,8 @@ public class CompanionSlot : MonoBehaviour
 
     public void UpdateInfo()
     {
-        armorText.text = $"{data.Def}";
-        hpText.text = $"{data.Hp}";
+        armorText.text = data.Def.ToString();
+        hpText.text = data.Hp.ToString();
 
         healPrice = (data.MaxHp - data.Hp) * ItemManager.GetItem("HEAL.HP").price / data.MaxHp;
         refillArmorPrice = (data.MaxDef - data.Def) * ItemManager.GetItem("HEAL.ARMOR").price / data.MaxDef;

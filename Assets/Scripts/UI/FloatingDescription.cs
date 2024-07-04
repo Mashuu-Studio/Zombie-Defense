@@ -39,9 +39,9 @@ public class FloatingDescription : MonoBehaviour
         // Weapon일 경우에는 스탯을 추가로 표기.
         if (isWeapon)
         {
-            string dmg = weapon.bullets > 1 ? $"{weapon.dmg}x{weapon.bullets}" : $"{weapon.dmg}";
-            string aspeed = $"{string.Format("{0:0.0}", 1 / weapon.adelay)}/s";
-            string ammo = $"{weapon.ammo}";
+            string dmg = weapon.bullets > 1 ? $"{weapon.dmg}x{weapon.bullets}" : weapon.dmg.ToString();
+            string aspeed = string.Format("{0:0.0}", 1 / weapon.adelay) + "/s";
+            string ammo = weapon.ammo.ToString();
             statLocalizeStringEvent.SetEntry("GAME.SHOP.STATDESCRIPTION");
             statLocalizeStringEvent.StringReference.Arguments = new object[] { dmg, aspeed, ammo };
             statText.gameObject.SetActive(true);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Localization.Components;
@@ -336,14 +337,17 @@ public class UIController : MonoBehaviour
 
     void Update()
     {
-        frameText.text = string.Format("{0:N1}", (1.0f / Time.deltaTime));
-
         if (GameController.Instance.GameProgress == false) return;
 
-        hpText.text = $"{Player.Instance.Hp}";
-        armorText.text = $"{Player.Instance.Def}";
+        UpdatePlayerInfo();
+    }
+
+    public void UpdatePlayerInfo()
+    {
+        hpText.text = Player.Instance.Hp.ToString();
+        armorText.text = Player.Instance.Def.ToString();
         granadeAmount.text = Player.Instance.ItemAmount("WEAPON.GRENADE").ToString();
-        moneyText.text = $"$ {Player.Instance.Money}";
+        moneyText.text = "$" + Player.Instance.Money.ToString();
 
         UpdateMagazine();
     }
@@ -463,7 +467,7 @@ public class UIController : MonoBehaviour
 
     public void StartRound()
     {
-        roundText.text = RoundController.Instance.Endless ? "ENDLESS" : $"ROUND {RoundController.Instance.Round}";
+        roundText.text = RoundController.Instance.Endless ? "ENDLESS" :$"ROUND {RoundController.Instance.Round}";
         roundTimeText.gameObject.SetActive(true);
         startRoundObject.SetActive(false);
         shopButton.SetActive(false);
