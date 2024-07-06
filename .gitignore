@@ -6,3 +6,4 @@ Temp/
 obj/
 Packages/
 .vsconfig
+Assets/Scripts/UI/ErrorLog.cs

@@ -25,6 +25,7 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
+        errorLog.gameObject.SetActive(false);
         tutorialUI.Init();
         shop.Init();
         library.Init();
@@ -53,7 +54,7 @@ public class UIController : MonoBehaviour
 
     #region UI
     [Header("UI")]
-    [SerializeField] private TextMeshProUGUI frameText;
+    [SerializeField] private ErrorLog errorLog;
     [SerializeField] private CanvasScaler scaler;
     [SerializeField] private FloatingDescription floatingDescription;
     [SerializeField] private LibraryUI library;
@@ -77,6 +78,11 @@ public class UIController : MonoBehaviour
     public void MoveDescription(Vector3 pos)
     {
         floatingDescription.MoveDescription(ScalingPos(pos));
+    }
+
+    public void ErrorLog(string log, string str)
+    {
+        errorLog.Log(log, str);
     }
 
     #region Library
