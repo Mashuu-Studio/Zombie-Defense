@@ -20,6 +20,10 @@ public class SiegeEnemyObject : EnemyObject
         // 기존 방식과 통합이 가능한지 체크
         // layer를 조절하는 등의 방식을 사용하면 괜찮게 합칠 수 있을 것 같음.
 
+        // 공격중일 때 아직 애니메이션이 한창 진행중이라면 스킵.
+        if (isAttacking
+            && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.95f) return true;
+
         targetCollider = null;
         targetIsBuilding = true;
         meleeAttack = true;
