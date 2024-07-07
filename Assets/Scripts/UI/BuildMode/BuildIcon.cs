@@ -7,11 +7,13 @@ public class BuildIcon : BuildModeItemIcon
 {
     [SerializeField] protected DescriptionIcon itemIcon;
     [SerializeField] protected TextMeshProUGUI itemAmount;
+    [SerializeField] protected TextMeshProUGUI priceText;
 
     public override void Init(string key)
     {
         base.Init(key);
         itemIcon.SetIcon(key);
+        priceText.text = "$" + BuildingManager.GetBuilding(key).price.ToString();
     }
 
     private void Update()

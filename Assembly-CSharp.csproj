@@ -90,6 +90,7 @@
     <Compile Include="Assets\Scripts\UI\RoundStartButton.cs" />
     <Compile Include="Assets\Scripts\Object Pool\Objects\ItemObject.cs" />
     <Compile Include="Assets\Scripts\UI\ItemInfoUI.cs" />
+    <Compile Include="Assets\Scripts\GameControl\LogCollector.cs" />
     <Compile Include="Assets\Scripts\GameControl\MinimapCamera.cs" />
     <Compile Include="Assets\Scripts\Data\ObjectData.cs" />
     <Compile Include="Assets\Scripts\UI\BuildMode\MountWeaponDropdown.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Assets\Scripts\Data\WeaponManager.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameSetting.cs" />
     <Compile Include="Assets\Scripts\GameControl\GameController.cs" />
+    <Compile Include="Assets\Scripts\UI\ErrorLog.cs" />
     <Compile Include="Assets\Scripts\UI\CompanionSlot.cs" />
     <Compile Include="Assets\Scripts\GameControl\CameraController.cs" />
     <Compile Include="Assets\Scripts\Data\ItemManager.cs" />

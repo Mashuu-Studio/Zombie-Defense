@@ -21,6 +21,7 @@ public class MountedWeapon : MonoBehaviour
     public void Mount(float weapon)
     {
         animator.SetFloat("weapon", weapon);
+        Debug.Log(weapon);
     }
 
     public void ChangeColor(Color c)

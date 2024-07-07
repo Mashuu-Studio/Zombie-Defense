@@ -236,7 +236,7 @@ public static class WeaponManager
         {
             if (weapons[i].key == key)
             {
-                p = i / (weapons.Count - 1);
+                p = (float)(i - 1) / (weapons.Count - 2);
                 break;
             }
         }
